@@ -6,8 +6,8 @@ import { AuthRequest } from "../middleware/authMiddleware";
 // ─── REGISTER ─────────────────────────────────────────────────
 export const register = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { fullName, email, password } = req.body;
-    const result = await authService.registerService({ fullName, email, password });
+    const { fullName, email, password, gender, mobileNumber } = req.body;
+    const result = await authService.registerService({ fullName, email, password, gender, mobileNumber });
     
     res.status(201).json({
       message: "User registered and auto-logged in",
@@ -21,8 +21,8 @@ export const register = async (req: Request, res: Response): Promise<void> => {
 // ─── LOGIN ────────────────────────────────────────────────────
 export const login = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { email, password } = req.body;
-    const result = await authService.loginService({ email, password });
+    const { identifier, password } = req.body;
+    const result = await authService.loginService({ identifier, password });
     
     res.status(200).json({
       message: "Login successful",
@@ -78,6 +78,37 @@ export const addCartId = async (req: AuthRequest, res: Response): Promise<void> 
     }
 
     res.status(200).json({ message: "Cart ID added", cartIds: user.cartIds });
+  } catch (error) {
+    res.status(500).json({ message: "Server error", error });
+  }
+};
+
+// ─── UPDATE PROFILE (protected) ───────────────────────────────
+export const updateProfile = async (req: AuthRequest, res: Response): Promise<void> => {
+  try {
+    const { fullName, firstName, lastName, gender, mobileNumber, email } = req.body;
+    
+    // Check if new email is already taken
+    if (email) {
+      const existingUser = await userDao.findUserByEmail(email);
+      if (existingUser && existingUser._id.toString() !== req.userId) {
+        res.status(400).json({ message: "Email already in use" });
+        return;
+      }
+    }
+
+    const updatedUser = await userDao.updateUser(req.userId as string, { 
+      fullName, firstName, lastName, gender, mobileNumber, email 
+    });
+    if (!updatedUser) {
+      res.status(404).json({ message: "User not found" });
+      return;
+    }
+
+    res.status(200).json({ 
+      message: "Profile updated successfully", 
+      user: updatedUser 
+    });
   } catch (error) {
     res.status(500).json({ message: "Server error", error });
   }

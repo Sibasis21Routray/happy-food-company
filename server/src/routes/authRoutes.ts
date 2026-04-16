@@ -3,6 +3,7 @@ import {
   register,
   login,
   getProfile,
+  updateProfile,
   addOrderId,
   addCartId,
 } from "../controller/authController";
@@ -16,6 +17,7 @@ router.post("/login",    login);
 
 // Protected routes (require JWT token)
 router.get ("/profile",       protect, getProfile);
+router.put ("/profile",       protect, updateProfile);
 router.post("/add-order",     protect, addOrderId);
 router.post("/add-cart",      protect, addCartId);
 

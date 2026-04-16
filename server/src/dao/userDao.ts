@@ -3,6 +3,10 @@ import User, { IUser } from "../models/user.model";
 // ─── Types ────────────────────────────────────────────────────
 export interface CreateUserInput {
   fullName: string;
+  firstName?: string;
+  lastName?: string;
+  gender?: 'Male' | 'Female' | 'Other';
+  mobileNumber?: string;
   email: string;
   password: string;
 }
@@ -10,6 +14,18 @@ export interface CreateUserInput {
 // ─── Find user by email ───────────────────────────────────────
 export const findUserByEmail = async (email: string): Promise<IUser | null> => {
   return await User.findOne({ email });
+};
+
+// ─── Find user by mobile number ───────────────────────────────
+export const findUserByMobileNumber = async (mobileNumber: string): Promise<IUser | null> => {
+  return await User.findOne({ mobileNumber });
+};
+
+// ─── Find user by email OR mobile number ──────────────────────
+export const findUserByEmailOrMobile = async (identifier: string): Promise<IUser | null> => {
+  return await User.findOne({
+    $or: [{ email: identifier }, { mobileNumber: identifier }]
+  });
 };
 
 // ─── Find user by ID ──────────────────────────────────────────
@@ -56,4 +72,9 @@ export const removeCartId = async (userId: string, cartId: string): Promise<IUse
     { $pull: { cartIds: cartId } },
     { new: true }
   );
+};
+
+// ─── Update user details ─────────────────────────────────────
+export const updateUser = async (userId: string, data: Partial<IUser>): Promise<IUser | null> => {
+  return await User.findByIdAndUpdate(userId, data, { new: true }).select("-password");
 };
