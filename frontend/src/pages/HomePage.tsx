@@ -1,11 +1,13 @@
 import React, { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
+import { Link, useNavigate } from 'react-router-dom';
+import { api } from '../services/api';
 
 const SectionHeader = ({ title, color = "text-[#f36b21]" }: { title: string, color?: string }) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   return (
-    <motion.h2 
+    <motion.h2
       ref={ref}
       initial={{ opacity: 0, y: 30 }}
       animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
@@ -18,11 +20,13 @@ const SectionHeader = ({ title, color = "text-[#f36b21]" }: { title: string, col
 };
 
 export const HomePage: React.FC = () => {
+  const navigate = useNavigate();
+
   const heroProducts = [
-    { name: "Cashew Raisin", desc: "The dynamic duo of cashews and raisins creates a snacking sensation that's a slam dunk for anyone seeking a convenient & mouthwatering way to power up their vibrant lifestyle.", bg: "bg-[#dadddf]", btn: "bg-[#4a3e8e]", text: "text-[#d65f54]", title: "text-[#3b3584]", img: "/images/cashew-raisin.png" },
-    { name: "Coconut Almond", desc: "A mouthwatering medley of coconut & almonds, a dynamic duo celebrated for their nourishing prowess & mouth-watering taste, ensuring you stay fuelled & fabulous from sunrise to sunset.", bg: "bg-[#f0d8b4]", btn: "bg-[#e36a29]", text: "text-[#d65f54]", title: "text-[#3b3584]", img: "/images/coconut-almond.png" },
-    { name: "Date Almond Cranberry", desc: "A harmonious blend of dates, cranberries, and almonds, a trio celebrated for their distinct flavours & wellness advantages. A satisfying pick-me-up that supports your well-being in a delicious way.", bg: "bg-[#ebd0d4]", btn: "bg-[#c52c38]", text: "text-[#d65f54]", title: "text-[#3b3584]", img: "/images/date-almond-cranberry.png" },
-    { name: "Almond Cranberry", desc: "A fusion of jaggery, cranberries, & almonds, ingredients renowned for their tastes & health benefits. A festive treat that tantalizes your taste buds while promoting your well-being.", bg: "bg-[#dfd7e4]", btn: "bg-[#8f2878]", text: "text-[#d65f54]", title: "text-[#3b3584]", img: "/images/almond-cranberry.png" }
+    { slug: "cashew-raisin", name: "Cashew Raisin", desc: "The dynamic duo of cashews and raisins creates a snacking sensation that's a slam dunk for anyone seeking a convenient & mouthwatering way to power up their vibrant lifestyle.", bg: "bg-[#dadddf]", btn: "bg-[#4a3e8e]", text: "text-[#d65f54]", title: "text-[#3b3584]", img: "/images/cashew-raisin.png" },
+    { slug: "coconut-almond", name: "Coconut Almond", desc: "A mouthwatering medley of coconut & almonds, a dynamic duo celebrated for their nourishing prowess & mouth-watering taste, ensuring you stay fuelled & fabulous from sunrise to sunset.", bg: "bg-[#f0d8b4]", btn: "bg-[#e36a29]", text: "text-[#d65f54]", title: "text-[#3b3584]", img: "/images/coconut-almond.png" },
+    { slug: "date-almond-cranberry", name: "Date Almond Cranberry", desc: "A harmonious blend of dates, cranberries, and almonds, a trio celebrated for their distinct flavours & wellness advantages. A satisfying pick-me-up that supports your well-being in a delicious way.", bg: "bg-[#ebd0d4]", btn: "bg-[#c52c38]", text: "text-[#d65f54]", title: "text-[#3b3584]", img: "/images/date-almond-cranberry.png" },
+    { slug: "almond-cranberry", name: "Almond Cranberry", desc: "A fusion of jaggery, cranberries, & almonds, ingredients renowned for their tastes & health benefits. A festive treat that tantalizes your taste buds while promoting your well-being.", bg: "bg-[#dfd7e4]", btn: "bg-[#8f2878]", text: "text-[#d65f54]", title: "text-[#3b3584]", img: "/images/almond-cranberry.png" }
   ];
 
   const features = [
@@ -46,37 +50,37 @@ export const HomePage: React.FC = () => {
   ];
 
   const combos = [
-    { 
-      title: "Almond Cranberry\nCashew Raisin", 
-      subtitle: "Combo Box of 6", 
-      desc: "Embark on a flavor-packed journey with our Combo Box featuring the dynamic duo of Almond Cranberry and Cashew Raisin", 
+    {
+      title: "Almond Cranberry\nCashew Raisin",
+      subtitle: "Combo Box of 6",
+      desc: "Embark on a flavor-packed journey with our Combo Box featuring the dynamic duo of Almond Cranberry and Cashew Raisin",
       img: "/images/combo-6-1.png",
-      glow: "hover:shadow-[0_20px_60px_rgba(255,100,150,0.4)]"
+      glow: "hover:shadow-[0_30px_70px_rgba(255,80,120,0.5)] scale-105 z-10"
     },
-    { 
-      title: "Almond Cranberry\nCashew Raisin\nCoconut Almond\nDate Almond Cranberry", 
-      subtitle: "Combo Box of 12", 
-      desc: "Enjoy a snack symphony with our Combo Box featuring Almond Cranberry, Cashew Raisin, Coconut Almond, and Date Almond Cranberry. Each flavor is a unique and delicious experience, ensuring a diverse snacking delight for every taste bud.", 
+    {
+      title: "Almond Cranberry\nCashew Raisin\nCoconut Almond\nDate Almond Cranberry",
+      subtitle: "Combo Box of 12",
+      desc: "Enjoy a snack symphony with our Combo Box featuring Almond Cranberry, Cashew Raisin, Coconut Almond, and Date Almond Cranberry. Each flavor is a unique and delicious experience, ensuring a diverse snacking delight for every taste bud.",
       img: "/images/combo-12.png",
       glow: "hover:shadow-[0_30px_70px_rgba(255,80,120,0.5)] scale-105 z-10"
     },
-    { 
-      title: "Coconut Almond\nDate Almond Cranberry", 
-      subtitle: "Combo Box of 6", 
-      desc: "Savor the delightful medley of flavors in our Combo Box, featuring the irresistible pairing of Coconut Almond and Date Almond Cranberry", 
+    {
+      title: "Coconut Almond\nDate Almond Cranberry",
+      subtitle: "Combo Box of 6",
+      desc: "Savor the delightful medley of flavors in our Combo Box, featuring the irresistible pairing of Coconut Almond and Date Almond Cranberry",
       img: "/images/combo-6-2.png",
-      glow: "hover:shadow-[0_20px_60px_rgba(255,100,150,0.4)]"
+      glow: "hover:shadow-[0_30px_70px_rgba(255,80,120,0.5)] scale-105 z-10"
     }
   ];
 
   return (
     <div className="w-full font-sans bg-white pt-32 overflow-x-hidden">
-      
+
       {/* 1. Hero Products Section */}
       <section className="relative z-10 pb-20 bg-cover bg-center" style={{ backgroundImage: "url('/images/cloud-bg.png')" }}>
         <div className="absolute inset-0 bg-blue-50/70" />
         <div className="container mx-auto px-6 relative z-10 max-w-[1400px]">
-          <motion.h1 
+          <motion.h1
             initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} transition={{ type: "spring", stiffness: 80 }}
             className="text-center font-black text-5xl md:text-[4rem] lg:text-[4.5rem] mb-12 tracking-tighter"
           >
@@ -91,14 +95,18 @@ export const HomePage: React.FC = () => {
               <motion.div key={i} initial={{ opacity: 0, y: 50 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }} whileHover={{ y: -10 }}
                 className={`${p.bg} rounded-3xl p-6 shadow-xl flex flex-col items-center text-center`}
               >
-                <div className="w-full h-32 flex justify-center items-center mb-4 transition-transform hover:scale-110">
-                  <img src={p.img} alt={p.name} className="max-w-full max-h-[140%] drop-shadow-xl" />
+                <div className="w-full relative group/card">
+                  <Link to={`/product/${p.slug}`} className="w-full flex flex-col items-center">
+                    <div className="w-full h-32 flex justify-center items-center mb-4 transition-transform hover:scale-110">
+                      <img src={p.img} alt={p.name} className="max-w-full max-h-[140%] drop-shadow-xl" />
+                    </div>
+                    <h3 className={`text-xl font-black mb-3 ${p.title}`}>{p.name}</h3>
+                    <p className={`flex-1 text-sm font-bold opacity-90 ${p.text} mb-6 leading-relaxed px-1`}>{p.desc}</p>
+                    <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className={`${p.btn} text-white font-bold py-3 px-6 rounded-full w-4/5 text-xs tracking-widest`}>
+                      FIND OUT MORE &gt;
+                    </motion.button>
+                  </Link>
                 </div>
-                <h3 className={`text-xl font-black mb-3 ${p.title}`}>{p.name}</h3>
-                <p className={`flex-1 text-sm font-bold opacity-90 ${p.text} mb-6 leading-relaxed px-1`}>{p.desc}</p>
-                <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className={`${p.btn} text-white font-bold py-3 px-6 rounded-full w-4/5 text-xs tracking-widest`}>
-                  FIND OUT MORE &gt;
-                </motion.button>
               </motion.div>
             ))}
           </div>
@@ -150,7 +158,7 @@ export const HomePage: React.FC = () => {
           <path fill="#def5fc" fillOpacity="1" d="M0,32L80,32C160,32,320,32,480,48C640,64,800,96,960,96C1120,96,1280,64,1360,48L1440,32L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z"></path>
         </svg>
       </div>
-      
+
       <section className="bg-[#def5fc] pt-4 pb-32">
         <div className="container mx-auto px-6 max-w-[1200px]">
           <div className="text-center mb-16">
@@ -158,22 +166,24 @@ export const HomePage: React.FC = () => {
             <h2 className="text-4xl md:text-[3.5rem] font-black text-[#1d3557] tracking-tight">Come visit the shop</h2>
           </div>
 
-          <div className="flex flex-col lg:flex-row justify-center items-center lg:items-stretch gap-8 lg:gap-6 mt-16">
+          <div className="flex flex-col md:flex-row md:flex-nowrap justify-center items-center md:items-stretch gap-6 lg:gap-8 mt-16 max-w-full overflow-hidden">
             {combos.map((combo, i) => (
               <motion.div key={i} initial={{ opacity: 0, scale: 0.9 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ delay: i * 0.2 }}
-                className={`bg-white rounded-3xl p-6 shadow-xl flex flex-col items-center text-center max-w-sm w-full transition-shadow duration-300 ${combo.glow}`}
+                className={`bg-white rounded-[2.5rem] p-8 shadow-xl flex flex-col items-center text-center max-w-sm w-full transition-shadow duration-300 h-full ${combo.glow}`}
               >
-                <div className="w-full flex justify-center mb-6 overflow-hidden rounded-xl bg-gray-100">
-                  <img src={combo.img} alt={combo.title} className="w-full h-auto object-cover hover:scale-105 transition-transform duration-500" />
+                <div className="w-full h-52 flex justify-center mb-8 overflow-hidden rounded-2xl bg-white p-4 shrink-0">
+                  <img src={combo.img} alt={combo.title} className="w-full h-full object-contain hover:scale-105 transition-transform duration-500" />
                 </div>
-                <h3 className="text-[#a12368] font-black text-xl mb-2 whitespace-pre-line leading-tight">{combo.title}</h3>
+                <h3 className="text-[#a12368] font-black text-xl mb-3 whitespace-pre-line leading-tight">{combo.title}</h3>
                 <h4 className="text-[#3273c5] font-black text-lg mb-4">{combo.subtitle}</h4>
-                <p className="text-gray-600 font-medium text-sm flex-1 mb-8 leading-relaxed px-2">{combo.desc}</p>
-                <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
-                  className="bg-[#f83f7a] text-white font-bold py-3 px-8 rounded-full shadow-[0_5px_20px_rgba(248,63,122,0.4)] tracking-widest text-sm hover:bg-[#ff206a]"
-                >
-                  SHOP NOW &gt;
-                </motion.button>
+                <p className="text-gray-500 font-bold text-sm flex-1 mb-10 leading-relaxed px-2">{combo.desc}</p>
+                <Link to="/happy-shop" className="w-full mt-auto">
+                  <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
+                    className="bg-[#f83f7a] text-white font-black py-4 px-8 rounded-2xl shadow-[0_8px_25px_rgba(248,63,122,0.3)] tracking-widest text-sm hover:bg-[#ff206a] w-full uppercase"
+                  >
+                    SHOP NOW &gt;
+                  </motion.button>
+                </Link>
               </motion.div>
             ))}
           </div>

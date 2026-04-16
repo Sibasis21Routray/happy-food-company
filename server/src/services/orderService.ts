@@ -16,15 +16,16 @@ const getProductIdString = (productId: any): string => {
 };
 
 export interface AddressInput {
-  firstName: string;
-  lastName: string;
+  name: string;
   email: string;
   phone: string;
   streetAddress: string;
+  locality: string;
   city: string;
   state: string;
   country: string;
   pinCode: string;
+  type: 'Home' | 'Work';
 }
 
 export interface PlaceOrderInput {

@@ -6,7 +6,8 @@ export const api = {
       try {
         const response = await fetch(`${API_URL}/products`);
         if (!response.ok) throw new Error('Failed to fetch products');
-        return await response.json();
+        const data = await response.json();
+        return data.products || [];
       } catch (error) {
         console.error('API Error:', error);
         return [];
@@ -65,6 +66,85 @@ export const api = {
         console.error('API Error:', error);
         throw error;
       }
+    }
+  },
+  cart: {
+    get: async () => {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`${API_URL}/cart`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      return await response.json();
+    },
+    add: async (productId: string, quantity = 1) => {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`${API_URL}/cart/add`, {
+        method: 'POST',
+        headers: { 
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}` 
+        },
+        body: JSON.stringify({ productId, quantity })
+      });
+      return await response.json();
+    },
+    remove: async (productId: string) => {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`${API_URL}/cart/${productId}`, {
+        method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      return await response.json();
+    }
+  },
+  wishlist: {
+    get: async () => {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`${API_URL}/wishlist`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      return await response.json();
+    },
+    add: async (productId: string) => {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`${API_URL}/wishlist/add`, {
+        method: 'POST',
+        headers: { 
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}` 
+        },
+        body: JSON.stringify({ productId })
+      });
+      return await response.json();
+    },
+    remove: async (productId: string) => {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`${API_URL}/wishlist/${productId}`, {
+        method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      return await response.json();
+    }
+  },
+  addresses: {
+    getAll: async () => {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`${API_URL}/addresses`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      return await response.json();
+    },
+    create: async (addressData: any) => {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`${API_URL}/addresses`, {
+        method: 'POST',
+        headers: { 
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}` 
+        },
+        body: JSON.stringify(addressData)
+      });
+      return await response.json();
     }
   }
 };

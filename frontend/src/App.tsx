@@ -8,6 +8,7 @@ import { BlogPage } from './pages/BlogPage';
 import { ProductDetailsPage } from './pages/ProductDetailsPage';
 import { ProfilePage } from './pages/ProfilePage';
 import { OrdersPage, WishlistPage, CouponsPage, GiftCardsPage } from './pages/AccountPages';
+import { CartPage } from './pages/CartPage';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/orders" element={<OrdersPage />} />
           <Route path="/wishlist" element={<WishlistPage />} />
+          <Route path="/cart" element={<CartPage />} />
           <Route path="/coupons" element={<CouponsPage />} />
           <Route path="/gift-cards" element={<GiftCardsPage />} />
           <Route path="/login" element={<AuthPage />} />

@@ -2,6 +2,7 @@ import Product, { IProduct } from "../models/product.model";
 
 export interface CreateProductInput {
   heading: string;
+  slug: string;
   title: string;
   subtitle: string;
   productHeading: string;
@@ -22,6 +23,10 @@ export const getAllProducts = async (): Promise<IProduct[]> => {
 
 export const getProductById = async (id: string): Promise<IProduct | null> => {
   return await Product.findById(id);
+};
+
+export const getProductBySlug = async (slug: string): Promise<IProduct | null> => {
+  return await Product.findOne({ slug, isActive: true });
 };
 
 export const updateProduct = async (

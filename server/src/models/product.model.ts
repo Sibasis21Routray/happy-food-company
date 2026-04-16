@@ -2,6 +2,7 @@ import mongoose, { Document, Schema } from "mongoose";
 
 export interface IProduct extends Document {
   heading: string;
+  slug: string;
   title: string;
   subtitle: string;
   productHeading: string;
@@ -16,6 +17,7 @@ export interface IProduct extends Document {
 const ProductSchema: Schema = new Schema(
   {
     heading:            { type: String, required: true, trim: true },
+    slug:               { type: String, required: true, unique: true, trim: true },
     title:              { type: String, required: true, trim: true },
     subtitle:           { type: String, required: true, trim: true },
     productHeading:     { type: String, required: true },

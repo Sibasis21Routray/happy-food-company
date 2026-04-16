@@ -1,6 +1,8 @@
-import React, { useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Heart, ShoppingCart } from 'lucide-react';
+import { api } from '../services/api';
 
 type ProductData = {
   titleLines: string[];
@@ -123,15 +125,178 @@ const productLibrary: Record<string, ProductData> = {
       { id: 'peanut', name: 'Peanut Party', desc: 'Be part of the peanut party, where peanuts pack a protein punch, coupled with healthy fats and a satisfying crunch, ensuring a snacking adventure that fuels your energy levels.', img: '/images/mascot-peanut.png' },
       { id: 'jaggery', name: 'Jaggery Jive', desc: 'Sweeten the scene with the jaggery jive, as this natural sweetener not only satisfies your sweet tooth but also brings antioxidants and iron to the dance floor, boosting your energy levels with a touch of sweetness.', img: '/images/mascot-jaggery.png' }
     ]
+  },
+  'combo-6-1': {
+    titleLines: ['Almond Cranberry', '+ Cashew Raisin'],
+    titleColor: 'text-[#a12368]',
+    img: '/images/combo-6-1.png',
+    pitchTitle: 'Double the Delight!',
+    pitchTitleColor: 'text-[#ff3c83]',
+    pitchDesc: "Embark on a flavor-packed journey with our Combo Box featuring the dynamic duo of Almond Cranberry and Cashew Raisin. Twice the flavor, twice the fun!",
+    pitchDescColor: 'text-[#1d3557]',
+    waveColor1: '#ffb3c1',
+    waveColor2: '#ff3c83',
+    featuresBg: 'bg-[#ff3c83]',
+    featuresTitleColor: 'text-white',
+    ingredientsBg: 'bg-[#fff0f3]',
+    ingredientsBgHex: '#fff0f3',
+    ingredientsHeaderColor: 'text-[#ff3c83]',
+    ingredientsCardBg: 'bg-white',
+    ingredientsCardTitleColor: 'text-[#ff3c83]',
+    ingredientsCardDescColor: 'text-gray-600',
+    mascots: [
+      { id: 'almond', name: 'Almond Adventure', desc: 'Embark on an almond adventure, as almonds offer a nutty crunch filled with healthy fats and vitamin E.', img: '/images/mascot-almond.png' },
+      { id: 'cranberry', name: 'Cranberry Carnival', desc: 'Join the cranberry carnival, savoring the zesty sweetness and antioxidants that cranberries bring.', img: '/images/mascot-cranberry.png' },
+      { id: 'cashew', name: 'Cashew Carnival', desc: 'Join the cashew carnival for a nutty joyride, as cashews bring a crunch of happiness and protein.', img: '/images/mascot-cashew.png' },
+      { id: 'raisin', name: 'Raisin Radiance', desc: 'Embark on a sweet rendezvous with raisins, delivering a chewy burst of natural sweetness.', img: '/images/mascot-raisin.png' }
+    ]
+  },
+  'combo-6-2': {
+    titleLines: ['Coconut Almond', '+ Date Almond Cranberry'],
+    titleColor: 'text-[#a12368]',
+    img: '/images/combo-6-2.png',
+    pitchTitle: 'Tropical Escape!',
+    pitchTitleColor: 'text-[#ff3c83]',
+    pitchDesc: "Savor the delightful medley of flavors in our Combo Box, featuring the irresistible pairing of Coconut Almond and Date Almond Cranberry. A vacation in every bite!",
+    pitchDescColor: 'text-[#1d3557]',
+    waveColor1: '#ffb3c1',
+    waveColor2: '#ff3c83',
+    featuresBg: 'bg-[#ff3c83]',
+    featuresTitleColor: 'text-white',
+    ingredientsBg: 'bg-[#fff0f3]',
+    ingredientsBgHex: '#fff0f3',
+    ingredientsHeaderColor: 'text-[#ff3c83]',
+    ingredientsCardBg: 'bg-white',
+    ingredientsCardTitleColor: 'text-[#ff3c83]',
+    ingredientsCardDescColor: 'text-gray-600',
+    mascots: [
+      { id: 'coconut', name: 'Coconut Craze', desc: 'Ride the wave of coconut craze, as coconuts add an exotic twist with their creamy texture.', img: '/images/mascot-coconut.png' },
+      { id: 'almond', name: 'Almond Adventure', desc: 'Embark on an almond adventure, as almonds offer a nutty crunch filled with healthy fats.', img: '/images/mascot-almond.png' },
+      { id: 'date', name: 'Date Delight', desc: 'Indulge in a date delight, as the sweet and chewy dates bring fiber and essential minerals.', img: '/images/mascot-date.png' },
+      { id: 'cranberry', name: 'Cranberry Carnival', desc: 'Join the cranberry carnival, savoring the zesty sweetness and antioxidants.', img: '/images/mascot-cranberry.png' }
+    ]
+  },
+  'combo-12': {
+    titleLines: ['Happy Bar', 'Combo Box of 12'],
+    titleColor: 'text-[#a12368]',
+    img: '/images/combo-12.png',
+    pitchTitle: 'Ultimate Snacking!',
+    pitchTitleColor: 'text-[#ff3c83]',
+    pitchDesc: "Enjoy a snack symphony with our Combo Box featuring Almond Cranberry, Cashew Raisin, Coconut Almond, and Date Almond Cranberry. The ultimate variety pack for the ultimate snack fan!",
+    pitchDescColor: 'text-[#1d3557]',
+    waveColor1: '#ffb3c1',
+    waveColor2: '#ff3c83',
+    featuresBg: 'bg-[#ff3c83]',
+    featuresTitleColor: 'text-white',
+    ingredientsBg: 'bg-[#fff0f3]',
+    ingredientsBgHex: '#fff0f3',
+    ingredientsHeaderColor: 'text-[#ff3c83]',
+    ingredientsCardBg: 'bg-white',
+    ingredientsCardTitleColor: 'text-[#ff3c83]',
+    ingredientsCardDescColor: 'text-gray-600',
+    mascots: [
+      { id: 'almond', name: 'Almond Adventure', desc: 'Embark on an almond adventure with healthy fats and crunch.', img: '/images/mascot-almond.png' },
+      { id: 'cashew', name: 'Cashew Carnival', desc: 'Join the cashew carnival for happiness and protein.', img: '/images/mascot-cashew.png' },
+      { id: 'coconut', name: 'Coconut Craze', desc: 'Ride the wave of coconut craze with creamy texture.', img: '/images/mascot-coconut.png' },
+      { id: 'date', name: 'Date Delight', desc: 'Indulge in a date delight with fiber and minerals.', img: '/images/mascot-date.png' }
+    ]
   }
 };
 
 export const ProductDetailsPage: React.FC = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
+  const [dbProduct, setDbProduct] = useState<any>(null);
+  const [wishlist, setWishlist] = useState<string[]>([]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    const fetchData = async () => {
+      if (!id) return;
+
+      const FALLBACK_IDS: Record<string, string> = {
+        'cashew-raisin': '69e0bed3ddd3678cb38d4a9f',
+        'coconut-almond': '69e0bed3ddd3678cb38d4aa0',
+        'date-almond-cranberry': '69e0bed3ddd3678cb38d4aa1',
+        'almond-cranberry': '69e0bed3ddd3678cb38d4aa2',
+        'combo-6-1': '69e0bed3ddd3678cb38d4aa3',
+        'combo-6-2': '69e0bed3ddd3678cb38d4aa4',
+        'combo-12': '69e0bed3ddd3678cb38d4aa5'
+      };
+
+      try {
+        const prod = await api.products.getAll();
+        const found = prod.find((p: any) => p.slug === id);
+        
+        if (found) {
+          setDbProduct(found);
+        } else if (FALLBACK_IDS[id]) {
+          // Fallback to real DB ID if not found in list (e.g. API blank)
+          setDbProduct({
+            _id: FALLBACK_IDS[id],
+            slug: id,
+            category: id.startsWith('combo') ? 'Combos' : 'Happy Bars',
+            price: id === 'combo-12' ? 600 : 300
+          });
+        }
+        
+        const user = localStorage.getItem('user');
+        if (user) {
+          const wish = await api.wishlist.get();
+          if (wish.wishlist) {
+            setWishlist(wish.wishlist.productIds.map((p: any) => p._id || p));
+          }
+        }
+      } catch (err) {
+        console.error(err);
+        // Even on error, establish the fallback ID so wishlist/cart can function
+        if (FALLBACK_IDS[id]) {
+          setDbProduct({
+            _id: FALLBACK_IDS[id],
+            slug: id,
+            category: id.startsWith('combo') ? 'Combos' : 'Happy Bars',
+            price: id === 'combo-12' ? 600 : 300
+          });
+        }
+      }
+    };
+    fetchData();
   }, [id]);
+
+  const handleAddToWishlist = async () => {
+    const user = localStorage.getItem('user');
+    if (!user) {
+      navigate('/login');
+      return;
+    }
+    if (!dbProduct) return;
+    try {
+      if (wishlist.includes(dbProduct._id)) {
+        await api.wishlist.remove(dbProduct._id);
+        setWishlist(prev => prev.filter(wid => wid !== dbProduct._id));
+      } else {
+        await api.wishlist.add(dbProduct._id);
+        setWishlist(prev => [...prev, dbProduct._id]);
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  const handleAddToCart = async () => {
+    const user = localStorage.getItem('user');
+    if (!user) {
+      navigate('/login');
+      return;
+    }
+    if (!dbProduct) return;
+    try {
+      await api.cart.add(dbProduct._id, 1);
+      navigate('/cart');
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   // Default to cashew-raisin if ID doesn't match dictionary 
   // (or we could show a 404, but a fallback is smoother here)
@@ -148,9 +313,9 @@ export const ProductDetailsPage: React.FC = () => {
   ];
 
   const combos = [
-    { title: "Almond Cranberry\nCashew Raisin", subtitle: "Combo Box of 6", desc: "Embark on a flavor-packed journey with our Combo Box featuring the dynamic duo of Almond Cranberry and Cashew Raisin", img: "/images/combo-6-1.png", glow: "hover:shadow-[0_20px_60px_rgba(255,100,150,0.4)]" },
+    { title: "Almond Cranberry\nCashew Raisin", subtitle: "Combo Box of 6", desc: "Embark on a flavor-packed journey with our Combo Box featuring the dynamic duo of Almond Cranberry and Cashew Raisin", img: "/images/combo-6-1.png", glow: "hover:shadow-[0_30px_70px_rgba(255,80,120,0.5)] scale-105 z-10" },
     { title: "Almond Cranberry\nCashew Raisin\nCoconut Almond\nDate Almond Cranberry", subtitle: "Combo Box of 12", desc: "Enjoy a snack symphony with our Combo Box featuring Almond Cranberry, Cashew Raisin, Coconut Almond, and Date Almond Cranberry. Each flavor is a unique and delicious experience, ensuring a diverse snacking delight for every taste bud.", img: "/images/combo-12.png", glow: "hover:shadow-[0_30px_70px_rgba(255,80,120,0.5)] scale-105 z-10" },
-    { title: "Coconut Almond\nDate Almond Cranberry", subtitle: "Combo Box of 6", desc: "Savor the delightful medley of flavors in our Combo Box, featuring the irresistible pairing of Coconut Almond and Date Almond Cranberry", img: "/images/combo-6-2.png", glow: "hover:shadow-[0_20px_60px_rgba(255,100,150,0.4)]" }
+    { title: "Coconut Almond\nDate Almond Cranberry", subtitle: "Combo Box of 6", desc: "Savor the delightful medley of flavors in our Combo Box, featuring the irresistible pairing of Coconut Almond and Date Almond Cranberry", img: "/images/combo-6-2.png", glow: "hover:shadow-[0_30px_70px_rgba(255,80,120,0.5)] scale-105 z-10" }
   ];
 
   return (
@@ -182,17 +347,36 @@ export const ProductDetailsPage: React.FC = () => {
                      <h1 className={`text-[4rem] md:text-[5.5rem] leading-[0.9] font-black uppercase drop-shadow-md tracking-tighter mix-blend-multiply ${data.titleColor}`}>
                        Happy Bar<br/>
                        {data.titleLines.map((line, idx) => (
-                         <React.Fragment key={idx}>
+                         <div key={idx}>
                            {line}<br/>
-                         </React.Fragment>
+                         </div>
                        ))}
                      </h1>
                   </motion.div>
                </div>
 
-               <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="bg-[#f83f7a] text-white font-bold py-3.5 px-8 rounded-full shadow-[0_5px_20px_rgba(248,63,122,0.4)] tracking-widest text-[13px] hover:bg-[#ff206a]">
-                  SHOP NOW
-               </motion.button>
+               {( (dbProduct && dbProduct.category === 'Combos') || (id && id.startsWith('combo')) ) && (
+                 <div className="flex items-center gap-6 mt-4">
+                   <motion.button 
+                     whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
+                     onClick={handleAddToCart}
+                     className="bg-[#f83f7a] text-white font-black py-4 px-10 rounded-full shadow-[0_10px_25px_rgba(248,63,122,0.4)] tracking-widest text-[14px] hover:bg-[#ff206a] flex items-center gap-3 uppercase"
+                   >
+                     <ShoppingCart size={20} />
+                     BUY NOW
+                   </motion.button>
+
+                   <button
+                     onClick={handleAddToWishlist}
+                     className="w-14 h-14 bg-white rounded-full flex items-center justify-center shadow-lg text-gray-400 hover:scale-110 transition-all"
+                   >
+                     <Heart 
+                       size={28} 
+                       className={(dbProduct && wishlist.includes(dbProduct._id)) ? 'fill-[#ff3c83] text-[#ff3c83]' : ''} 
+                     />
+                   </button>
+                 </div>
+               )}
                
                {/* Descriptive Pitch */}
                <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="text-center mt-16 max-w-4xl px-4 z-20 relative">
@@ -285,19 +469,19 @@ export const ProductDetailsPage: React.FC = () => {
              <h2 className="text-4xl md:text-[3.5rem] font-black text-[#1d3557] tracking-tighter leading-none">Come visit the shop</h2>
           </div>
 
-          <div className="flex flex-col lg:flex-row justify-center items-center lg:items-stretch gap-8 lg:gap-6">
+          <div className="flex flex-col md:flex-row md:flex-nowrap justify-center items-center md:items-stretch gap-6 lg:gap-8 max-w-full overflow-x-auto pb-6">
             {combos.map((combo, i) => (
               <motion.div key={i} initial={{ opacity: 0, scale: 0.9 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ delay: i * 0.2 }}
-                className={`bg-white rounded-[2rem] p-6 shadow-xl flex flex-col items-center text-center max-w-sm w-full transition-shadow duration-300 ${combo.glow}`}
+                className={`bg-white rounded-[2.5rem] p-8 shadow-xl flex flex-col items-center text-center max-w-sm w-full transition-shadow duration-300 h-full ${combo.glow}`}
               >
-                <div className="w-full flex justify-center mb-6 overflow-hidden rounded-2xl bg-white p-2">
-                  <img src={combo.img} alt={combo.title} className="w-full h-auto object-contain hover:scale-105 transition-transform duration-500" />
+                <div className="w-full h-52 flex justify-center mb-8 overflow-hidden rounded-2xl bg-white p-4 shrink-0">
+                  <img src={combo.img} alt={combo.title} className="w-full h-full object-contain hover:scale-105 transition-transform duration-500" />
                 </div>
-                <h3 className="text-[#a12368] font-black text-[17.5px] mb-2 whitespace-pre-line leading-tight">{combo.title}</h3>
-                <h4 className="text-[#3273c5] font-black text-[16px] mb-4">{combo.subtitle}</h4>
-                <p className="text-gray-500 font-bold text-[12.5px] flex-1 mb-8 leading-relaxed px-4">{combo.desc}</p>
+                <h3 className="text-[#a12368] font-black text-xl mb-3 whitespace-pre-line leading-tight">{combo.title}</h3>
+                <h4 className="text-[#3273c5] font-black text-lg mb-4">{combo.subtitle}</h4>
+                <p className="text-gray-500 font-bold text-sm flex-1 mb-10 leading-relaxed px-4">{combo.desc}</p>
                 <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
-                  className="bg-[#f83f7a] text-white font-bold py-3.5 px-8 rounded-full shadow-[0_5px_20px_rgba(248,63,122,0.4)] tracking-widest text-[13px] hover:bg-[#ff206a]"
+                  className="bg-[#f83f7a] text-white font-black py-4 px-8 rounded-2xl shadow-[0_8px_25px_rgba(248,63,122,0.3)] tracking-widest text-sm hover:bg-[#ff206a] mt-auto w-full uppercase"
                 >
                   SHOP NOW &gt;
                 </motion.button>

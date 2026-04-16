@@ -9,6 +9,7 @@ import cartRoutes    from "./routes/cartRoutes";
 import couponRoutes  from "./routes/couponRoutes";
 import orderRoutes   from "./routes/orderRoutes";
 import addressRoutes from "./routes/addressRoutes";
+import wishlistRoutes from "./routes/wishlistRoutes";
 
 dotenv.config();
 connectDB();
@@ -25,6 +26,7 @@ app.use("/api/cart",     cartRoutes);
 app.use("/api/coupon",   couponRoutes);
 app.use("/api/order",    orderRoutes);
 app.use("/api/address",  addressRoutes);
+app.use("/api/wishlist", wishlistRoutes);
 
 // ─── Health check ─────────────────────────────────────────────
 app.get("/health", (_req, res) => res.json({ status: "ok" }));

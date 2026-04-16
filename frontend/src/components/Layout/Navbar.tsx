@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { ShoppingCart, Menu, X, User, Package, Heart, Ticket, Gift, Bell, LogOut, Coins, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { api } from '../../services/api';
 
 export const Navbar: React.FC = () => {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
   const [user, setUser] = useState<{ fullName: string } | null>(null);
+  const [cartCount, setCartCount] = useState(0);
 
   const links = [
     { path: '/', label: 'HOME' },
@@ -28,17 +30,34 @@ export const Navbar: React.FC = () => {
     { label: 'Logout', path: '/login', icon: <LogOut size={18} color="#FD6804" />, isLogout: true },
   ];
 
-  useEffect(() => {
+  const fetchCartAndUser = async () => {
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
       setUser(JSON.parse(storedUser));
+      try {
+        const cartData = await api.cart.get();
+        if (cartData.cart) {
+          const count = cartData.cart.items.reduce((acc: number, item: any) => acc + item.quantity, 0);
+          setCartCount(count);
+        }
+      } catch (err) {
+        console.error('Navbar cart fetch failed:', err);
+      }
+    } else {
+      setUser(null);
+      setCartCount(0);
     }
+  };
+
+  useEffect(() => {
+    fetchCartAndUser();
   }, [location]);
 
   const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     setUser(null);
+    setCartCount(0);
   };
 
   const happyBarsMenu = [
@@ -166,9 +185,9 @@ export const Navbar: React.FC = () => {
           })}
           
           <motion.div whileHover={{ y: -2 }} whileTap={{ scale: 0.95 }} className="ml-4 h-full flex items-center">
-            <Link to="/happy-shop" className="flex items-center gap-2 bg-gradient-to-r from-[#ff6b00] to-[#f3521b] text-white px-6 py-2.5 rounded-full hover:shadow-[0_8px_20px_rgba(255,107,0,0.3)] transition-all">
+            <Link to="/cart" className="flex items-center gap-2 bg-gradient-to-r from-[#ff6b00] to-[#f3521b] text-white px-6 py-2.5 rounded-full hover:shadow-[0_8px_20px_rgba(255,107,0,0.3)] transition-all">
               <ShoppingCart size={18} strokeWidth={3} />
-              <span className="font-black tracking-[0.1em] text-[13px]">0 Items</span>
+              <span className="font-black tracking-[0.1em] text-[13px]">{cartCount} {cartCount === 1 ? 'Item' : 'Items'}</span>
             </Link>
           </motion.div>
         </nav>
@@ -214,11 +233,11 @@ export const Navbar: React.FC = () => {
                 );
               })}
               <Link 
-                to="/happy-shop" 
+                to="/cart" 
                 onClick={() => setMobileMenuOpen(false)}
                 className="flex items-center justify-center gap-3 bg-[#ff6b00] text-white px-5 py-4 rounded-full mt-6 font-black tracking-[0.1em] text-sm shadow-md"
               >
-                <ShoppingCart size={18} strokeWidth={3} /> VIEW CART (0 Items)
+                <ShoppingCart size={18} strokeWidth={3} /> VIEW CART ({cartCount} {cartCount === 1 ? 'Item' : 'Items'})
               </Link>
             </div>
           </motion.div>
