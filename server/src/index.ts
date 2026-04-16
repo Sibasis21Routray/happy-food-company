@@ -25,7 +25,7 @@ app.use("/api/products", productRoutes);
 app.use("/api/cart",     cartRoutes);
 app.use("/api/coupon",   couponRoutes);
 app.use("/api/order",    orderRoutes);
-app.use("/api/address",  addressRoutes);
+app.use("/api/addresses", addressRoutes);
 app.use("/api/wishlist", wishlistRoutes);
 
 // ─── Health check ─────────────────────────────────────────────

@@ -570,14 +570,15 @@ export const ProfilePage: React.FC = () => {
                             className="cursor-pointer flex-1"
                             onClick={() => navigate(`/product/${item.slug || item._id}`)}
                           >
-                            <div className="aspect-square bg-gray-50 rounded-2xl overflow-hidden mb-4">
+                            <div className="aspect-[1/1] bg-gray-100 rounded-2xl overflow-hidden mb-4 border border-gray-100">
                               <img 
                                 src={item.images?.[0] || '/images/avatar-placeholder.png'} 
-                                alt={item.title} 
-                                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" 
+                                alt={item.title || 'Product'} 
+                                className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
+                                onError={(e) => { (e.target as HTMLImageElement).src = '/images/avatar-placeholder.png'; }}
                               />
                             </div>
-                            <h3 className="text-[14px] font-black text-[#1e3a8a] line-clamp-2 mb-2 uppercase tracking-tight">
+                            <h3 className="text-sm font-black text-gray-900 line-clamp-2 mb-2 uppercase tracking-tight min-h-[2.5rem]">
                               {item.title}
                             </h3>
                             <p className="text-[#FA6011] font-black text-lg mb-4">
