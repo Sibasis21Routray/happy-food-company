@@ -5,6 +5,7 @@ import {
   getProduct,
   updateProduct,
   deleteProduct,
+  activateProduct,
 } from "../controller/productController";
 
 const router = Router();
@@ -16,6 +17,7 @@ router.get("/:id",     getProduct);
 // Admin routes (add auth middleware here if needed later)
 router.post("/",       createProduct);
 router.put("/:id",     updateProduct);
-router.delete("/:id",  deleteProduct); //product is active is set to false instead of deleting the product from database.
+router.delete("/:id",  deleteProduct); //deactivate product instead of deleting
+router.patch("/:id/activate", activateProduct);
 
 export default router;

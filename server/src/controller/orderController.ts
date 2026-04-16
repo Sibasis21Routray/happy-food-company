@@ -5,7 +5,7 @@ import * as orderService from "../services/orderService";
 // ─── Place order ──────────────────────────────────────────────
 export const placeOrder = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
-    const { couponCode, billingAddress, shippingAddress } = req.body;
+    const { productIds, couponCode, billingAddress, shippingAddress } = req.body;
 
     if (!billingAddress) {
       res.status(400).json({ message: "billingAddress is required" });
@@ -14,6 +14,7 @@ export const placeOrder = async (req: AuthRequest, res: Response): Promise<void>
 
     const result = await orderService.placeOrder({
       userId: req.userId!,
+      productIds,
       couponCode,
       billingAddress,
       shippingAddress,

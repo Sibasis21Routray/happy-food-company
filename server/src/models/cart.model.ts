@@ -3,7 +3,7 @@ import mongoose, { Document, Schema, Types } from "mongoose";
 export interface ICartItem {
   productId: Types.ObjectId;
   quantity: number;
-  price: number;      // snapshot of price at time of adding
+  price: number;
 }
 
 export interface ICart extends Document {

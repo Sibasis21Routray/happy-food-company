@@ -1,11 +1,19 @@
 import * as orderDao from "../dao/orderDao";
 import * as addressDao from "../dao/addressDao";
 import * as couponDao from "../dao/couponDao";
+import * as cartDao from "../dao/cartDao";
 import * as couponService from "./couponService";
 import * as cartService from "./cartService";
 import * as productDao from "../dao/productDao";
 import { IOrder } from "../models/order.model";
 import { IAddress } from "../models/address.model";
+
+const getProductIdString = (productId: any): string => {
+  if (!productId) return '';
+  if (typeof productId === 'string') return productId.trim().toLowerCase();
+  if (productId._id) return productId._id.toString().trim().toLowerCase();
+  return productId.toString().trim().toLowerCase();
+};
 
 export interface AddressInput {
   firstName: string;
@@ -21,9 +29,9 @@ export interface AddressInput {
 
 export interface PlaceOrderInput {
   userId: string;
+  productIds?: string[];
   couponCode?: string;
   billingAddress: AddressInput;
-  // if shippingAddress omitted, billing address is reused
   shippingAddress?: AddressInput;
 }
 
@@ -34,18 +42,28 @@ export interface PlaceOrderResult {
 }
 
 export const placeOrder = async (input: PlaceOrderInput): Promise<PlaceOrderResult> => {
-  const { userId, couponCode, billingAddress, shippingAddress } = input;
+  const { userId, productIds, couponCode, billingAddress, shippingAddress } = input;
 
-  // 1. Fetch cart
   const cart = await cartService.getCart(userId);
   if (!cart.items.length) throw new Error("Cart is empty");
 
-  // 2. Verify stock & build order items
+  let cartItems = cart.items;
+  
+  if (productIds && productIds.length > 0) {
+    const normalizedProductIds = productIds.map(id => id.trim().toLowerCase());
+    const productIdSet = new Set(normalizedProductIds);
+    cartItems = cartItems.filter((item) => {
+      const itemProductId = getProductIdString(item.productId).trim().toLowerCase();
+      return productIdSet.has(itemProductId);
+    });
+    if (!cartItems.length) throw new Error("No matching items found in cart");
+  }
+
   const orderItems = await Promise.all(
-    cart.items.map(async (item) => {
-      const product = await productDao.getProductById(item.productId.toString());
+    cartItems.map(async (item) => {
+      const productIdStr = getProductIdString(item.productId);
+      const product = await productDao.getProductById(productIdStr);
       if (!product || !product.isActive) throw new Error(`Product no longer available`);
-      // Removed numerical stock check as stock is now a string detail
       return {
         productId: item.productId,
         title: product.title,
@@ -55,9 +73,8 @@ export const placeOrder = async (input: PlaceOrderInput): Promise<PlaceOrderResu
     })
   );
 
-  const subtotal = cart.totalAmount;
+  const subtotal = orderItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
-  // 3. Apply coupon if provided
   let discountPercent = 0;
   let discountAmount = 0;
   let totalAmount = subtotal;
@@ -70,15 +87,12 @@ export const placeOrder = async (input: PlaceOrderInput): Promise<PlaceOrderResu
     await couponDao.incrementCouponUse(couponCode);
   }
 
-  // 4. Save billing address
   const savedBilling = await addressDao.createAddress({ userId, ...billingAddress });
 
-  // 5. Save shipping address (reuse billing if not provided)
   const savedShipping = shippingAddress
     ? await addressDao.createAddress({ userId, ...shippingAddress })
     : savedBilling;
 
-  // 6. Create order
   const order = await orderDao.createOrder({
     userId: userId as any,
     items: orderItems as any,
@@ -91,10 +105,18 @@ export const placeOrder = async (input: PlaceOrderInput): Promise<PlaceOrderResu
     shippingAddressId: savedShipping._id as any,
   });
 
-  // 7. Deduct stock has been removed as stock is now a descriptive string.
-
-  // 8. Clear cart
-  await cartService.clearCart(userId);
+  if (productIds && productIds.length > 0) {
+    const normalizedProductIds = productIds.map(id => id.trim().toLowerCase());
+    const productIdSet = new Set(normalizedProductIds);
+    const remainingItems = cart.items.filter((item) => {
+      const itemProductId = getProductIdString(item.productId);
+      return !productIdSet.has(itemProductId);
+    });
+    const remainingTotal = remainingItems.reduce((sum, i) => sum + i.price * i.quantity, 0);
+    await cartDao.upsertCart(userId, { userId: userId as any, items: remainingItems, totalAmount: remainingTotal });
+  } else {
+    await cartService.clearCart(userId);
+  }
 
   return { order, billingAddress: savedBilling, shippingAddress: savedShipping };
 };
