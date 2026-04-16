@@ -45,3 +45,12 @@ export const deleteProduct = async (req: Request, res: Response): Promise<void> 
     res.status(400).json({ message: error.message });
   }
 };
+
+export const activateProduct = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const product = await productService.activateProduct(req.params.id as string);
+    res.status(200).json({ message: "Product activated", product });
+  } catch (error: any) {
+    res.status(400).json({ message: error.message });
+  }
+};

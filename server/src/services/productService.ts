@@ -28,3 +28,9 @@ export const removeProduct = async (id: string): Promise<void> => {
   const product = await productDao.deleteProduct(id);
   if (!product) throw new Error("Product not found");
 };
+
+export const activateProduct = async (id: string): Promise<IProduct> => {
+  const product = await productDao.activateProduct(id);
+  if (!product) throw new Error("Product not found");
+  return product;
+};

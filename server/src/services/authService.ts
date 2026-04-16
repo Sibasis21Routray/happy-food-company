@@ -77,7 +77,7 @@ export const loginService = async (data: LoginInput): Promise<AuthResponse> => {
   const token = jwt.sign(
     { userId: user._id },
     process.env.JWT_SECRET as string,
-    { expiresIn: "1m" }
+    { expiresIn: "7d" }
   );
 
   return {

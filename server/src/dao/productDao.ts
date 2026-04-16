@@ -34,3 +34,7 @@ export const updateProduct = async (
 export const deleteProduct = async (id: string): Promise<IProduct | null> => {
   return await Product.findByIdAndUpdate(id, { isActive: false }, { new: true });
 };
+
+export const activateProduct = async (id: string): Promise<IProduct | null> => {
+  return await Product.findByIdAndUpdate(id, { isActive: true }, { new: true });
+};
