@@ -1,0 +1,31 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #ff5722;
+  --color-accent: #EAB308;
+  --color-brandDark: #0F172A;
+  --font-sans: "Outfit", sans-serif;
+  --color-cardPurple: #a5a2cc;
+  --color-cardOrange: #f1c28c;
+  --color-cardRed: #cc6666;
+  --color-cardPink: #c4a3b8;
+}
+
+@layer base {
+  html, body {
+    background-color: #f8fafc;
+    color: #1e293b;
+    margin: 0;
+    padding: 0;
+    font-family: var(--font-sans);
+    overflow-x: hidden;
+  }
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.05);
+}

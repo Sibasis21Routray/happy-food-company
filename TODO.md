@@ -1,0 +1,1 @@
+# Auto-Login on Register Task\n\n- [x] Plan approved by user\n- [ ] Create TODO.md with steps\n- [ ] Edit authController.ts to add JWT token generation in register\n- [ ] Test the endpoint\n- [ ] Update TODO.md with completion\n- [ ] Attempt task completion

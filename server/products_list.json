@@ -1,0 +1,37 @@
+[
+  {
+    "_id": "69e0bed3ddd3678cb38d4a9f",
+    "slug": "cashew-raisin",
+    "title": "Cashew Raisin"
+  },
+  {
+    "_id": "69e0bed3ddd3678cb38d4aa0",
+    "slug": "coconut-almond",
+    "title": "Coconut Almond"
+  },
+  {
+    "_id": "69e0bed3ddd3678cb38d4aa1",
+    "slug": "date-almond-cranberry",
+    "title": "Date Almond Cranberry"
+  },
+  {
+    "_id": "69e0bed3ddd3678cb38d4aa2",
+    "slug": "almond-cranberry",
+    "title": "Almond Cranberry"
+  },
+  {
+    "_id": "69e0bed3ddd3678cb38d4aa3",
+    "slug": "combo-6-1",
+    "title": "Almond Cranberry + Cashew Raisin"
+  },
+  {
+    "_id": "69e0bed3ddd3678cb38d4aa4",
+    "slug": "combo-6-2",
+    "title": "Coconut Almond + Date Almond Cranberry"
+  },
+  {
+    "_id": "69e0bed3ddd3678cb38d4aa5",
+    "slug": "combo-12",
+    "title": "Happy Bar - Combo Box of 12"
+  }
+]
