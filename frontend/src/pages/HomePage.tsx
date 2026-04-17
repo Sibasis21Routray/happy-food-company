@@ -166,7 +166,7 @@ export const HomePage: React.FC = () => {
             <h2 className="text-4xl md:text-[3.5rem] font-black text-[#1d3557] tracking-tight">Come visit the shop</h2>
           </div>
 
-          <div className="flex flex-col md:flex-row md:flex-nowrap justify-center items-center md:items-stretch gap-6 lg:gap-8 mt-16 max-w-full overflow-hidden">
+          <div className="flex flex-col md:flex-row md:flex-nowrap justify-center items-center md:items-stretch gap-12 lg:gap-8 mt-16 max-w-full ">
             {combos.map((combo, i) => (
               <motion.div key={i} initial={{ opacity: 0, scale: 0.9 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ delay: i * 0.2 }}
                 className={`bg-white rounded-[2.5rem] p-8 shadow-xl flex flex-col items-center text-center max-w-sm w-full transition-shadow duration-300 h-full ${combo.glow}`}
