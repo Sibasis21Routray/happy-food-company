@@ -25,6 +25,7 @@ interface AuthResponse {
     gender?: 'Male' | 'Female' | 'Other';
     orderIds: string[];
     cartIds: string[];
+    role: string;
   };
   token: string;
 }
@@ -71,6 +72,7 @@ export const registerService = async (data: RegisterInput): Promise<AuthResponse
       gender: user.gender,
       orderIds: user.orderIds,
       cartIds: user.cartIds,
+      role: (user as any).role || 'user',
     },
     token
   };
@@ -90,6 +92,10 @@ export const loginService = async (data: LoginInput): Promise<AuthResponse> => {
     throw new Error("Invalid credentials");
   }
 
+  if (user.isBlocked) {
+    throw new Error("Account is blocked. Please contact support.");
+  }
+
   const token = jwt.sign(
     { userId: user._id },
     process.env.JWT_SECRET as string,
@@ -105,6 +111,7 @@ export const loginService = async (data: LoginInput): Promise<AuthResponse> => {
       gender: user.gender,
       orderIds: user.orderIds,
       cartIds: user.cartIds,
+      role: (user as any).role || 'user',
     },
     token
   };

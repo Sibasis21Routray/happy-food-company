@@ -7,6 +7,7 @@ import * as cartService from "./cartService";
 import * as productDao from "../dao/productDao";
 import { IOrder } from "../models/order.model";
 import { IAddress } from "../models/address.model";
+import User from "../models/user.model";
 
 const getProductIdString = (productId: any): string => {
   if (!productId) return '';
@@ -88,14 +89,19 @@ export const placeOrder = async (input: PlaceOrderInput): Promise<PlaceOrderResu
     await couponDao.incrementCouponUse(couponCode);
   }
 
-  const savedBilling = await addressDao.createAddress({ userId, ...billingAddress });
+  const savedBilling = await addressDao.createAddress({ userId, ...billingAddress, isSaved: false });
 
   const savedShipping = shippingAddress
-    ? await addressDao.createAddress({ userId, ...shippingAddress })
+    ? await addressDao.createAddress({ userId, ...shippingAddress, isSaved: false })
     : savedBilling;
+
+  // Vendor Assignment: prefer vendor named "vendor1", fall back to any active vendor
+  const vendor1 = await User.findOne({ role: 'vendor', isBlocked: false, fullName: /vendor1/i });
+  const availableVendor = vendor1 || await User.findOne({ role: 'vendor', isBlocked: false });
 
   const order = await orderDao.createOrder({
     userId: userId as any,
+    vendorId: availableVendor ? availableVendor._id as any : undefined,
     items: orderItems as any,
     subtotal,
     couponCode: couponCode || null,

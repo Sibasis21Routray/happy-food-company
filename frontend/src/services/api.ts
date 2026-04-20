@@ -146,5 +146,30 @@ export const api = {
       });
       return await response.json();
     }
+  },
+  orders: {
+    getAll: async () => {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`${API_URL}/order`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      if (!response.ok) throw new Error('Failed to fetch orders');
+      return await response.json();
+    },
+    getById: async (id: string) => {
+      const token = localStorage.getItem('token');
+      const response = await fetch(`${API_URL}/order/${id}`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      if (!response.ok) throw new Error('Failed to fetch order details');
+      return await response.json();
+    }
+  },
+  coupons: {
+    getAll: async () => {
+      const response = await fetch(`${API_URL}/coupon`);
+      if (!response.ok) throw new Error('Failed to fetch coupons');
+      return await response.json();
+    }
   }
 };

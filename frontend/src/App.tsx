@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import { Navbar } from './components/Layout/Navbar';
 import { Footer } from './components/Layout/Footer';
 import { HomePage } from './pages/HomePage';
@@ -9,11 +9,19 @@ import { ProductDetailsPage } from './pages/ProductDetailsPage';
 import { ProfilePage } from './pages/ProfilePage';
 import { OrdersPage, WishlistPage, CouponsPage, GiftCardsPage } from './pages/AccountPages';
 import { CartPage } from './pages/CartPage';
+import { AdminDashboard } from './pages/AdminDashboard';
+import { VendorDashboard } from './pages/VendorDashboard';
+import { AdminProfilePage } from './pages/AdminProfilePage';
+import { VendorProfilePage } from './pages/VendorProfilePage';
+import { OrderDetailsPage } from './pages/OrderDetailsPage';
 
 function App() {
+  const location = useLocation();
+  const isDashboard = location.pathname.startsWith('/admin') || location.pathname.startsWith('/vendor');
+
   return (
     <div className="flex flex-col min-h-screen bg-slate-50 text-slate-900 font-sans">
-      <Navbar />
+      {!isDashboard && <Navbar />}
       <main className="flex-1 w-full">
         <Routes>
           <Route path="/" element={<HomePage />} />
@@ -25,16 +33,26 @@ function App() {
           <Route path="/my-account" element={<ProfilePage />} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/orders" element={<OrdersPage />} />
+          <Route path="/orders/:id" element={<OrderDetailsPage />} />
           <Route path="/wishlist" element={<WishlistPage />} />
           <Route path="/cart" element={<CartPage />} />
           <Route path="/coupons" element={<CouponsPage />} />
           <Route path="/gift-cards" element={<GiftCardsPage />} />
           <Route path="/login" element={<AuthPage />} />
           <Route path="/signup" element={<AuthPage />} />
+          
+          {/* Admin Routes */}
+          <Route path="/admin/dashboard" element={<AdminDashboard />} />
+          <Route path="/admin/profile" element={<AdminProfilePage />} />
+          
+          {/* Vendor Routes */}
+          <Route path="/vendor/dashboard" element={<VendorDashboard />} />
+          <Route path="/vendor/profile" element={<VendorProfilePage />} />
+
           <Route path="*" element={<HomePage />} />
         </Routes>
       </main>
-      <Footer />
+      {!isDashboard && <Footer />}
     </div>
   );
 }

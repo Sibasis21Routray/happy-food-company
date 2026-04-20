@@ -14,6 +14,7 @@ export interface IAddress extends Document {
   landmark?: string;
   alternatePhone?: string;
   type: 'Home' | 'Work';
+  isSaved: boolean;
 }
 
 const AddressSchema: Schema = new Schema(
@@ -31,6 +32,7 @@ const AddressSchema: Schema = new Schema(
     landmark:       { type: String, trim: true },
     alternatePhone: { type: String, trim: true },
     type:           { type: String, enum: ['Home', 'Work'], default: 'Home' },
+    isSaved:        { type: Boolean, default: true },
   },
   { timestamps: true }
 );
