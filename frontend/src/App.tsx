@@ -28,14 +28,17 @@ import CravingControlPage from './pages/blogs/CravingControlPage';
 import NourishEnergizeThrivePage from './pages/blogs/NourishEnergizeThrivePage';
 import HappyBarsParentsKidsPage from './pages/blogs/HappyBarsParentsKidsPage';
 
+import { ToastProvider } from './components/Layout/Toast';
+
 function App() {
   const location = useLocation();
   const isDashboard = location.pathname.startsWith('/admin') || location.pathname.startsWith('/vendor') || location.pathname === '/404';
 
   return (
-    <div className="flex flex-col min-h-screen bg-slate-50 text-slate-900 font-sans">
-      {!isDashboard && <Navbar />}
-      <main className="flex-1 w-full">
+    <ToastProvider>
+      <div className="flex flex-col min-h-screen bg-slate-50 text-slate-900 font-sans">
+        {!isDashboard && <Navbar />}
+        <main className="flex-1 w-full">
         <Routes>
           <Route path="/" element={<RoleBasedRedirect><HomePage /></RoleBasedRedirect>} />
           <Route path="/home" element={<RoleBasedRedirect><HomePage /></RoleBasedRedirect>} />
@@ -93,7 +96,8 @@ function App() {
         </Routes>
       </main>
       {!isDashboard && <Footer />}
-    </div>
+      </div>
+    </ToastProvider>
   );
 }
 

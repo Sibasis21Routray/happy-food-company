@@ -22,7 +22,10 @@ export const api = {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(credentials)
         });
-        if (!response.ok) throw new Error('Login failed');
+        if (!response.ok) {
+          const error = await response.json();
+          throw new Error(error.message || 'Login failed');
+        }
         return await response.json();
       } catch (error) {
         console.error('API Error:', error);
@@ -74,6 +77,10 @@ export const api = {
       const response = await fetch(`${API_URL}/cart`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || 'Failed to fetch cart');
+      }
       return await response.json();
     },
     add: async (productId: string, quantity = 1) => {
@@ -86,6 +93,10 @@ export const api = {
         },
         body: JSON.stringify({ productId, quantity })
       });
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || 'Failed to add to cart');
+      }
       return await response.json();
     },
     remove: async (productId: string) => {
@@ -94,6 +105,10 @@ export const api = {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${token}` }
       });
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || 'Failed to remove from cart');
+      }
       return await response.json();
     }
   },
@@ -103,6 +118,10 @@ export const api = {
       const response = await fetch(`${API_URL}/wishlist`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || 'Failed to fetch wishlist');
+      }
       return await response.json();
     },
     add: async (productId: string) => {
@@ -115,6 +134,10 @@ export const api = {
         },
         body: JSON.stringify({ productId })
       });
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || 'Failed to add to wishlist');
+      }
       return await response.json();
     },
     remove: async (productId: string) => {
@@ -123,6 +146,10 @@ export const api = {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${token}` }
       });
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || 'Failed to remove from wishlist');
+      }
       return await response.json();
     }
   },
@@ -132,6 +159,10 @@ export const api = {
       const response = await fetch(`${API_URL}/addresses`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || 'Failed to fetch addresses');
+      }
       return await response.json();
     },
     create: async (addressData: any) => {
@@ -144,6 +175,10 @@ export const api = {
         },
         body: JSON.stringify(addressData)
       });
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || 'Failed to create address');
+      }
       return await response.json();
     }
   },
@@ -153,7 +188,10 @@ export const api = {
       const response = await fetch(`${API_URL}/order`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
-      if (!response.ok) throw new Error('Failed to fetch orders');
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || 'Failed to fetch orders');
+      }
       return await response.json();
     },
     getById: async (id: string) => {
@@ -161,14 +199,20 @@ export const api = {
       const response = await fetch(`${API_URL}/order/${id}`, {
         headers: { 'Authorization': `Bearer ${token}` }
       });
-      if (!response.ok) throw new Error('Failed to fetch order details');
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || 'Failed to fetch order details');
+      }
       return await response.json();
     }
   },
   coupons: {
     getAll: async () => {
       const response = await fetch(`${API_URL}/coupon`);
-      if (!response.ok) throw new Error('Failed to fetch coupons');
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || 'Failed to fetch coupons');
+      }
       return await response.json();
     }
   }
