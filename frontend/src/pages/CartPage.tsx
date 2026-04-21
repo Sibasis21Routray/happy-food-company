@@ -16,8 +16,9 @@ export const CartPage: React.FC = () => {
   const [currentStep, setCurrentStep] = useState(1); // 1: Bag, 2: Address, 3: Payment
   const [addresses, setAddresses] = useState<any[]>([]);
   const [selectedAddressId, setSelectedAddressId] = useState<string | null>(null);
-  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('UPI');
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('COD');
   const [addressLoading, setAddressLoading] = useState(false);
+  const [placingOrder, setPlacingOrder] = useState(false);
 
   const fetchCart = async () => {
     try {
@@ -89,6 +90,63 @@ export const CartPage: React.FC = () => {
 
   const nextStep = () => setCurrentStep(prev => Math.min(prev + 1, 3));
   const prevStep = () => setCurrentStep(prev => Math.max(prev - 1, 1));
+
+  const handleCheckout = async () => {
+    if (selectedPaymentMethod !== 'COD') {
+      alert('Currently, only Cash on Delivery (COD) is supported for immediate placing. Please select Cash on Delivery.');
+      return;
+    }
+
+    if (!selectedAddressId) {
+      alert('Please select a delivery address');
+      return;
+    }
+
+    const selectedAddr = addresses.find(a => a._id === selectedAddressId);
+    if (!selectedAddr) return;
+
+    const userStr = localStorage.getItem('user');
+    const user = userStr ? JSON.parse(userStr) : null;
+
+    setPlacingOrder(true);
+    try {
+      const token = localStorage.getItem('token');
+      const res = await fetch('http://localhost:5000/api/order/place', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          billingAddress: {
+            name: selectedAddr.name,
+            email: user?.email || selectedAddr.email || 'user@example.com',
+            phone: selectedAddr.phone,
+            streetAddress: selectedAddr.streetAddress,
+            locality: selectedAddr.locality,
+            city: selectedAddr.city,
+            state: selectedAddr.state,
+            country: selectedAddr.country || 'India',
+            pinCode: selectedAddr.pinCode,
+            type: selectedAddr.type
+          }
+        })
+      });
+
+      if (res.ok) {
+        alert('Order placed successfully!');
+        navigate('/profile?section=orders');
+      } else {
+        const data = await res.json();
+        alert(data.message || 'Failed to place order');
+      }
+    } catch (err) {
+      console.error('Checkout error:', err);
+      alert('An error occurred while placing the order.');
+    } finally {
+      setPlacingOrder(false);
+    }
+  };
 
   if (loading) {
     return (
@@ -315,12 +373,12 @@ export const CartPage: React.FC = () => {
                 
                 <motion.button 
                   whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
-                  onClick={nextStep}
-                  disabled={currentStep === 2 && !selectedAddressId}
+                  onClick={currentStep === 3 ? handleCheckout : nextStep}
+                  disabled={(currentStep === 2 && !selectedAddressId) || placingOrder}
                   className="w-full bg-[#ff3c83] text-white font-black py-5 rounded-2xl shadow-xl shadow-pink-100 flex items-center justify-center gap-3 tracking-widest group disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {currentStep === 1 ? 'CHECKOUT' : currentStep === 2 ? 'CONTINUE TO PAYMENT' : 'PLACE ORDER'}
-                  <ArrowRight size={20} className="group-hover:translate-x-2 transition-transform" />
+                  {placingOrder ? 'PLACING ORDER...' : currentStep === 1 ? 'CHECKOUT' : currentStep === 2 ? 'CONTINUE TO PAYMENT' : 'PLACE ORDER'}
+                  {!placingOrder && <ArrowRight size={20} className="group-hover:translate-x-2 transition-transform" />}
                 </motion.button>
               </div>
               

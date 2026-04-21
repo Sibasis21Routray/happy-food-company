@@ -20,6 +20,7 @@ export interface IOrder extends Document {
   billingAddressId: Types.ObjectId;
   shippingAddressId: Types.ObjectId;
   status: OrderStatus;
+  vendorId?: Types.ObjectId;
 }
 
 const OrderItemSchema = new Schema<IOrderItem>(
@@ -44,6 +45,7 @@ const OrderSchema: Schema = new Schema(
     billingAddressId:  { type: Schema.Types.ObjectId, ref: "Address", required: true },
     shippingAddressId: { type: Schema.Types.ObjectId, ref: "Address", required: true },
     status:            { type: String, enum: ["pending","confirmed","shipped","delivered","cancelled"], default: "pending" },
+    vendorId:          { type: Schema.Types.ObjectId, ref: "User", default: null },
   },
   { timestamps: true }
 );

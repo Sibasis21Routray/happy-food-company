@@ -10,9 +10,16 @@ import couponRoutes  from "./routes/couponRoutes";
 import orderRoutes   from "./routes/orderRoutes";
 import addressRoutes from "./routes/addressRoutes";
 import wishlistRoutes from "./routes/wishlistRoutes";
+// import adminRoutes from "./routes/adminRoutes";
+// import vendorRoutes from "./routes/vendorRoutes";
+import { seedAdmin } from "./seeds/adminSeed";
+import adminRoutes from "./routes/adminRoutes";
+import vendorRoutes from "./routes/vendorRoutes";
 
 dotenv.config();
-connectDB();
+connectDB().then(() => {
+  seedAdmin();
+});
 
 const app = express();
 
@@ -27,6 +34,8 @@ app.use("/api/coupon",   couponRoutes);
 app.use("/api/order",    orderRoutes);
 app.use("/api/addresses", addressRoutes);
 app.use("/api/wishlist", wishlistRoutes);
+app.use("/api/admin",    adminRoutes);
+app.use("/api/vendor",   vendorRoutes);
 
 // ─── Health check ─────────────────────────────────────────────
 app.get("/health", (_req, res) => res.json({ status: "ok" }));

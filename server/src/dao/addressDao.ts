@@ -14,6 +14,7 @@ export interface CreateAddressInput {
   landmark?: string;
   alternatePhone?: string;
   type: 'Home' | 'Work';
+  isSaved?: boolean;
 }
 
 export const createAddress = async (data: CreateAddressInput): Promise<IAddress> => {
@@ -21,7 +22,7 @@ export const createAddress = async (data: CreateAddressInput): Promise<IAddress>
 };
 
 export const getAddressesByUserId = async (userId: string): Promise<IAddress[]> => {
-  return await Address.find({ userId });
+  return await Address.find({ userId, isSaved: { $ne: false } });
 };
 
 export const getAddressById = async (id: string): Promise<IAddress | null> => {

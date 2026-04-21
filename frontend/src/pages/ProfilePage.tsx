@@ -127,6 +127,8 @@ export const ProfilePage: React.FC = () => {
   });
   const [wishlistItems, setWishlistItems] = useState<WishlistItem[]>([]);
   const [loadingWishlist, setLoadingWishlist] = useState(false);
+  const [orders, setOrders] = useState<any[]>([]);
+  const [loadingOrders, setLoadingOrders] = useState(false);
   const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 768);
 
   const countries = Country.getAllCountries();
@@ -160,6 +162,18 @@ export const ProfilePage: React.FC = () => {
     }
   };
 
+  const fetchOrders = async () => {
+    setLoadingOrders(true);
+    try {
+      const resp = await api.orders.getAll();
+      setOrders(resp.orders || []);
+    } catch (err) {
+      console.error('Orders fetch error:', err);
+    } finally {
+      setLoadingOrders(false);
+    }
+  };
+
   useEffect(() => {
     const storedUser = localStorage.getItem('user');
     if (storedUser) {
@@ -182,6 +196,8 @@ export const ProfilePage: React.FC = () => {
   useEffect(() => {
     if (activeSection === 'wishlist') {
       fetchWishlist();
+    } else if (activeSection === 'orders') {
+      fetchOrders();
     }
   }, [activeSection]);
 
@@ -720,8 +736,84 @@ export const ProfilePage: React.FC = () => {
                   </motion.div>
                 )}
 
+                {activeSection === 'orders' && (
+                  <motion.div key="orders" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-6 sm:space-y-10">
+                    <div className="flex items-center justify-between flex-wrap gap-2">
+                      <h2 className="text-base sm:text-lg font-black text-gray-900 uppercase">My Orders ({orders.length})</h2>
+                    </div>
+
+                    {loadingOrders ? (
+                      <div className="flex justify-center items-center py-16 sm:py-20">
+                        <div className="animate-spin rounded-full h-10 w-10 sm:h-12 sm:w-12 border-b-2 border-[#FA6011]" />
+                      </div>
+                    ) : orders.length > 0 ? (
+                      <div className="space-y-4">
+                        {orders.map((order) => (
+                          <div
+                            key={order._id}
+                            onClick={() => navigate(`/orders/${order._id}`)}
+                            className="bg-white border border-gray-100 rounded-2xl sm:rounded-3xl p-4 sm:p-6 hover:border-[#FA6011]/30 hover:shadow-md transition-all shadow-sm cursor-pointer group"
+                          >
+                            <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-2 mb-4 border-b border-gray-50 pb-4">
+                              <div>
+                                <p className="text-[10px] sm:text-xs font-black text-gray-400 uppercase tracking-widest">Order ID</p>
+                                <p className="text-xs sm:text-sm font-bold text-gray-900">{order._id}</p>
+                              </div>
+                              <div className="flex items-center gap-3">
+                                <span className={`px-3 py-1 rounded-full text-[10px] sm:text-xs font-black uppercase tracking-widest ${
+                                  order.status === 'delivered' ? 'bg-green-100 text-green-600' :
+                                  order.status === 'cancelled' ? 'bg-red-100 text-red-500' :
+                                  'bg-blue-100 text-blue-500'
+                                }`}>
+                                  {order.status}
+                                </span>
+                                <span className="text-[10px] sm:text-xs font-bold text-gray-400">
+                                  {new Date(order.createdAt).toLocaleDateString()}
+                                </span>
+                              </div>
+                            </div>
+
+                            <div className="space-y-4">
+                              {order.items.map((item: any) => (
+                                <div key={item.productId} className="flex gap-4">
+                                  <div className="flex-1">
+                                    <h4 className="text-sm sm:text-base font-black text-gray-900">{item.title}</h4>
+                                    <p className="text-xs sm:text-sm font-bold text-gray-500">Qty: {item.quantity}</p>
+                                  </div>
+                                  <p className="text-sm sm:text-base font-black text-[#FA6011]">₹{item.price * item.quantity}.00</p>
+                                </div>
+                              ))}
+                            </div>
+
+                            <div className="mt-4 pt-4 border-t border-gray-50 flex justify-between items-center">
+                              <p className="text-xs sm:text-sm font-black text-gray-400 uppercase tracking-widest">Order Total</p>
+                              <div className="flex items-center gap-4">
+                                <p className="text-lg sm:text-xl font-black text-gray-900">₹{order.totalAmount}.00</p>
+                                <span className="text-[10px] sm:text-xs font-black text-[#FA6011] uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity">
+                                  View Details →
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="flex flex-col items-center justify-center py-16 sm:py-24 text-center bg-white rounded-2xl sm:rounded-3xl border border-dashed border-gray-200">
+                        <div className="w-16 h-16 sm:w-24 sm:h-24 bg-blue-50 rounded-full flex items-center justify-center mb-4 sm:mb-8">
+                          <Package size={32} className="text-blue-500" />
+                        </div>
+                        <p className="text-gray-300 font-black uppercase tracking-widest text-xs sm:text-sm mb-4 sm:mb-6">You haven't placed any orders</p>
+                        <button onClick={() => navigate('/happy-shop')}
+                          className="bg-[#FA6011] text-white px-6 sm:px-8 py-2.5 sm:py-3 rounded-xl font-black text-xs sm:text-sm uppercase tracking-widest hover:brightness-110 transition-all shadow-lg shadow-orange-100">
+                          Start Shopping
+                        </button>
+                      </div>
+                    )}
+                  </motion.div>
+                )}
+
                 {/* Other sections */}
-                {!['profile', 'addresses', 'wishlist'].includes(activeSection) && (
+                {!['profile', 'addresses', 'wishlist', 'orders'].includes(activeSection) && (
                   <motion.div key="placeholder" initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="flex flex-col items-center justify-center h-full text-center space-y-4 sm:space-y-6 py-12 sm:py-16">
                     <div className="w-16 h-16 sm:w-24 sm:h-24 bg-orange-50 rounded-full flex items-center justify-center">
                       <Smartphone size={32} className="text-[#FA6011]" />

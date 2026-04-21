@@ -11,6 +11,8 @@ export interface IUser extends Document {
   orderIds: string[]; 
   cartIds: string[];   
   addresses: any[];
+  role: 'user' | 'vendor' | 'admin';
+  isBlocked: boolean;
 }
 
 const UserSchema: Schema = new Schema(
@@ -25,6 +27,8 @@ const UserSchema: Schema = new Schema(
     orderIds:     { type: [String], default: [] },
     cartIds:      { type: [String], default: [] },
     addresses:    { type: [Schema.Types.Mixed], default: [] },
+    role:         { type: String, enum: ['user', 'vendor', 'admin'], default: 'user' },
+    isBlocked:    { type: Boolean, default: false },
   },
   { timestamps: true }
 );
