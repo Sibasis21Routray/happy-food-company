@@ -15,6 +15,7 @@ import { AdminProfilePage } from './pages/AdminProfilePage';
 import { VendorProfilePage } from './pages/VendorProfilePage';
 import { OrderDetailsPage } from './pages/OrderDetailsPage';
 import { ProtectedRoute } from './components/Auth/ProtectedRoute';
+import { RoleBasedRedirect } from './components/Auth/RoleBasedRedirect';
 import { NotFound } from './pages/NotFound';
 
 // Import individual blog post pages
@@ -36,30 +37,30 @@ function App() {
       {!isDashboard && <Navbar />}
       <main className="flex-1 w-full">
         <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/home" element={<HomePage />} />
-          <Route path="/product/:id" element={<ProductDetailsPage />} />
-          <Route path="/happy-bars" element={<ProductsPage />} />
-          <Route path="/happy-shop" element={<ProductsPage />} />
+          <Route path="/" element={<RoleBasedRedirect><HomePage /></RoleBasedRedirect>} />
+          <Route path="/home" element={<RoleBasedRedirect><HomePage /></RoleBasedRedirect>} />
+          <Route path="/product/:id" element={<RoleBasedRedirect><ProductDetailsPage /></RoleBasedRedirect>} />
+          <Route path="/happy-bars" element={<RoleBasedRedirect><ProductsPage /></RoleBasedRedirect>} />
+          <Route path="/happy-shop" element={<RoleBasedRedirect><ProductsPage /></RoleBasedRedirect>} />
           {/* Blog Routes */}
-          <Route path="/blog" element={<BlogPage />} />
-          <Route path="/blog/satisfy-your-sugar-cravings-naturally" element={<SatisfySugarCravingsPage />} />
-          <Route path="/blog/fueling-your-day-with-happy-bars" element={<FuelingYourDayPage />} />
-          <Route path="/blog/fueling-your-workouts-with-happy-bars" element={<FuelingWorkoutsPage />} />
-          <Route path="/blog/unwrapping-happiness-ingredients" element={<UnwrappingHappinessPage />} />
-          <Route path="/blog/fuel-wellbeing-happy-bars" element={<FuelWellbeingPage />} />
-          <Route path="/blog/craving-control-weight-loss" element={<CravingControlPage />} />
-          <Route path="/blog/nourish-energize-thrive" element={<NourishEnergizeThrivePage />} />
-          <Route path="/blog/happy-bars-parents-kids" element={<HappyBarsParentsKidsPage />} />
+          <Route path="/blog" element={<RoleBasedRedirect><BlogPage /></RoleBasedRedirect>} />
+          <Route path="/blog/satisfy-your-sugar-cravings-naturally" element={<RoleBasedRedirect><SatisfySugarCravingsPage /></RoleBasedRedirect>} />
+          <Route path="/blog/fueling-your-day-with-happy-bars" element={<RoleBasedRedirect><FuelingYourDayPage /></RoleBasedRedirect>} />
+          <Route path="/blog/fueling-your-workouts-with-happy-bars" element={<RoleBasedRedirect><FuelingWorkoutsPage /></RoleBasedRedirect>} />
+          <Route path="/blog/unwrapping-happiness-ingredients" element={<RoleBasedRedirect><UnwrappingHappinessPage /></RoleBasedRedirect>} />
+          <Route path="/blog/fuel-wellbeing-happy-bars" element={<RoleBasedRedirect><FuelWellbeingPage /></RoleBasedRedirect>} />
+          <Route path="/blog/craving-control-weight-loss" element={<RoleBasedRedirect><CravingControlPage /></RoleBasedRedirect>} />
+          <Route path="/blog/nourish-energize-thrive" element={<RoleBasedRedirect><NourishEnergizeThrivePage /></RoleBasedRedirect>} />
+          <Route path="/blog/happy-bars-parents-kids" element={<RoleBasedRedirect><HappyBarsParentsKidsPage /></RoleBasedRedirect>} />
           
-          <Route path="/my-account" element={<ProfilePage />} />
-          <Route path="/profile" element={<ProfilePage />} />
-          <Route path="/orders" element={<OrdersPage />} />
-          <Route path="/orders/:id" element={<OrderDetailsPage />} />
-          <Route path="/wishlist" element={<WishlistPage />} />
-          <Route path="/cart" element={<CartPage />} />
-          <Route path="/coupons" element={<CouponsPage />} />
-          <Route path="/gift-cards" element={<GiftCardsPage />} />
+          <Route path="/my-account" element={<RoleBasedRedirect><ProfilePage /></RoleBasedRedirect>} />
+          <Route path="/profile" element={<RoleBasedRedirect><ProfilePage /></RoleBasedRedirect>} />
+          <Route path="/orders" element={<RoleBasedRedirect><OrdersPage /></RoleBasedRedirect>} />
+          <Route path="/orders/:id" element={<RoleBasedRedirect><OrderDetailsPage /></RoleBasedRedirect>} />
+          <Route path="/wishlist" element={<RoleBasedRedirect><WishlistPage /></RoleBasedRedirect>} />
+          <Route path="/cart" element={<RoleBasedRedirect><CartPage /></RoleBasedRedirect>} />
+          <Route path="/coupons" element={<RoleBasedRedirect><CouponsPage /></RoleBasedRedirect>} />
+          <Route path="/gift-cards" element={<RoleBasedRedirect><GiftCardsPage /></RoleBasedRedirect>} />
           <Route path="/login" element={<AuthPage />} />
           <Route path="/signup" element={<AuthPage />} />
           
