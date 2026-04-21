@@ -48,10 +48,53 @@ export const getDashboardStats = async (req: AuthRequest, res: Response): Promis
 export const getOrders = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
     const vendorId = req.userId;
-    const orders = await Order.find({ vendorId })
+    const { search, status, sortBy, sortOrder, page = 1, limit = 10, startDate, endDate } = req.query;
+    let query: any = { vendorId };
+
+    if (startDate || endDate) {
+      query.createdAt = {};
+      if (startDate) query.createdAt.$gte = new Date(startDate as string);
+      if (endDate) {
+        const end = new Date(endDate as string);
+        end.setHours(23, 59, 59, 999);
+        query.createdAt.$lte = end;
+      }
+    }
+
+    if (status && status !== 'all') {
+      query.status = status;
+    }
+
+    let sort: any = { createdAt: -1 };
+    if (sortBy) {
+      sort = { [sortBy as string]: sortOrder === "desc" ? -1 : 1 };
+    }
+
+    const total = await Order.countDocuments(query);
+    const skip = (Number(page) - 1) * Number(limit);
+
+    const orders = await Order.find(query)
       .populate("userId", "fullName email")
-      .sort({ createdAt: -1 });
-    res.status(200).json(orders);
+      .sort(sort)
+      .skip(skip)
+      .limit(Number(limit));
+
+    let processedOrders = orders;
+    if (search) {
+      const searchStr = (search as string).toLowerCase();
+      processedOrders = orders.filter(o => 
+        o._id.toString().toLowerCase().includes(searchStr) ||
+        (o.userId as any)?.fullName?.toLowerCase().includes(searchStr) ||
+        (o.userId as any)?.email?.toLowerCase().includes(searchStr)
+      );
+    }
+
+    res.status(200).json({ 
+      orders: processedOrders, 
+      total, 
+      page: Number(page), 
+      pages: Math.ceil(total / Number(limit)) 
+    });
   } catch (error) {
     res.status(500).json({ message: "Error fetching vendor orders", error });
   }

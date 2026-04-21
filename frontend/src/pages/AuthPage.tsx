@@ -72,8 +72,14 @@ export const AuthPage: React.FC = () => {
       });
       localStorage.setItem('token', response.token);
       localStorage.setItem('user', JSON.stringify(response.user));
-      showToast('Account created successfully!', 'success');
-      navigate('/');
+      
+      if (response.user.role === 'admin') {
+        navigate('/admin/dashboard');
+      } else if (response.user.role === 'vendor') {
+        navigate('/vendor/dashboard');
+      } else {
+        navigate('/');
+      }
     } catch (err: any) {
       showToast(err.message || 'Registration failed', 'error');
       setShowOtpStep(false);

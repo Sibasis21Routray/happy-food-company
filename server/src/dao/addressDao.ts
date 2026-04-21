@@ -22,7 +22,7 @@ export const createAddress = async (data: CreateAddressInput): Promise<IAddress>
 };
 
 export const getAddressesByUserId = async (userId: string): Promise<IAddress[]> => {
-  return await Address.find({ userId, isSaved: { $ne: false } });
+  return await Address.find({ userId, isSaved: true });
 };
 
 export const getAddressById = async (id: string): Promise<IAddress | null> => {
