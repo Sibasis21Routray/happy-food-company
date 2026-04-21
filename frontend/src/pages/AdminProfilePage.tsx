@@ -10,7 +10,8 @@ export const AdminProfilePage: React.FC = () => {
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
-    mobileNumber: ''
+    mobileNumber: '',
+    password: ''
   });
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
@@ -24,7 +25,8 @@ export const AdminProfilePage: React.FC = () => {
       setFormData({
         fullName: parsed.fullName || '',
         email: parsed.email || '',
-        mobileNumber: parsed.mobileNumber || ''
+        mobileNumber: parsed.mobileNumber || '',
+        password: ''
       });
     } else {
       navigate('/login');
@@ -55,6 +57,7 @@ export const AdminProfilePage: React.FC = () => {
       if (res.ok) {
         localStorage.setItem('user', JSON.stringify(data.user));
         setUser(data.user);
+        setFormData(prev => ({ ...prev, password: '' }));
         setMessage({ type: 'success', text: 'Profile updated successfully!' });
       } else {
         setMessage({ type: 'error', text: data.message || 'Failed to update profile' });
@@ -144,6 +147,19 @@ export const AdminProfilePage: React.FC = () => {
                     value={formData.mobileNumber}
                     onChange={e => setFormData({...formData, mobileNumber: e.target.value})}
                     placeholder="+91 XXXXX XXXXX" 
+                    className="w-full p-4 bg-gray-50 border border-gray-100 rounded-2xl focus:ring-4 focus:ring-[#FA6011]/10 focus:bg-white focus:border-[#FA6011]/30 transition-all outline-none font-bold text-slate-700" 
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1 flex items-center gap-2">
+                    <AlertCircle size={12} className="text-[#FA6011]" /> New Password (Optional)
+                  </label>
+                  <input 
+                    type="password" 
+                    value={formData.password}
+                    onChange={e => setFormData({...formData, password: e.target.value})}
+                    placeholder="Leave blank to keep current" 
                     className="w-full p-4 bg-gray-50 border border-gray-100 rounded-2xl focus:ring-4 focus:ring-[#FA6011]/10 focus:bg-white focus:border-[#FA6011]/30 transition-all outline-none font-bold text-slate-700" 
                   />
                 </div>

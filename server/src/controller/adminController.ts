@@ -22,8 +22,35 @@ export const getDashboardStats = async (req: Request, res: Response): Promise<vo
 
 export const getVendors = async (req: Request, res: Response): Promise<void> => {
   try {
-    const vendors = await User.find({ role: "vendor" }).select("-password");
-    res.status(200).json(vendors);
+    const { search, sortBy, sortOrder, filter, page = 1, limit = 10 } = req.query;
+    let query: any = { role: "vendor" };
+    
+    if (search) {
+      query.$or = [
+        { fullName: { $regex: search, $options: "i" } },
+        { email: { $regex: search, $options: "i" } },
+        { mobileNumber: { $regex: search, $options: "i" } }
+      ];
+    }
+
+    if (filter === "blocked") query.isBlocked = true;
+    if (filter === "active") query.isBlocked = false;
+
+    let sort: any = { createdAt: -1 };
+    if (sortBy) {
+      sort = { [sortBy as string]: sortOrder === "desc" ? -1 : 1 };
+    }
+
+    const skip = (Number(page) - 1) * Number(limit);
+    const vendors = await User.find(query)
+      .select("-password")
+      .sort(sort)
+      .skip(skip)
+      .limit(Number(limit));
+    
+    const total = await User.countDocuments(query);
+
+    res.status(200).json({ vendors, total, page: Number(page), pages: Math.ceil(total / Number(limit)) });
   } catch (error) {
     res.status(500).json({ message: "Error fetching vendors", error });
   }
@@ -68,8 +95,34 @@ export const blockVendor = async (req: Request, res: Response): Promise<void> =>
 
 export const getUsers = async (req: Request, res: Response): Promise<void> => {
   try {
-    const users = await User.find({ role: { $nin: ["admin", "vendor"] } }).select("-password");
-    res.status(200).json(users);
+    const { search, sortBy, sortOrder, filter, page = 1, limit = 10 } = req.query;
+    let query: any = { role: { $nin: ["admin", "vendor"] } };
+
+    if (search) {
+      query.$or = [
+        { fullName: { $regex: search, $options: "i" } },
+        { email: { $regex: search, $options: "i" } },
+        { mobileNumber: { $regex: search, $options: "i" } }
+      ];
+    }
+
+    if (filter === "blocked") query.isBlocked = true;
+    if (filter === "active") query.isBlocked = false;
+
+    let sort: any = { createdAt: -1 };
+    if (sortBy) {
+      sort = { [sortBy as string]: sortOrder === "desc" ? -1 : 1 };
+    }
+
+    const skip = (Number(page) - 1) * Number(limit);
+    const users = await User.find(query)
+      .select("-password")
+      .sort(sort)
+      .skip(skip)
+      .limit(Number(limit));
+
+    const total = await User.countDocuments(query);
+    res.status(200).json({ users, total, page: Number(page), pages: Math.ceil(total / Number(limit)) });
   } catch (error) {
     res.status(500).json({ message: "Error fetching users", error });
   }
@@ -85,13 +138,56 @@ export const blockUser = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
-export const getAllOrders = async (_req: Request, res: Response): Promise<void> => {
+export const getAllOrders = async (req: Request, res: Response): Promise<void> => {
   try {
-    const orders = await Order.find()
+    const { search, status, sortBy, sortOrder, page = 1, limit = 10, startDate, endDate } = req.query;
+    let query: any = {};
+
+    if (startDate || endDate) {
+      query.createdAt = {};
+      if (startDate) query.createdAt.$gte = new Date(startDate as string);
+      if (endDate) {
+        const end = new Date(endDate as string);
+        end.setHours(23, 59, 59, 999);
+        query.createdAt.$lte = end;
+      }
+    }
+
+    if (status && status !== 'all') {
+      query.status = status;
+    }
+
+    let sort: any = { createdAt: -1 };
+    if (sortBy) {
+      sort = { [sortBy as string]: sortOrder === "desc" ? -1 : 1 };
+    }
+
+    const total = await Order.countDocuments(query);
+    const skip = (Number(page) - 1) * Number(limit);
+
+    const orders = await Order.find(query)
       .populate('vendorId', 'fullName email')
       .populate('userId', 'fullName email')
-      .sort({ createdAt: -1 });
-    res.status(200).json({ orders });
+      .sort(sort)
+      .skip(skip)
+      .limit(Number(limit));
+    
+    let processedOrders = orders;
+    if (search) {
+      const searchStr = (search as string).toLowerCase();
+      processedOrders = orders.filter(o => 
+        o._id.toString().toLowerCase().includes(searchStr) ||
+        (o.userId as any)?.fullName?.toLowerCase().includes(searchStr) ||
+        (o.userId as any)?.email?.toLowerCase().includes(searchStr)
+      );
+    }
+
+    res.status(200).json({ 
+      orders: processedOrders, 
+      total, 
+      page: Number(page), 
+      pages: Math.ceil(total / Number(limit)) 
+    });
   } catch (error) {
     res.status(500).json({ message: "Error fetching orders", error });
   }

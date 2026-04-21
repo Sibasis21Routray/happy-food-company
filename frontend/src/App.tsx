@@ -1,4 +1,4 @@
-import { Routes, Route, useLocation } from 'react-router-dom';
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { Navbar } from './components/Layout/Navbar';
 import { Footer } from './components/Layout/Footer';
 import { HomePage } from './pages/HomePage';
@@ -14,21 +14,22 @@ import { VendorDashboard } from './pages/VendorDashboard';
 import { AdminProfilePage } from './pages/AdminProfilePage';
 import { VendorProfilePage } from './pages/VendorProfilePage';
 import { OrderDetailsPage } from './pages/OrderDetailsPage';
+import { ProtectedRoute } from './components/Auth/ProtectedRoute';
+import { NotFound } from './pages/NotFound';
 
 // Import individual blog post pages
 import { SatisfySugarCravingsPage } from './pages/blogs/SatisfySugarCravingsPage';
 import FuelingYourDayPage from './pages/blogs/FuelingYourDayPage';
-import  FuelingWorkoutsPage  from './pages/blogs/FuelingWorkoutsPage';
-import  UnwrappingHappinessPage  from './pages/blogs/UnwrappingHappinessPage';
-import  FuelWellbeingPage  from './pages/blogs/FuelWellbeingPage';
-import  CravingControlPage  from './pages/blogs/CravingControlPage';
-import  NourishEnergizeThrivePage from './pages/blogs/NourishEnergizeThrivePage';
-import  HappyBarsParentsKidsPage  from './pages/blogs/HappyBarsParentsKidsPage';
-
+import FuelingWorkoutsPage from './pages/blogs/FuelingWorkoutsPage';
+import UnwrappingHappinessPage from './pages/blogs/UnwrappingHappinessPage';
+import FuelWellbeingPage from './pages/blogs/FuelWellbeingPage';
+import CravingControlPage from './pages/blogs/CravingControlPage';
+import NourishEnergizeThrivePage from './pages/blogs/NourishEnergizeThrivePage';
+import HappyBarsParentsKidsPage from './pages/blogs/HappyBarsParentsKidsPage';
 
 function App() {
   const location = useLocation();
-  const isDashboard = location.pathname.startsWith('/admin') || location.pathname.startsWith('/vendor');
+  const isDashboard = location.pathname.startsWith('/admin') || location.pathname.startsWith('/vendor') || location.pathname === '/404';
 
   return (
     <div className="flex flex-col min-h-screen bg-slate-50 text-slate-900 font-sans">
@@ -42,7 +43,6 @@ function App() {
           <Route path="/happy-shop" element={<ProductsPage />} />
           {/* Blog Routes */}
           <Route path="/blog" element={<BlogPage />} />
-          {/* Individual blog post routes */}
           <Route path="/blog/satisfy-your-sugar-cravings-naturally" element={<SatisfySugarCravingsPage />} />
           <Route path="/blog/fueling-your-day-with-happy-bars" element={<FuelingYourDayPage />} />
           <Route path="/blog/fueling-your-workouts-with-happy-bars" element={<FuelingWorkoutsPage />} />
@@ -64,14 +64,31 @@ function App() {
           <Route path="/signup" element={<AuthPage />} />
           
           {/* Admin Routes */}
-          <Route path="/admin/dashboard" element={<AdminDashboard />} />
-          <Route path="/admin/profile" element={<AdminProfilePage />} />
+          <Route path="/admin/dashboard" element={
+            <ProtectedRoute allowedRoles={['admin']}>
+              <AdminDashboard />
+            </ProtectedRoute>
+          } />
+          <Route path="/admin/profile" element={
+            <ProtectedRoute allowedRoles={['admin']}>
+              <AdminProfilePage />
+            </ProtectedRoute>
+          } />
           
           {/* Vendor Routes */}
-          <Route path="/vendor/dashboard" element={<VendorDashboard />} />
-          <Route path="/vendor/profile" element={<VendorProfilePage />} />
+          <Route path="/vendor/dashboard" element={
+            <ProtectedRoute allowedRoles={['vendor']}>
+              <VendorDashboard />
+            </ProtectedRoute>
+          } />
+          <Route path="/vendor/profile" element={
+            <ProtectedRoute allowedRoles={['vendor']}>
+              <VendorProfilePage />
+            </ProtectedRoute>
+          } />
 
-          <Route path="*" element={<HomePage />} />
+          <Route path="/404" element={<NotFound />} />
+          <Route path="*" element={<Navigate to="/404" replace />} />
         </Routes>
       </main>
       {!isDashboard && <Footer />}

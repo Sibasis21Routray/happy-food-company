@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import * as authService from "../services/authService";
 import * as userDao from "../dao/userDao";
 import { AuthRequest } from "../middleware/authMiddleware";
+import bcrypt from "bcryptjs";
 
 // ─── REGISTER ─────────────────────────────────────────────────
 export const register = async (req: Request, res: Response): Promise<void> => {
@@ -86,7 +87,7 @@ export const addCartId = async (req: AuthRequest, res: Response): Promise<void> 
 // ─── UPDATE PROFILE (protected) ───────────────────────────────
 export const updateProfile = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
-    const { fullName, firstName, lastName, gender, mobileNumber, email } = req.body;
+    const { fullName, firstName, lastName, gender, mobileNumber, email, password } = req.body;
     
     // Check if new email is already taken
     if (email) {
@@ -96,10 +97,15 @@ export const updateProfile = async (req: AuthRequest, res: Response): Promise<vo
         return;
       }
     }
-
-    const updatedUser = await userDao.updateUser(req.userId as string, { 
+    const updateData: any = { 
       fullName, firstName, lastName, gender, mobileNumber, email 
-    });
+    };
+
+    if (password) {
+      updateData.password = await bcrypt.hash(password, 10);
+    }
+
+    const updatedUser = await userDao.updateUser(req.userId as string, updateData);
     if (!updatedUser) {
       res.status(404).json({ message: "User not found" });
       return;

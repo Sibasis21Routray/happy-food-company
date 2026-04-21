@@ -73,7 +73,14 @@ export const AuthPage: React.FC = () => {
       });
       localStorage.setItem('token', response.token);
       localStorage.setItem('user', JSON.stringify(response.user));
-      navigate('/');
+      
+      if (response.user.role === 'admin') {
+        navigate('/admin/dashboard');
+      } else if (response.user.role === 'vendor') {
+        navigate('/vendor/dashboard');
+      } else {
+        navigate('/');
+      }
     } catch (err: any) {
       setError(err.message || 'Registration failed');
       setShowOtpStep(false);

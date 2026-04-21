@@ -10,7 +10,7 @@ export const Navbar: React.FC = () => {
   const [mobileHappyBarsOpen, setMobileHappyBarsOpen] = useState(false);
   const [mobileUserMenuOpen, setMobileUserMenuOpen] = useState(false);
   const location = useLocation();
-  const [user, setUser] = useState<{ fullName: string } | null>(null);
+  const [user, setUser] = useState<{ fullName: string, role: string } | null>(null);
   const [cartCount, setCartCount] = useState(0);
 
   const links = [
@@ -100,7 +100,7 @@ export const Navbar: React.FC = () => {
       <div className="container mx-auto px-6 flex justify-between items-center w-full max-w-[1400px] h-full">
         {/* Brand Logo */}
         <motion.div whileHover={{ scale: 1.05 }} transition={{ type: 'spring' }} className="h-full flex items-center py-2">
-          <Link to="/">
+          <Link to={user?.role === 'admin' ? '/admin/dashboard' : user?.role === 'vendor' ? '/vendor/dashboard' : '/'}>
             <img 
               src="/images/logo.png" 
               alt="Happy Bar Logo" 

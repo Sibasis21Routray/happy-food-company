@@ -100,7 +100,8 @@ export const ProfilePage: React.FC = () => {
     lastName: '',
     gender: '',
     email: '',
-    mobileNumber: ''
+    mobileNumber: '',
+    password: ''
   });
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<{ type: string; text: string }>({ type: '', text: '' });
@@ -184,7 +185,8 @@ export const ProfilePage: React.FC = () => {
         lastName: parsed.lastName || parsed.fullName?.split(' ').slice(1).join(' ') || '',
         gender: parsed.gender || '',
         email: parsed.email || '',
-        mobileNumber: parsed.mobileNumber || ''
+        mobileNumber: parsed.mobileNumber || '',
+        password: ''
       });
       setAddressForm(prev => ({ ...prev, email: parsed.email || '', name: parsed.fullName || '' }));
       fetchAddresses();
@@ -231,6 +233,7 @@ export const ProfilePage: React.FC = () => {
       const response = await api.auth.updateProfile(updatedData);
       localStorage.setItem('user', JSON.stringify(response.user));
       setUser(response.user);
+      setFormData(prev => ({ ...prev, password: '' }));
       setMessage({ type: 'success', text: 'Profile updated successfully!' });
       setEditFields({ personal: false, email: false, mobile: false });
     } catch (error: any) {
@@ -498,6 +501,17 @@ export const ProfilePage: React.FC = () => {
                         <input type="tel" disabled={!editFields.mobile} value={formData.mobileNumber} onChange={(e) => setFormData({ ...formData, mobileNumber: e.target.value })}
                           className={`w-full p-3 sm:p-4 border rounded-[2px] focus:outline-none transition-all text-sm sm:text-base ${editFields.mobile ? 'border-[#FA6011] bg-white' : 'border-gray-200 bg-gray-50 cursor-not-allowed'}`}
                           placeholder="Mobile Number" />
+                      </div>
+                    </div>
+                    <div className="space-y-4 sm:space-y-6">
+                      <div className="flex items-center justify-between flex-wrap gap-2">
+                        <h2 className="text-base sm:text-lg font-black text-gray-900">Change Password</h2>
+                        <span className="text-[10px] font-black text-gray-400 uppercase tracking-widest">(Optional)</span>
+                      </div>
+                      <div>
+                        <input type="password" value={formData.password} onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                          className={`w-full p-3 sm:p-4 border border-gray-200 rounded-[2px] focus:ring-2 focus:ring-[#FA6011]/30 focus:border-[#FA6011] outline-none transition-all text-sm sm:text-base bg-white`}
+                          placeholder="Enter new password to change" />
                       </div>
                     </div>
 
