@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { api } from '../services/api';
 import { useNavigate } from 'react-router-dom';
 import { User, Mail, Lock, Phone, ShieldCheck, CheckCircle, RefreshCw, ChevronRight } from 'lucide-react';
+import { useToast } from '../components/Layout/Toast';
 
 export const AuthPage: React.FC = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -14,8 +15,8 @@ export const AuthPage: React.FC = () => {
     mobileNumber: '',
     identifier: '' // email or mobile for login
   });
-  const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const { showToast } = useToast();
   
   // Registration Flow
   const [showOtpStep, setShowOtpStep] = useState(false);
@@ -48,21 +49,19 @@ export const AuthPage: React.FC = () => {
   const handleRegisterStart = (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.fullName || !formData.email || !formData.mobileNumber || !formData.gender || !formData.password) {
-      setError('Please fill all fields');
+      showToast('Please fill all fields', 'error');
       return;
     }
-    setError('');
     setShowOtpStep(true);
   };
 
   const handleRegisterComplete = async () => {
     if (otpInput !== '123456') {
-      setError('Invalid OTP. Use 123456');
+      showToast('Invalid OTP. Use 123456', 'error');
       return;
     }
     
     setLoading(true);
-    setError('');
     try {
       const response = await api.auth.register({
         fullName: formData.fullName,
@@ -73,9 +72,10 @@ export const AuthPage: React.FC = () => {
       });
       localStorage.setItem('token', response.token);
       localStorage.setItem('user', JSON.stringify(response.user));
+      showToast('Account created successfully!', 'success');
       navigate('/');
     } catch (err: any) {
-      setError(err.message || 'Registration failed');
+      showToast(err.message || 'Registration failed', 'error');
       setShowOtpStep(false);
     } finally {
       setLoading(false);
@@ -84,10 +84,9 @@ export const AuthPage: React.FC = () => {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
     
     if (parseInt(captchaInput) !== captcha.a) {
-      setError('Wrong captcha answer!');
+      showToast('Wrong captcha answer!', 'error');
       generateCaptcha();
       return;
     }
@@ -108,8 +107,9 @@ export const AuthPage: React.FC = () => {
       } else {
         navigate('/');
       }
+      showToast('Welcome back!', 'success');
     } catch (err: any) {
-      setError(err.message || 'Login failed');
+      showToast(err.message || 'Login failed', 'error');
       generateCaptcha();
     } finally {
       setLoading(false);
@@ -130,13 +130,13 @@ export const AuthPage: React.FC = () => {
       >
         <div className="flex justify-center gap-10 mb-10">
           <button 
-            onClick={() => { setIsLogin(true); setShowOtpStep(false); setError(''); }}
+            onClick={() => { setIsLogin(true); setShowOtpStep(false); }}
             className={`text-sm font-black tracking-widest transition-all pb-2 border-b-4 ${isLogin ? 'text-[#FA6011] border-[#ff3c83]' : 'text-gray-300 border-transparent'}`}
           >
             LOGIN
           </button>
           <button 
-            onClick={() => { setIsLogin(false); setShowOtpStep(false); setError(''); }}
+            onClick={() => { setIsLogin(false); setShowOtpStep(false); }}
             className={`text-sm font-black tracking-widest transition-all pb-2 border-b-4 ${!isLogin ? 'text-[#FA6011] border-[#ff3c83]' : 'text-gray-300 border-transparent'}`}
           >
             SIGN UP
@@ -146,17 +146,6 @@ export const AuthPage: React.FC = () => {
         <h2 className="text-[28px] font-black text-[#FA6011] mb-8 tracking-tight">
           {isLogin ? 'Welcome Back!' : (showOtpStep ? 'Verify your Mobile' : 'Create Account')}
         </h2>
-
-        {error && (
-          <motion.div 
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            className="bg-red-50 text-red-500 p-4 rounded-2xl mb-8 text-sm font-bold border border-red-100 flex items-center gap-3"
-          >
-            <ShieldCheck size={20} />
-            {error}
-          </motion.div>
-        )}
 
         <AnimatePresence mode="wait">
           {isLogin ? (
