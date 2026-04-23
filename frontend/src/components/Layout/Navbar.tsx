@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { ShoppingCart, Menu, X, User, Package, Heart, Ticket, Gift, Bell, LogOut, Coins, ChevronDown, ChevronRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { api } from '../../services/api';
@@ -12,7 +12,8 @@ export const Navbar: React.FC = () => {
   const location = useLocation();
   const [user, setUser] = useState<{ fullName: string, role: string } | null>(null);
   const [cartCount, setCartCount] = useState(0);
-
+  const navigate=useNavigate();
+  
   const links = [
     { path: '/', label: 'HOME' },
     { path: '/happy-bars', label: 'HAPPY BARS', hasDropdown: true },
@@ -209,123 +210,125 @@ export const Navbar: React.FC = () => {
       </div>
 
       {/* Mobile Menu Overlay */}
-      <AnimatePresence>
-        {mobileMenuOpen && (
-          <motion.div 
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
-            exit={{ opacity: 0, height: 0 }}
-            className="lg:hidden absolute top-[100%] left-0 w-full bg-white shadow-2xl border-t border-gray-100 overflow-hidden max-h-[80vh] overflow-y-auto"
-          >
-            <div className="flex flex-col py-6 px-8 gap-2">
-              {links.map((link, idx) => {
-                const isActive = location.pathname === link.path || (link.path !== '/' && location.pathname.startsWith(link.path));
-                const isHappyBars = link.label === 'HAPPY BARS';
-                const isUserLink = link.isUserLink;
-                const isMobileDropdownOpen = isHappyBars ? mobileHappyBarsOpen : (isUserLink && user ? mobileUserMenuOpen : false);
-                
-                return (
-                  <div key={idx} className="flex flex-col">
-                    {/* Mobile Menu Item */}
-                    <div 
-                      className={`flex items-center justify-between py-4 border-b border-gray-50 cursor-pointer ${isActive ? 'text-[#ff6b00]' : 'text-[#cf5f3c]'}`}
-                      onClick={() => {
-                        if (isHappyBars || (isUserLink && user)) {
-                          // Toggle dropdown for items with dropdown
-                          if (isHappyBars) {
-                            setMobileHappyBarsOpen(!mobileHappyBarsOpen);
-                            setMobileUserMenuOpen(false);
-                          } else if (isUserLink && user) {
-                            setMobileUserMenuOpen(!mobileUserMenuOpen);
-                            setMobileHappyBarsOpen(false);
-                          }
-                        } else {
-                          // Navigate for items without dropdown
-                          window.location.href = link.path;
-                          setMobileMenuOpen(false);
-                        }
-                      }}
-                    >
-                      <span className={`font-black tracking-[0.1em] text-[14px] ${isActive ? 'text-[#ff6b00]' : 'text-[#cf5f3c]'}`}>
-                        {link.label}
-                      </span>
-                      {(isHappyBars || (isUserLink && user)) && (
-                        <ChevronRight 
-                          size={18} 
-                          className={`transition-transform duration-200 ${isMobileDropdownOpen ? 'rotate-90' : ''}`}
-                        />
-                      )}
-                    </div>
-
-                    {/* Happy Bars Mobile Dropdown */}
-                    {isHappyBars && mobileHappyBarsOpen && (
-                      <motion.div
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: 'auto' }}
-                        exit={{ opacity: 0, height: 0 }}
-                        className="pl-4 mt-2 mb-3 space-y-3"
-                      >
-                        {happyBarsMenu.map((item, i) => (
-                          <Link
-                            key={i}
-                            to={item.link}
-                            onClick={() => setMobileMenuOpen(false)}
-                            className="flex gap-4 items-center p-3 hover:bg-orange-50 rounded-xl transition-colors"
-                          >
-                            <div className="w-14 h-14 flex items-center justify-center bg-orange-50 rounded-xl">
-                              <img src={item.img} alt={item.title} className="w-12 h-12 object-contain" />
-                            </div>
-                            <div className="flex flex-col">
-                              <span className={`font-black text-[12px] tracking-wider ${item.color} uppercase`}>{item.title}</span>
-                              <span className="text-gray-400 text-[10px] font-bold tracking-wider">{item.subtitle}</span>
-                            </div>
-                          </Link>
-                        ))}
-                      </motion.div>
-                    )}
-
-                    {/* User Menu Mobile Dropdown */}
-                    {isUserLink && user && mobileUserMenuOpen && (
-                      <motion.div
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: 'auto' }}
-                        exit={{ opacity: 0, height: 0 }}
-                        className="pl-4 mt-2 mb-3 space-y-1"
-                      >
-                        {userMenuItems.map((item, i) => (
-                          <Link
-                            key={i}
-                            to={item.path}
-                            onClick={() => {
-                              if (item.isLogout) {
-                                handleLogout();
-                              }
-                              setMobileMenuOpen(false);
-                            }}
-                            className="flex items-center gap-4 px-4 py-3 hover:bg-orange-50 rounded-xl transition-colors"
-                          >
-                            <span>{item.icon}</span>
-                            <span className="font-semibold text-[13px] text-gray-700">{item.label}</span>
-                          </Link>
-                        ))}
-                      </motion.div>
-                    )}
-                  </div>
-                );
-              })}
-              
-              {/* Cart Button for Mobile */}
-              <Link 
-                to="/cart" 
-                onClick={() => setMobileMenuOpen(false)}
-                className="flex items-center justify-center gap-3 bg-[#ff6b00] text-white px-5 py-4 rounded-full mt-4 font-black tracking-[0.1em] text-sm shadow-md"
+      {/* Mobile Menu Overlay */}
+<AnimatePresence>
+  {mobileMenuOpen && (
+    <motion.div 
+      initial={{ opacity: 0, x: '100%' }}
+      animate={{ opacity: 1, x: 0 }}
+      exit={{ opacity: 0, x: '100%' }}
+      transition={{ type: 'tween', duration: 0.3 }}
+      className="lg:hidden fixed inset-0 top-[72px] z-50 bg-white shadow-2xl overflow-y-auto"
+    >
+      <div className="flex flex-col min-h-[calc(100vh-72px)] py-6 px-6 gap-2">
+        {links.map((link, idx) => {
+          const isActive = location.pathname === link.path || (link.path !== '/' && location.pathname.startsWith(link.path));
+          const isHappyBars = link.label === 'HAPPY BARS';
+          const isUserLink = link.isUserLink;
+          const isMobileDropdownOpen = isHappyBars ? mobileHappyBarsOpen : (isUserLink && user ? mobileUserMenuOpen : false);
+          
+          return (
+            <div key={idx} className="flex flex-col">
+              {/* Mobile Menu Item */}
+              <div 
+                className={`flex items-center justify-between py-4 border-b border-gray-100 cursor-pointer ${isActive ? 'text-[#ff6b00]' : 'text-[#cf5f3c]'}`}
+                onClick={() => {
+                  if (isHappyBars || (isUserLink && user)) {
+                    // Toggle dropdown for items with dropdown
+                    if (isHappyBars) {
+                      setMobileHappyBarsOpen(!mobileHappyBarsOpen);
+                      setMobileUserMenuOpen(false);
+                    } else if (isUserLink && user) {
+                      setMobileUserMenuOpen(!mobileUserMenuOpen);
+                      setMobileHappyBarsOpen(false);
+                    }
+                  } else {
+                    // Navigate for items without dropdown
+                    navigate(link.path);
+                    setMobileMenuOpen(false);
+                  }
+                }}
               >
-                <ShoppingCart size={18} strokeWidth={3} /> VIEW CART ({cartCount} {cartCount === 1 ? 'Item' : 'Items'})
-              </Link>
+                <span className={`font-black tracking-[0.1em] text-[14px] ${isActive ? 'text-[#ff6b00]' : 'text-[#cf5f3c]'}`}>
+                  {link.label}
+                </span>
+                {(isHappyBars || (isUserLink && user)) && (
+                  <ChevronRight 
+                    size={18} 
+                    className={`transition-transform duration-200 ${isMobileDropdownOpen ? 'rotate-90' : ''}`}
+                  />
+                )}
+              </div>
+
+              {/* Happy Bars Mobile Dropdown */}
+              {isHappyBars && mobileHappyBarsOpen && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: 'auto' }}
+                  exit={{ opacity: 0, height: 0 }}
+                  className="pl-2 mt-2 mb-3 space-y-3"
+                >
+                  {happyBarsMenu.map((item, i) => (
+                    <Link
+                      key={i}
+                      to={item.link}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="flex gap-4 items-center p-3 hover:bg-orange-50 rounded-xl transition-colors"
+                    >
+                      <div className="w-14 h-14 flex items-center justify-center bg-orange-50 rounded-xl">
+                        <img src={item.img} alt={item.title} className="w-12 h-12 object-contain" />
+                      </div>
+                      <div className="flex flex-col">
+                        <span className={`font-black text-[12px] tracking-wider ${item.color} uppercase`}>{item.title}</span>
+                        <span className="text-gray-400 text-[10px] font-bold tracking-wider">{item.subtitle}</span>
+                      </div>
+                    </Link>
+                  ))}
+                </motion.div>
+              )}
+
+              {/* User Menu Mobile Dropdown */}
+              {isUserLink && user && mobileUserMenuOpen && (
+                <motion.div
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: 'auto' }}
+                  exit={{ opacity: 0, height: 0 }}
+                  className="pl-2 mt-2 mb-3 space-y-1"
+                >
+                  {userMenuItems.map((item, i) => (
+                    <Link
+                      key={i}
+                      to={item.path}
+                      onClick={() => {
+                        if (item.isLogout) {
+                          handleLogout();
+                        }
+                        setMobileMenuOpen(false);
+                      }}
+                      className="flex items-center gap-4 px-4 py-3 hover:bg-orange-50 rounded-xl transition-colors"
+                    >
+                      <span>{item.icon}</span>
+                      <span className="font-semibold text-[13px] text-gray-700">{item.label}</span>
+                    </Link>
+                  ))}
+                </motion.div>
+              )}
             </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          );
+        })}
+        
+        {/* Cart Button for Mobile */}
+        <Link 
+          to="/cart" 
+          onClick={() => setMobileMenuOpen(false)}
+          className="flex items-center justify-center gap-3 bg-[#ff6b00] text-white px-5 py-4 rounded-full mt-4 font-black tracking-[0.1em] text-sm shadow-md"
+        >
+          <ShoppingCart size={18} strokeWidth={3} /> VIEW CART ({cartCount} {cartCount === 1 ? 'Item' : 'Items'})
+        </Link>
+      </div>
+    </motion.div>
+  )}
+</AnimatePresence>
     </motion.header>
   );
 };

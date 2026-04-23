@@ -153,11 +153,7 @@ export const HomePage: React.FC = () => {
       </section>
 
       {/* 4. Combos Wave & Shop Section */}
-      <div className="w-full rotate-180 -mb-1 relative z-20">
-        <svg viewBox="0 0 1440 120" className="w-full h-auto" preserveAspectRatio="none">
-          <path fill="#def5fc" fillOpacity="1" d="M0,32L80,32C160,32,320,32,480,48C640,64,800,96,960,96C1120,96,1280,64,1360,48L1440,32L1440,120L1360,120C1280,120,1120,120,960,120C800,120,640,120,480,120C320,120,160,120,80,120L0,120Z"></path>
-        </svg>
-      </div>
+      {/*  */}
 
       <section className="bg-[#def5fc] pt-4 pb-32">
         <div className="container mx-auto px-6 max-w-[1200px]">

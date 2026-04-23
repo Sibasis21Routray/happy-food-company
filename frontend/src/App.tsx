@@ -17,6 +17,7 @@ import { OrderDetailsPage } from './pages/OrderDetailsPage';
 import { ProtectedRoute } from './components/Auth/ProtectedRoute';
 import { RoleBasedRedirect } from './components/Auth/RoleBasedRedirect';
 import { NotFound } from './pages/NotFound';
+import { AboutUsPage } from './pages/AboutUsPage';
 
 // Import individual blog post pages
 import { SatisfySugarCravingsPage } from './pages/blogs/SatisfySugarCravingsPage';
@@ -29,6 +30,11 @@ import NourishEnergizeThrivePage from './pages/blogs/NourishEnergizeThrivePage';
 import HappyBarsParentsKidsPage from './pages/blogs/HappyBarsParentsKidsPage';
 
 import { ToastProvider } from './components/Layout/Toast';
+import HappyTeam from './pages/HappyTeam';
+import Careers from './pages/Careers';
+import PrivacyPolicy from './pages/PrivacyPolicy';
+import Term from './pages/Term';
+import ReturnsPolicyPage from './pages/ReturnsPolicyPage';
 
 function App() {
   const location = useLocation();
@@ -45,6 +51,14 @@ function App() {
           <Route path="/product/:id" element={<RoleBasedRedirect><ProductDetailsPage /></RoleBasedRedirect>} />
           <Route path="/happy-bars" element={<RoleBasedRedirect><ProductsPage /></RoleBasedRedirect>} />
           <Route path="/happy-shop" element={<RoleBasedRedirect><ProductsPage /></RoleBasedRedirect>} />
+          <Route path="/about-us" element={<RoleBasedRedirect><AboutUsPage /></RoleBasedRedirect>} />
+          <Route path='/happy-team' element={<RoleBasedRedirect><HappyTeam /></RoleBasedRedirect>} />
+          <Route path='/careers' element={<RoleBasedRedirect><Careers /></RoleBasedRedirect>} />
+
+          <Route path='/privacy' element={<RoleBasedRedirect><PrivacyPolicy /></RoleBasedRedirect>} />
+          <Route path='/terms' element={<RoleBasedRedirect><Term /></RoleBasedRedirect>} />
+          <Route path='/returns' element={<RoleBasedRedirect><ReturnsPolicyPage /></RoleBasedRedirect>} />
+
           {/* Blog Routes */}
           <Route path="/blog" element={<RoleBasedRedirect><BlogPage /></RoleBasedRedirect>} />
           <Route path="/blog/satisfy-your-sugar-cravings-naturally" element={<RoleBasedRedirect><SatisfySugarCravingsPage /></RoleBasedRedirect>} />

@@ -16,6 +16,15 @@ const InstagramIcon = () => (
 );
 
 export const Footer: React.FC = () => {
+  // Define product IDs based on your actual product slugs or IDs
+  // Update these with your actual product identifiers
+  const productLinks = {
+    cashewRaisin: "cashew-raisin", // or use actual product ID like "prod_001"
+    coconutAlmond: "coconut-almond",
+    dateAlmondCranberry: "date-almond-cranberry",
+    almondCranberry: "almond-cranberry"
+  };
+
   return (
     <footer className="relative w-full overflow-hidden text-center pt-20 pb-8 mt-auto min-h-[480px] flex flex-col justify-end">
       {/* Exact Vector Background (3 color bands wrapping over a solid base) */}
@@ -43,11 +52,21 @@ export const Footer: React.FC = () => {
           <div className="flex flex-col items-center">
             <h4 className="text-[#133863] font-black text-lg sm:text-[16px] underline decoration-2 underline-offset-4 mb-4 tracking-wide font-sans">Products</h4>
             <div className="flex flex-col gap-1.5 font-bold text-white text-[13.5px]">
-              <Link to="/happy-shop" className="hover:text-blue-100 transition-colors">Cashew Raisin</Link>
-              <Link to="/happy-shop" className="hover:text-blue-100 transition-colors">Coconut Almond</Link>
-              <Link to="/happy-shop" className="hover:text-blue-100 transition-colors">Date Almond Cranberry</Link>
-              <Link to="/happy-shop" className="hover:text-blue-100 transition-colors">Almond Cranberry</Link>
-              <Link to="/happy-shop" className="text-[#ED2024] hover:text-[#d3181b] transition-colors mt-0.5 font-black tracking-wide">Buy Now</Link>
+              <Link to={`/product/${productLinks.cashewRaisin}`} className="hover:text-blue-100 transition-colors">
+                Cashew Raisin
+              </Link>
+              <Link to={`/product/${productLinks.coconutAlmond}`} className="hover:text-blue-100 transition-colors">
+                Coconut Almond
+              </Link>
+              <Link to={`/product/${productLinks.dateAlmondCranberry}`} className="hover:text-blue-100 transition-colors">
+                Date Almond Cranberry
+              </Link>
+              <Link to={`/product/${productLinks.almondCranberry}`} className="hover:text-blue-100 transition-colors">
+                Almond Cranberry
+              </Link>
+              <Link to="/happy-shop" className="text-[#ED2024] hover:text-[#d3181b] transition-colors mt-0.5 font-black tracking-wide">
+                Buy Now
+              </Link>
             </div>
           </div>
 
@@ -55,10 +74,17 @@ export const Footer: React.FC = () => {
           <div className="flex flex-col items-center">
              <h4 className="text-[#133863] font-black text-lg sm:text-[16px] underline decoration-2 underline-offset-4 mb-4 tracking-wide font-sans">About Us</h4>
              <div className="flex flex-col gap-1.5 font-bold text-white text-[13.5px]">
-               <Link to="/about" className="hover:text-blue-100 transition-colors">The Company</Link>
-               <Link to="/team" className="hover:text-blue-100 transition-colors">Our Happy Team</Link>
+               <Link to="/about-us" className="hover:text-blue-100 transition-colors">The Company</Link>
+               <Link to="/happy-team" className="hover:text-blue-100 transition-colors">Our Happy Team</Link>
                <Link to="/careers" className="hover:text-blue-100 transition-colors">Careers</Link>
-               <span className="hover:text-blue-100 transition-colors cursor-pointer">Happy Bar Nutrition Inc.</span>
+               <a
+  href="https://happybarnutrition.org/"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="hover:text-blue-100 transition-colors"
+>
+  Happy Bar Nutrition Inc.
+</a>
              </div>
           </div>
 
@@ -84,7 +110,9 @@ export const Footer: React.FC = () => {
 
            {/* Logo */}
            <div className="flex justify-center">
-             <img src="/images/logo.png" alt="Happy Bar Logo" className="h-[40px] md:h-[45px] object-contain drop-shadow-sm" />
+             <Link to="/">
+               <img src="/images/logo.png" alt="Happy Bar Logo" className="h-[40px] md:h-[45px] object-contain drop-shadow-sm hover:opacity-80 transition-opacity cursor-pointer" />
+             </Link>
            </div>
 
            {/* Address */}
@@ -99,8 +127,12 @@ export const Footer: React.FC = () => {
 
         {/* Social Icons */}
         <div className="flex justify-center gap-4 mt-6 relative z-20">
-           <a href="#" className="text-[#133863] hover:opacity-80 transition-opacity"><FacebookIcon /></a>
-           <a href="#" className="text-[#133863] hover:opacity-80 transition-opacity"><InstagramIcon /></a>
+           <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="text-[#133863] hover:opacity-80 transition-opacity">
+             <FacebookIcon />
+           </a>
+           <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-[#133863] hover:opacity-80 transition-opacity">
+             <InstagramIcon />
+           </a>
         </div>
       </div>
     </footer>
