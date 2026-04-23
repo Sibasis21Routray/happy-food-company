@@ -225,6 +225,12 @@ export const ProfilePage: React.FC = () => {
     setLoading(true);
     setMessage({ type: '', text: '' });
 
+    if (formData.mobileNumber.length < 10) {
+      setMessage({ type: 'error', text: 'Please enter a valid mobile number' });
+      setLoading(false);
+      return;
+    }
+
     try {
       const updatedData = {
         ...formData,
@@ -497,10 +503,16 @@ export const ProfilePage: React.FC = () => {
                           {editFields.mobile ? 'Cancel' : 'Edit'}
                         </button>
                       </div>
-                      <div>
-                        <input type="tel" disabled={!editFields.mobile} value={formData.mobileNumber} onChange={(e) => setFormData({ ...formData, mobileNumber: e.target.value })}
-                          className={`w-full p-3 sm:p-4 border rounded-[2px] focus:outline-none transition-all text-sm sm:text-base ${editFields.mobile ? 'border-[#FA6011] bg-white' : 'border-gray-200 bg-gray-50 cursor-not-allowed'}`}
-                          placeholder="Mobile Number" />
+                      <div className="flex flex-col">
+                        <PhoneInput 
+                          disabled={!editFields.mobile} 
+                          country={'in'}
+                          value={formData.mobileNumber} 
+                          onChange={(phone: string) => setFormData({ ...formData, mobileNumber: phone })}
+                          inputClass={`!w-full !p-3 sm:!p-4 !border !rounded-[2px] focus:!outline-none !transition-all !text-sm sm:!text-base ${editFields.mobile ? '!border-[#FA6011] !bg-white' : '!border-gray-200 !bg-gray-50 !cursor-not-allowed'} !h-12 sm:!h-14 !pl-12 sm:!pl-14`}
+                          buttonClass={`!bg-transparent !border-0 !rounded-l-[2px] !pl-3 sm:!pl-4 ${!editFields.mobile && '!cursor-not-allowed'}`}
+                          containerClass="!w-full"
+                        />
                       </div>
                     </div>
                     <div className="space-y-4 sm:space-y-6">
@@ -644,6 +656,10 @@ export const ProfilePage: React.FC = () => {
 
                           <div className="flex flex-col sm:flex-row items-center gap-3 sm:gap-8 w-full sm:w-auto mt-4 sm:mt-0">
                             <button onClick={async () => {
+                                if (addressForm.phone.length < 10) {
+                                  alert('Please enter a valid phone number');
+                                  return;
+                                }
                                 try {
                                   setLoading(true);
                                   const resp = await api.addresses.create(addressForm);

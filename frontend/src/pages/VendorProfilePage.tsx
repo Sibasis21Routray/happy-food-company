@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { User, Mail, Smartphone, Truck, CheckCircle, AlertCircle, ArrowLeft } from 'lucide-react';
+import PhoneInputModule from 'react-phone-input-2';
+import 'react-phone-input-2/lib/style.css';
 import { ProfileDropdown } from '../components/Dashboard/ProfileDropdown';
+
+const PhoneInput = (PhoneInputModule as any).default || PhoneInputModule;
 
 const API = 'http://localhost:5000/api';
 
@@ -43,6 +47,11 @@ export const VendorProfilePage: React.FC = () => {
     e.preventDefault();
     setLoading(true);
     setMessage(null);
+    if (formData.mobileNumber.length < 10) {
+      setMessage({ type: 'error', text: 'Please enter a valid mobile number' });
+      setLoading(false);
+      return;
+    }
     try {
       const token = localStorage.getItem('token');
       const res = await fetch(`${API}/auth/update-profile`, {
@@ -141,13 +150,13 @@ export const VendorProfilePage: React.FC = () => {
                   <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1 flex items-center gap-2">
                     <Smartphone size={12} className="text-[#FA6011]" /> Mobile Number
                   </label>
-                  <input 
-                    required
-                    type="text" 
+                  <PhoneInput 
+                    country={'in'}
                     value={formData.mobileNumber}
-                    onChange={e => setFormData({...formData, mobileNumber: e.target.value})}
-                    placeholder="+91 XXXXX XXXXX" 
-                    className="w-full p-4 bg-gray-50 border border-gray-100 rounded-2xl focus:ring-4 focus:ring-orange-100 focus:bg-white focus:border-orange-200 transition-all outline-none font-bold text-slate-700" 
+                    onChange={(phone: string) => setFormData({...formData, mobileNumber: phone})}
+                    inputClass="!w-full !p-4 !bg-gray-50 !border !border-gray-100 !rounded-2xl focus:!ring-4 focus:!ring-orange-100 focus:!bg-white focus:!border-orange-200 !transition-all !outline-none !font-bold !text-slate-700 !h-14"
+                    buttonClass="!bg-transparent !border-0 !rounded-l-2xl !pl-3"
+                    containerClass="!w-full"
                   />
                 </div>
 

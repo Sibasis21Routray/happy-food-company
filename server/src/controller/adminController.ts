@@ -9,7 +9,7 @@ export const getDashboardStats = async (req: Request, res: Response): Promise<vo
     const totalUsers = await User.countDocuments({ role: { $nin: ["admin", "vendor"] } });
     const totalOrders = await Order.countDocuments();
     const completedOrders = await Order.countDocuments({ status: "delivered" });
-    
+
     // Calculate total revenue
     const orders = await Order.find({ status: { $ne: "cancelled" } });
     const totalRevenue = orders.reduce((sum, order) => sum + (order.totalAmount || 0), 0);
@@ -24,7 +24,7 @@ export const getVendors = async (req: Request, res: Response): Promise<void> => 
   try {
     const { search, sortBy, sortOrder, filter, page = 1, limit = 10 } = req.query;
     let query: any = { role: "vendor" };
-    
+
     if (search) {
       query.$or = [
         { fullName: { $regex: search, $options: "i" } },
@@ -47,7 +47,7 @@ export const getVendors = async (req: Request, res: Response): Promise<void> => 
       .sort(sort)
       .skip(skip)
       .limit(Number(limit));
-    
+
     const total = await User.countDocuments(query);
 
     res.status(200).json({ vendors, total, page: Number(page), pages: Math.ceil(total / Number(limit)) });
@@ -165,17 +165,29 @@ export const getAllOrders = async (req: Request, res: Response): Promise<void> =
     const total = await Order.countDocuments(query);
     const skip = (Number(page) - 1) * Number(limit);
 
+    // Calculate total revenue for the filtered results (All except Cancelled)
+    let revQuery = { ...query };
+    if (!status || status === 'all') {
+      revQuery.status = { $ne: "cancelled" };
+    }
+    
+    const revenueStats = await Order.aggregate([
+      { $match: revQuery },
+      { $group: { _id: null, total: { $sum: "$totalAmount" } } }
+    ]);
+    const totalRevenue = revenueStats.length > 0 ? revenueStats[0].total : 0;
+
     const orders = await Order.find(query)
       .populate('vendorId', 'fullName email')
       .populate('userId', 'fullName email')
       .sort(sort)
       .skip(skip)
       .limit(Number(limit));
-    
+
     let processedOrders = orders;
     if (search) {
       const searchStr = (search as string).toLowerCase();
-      processedOrders = orders.filter(o => 
+      processedOrders = orders.filter(o =>
         o._id.toString().toLowerCase().includes(searchStr) ||
         (o.userId as any)?.fullName?.toLowerCase().includes(searchStr) ||
         (o.userId as any)?.email?.toLowerCase().includes(searchStr)
@@ -185,6 +197,7 @@ export const getAllOrders = async (req: Request, res: Response): Promise<void> =
     res.status(200).json({ 
       orders: processedOrders, 
       total, 
+      totalRevenue,
       page: Number(page), 
       pages: Math.ceil(total / Number(limit)) 
     });

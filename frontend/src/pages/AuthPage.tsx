@@ -4,6 +4,10 @@ import { api } from '../services/api';
 import { useNavigate } from 'react-router-dom';
 import { User, Mail, Lock, Phone, ShieldCheck, CheckCircle, RefreshCw, ChevronRight } from 'lucide-react';
 import { useToast } from '../components/Layout/Toast';
+import PhoneInputModule from 'react-phone-input-2';
+import 'react-phone-input-2/lib/style.css';
+
+const PhoneInput = (PhoneInputModule as any).default || PhoneInputModule;
 
 export const AuthPage: React.FC = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -50,6 +54,10 @@ export const AuthPage: React.FC = () => {
     e.preventDefault();
     if (!formData.fullName || !formData.email || !formData.mobileNumber || !formData.gender || !formData.password) {
       showToast('Please fill all fields', 'error');
+      return;
+    }
+    if (formData.mobileNumber.length < 10) {
+      showToast('Please enter a valid mobile number', 'error');
       return;
     }
     setShowOtpStep(true);
@@ -276,15 +284,14 @@ export const AuthPage: React.FC = () => {
                   </div>
 
                   <div className="relative">
-                    <Phone className="absolute left-5 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
-                    <input 
-                      name="mobileNumber"
-                      type="text" 
-                      placeholder="Mobile Number" 
+                    <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1 mb-2">Mobile Number</p>
+                    <PhoneInput 
+                      country={'in'}
                       value={formData.mobileNumber}
-                      onChange={handleInputChange}
-                      required
-                      className="w-full pl-14 pr-5 py-4.5 rounded-2xl border border-gray-100 bg-gray-50/50 focus:outline-none focus:bg-white focus:border-pink-300 focus:ring-4 focus:ring-pink-50 transition-all font-medium"
+                      onChange={(phone: string) => setFormData({ ...formData, mobileNumber: phone })}
+                      inputClass="!w-full !pl-14 !pr-5 !py-7.5 !rounded-2xl !border !border-gray-100 !bg-gray-50/50 focus:!outline-none focus:!bg-white focus:!border-pink-300 focus:!ring-4 focus:!ring-pink-50 !transition-all !font-medium"
+                      buttonClass="!bg-transparent !border-0 !rounded-l-2xl !pl-4"
+                      containerClass="!w-full"
                     />
                   </div>
 
