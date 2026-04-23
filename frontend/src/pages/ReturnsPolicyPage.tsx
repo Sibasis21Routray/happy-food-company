@@ -138,10 +138,11 @@ const ReturnsPolicyPage = () => {
               </div>
             </div>
 
-             <ShopNowSection />
+          
           </div>
         </div>
       </section>
+         <ShopNowSection />
     </div>
   );
 };

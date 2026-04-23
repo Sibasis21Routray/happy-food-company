@@ -35,6 +35,8 @@ import Careers from './pages/Careers';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import Term from './pages/Term';
 import ReturnsPolicyPage from './pages/ReturnsPolicyPage';
+import DeliveryPolicyPage from './pages/DeliveryPolicyPage';
+import ContactPage from './pages/ContactPage';
 
 function App() {
   const location = useLocation();
@@ -58,6 +60,8 @@ function App() {
           <Route path='/privacy' element={<RoleBasedRedirect><PrivacyPolicy /></RoleBasedRedirect>} />
           <Route path='/terms' element={<RoleBasedRedirect><Term /></RoleBasedRedirect>} />
           <Route path='/returns' element={<RoleBasedRedirect><ReturnsPolicyPage /></RoleBasedRedirect>} />
+           <Route path='/delivery' element={<RoleBasedRedirect><DeliveryPolicyPage /></RoleBasedRedirect>} />
+           <Route path='/contact' element={<RoleBasedRedirect><ContactPage /></RoleBasedRedirect>} />
 
           {/* Blog Routes */}
           <Route path="/blog" element={<RoleBasedRedirect><BlogPage /></RoleBasedRedirect>} />
