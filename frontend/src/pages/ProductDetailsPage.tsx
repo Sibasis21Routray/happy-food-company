@@ -1,9 +1,31 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useInView } from 'framer-motion';
 import { Heart, ShoppingCart, ArrowLeft, ChevronLeft, ChevronRight } from 'lucide-react';
 import { api } from '../services/api';
 import { ShopNowSection } from '../components/ShopNowSection';
+
+const SectionHeader = ({
+  title,
+  color = "text-gray-800",
+}: {
+  title: string;
+  color?: string;
+}) => {
+  const ref = React.useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  return (
+    <motion.h2
+      ref={ref}
+      initial={{ opacity: 0, y: 30 }}
+      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
+      transition={{ duration: 0.6, type: "spring", bounce: 0.4 }}
+      className={`text-center font-bold text-3xl md:text-4xl mb-4 px-4 ${color} tracking-tight`}
+    >
+      {title}
+    </motion.h2>
+  );
+};
 
 type ProductData = {
   titleLines: string[];
@@ -39,12 +61,12 @@ const productLibrary: Record<string, ProductData> = {
     waveColor2: '#3c3c72',
     featuresBg: 'bg-[#3c3c72]',
     featuresTitleColor: 'text-[#fb8a3b]',
-    ingredientsBg: 'bg-[#f4f4fa]',
-    ingredientsBgHex: '#f4f4fa',
-    ingredientsHeaderColor: 'text-[#65599c]',
-    ingredientsCardBg: 'bg-[#e9e8f4]',
-    ingredientsCardTitleColor: 'text-[#3c3c72]',
-    ingredientsCardDescColor: 'text-[#65599c]',
+    ingredientsBg: 'bg-gray-50',
+    ingredientsBgHex: '#f9fafb',
+    ingredientsHeaderColor: 'text-gray-800',
+    ingredientsCardBg: 'bg-white',
+    ingredientsCardTitleColor: 'text-gray-800',
+    ingredientsCardDescColor: 'text-gray-500',
     mascots: [
       { id: 'cashew', name: 'Cashew Carnival', desc: 'Join the cashew carnival for a nutty joyride, as cashews bring a crunch of happiness, healthy fats, and protein, supporting a cheerful mood and a satisfied tummy.', img: '/images/mascot-cashew.png' },
       { id: 'raisin', name: 'Raisin Radiance', desc: 'Embark on a sweet rendezvous with raisins, delivering a chewy burst of natural sweetness and antioxidants, adding a bounce of energy to your day.', img: '/images/mascot-raisin.png' },
@@ -64,12 +86,12 @@ const productLibrary: Record<string, ProductData> = {
     waveColor2: '#cc4b34',
     featuresBg: 'bg-[#cc4b34]',
     featuresTitleColor: 'text-[#4c2415]',
-    ingredientsBg: 'bg-[#fff5f2]',
-    ingredientsBgHex: '#fff5f2',
-    ingredientsHeaderColor: 'text-[#e6755a]',
-    ingredientsCardBg: 'bg-[#fceae6]',
-    ingredientsCardTitleColor: 'text-[#d65f4c]',
-    ingredientsCardDescColor: 'text-[#e6755a]',
+    ingredientsBg: 'bg-gray-50',
+    ingredientsBgHex: '#f9fafb',
+    ingredientsHeaderColor: 'text-gray-800',
+    ingredientsCardBg: 'bg-white',
+    ingredientsCardTitleColor: 'text-gray-800',
+    ingredientsCardDescColor: 'text-gray-500',
     mascots: [
       { id: 'coconut', name: 'Coconut Craze', desc: 'Ride the wave of coconut craze, as coconuts add an exotic twist with their creamy texture and tropical flavor, making your snacking escapade a delightful and refreshing experience.', img: '/images/mascot-coconut.png' },
       { id: 'almond', name: 'Almond Adventure', desc: 'Embark on an almond adventure, as almonds offer a nutty crunch filled with healthy fats and vitamin E, promoting heart health and adding a dose of excitement to your snacking journey.', img: '/images/mascot-almond.png' },
@@ -89,12 +111,12 @@ const productLibrary: Record<string, ProductData> = {
     waveColor2: '#7a181b',
     featuresBg: 'bg-[#7a181b]',
     featuresTitleColor: 'text-[#fb8a3b]',
-    ingredientsBg: 'bg-[#fbe9e9]',
-    ingredientsBgHex: '#fbe9e9',
-    ingredientsHeaderColor: 'text-[#d43f44]',
-    ingredientsCardBg: 'bg-[#f8d7da]',
-    ingredientsCardTitleColor: 'text-[#9b1d20]',
-    ingredientsCardDescColor: 'text-[#7a181b]',
+    ingredientsBg: 'bg-gray-50',
+    ingredientsBgHex: '#f9fafb',
+    ingredientsHeaderColor: 'text-gray-800',
+    ingredientsCardBg: 'bg-white',
+    ingredientsCardTitleColor: 'text-gray-800',
+    ingredientsCardDescColor: 'text-gray-500',
     mascots: [
       { id: 'date', name: 'Date Delight', desc: 'Indulge in a date delight, as the sweet and chewy dates bring fiber, iron, and essential minerals to the table, ensuring a delightful snacking experience that\'s as nutritious as it is tasty.', img: '/images/mascot-date.png' },
       { id: 'almond', name: 'Almond Adventure', desc: 'Embark on an almond adventure, as almonds offer a nutty crunch filled with healthy fats and vitamin E, promoting heart health and adding a dose of excitement to your snacking journey.', img: '/images/mascot-almond.png' },
@@ -114,12 +136,12 @@ const productLibrary: Record<string, ProductData> = {
     waveColor2: '#6a3093',
     featuresBg: 'bg-[#6a3093]',
     featuresTitleColor: 'text-[#fb8a3b]',
-    ingredientsBg: 'bg-[#fcf7ff]',
-    ingredientsBgHex: '#fcf7ff',
-    ingredientsHeaderColor: 'text-[#8e44ad]',
-    ingredientsCardBg: 'bg-[#f3eaff]',
-    ingredientsCardTitleColor: 'text-[#6a3093]',
-    ingredientsCardDescColor: 'text-[#8e44ad]',
+    ingredientsBg: 'bg-gray-50',
+    ingredientsBgHex: '#f9fafb',
+    ingredientsHeaderColor: 'text-gray-800',
+    ingredientsCardBg: 'bg-white',
+    ingredientsCardTitleColor: 'text-gray-800',
+    ingredientsCardDescColor: 'text-gray-500',
     mascots: [
       { id: 'almond', name: 'Almond Adventure', desc: 'Embark on an almond adventure, as almonds offer a nutty crunch filled with healthy fats and vitamin E, promoting heart health and adding a dose of excitement to your snacking journey.', img: '/images/mascot-almond.png' },
       { id: 'cranberry', name: 'Cranberry Carnival', desc: 'Join the cranberry carnival, savoring the zesty sweetness and antioxidants that cranberries bring, providing a burst of flavor and immune-boosting benefits to your snacking fiesta.', img: '/images/mascot-cranberry.png' },
@@ -139,12 +161,12 @@ const productLibrary: Record<string, ProductData> = {
     waveColor2: '#ff3c83',
     featuresBg: 'bg-[#ff3c83]',
     featuresTitleColor: 'text-white',
-    ingredientsBg: 'bg-[#fff0f3]',
-    ingredientsBgHex: '#fff0f3',
-    ingredientsHeaderColor: 'text-[#ff3c83]',
+    ingredientsBg: 'bg-gray-50',
+    ingredientsBgHex: '#f9fafb',
+    ingredientsHeaderColor: 'text-gray-800',
     ingredientsCardBg: 'bg-white',
-    ingredientsCardTitleColor: 'text-[#ff3c83]',
-    ingredientsCardDescColor: 'text-gray-600',
+    ingredientsCardTitleColor: 'text-gray-800',
+    ingredientsCardDescColor: 'text-gray-500',
     mascots: [
       { id: 'almond', name: 'Almond Adventure', desc: 'Embark on an almond adventure, as almonds offer a nutty crunch filled with healthy fats and vitamin E.', img: '/images/mascot-almond.png' },
       { id: 'cranberry', name: 'Cranberry Carnival', desc: 'Join the cranberry carnival, savoring the zesty sweetness and antioxidants that cranberries bring.', img: '/images/mascot-cranberry.png' },
@@ -164,12 +186,12 @@ const productLibrary: Record<string, ProductData> = {
     waveColor2: '#ff3c83',
     featuresBg: 'bg-[#ff3c83]',
     featuresTitleColor: 'text-white',
-    ingredientsBg: 'bg-[#fff0f3]',
-    ingredientsBgHex: '#fff0f3',
-    ingredientsHeaderColor: 'text-[#ff3c83]',
+    ingredientsBg: 'bg-gray-50',
+    ingredientsBgHex: '#f9fafb',
+    ingredientsHeaderColor: 'text-gray-800',
     ingredientsCardBg: 'bg-white',
-    ingredientsCardTitleColor: 'text-[#ff3c83]',
-    ingredientsCardDescColor: 'text-gray-600',
+    ingredientsCardTitleColor: 'text-gray-800',
+    ingredientsCardDescColor: 'text-gray-500',
     mascots: [
       { id: 'coconut', name: 'Coconut Craze', desc: 'Ride the wave of coconut craze, as coconuts add an exotic twist with their creamy texture.', img: '/images/mascot-coconut.png' },
       { id: 'almond', name: 'Almond Adventure', desc: 'Embark on an almond adventure, as almonds offer a nutty crunch filled with healthy fats.', img: '/images/mascot-almond.png' },
@@ -189,12 +211,12 @@ const productLibrary: Record<string, ProductData> = {
     waveColor2: '#ff3c83',
     featuresBg: 'bg-[#ff3c83]',
     featuresTitleColor: 'text-white',
-    ingredientsBg: 'bg-[#fff0f3]',
-    ingredientsBgHex: '#fff0f3',
-    ingredientsHeaderColor: 'text-[#ff3c83]',
+    ingredientsBg: 'bg-gray-50',
+    ingredientsBgHex: '#f9fafb',
+    ingredientsHeaderColor: 'text-gray-800',
     ingredientsCardBg: 'bg-white',
-    ingredientsCardTitleColor: 'text-[#ff3c83]',
-    ingredientsCardDescColor: 'text-gray-600',
+    ingredientsCardTitleColor: 'text-gray-800',
+    ingredientsCardDescColor: 'text-gray-500',
     mascots: [
       { id: 'almond', name: 'Almond Adventure', desc: 'Embark on an almond adventure with healthy fats and crunch.', img: '/images/mascot-almond.png' },
       { id: 'cashew', name: 'Cashew Carnival', desc: 'Join the cashew carnival for happiness and protein.', img: '/images/mascot-cashew.png' },
@@ -209,13 +231,6 @@ export const ProductDetailsPage: React.FC = () => {
   const navigate = useNavigate();
   const [dbProduct, setDbProduct] = useState<any>(null);
   const [wishlist, setWishlist] = useState<string[]>([]);
-  const [currentComboIndex, setCurrentComboIndex] = useState(0);
-
-  const combos = [
-    { title: "Almond Cranberry\nCashew Raisin", subtitle: "Combo Box of 6", desc: "Embark on a flavor-packed journey with our Combo Box featuring the dynamic duo of Almond Cranberry and Cashew Raisin", img: "/images/combo-6-1.png", link: "/product/combo-6-1" },
-    { title: "Almond Cranberry\nCashew Raisin\nCoconut Almond\nDate Almond Cranberry", subtitle: "Combo Box of 12", desc: "Enjoy a snack symphony with our Combo Box featuring Almond Cranberry, Cashew Raisin, Coconut Almond, and Date Almond Cranberry.", img: "/images/combo-12.png", link: "/product/combo-12" },
-    { title: "Coconut Almond\nDate Almond Cranberry", subtitle: "Combo Box of 6", desc: "Savor the delightful medley of flavors in our Combo Box, featuring the irresistible pairing of Coconut Almond and Date Almond Cranberry", img: "/images/combo-6-2.png", link: "/product/combo-6-2" }
-  ];
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -308,41 +323,27 @@ export const ProductDetailsPage: React.FC = () => {
   const data = productLibrary[productKey];
 
   const features = [
-    { title: "Protein Packed Punch", desc: "5.x grams of protein per serving (30g) – the secret sauce for muscle magic and all-day energy!", img: "/images/icon-protein.png" },
-    { title: "All-Natural Awesomeness", desc: "Crafted with love with the best ingredients. No funny business – just natural goodness!", img: "/images/icon-natural.png" },
-    { title: "Price Tag Happiness", desc: "All this awesomeness for just ₹ 40! That's right – a pocket-friendly protein party for everyone!", img: "/images/icon-price.png" },
-    { title: "No Artificial Shenanigans", desc: "Wave goodbye to artificial preservatives, flavors, or colorings. Our bar keeps it real – just like your snacking standards!", img: "/images/icon-no-artificial.png" },
-    { title: "Veggie Vibes Only", desc: "Vegetarian? We got you covered! No eggs, just pure plant power for your snacking pleasure.", img: "/images/icon-veg.png" },
-    { title: "Say No to Sneaky Sugars", desc: "Zero glucose, emulsifiers, fructooligosaccharides (FOS) & other funny sounding chemicals. Nothing Sneaky & Zero Nonsense!", img: "/images/icon-no-sugar.png" }
+    { title: "Protein Packed Punch", desc: "5.x grams of protein per serving (30g) – the secret sauce for muscle magic and all-day energy!", img: "https://angstrohmfoods.com/wp-content/uploads/2025/07/energy-bar_7634814.png" },
+    { title: "All-Natural Awesomeness", desc: "Crafted with love with the best ingredients. No funny business – just natural goodness!", img: "https://angstrohmfoods.com/wp-content/uploads/2025/07/lotus_2610118.png" },
+    { title: "Price Tag Happiness", desc: "All this awesomeness for just ₹ 40! That's right – a pocket-friendly protein party for everyone!", img: "https://angstrohmfoods.com/wp-content/uploads/2025/07/rupee-symbol.png" },
+    { title: "No Artificial Shenanigans", desc: "Wave goodbye to artificial preservatives, flavors, or colorings. Our bar keeps it real – just like your snacking standards!", img: "https://angstrohmfoods.com/wp-content/uploads/2025/07/no-preservatives_4411195.png" },
+    { title: "Veggie Vibes Only", desc: "Vegetarian? We got you covered! No eggs, just pure plant power for your snacking pleasure.", img: "https://angstrohmfoods.com/wp-content/uploads/2025/07/leaf.png" },
+    { title: "Say No to Sneaky Sugars", desc: "Zero glucose, emulsifiers, fructooligosaccharides (FOS) & other funny sounding chemicals. Nothing Sneaky & Zero Nonsense!", img: "https://angstrohmfoods.com/wp-content/uploads/2025/07/sugar-free.png" }
   ];
-
-  const nextCombo = () => {
-    setCurrentComboIndex((prev) => (prev + 1) % combos.length);
-  };
-
-  const prevCombo = () => {
-    setCurrentComboIndex((prev) => (prev - 1 + combos.length) % combos.length);
-  };
 
   const isCombo = id && id.startsWith('combo');
 
   return (
     <div className="w-full font-sans bg-white overflow-hidden pt-20 sm:pt-24">
-      {/* Back Button for Mobile */}
-      {/* <button
-        onClick={() => navigate(-1)}
-        className="fixed top-20 left-4 z-50 lg:hidden bg-white/80 backdrop-blur-sm p-2 rounded-full shadow-md"
-      >
-        <ArrowLeft size={24} className="text-[#ff6b00]" />
-      </button> */}
-
       {/* 1. Hero Product Summary Section */}
       <AnimatePresence mode="wait">
         <motion.section 
           key={`hero-${productKey}`}
-          initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.4 }}
-          className="relative z-10 pt-8 sm:pt-12 md:pt-24 bg-cover bg-top" 
-          style={{ backgroundImage: "url('/images/cloud-bg.png')", backgroundColor: '#dff6fc' }}
+          initial={{ opacity: 0 }} 
+          animate={{ opacity: 1 }} 
+          exit={{ opacity: 0 }} 
+          transition={{ duration: 0.4 }}
+          className="relative z-10 pt-8 sm:pt-12 md:pt-24 bg-gradient-to-b from-blue-50 to-white" 
         >
           <div className="container mx-auto px-4 sm:px-6 relative z-10 max-w-[1200px]">
             <div className="flex flex-col items-center">
@@ -350,61 +351,71 @@ export const ProductDetailsPage: React.FC = () => {
               {/* Image and Title - Responsive Layout */}
               <div className="flex flex-col lg:flex-row items-center justify-center gap-6 md:gap-10 lg:gap-16 mb-10 md:mb-16 w-full">
                 <motion.div 
-                  initial={{ opacity: 0, x: -50 }} animate={{ opacity: 1, x: 0 }} transition={{ type: "spring", stiffness: 70, damping: 15 }}
+                  initial={{ opacity: 0, x: -50 }} 
+                  animate={{ opacity: 1, x: 0 }} 
+                  transition={{ type: "spring", stiffness: 70, damping: 15 }}
                   className="w-full lg:w-1/2 flex justify-center"
                 >
                   <img 
                     src={data.img} 
                     alt={data.titleLines.join(' ')} 
-                    className="w-[250px] sm:w-[300px] md:w-[380px] lg:w-[420px] drop-shadow-[0_15px_25px_rgba(0,0,0,0.25)] hover:scale-105 transition-transform duration-500" 
+                    className="w-[250px] sm:w-[300px] md:w-[380px] lg:w-[420px] drop-shadow-xl hover:scale-105 transition-transform duration-500" 
                   />
                 </motion.div>
                 
                 <motion.div 
-                  initial={{ opacity: 0, x: 50 }} animate={{ opacity: 1, x: 0 }} transition={{ type: "spring", stiffness: 70, damping: 15, delay: 0.1 }}
+                  initial={{ opacity: 0, x: 50 }} 
+                  animate={{ opacity: 1, x: 0 }} 
+                  transition={{ type: "spring", stiffness: 70, damping: 15, delay: 0.1 }}
                   className="w-full lg:w-1/2 flex flex-col justify-center text-center lg:text-left"
                 >
-                  <h1 className={`text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-[5.5rem] leading-[1.1] font-black uppercase drop-shadow-md tracking-tighter ${data.titleColor}`}>
-                    Happy Bar<br/>
-                    {data.titleLines.map((line, idx) => (
-                      <div key={idx}>
-                        {line}<br/>
-                      </div>
-                    ))}
+                  <h1 className={`text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 ${data.titleColor}`}>
+                    Happy Bar
                   </h1>
+                  {data.titleLines.map((line, idx) => (
+                    <h2 key={idx} className={`text-2xl sm:text-3xl md:text-4xl font-semibold ${data.titleColor}`}>
+                      {line}
+                    </h2>
+                  ))}
                 </motion.div>
               </div>
 
               {/* Buy Now Button - Only for Combos */}
-              {isCombo && (
+              {isCombo && dbProduct && (
                 <div className="flex items-center gap-4 sm:gap-6 mt-2 mb-6">
                   <motion.button 
-                    whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
+                    whileHover={{ scale: 1.05 }} 
+                    whileTap={{ scale: 0.95 }}
                     onClick={handleAddToCart}
-                    className="bg-[#f83f7a] text-white font-black py-3 sm:py-4 px-6 sm:px-10 rounded-full shadow-[0_10px_25px_rgba(248,63,122,0.4)] tracking-widest text-xs sm:text-sm md:text-[14px] hover:bg-[#ff206a] flex items-center gap-2 sm:gap-3 uppercase"
+                    className="bg-orange-500 text-white font-bold py-3 sm:py-4 px-6 sm:px-10 rounded-full shadow-lg tracking-wide text-sm sm:text-base hover:bg-orange-600 flex items-center gap-2 sm:gap-3 transition-all"
                   >
                     <ShoppingCart size={18} className="sm:w-5 sm:h-5" />
-                    BUY NOW
+                    BUY NOW - ₹{dbProduct.price}
                   </motion.button>
 
                   <button
                     onClick={handleAddToWishlist}
-                    className="w-10 h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 bg-white rounded-full flex items-center justify-center shadow-lg text-gray-400 hover:scale-110 transition-all"
+                    className="w-10 h-10 sm:w-12 sm:h-12 bg-white rounded-full flex items-center justify-center shadow-md text-gray-400 hover:scale-110 transition-all border border-gray-200"
                   >
                     <Heart 
                       size={20} 
-                      className={`sm:w-6 sm:h-6 ${(dbProduct && wishlist.includes(dbProduct._id)) ? 'fill-[#ff3c83] text-[#ff3c83]' : ''}`} 
+                      className={`sm:w-5 sm:h-5 ${(dbProduct && wishlist.includes(dbProduct._id)) ? 'fill-red-500 text-red-500' : ''}`} 
                     />
                   </button>
                 </div>
               )}
               
               {/* Descriptive Pitch */}
-              <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="text-center mt-8 md:mt-12 lg:mt-16 max-w-4xl px-4 z-20 relative">
-                <h2 className={`text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-[4rem] font-black mb-4 md:mb-8 tracking-tight ${data.pitchTitleColor}`}>
+              <motion.div 
+                initial={{ opacity: 0, y: 30 }} 
+                animate={{ opacity: 1, y: 0 }} 
+                transition={{ delay: 0.3 }} 
+                className="text-center mt-8 md:mt-12 lg:mt-16 max-w-4xl px-4 z-20 relative"
+              >
+                <h3 className={`text-xl sm:text-2xl md:text-3xl font-bold mb-4 md:mb-6 ${data.pitchTitleColor}`}>
                   {data.pitchTitle}
-                </h2>
-                <p className={`text-base sm:text-lg md:text-xl lg:text-[21px] font-bold leading-relaxed px-2 ${data.pitchDescColor}`}>
+                </h3>
+                <p className={`text-base sm:text-lg md:text-xl leading-relaxed ${data.pitchDescColor}`}>
                   {data.pitchDesc}
                 </p>
               </motion.div>
@@ -414,31 +425,47 @@ export const ProductDetailsPage: React.FC = () => {
           {/* Wave */}
           <div className="w-full mt-[-40px] sm:mt-[-60px] md:mt-[-80px] pointer-events-none relative z-10">
             <svg viewBox="0 0 1440 250" className="w-full h-auto" preserveAspectRatio="none">
-              <path fill={data.waveColor1} fillOpacity="0.4" d="M0,150 C360,250 1080,50 1440,150 L1440,250 L0,250 Z"></path>
+              <path fill={data.waveColor1} fillOpacity="0.3" d="M0,150 C360,250 1080,50 1440,150 L1440,250 L0,250 Z"></path>
               <path fill={data.waveColor2} d="M0,200 C480,300 960,100 1440,200 L1440,250 L0,250 Z"></path>
             </svg>
           </div>
         </motion.section>
       </AnimatePresence>
 
-      {/* 2. Features Section */}
+      {/* 2. Features Section - Clean Professional */}
       <AnimatePresence mode="wait">
         <motion.section 
           key={`features-${productKey}`}
-          initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.4 }}
-          className={`${data.featuresBg} py-12 sm:py-16 md:py-20 lg:py-24 relative z-0 transition-colors duration-500`}
+          initial={{ opacity: 0 }} 
+          animate={{ opacity: 1 }} 
+          exit={{ opacity: 0 }} 
+          transition={{ duration: 0.4 }}
+          className={`${data.featuresBg} py-16 sm:py-20 md:py-24 relative z-0 transition-colors duration-500`}
         >
           <div className="container mx-auto px-4 sm:px-6 max-w-6xl">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10 lg:gap-12 xl:gap-16">
+            <div className="text-center mb-12">
+              <h2 className={`${data.featuresTitleColor} text-2xl sm:text-3xl md:text-4xl font-bold mb-4`}>
+                Why Choose Us
+              </h2>
+              <div className="w-20 h-1 bg-orange-400 mx-auto rounded-full"></div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
               {features.map((f, i) => (
-                <motion.div key={i} initial={{ opacity: 0, scale: 0.8 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}
-                  className="flex flex-col items-center text-center px-4"
+                <motion.div 
+                  key={i} 
+                  initial={{ opacity: 0, y: 30 }} 
+                  whileInView={{ opacity: 1, y: 0 }} 
+                  viewport={{ once: true }} 
+                  transition={{ duration: 0.5, delay: i * 0.1 }}
+                  whileHover={{ y: -5 }}
+                  className="bg-white/10 backdrop-blur-sm rounded-xl p-6 text-center shadow-lg hover:shadow-xl transition-all duration-300"
                 >
-                  <div className="h-16 sm:h-20 md:h-24 flex items-center justify-center mb-4 md:mb-6">
-                    <img src={f.img} alt={f.title} className="max-h-full drop-shadow-lg transition-transform hover:scale-110" />
+                  <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-white/20 flex items-center justify-center">
+                    <img src={f.img} alt={f.title} className="w-8 h-8 object-contain brightness-0 invert" />
                   </div>
-                  <h3 className={`${data.featuresTitleColor} font-black text-lg sm:text-xl md:text-2xl mb-2 md:mb-4 tracking-wide`}>{f.title}</h3>
-                  <p className="text-white font-semibold text-sm sm:text-[14px] md:text-[15px] leading-relaxed max-w-xs">{f.desc}</p>
+                  <h3 className={`${data.featuresTitleColor} font-bold text-lg mb-2`}>{f.title}</h3>
+                  <p className="text-white/90 text-sm leading-relaxed">{f.desc}</p>
                 </motion.div>
               ))}
             </div>
@@ -446,28 +473,43 @@ export const ProductDetailsPage: React.FC = () => {
         </motion.section>
       </AnimatePresence>
 
-      {/* 3. Mascots Section */}
+      {/* 3. Mascots Section - Clean Professional */}
       <AnimatePresence mode="wait">
         <motion.section 
           key={`ingredients-${productKey}`}
-          initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} transition={{ duration: 0.4 }}
-          className={`py-12 sm:py-16 md:py-20 lg:py-24 ${data.ingredientsBg} relative z-10 transition-colors duration-500`}
+          initial={{ opacity: 0 }} 
+          animate={{ opacity: 1 }} 
+          exit={{ opacity: 0 }} 
+          transition={{ duration: 0.4 }}
+          className="py-16 sm:py-20 md:py-24 bg-gray-50 relative z-10"
         >
           <div className="container mx-auto px-4 sm:px-6 max-w-[1200px]">
-            <h2 className={`text-center font-black text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-[4rem] tracking-tight mb-8 md:mb-12 lg:mb-16 px-4 ${data.ingredientsHeaderColor}`}>
-              The goodness of awesome ingredients.
-            </h2>
+            <div className="text-center mb-12">
+              <h2 className="text-gray-800 text-2xl sm:text-3xl md:text-4xl font-bold mb-4">
+                The Goodness of Awesome Ingredients
+              </h2>
+              <div className="w-20 h-1 bg-orange-400 mx-auto rounded-full"></div>
+              <p className="text-gray-500 mt-4 max-w-2xl mx-auto">
+                Pure, natural, and carefully selected ingredients for your happiness
+              </p>
+            </div>
             
-            <div className="flex flex-wrap justify-center gap-4 sm:gap-6 md:gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
               {data.mascots.map((mascot, i) => (
-                <motion.div key={mascot.id} initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }} whileHover={{ y: -5 }}
-                  className={`${data.ingredientsCardBg} rounded-2xl sm:rounded-[2rem] p-4 sm:p-5 md:p-6 flex flex-col items-center text-center shadow-md relative w-[calc(50%-0.5rem)] sm:w-[calc(50%-1rem)] lg:w-[calc(25%-1.5rem)] min-w-[160px] sm:min-w-[200px] transition-colors`}
+                <motion.div 
+                  key={mascot.id} 
+                  initial={{ opacity: 0, y: 30 }} 
+                  whileInView={{ opacity: 1, y: 0 }} 
+                  viewport={{ once: true }} 
+                  transition={{ duration: 0.4, delay: i * 0.1 }} 
+                  whileHover={{ y: -5 }}
+                  className="bg-white rounded-xl p-6 text-center shadow-md hover:shadow-lg transition-all duration-300 border border-gray-100"
                 >
-                  <div className="h-20 w-20 sm:h-24 sm:w-24 md:h-28 md:w-28 mb-3 sm:mb-4 mt-2 flex justify-center items-center hover:rotate-6 transition-transform">
-                    <img src={mascot.img} alt={mascot.name} className="max-h-full max-w-full drop-shadow-xl" />
+                  <div className="w-24 h-24 mx-auto mb-4 rounded-full bg-orange-50 flex items-center justify-center overflow-hidden">
+                    <img src={mascot.img} alt={mascot.name} className="w-20 h-20 object-contain" />
                   </div>
-                  <h3 className={`${data.ingredientsCardTitleColor} font-black text-sm sm:text-base md:text-[17px] mb-2 sm:mb-3 md:mb-4 px-1`}>{mascot.name}</h3>
-                  <p className={`${data.ingredientsCardDescColor} font-bold text-[11px] sm:text-xs md:text-[13px] leading-relaxed mb-2 px-1 line-clamp-4`}>{mascot.desc}</p>
+                  <h3 className="text-gray-800 font-bold text-base mb-2">{mascot.name}</h3>
+                  <p className="text-gray-500 text-xs leading-relaxed">{mascot.desc.substring(0, 100)}...</p>
                 </motion.div>
               ))}
             </div>

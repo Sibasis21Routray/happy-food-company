@@ -1,4 +1,5 @@
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
 import { Navbar } from './components/Layout/Navbar';
 import { Footer } from './components/Layout/Footer';
 import { HomePage } from './pages/HomePage';
@@ -38,12 +39,28 @@ import ReturnsPolicyPage from './pages/ReturnsPolicyPage';
 import DeliveryPolicyPage from './pages/DeliveryPolicyPage';
 import ContactPage from './pages/ContactPage';
 
+// ScrollToTop component to handle scrolling on route change
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'instant' // Use 'smooth' for animated scrolling or 'instant' for immediate
+    });
+  }, [pathname]);
+
+  return null;
+};
+
 function App() {
   const location = useLocation();
   const isDashboard = location.pathname.startsWith('/admin') || location.pathname.startsWith('/vendor') || location.pathname === '/404';
 
   return (
     <ToastProvider>
+      <ScrollToTop /> {/* Add this component here */}
       <div className="flex flex-col min-h-screen bg-slate-50 text-slate-900 font-sans">
         {!isDashboard && <Navbar />}
         <main className="flex-1 w-full">
