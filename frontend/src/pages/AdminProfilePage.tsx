@@ -79,118 +79,115 @@ export const AdminProfilePage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#f1f3f6] font-sans pb-12">
-      <header className="w-full bg-white border-b border-gray-200 shadow-sm sticky top-0 z-50">
-        <div className="container mx-auto px-6 h-20 flex justify-between items-center">
+    <div className="min-h-screen bg-gray-50 pb-12">
+      <header className="w-full bg-white border-b border-gray-100 sticky top-0 z-50">
+        <div className="container mx-auto px-6 h-16 flex justify-between items-center">
           <Link to="/">
-            <img src="/images/logo.png" alt="Happy Food Company" className="h-[50px] object-contain drop-shadow-sm transition-transform hover:scale-105" />
+            <img src="/images/logo.png" alt="Happy Food Company" className="h-10 object-contain" />
           </Link>
           <ProfileDropdown user={user} onLogout={handleLogout} dashboardType="admin" />
         </div>
       </header>
 
-      <main className="container mx-auto px-4 mt-8 max-w-4xl">
-        <div className="mb-6 flex items-center justify-between">
-          <button onClick={() => navigate('/admin/dashboard')} className="flex items-center gap-2 text-gray-500 hover:text-[#FA6011] transition-colors font-bold text-sm">
-            <ArrowLeft size={18} />
+      <main className="container mx-auto px-6 mt-8 max-w-4xl">
+        {/* Back Button */}
+        <div className="mb-6">
+          <button onClick={() => navigate('/admin/dashboard')} className="flex items-center gap-2 text-gray-400 hover:text-gray-600 transition-colors text-sm font-light">
+            <ArrowLeft size={14} strokeWidth={1.5} />
             Back to Dashboard
           </button>
         </div>
 
-        <div className="bg-white rounded-[2rem] shadow-sm border border-gray-200 overflow-hidden">
-          <div className="bg-gradient-to-r from-slate-900 to-slate-800 p-10 text-white relative">
-            <div className="relative z-10">
-              <h1 className="text-3xl font-black tracking-tight mb-2">Admin Profile</h1>
-              <p className="text-slate-400 font-bold text-sm">Global Administrator & Platform Management Controls</p>
-            </div>
-            <Shield size={120} className="absolute right-10 top-1/2 -translate-y-1/2 text-white/5" />
+        {/* Profile Card */}
+        <div className="bg-white border border-gray-100 overflow-hidden">
+          {/* Header */}
+          <div className="border-b border-gray-100 p-6">
+            <h1 className="text-xl font-light text-gray-800 mb-1">Admin Profile</h1>
+            <p className="text-gray-400 text-sm font-light">Global Administrator & Platform Management Controls</p>
           </div>
 
-          <div className="p-10">
+          <div className="p-6 md:p-8">
+            {/* Message */}
             {message && (
-              <div className={`mb-8 p-4 rounded-2xl flex items-center gap-3 animate-in fade-in slide-in-from-top-2 ${
-                message.type === 'success' ? 'bg-green-50 text-green-600 border border-green-100' : 'bg-red-50 text-red-600 border border-red-100'
+              <div className={`mb-6 p-3 flex items-center gap-2 text-sm ${
+                message.type === 'success' ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-600'
               }`}>
-                {message.type === 'success' ? <CheckCircle size={20} /> : <AlertCircle size={20} />}
-                <p className="font-black text-sm">{message.text}</p>
+                {message.type === 'success' ? <CheckCircle size={14} strokeWidth={1.5} /> : <AlertCircle size={14} strokeWidth={1.5} />}
+                <span className="font-light">{message.text}</span>
               </div>
             )}
 
-            <form onSubmit={handleUpdate} className="space-y-8">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div className="space-y-2">
-                  <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1 flex items-center gap-2">
-                    <User size={12} className="text-[#FA6011]" /> Full Name
-                  </label>
+            <form onSubmit={handleUpdate} className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {/* Full Name */}
+                <div>
+                  <label className="block text-xs text-gray-400 mb-1.5 tracking-wide">FULL NAME</label>
                   <input 
                     required
                     type="text" 
                     value={formData.fullName}
                     onChange={e => setFormData({...formData, fullName: e.target.value})}
                     placeholder="Enter your full name" 
-                    className="w-full p-4 bg-gray-50 border border-gray-100 rounded-2xl focus:ring-4 focus:ring-[#FA6011]/10 focus:bg-white focus:border-[#FA6011]/30 transition-all outline-none font-bold text-slate-700" 
+                    className="w-full px-4 py-2.5 border border-gray-200 text-sm focus:border-gray-400 focus:outline-none transition-all"
                   />
                 </div>
 
-                <div className="space-y-2">
-                  <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1 flex items-center gap-2">
-                    <Mail size={12} className="text-[#FA6011]" /> Email Address
-                  </label>
+                {/* Email */}
+                <div>
+                  <label className="block text-xs text-gray-400 mb-1.5 tracking-wide">EMAIL ADDRESS</label>
                   <input 
                     required
                     type="email" 
                     value={formData.email}
                     onChange={e => setFormData({...formData, email: e.target.value})}
                     placeholder="name@company.com" 
-                    className="w-full p-4 bg-gray-50 border border-gray-100 rounded-2xl focus:ring-4 focus:ring-[#FA6011]/10 focus:bg-white focus:border-[#FA6011]/30 transition-all outline-none font-bold text-slate-700" 
+                    className="w-full px-4 py-2.5 border border-gray-200 text-sm focus:border-gray-400 focus:outline-none transition-all"
                   />
                 </div>
 
-                <div className="space-y-2">
-                  <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1 flex items-center gap-2">
-                    <Smartphone size={12} className="text-[#FA6011]" /> Mobile Number
-                  </label>
+                {/* Mobile Number */}
+                <div>
+                  <label className="block text-xs text-gray-400 mb-1.5 tracking-wide">MOBILE NUMBER</label>
                   <PhoneInput 
                     country={'in'}
                     value={formData.mobileNumber}
                     onChange={(phone: string) => setFormData({...formData, mobileNumber: phone})}
-                    inputClass="!w-full !p-4 !bg-gray-50 !border !border-gray-100 !rounded-2xl focus:!ring-4 focus:!ring-[#FA6011]/10 focus:!bg-white focus:!border-[#FA6011]/30 !transition-all !outline-none !font-bold !text-slate-700 !h-14"
-                    buttonClass="!bg-transparent !border-0 !rounded-l-2xl !pl-3"
+                    inputClass="!w-full !px-4 !py-2.5 !border !border-gray-200 !text-sm focus:!border-gray-400 focus:!outline-none !h-auto"
+                    buttonClass="!bg-transparent !border-0"
                     containerClass="!w-full"
                   />
                 </div>
 
-                <div className="space-y-2">
-                  <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1 flex items-center gap-2">
-                    <AlertCircle size={12} className="text-[#FA6011]" /> New Password (Optional)
-                  </label>
+                {/* Password */}
+                <div>
+                  <label className="block text-xs text-gray-400 mb-1.5 tracking-wide">NEW PASSWORD (OPTIONAL)</label>
                   <input 
                     type="password" 
                     value={formData.password}
                     onChange={e => setFormData({...formData, password: e.target.value})}
                     placeholder="Leave blank to keep current" 
-                    className="w-full p-4 bg-gray-50 border border-gray-100 rounded-2xl focus:ring-4 focus:ring-[#FA6011]/10 focus:bg-white focus:border-[#FA6011]/30 transition-all outline-none font-bold text-slate-700" 
+                    className="w-full px-4 py-2.5 border border-gray-200 text-sm focus:border-gray-400 focus:outline-none transition-all"
                   />
                 </div>
 
-                <div className="space-y-2">
-                  <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1 flex items-center gap-2">
-                    <Shield size={12} className="text-[#FA6011]" /> Access Level
-                  </label>
-                  <div className="w-full p-4 bg-gray-50 border border-gray-100 rounded-2xl font-black text-[#FA6011] uppercase tracking-widest text-xs flex items-center gap-2 cursor-not-allowed">
-                    <div className="w-2 h-2 bg-[#FA6011] rounded-full animate-pulse" />
-                    Root Administrator (Master Access)
+                {/* Access Level */}
+                <div>
+                  <label className="block text-xs text-gray-400 mb-1.5 tracking-wide">ACCESS LEVEL</label>
+                  <div className="w-full px-4 py-2.5 border border-gray-200 bg-gray-50 text-gray-600 text-xs flex items-center gap-2">
+                    <span className="w-1.5 h-1.5 bg-gray-500 rounded-full"></span>
+                    Root Administrator
                   </div>
                 </div>
               </div>
 
-              <div className="pt-6">
+              {/* Submit Button */}
+              <div className="pt-4">
                 <button 
                   type="submit" 
                   disabled={loading}
-                  className="bg-[#FA6011] text-white px-10 py-4 rounded-2xl font-black text-sm uppercase tracking-widest hover:brightness-110 active:scale-95 shadow-xl shadow-orange-100 transition-all disabled:opacity-50"
+                  className="bg-gray-800 text-white px-8 py-2.5 text-sm font-light tracking-wider hover:bg-gray-700 transition-all disabled:opacity-50"
                 >
-                  {loading ? 'Updating...' : 'Update Core Profile'}
+                  {loading ? 'UPDATING...' : 'UPDATE PROFILE'}
                 </button>
               </div>
             </form>
@@ -198,20 +195,22 @@ export const AdminProfilePage: React.FC = () => {
         </div>
 
         {/* Info Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
-          <div className="bg-white p-8 rounded-[2rem] shadow-sm border border-gray-200">
-            <h3 className="font-black text-slate-900 uppercase tracking-tight mb-4 flex items-center gap-2">
-              <Shield size={20} className="text-[#FA6011]" /> System Security
-            </h3>
-            <p className="text-gray-400 font-bold text-xs leading-relaxed">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+          <div className="bg-white border border-gray-100 p-6">
+            <div className="flex items-center gap-2 mb-3">
+              <Shield size={16} className="text-gray-500" strokeWidth={1.5} />
+              <h3 className="text-sm font-light text-gray-700">System Security</h3>
+            </div>
+            <p className="text-gray-400 text-xs font-light leading-relaxed">
               Your profile has master access to platform configuration, vendor payouts, and user data management. Please ensure your session is secure.
             </p>
           </div>
-          <div className="bg-white p-8 rounded-[2rem] shadow-sm border border-gray-200">
-            <h3 className="font-black text-slate-900 uppercase tracking-tight mb-4 flex items-center gap-2">
-              <Mail size={20} className="text-[#FA6011]" /> Notifications
-            </h3>
-            <p className="text-gray-400 font-bold text-xs leading-relaxed">
+          <div className="bg-white border border-gray-100 p-6">
+            <div className="flex items-center gap-2 mb-3">
+              <Mail size={16} className="text-gray-500" strokeWidth={1.5} />
+              <h3 className="text-sm font-light text-gray-700">Notifications</h3>
+            </div>
+            <p className="text-gray-400 text-xs font-light leading-relaxed">
               System alerts will be sent to your registered email address regarding vendor applications, large order spikes, and security events.
             </p>
           </div>

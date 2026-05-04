@@ -13,7 +13,7 @@ export const CartPage: React.FC = () => {
   const navigate = useNavigate();
   const [cart, setCart] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const [currentStep, setCurrentStep] = useState(1); // 1: Bag, 2: Address, 3: Payment
+  const [currentStep, setCurrentStep] = useState(1);
   const [addresses, setAddresses] = useState<any[]>([]);
   const [selectedAddressId, setSelectedAddressId] = useState<string | null>(null);
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('COD');
@@ -150,241 +150,298 @@ export const CartPage: React.FC = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen pt-32 flex justify-center items-center">
-        <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-[#ff3c83]" />
+      <div className="min-h-screen pt-32 flex justify-center items-center bg-white">
+        <div className="w-8 h-8 border border-gray-200 border-t-gray-800 rounded-full animate-spin" />
       </div>
     );
   }
 
   if (!cart || cart.items.length === 0) {
     return (
-      <div className="min-h-screen pt-32 bg-[#f8faff] flex flex-col items-center justify-center px-6">
+      <div className="min-h-screen pt-32 bg-white flex flex-col items-center justify-center px-6">
         <motion.div 
-          initial={{ scale: 0 }} animate={{ scale: 1 }}
-          className="w-32 h-32 bg-orange-100 rounded-full flex items-center justify-center mb-8 shadow-inner"
+          initial={{ scale: 0.9, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          className="text-center"
         >
-          <ShoppingBag size={60} className="text-[#FD6804]" />
+          <div className="mb-6">
+            <ShoppingBag size={48} className="text-gray-300 mx-auto" strokeWidth={1} />
+          </div>
+          <h1 className="text-2xl font-light text-gray-800 mb-2">Your cart is empty</h1>
+          <p className="text-gray-400 text-sm font-light mb-8">Add some happiness to your bag</p>
+          <Link to="/happy-shop">
+            <button className="px-8 py-3 bg-gray-900 text-white text-sm font-light tracking-wider hover:bg-gray-800 transition-all duration-300">
+              CONTINUE SHOPPING
+            </button>
+          </Link>
         </motion.div>
-        <h1 className="text-4xl font-black text-[#1e3a8a] mb-4">Your Bag is Empty</h1>
-        <p className="text-gray-400 font-bold mb-10">Add some happiness to your bag!</p>
-        <Link to="/happy-shop">
-          <motion.button 
-            whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
-            className="bg-[#ff3c83] text-white font-black py-4 px-12 rounded-2xl shadow-xl shadow-pink-100 tracking-widest"
-          >
-            START SHOPPING
-          </motion.button>
-        </Link>
       </div>
     );
   }
 
-  return (
-    <div className="min-h-screen pt-32 pb-20 bg-[#f8faff]">
-      <div className="container mx-auto px-6 max-w-6xl">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12">
-          <h1 className="text-4xl font-black text-[#1e3a8a] flex items-center gap-4">
-            <ShoppingCart size={40} className="text-[#ff3c83]" />
-            {currentStep === 1 ? 'MY BAG' : currentStep === 2 ? 'DELIVERY ADDRESS' : 'PAYMENT METHOD'}
-          </h1>
+  const steps = [
+    { number: 1, label: 'Bag' },
+    { number: 2, label: 'Address' },
+    { number: 3, label: 'Payment' }
+  ];
 
-          {/* Stepper */}
-          <div className="flex items-center gap-4">
-            {[1, 2, 3].map((s) => (
-              <React.Fragment key={s}>
-                <div className={`flex items-center justify-center w-10 h-10 rounded-full font-black text-sm transition-all ${
-                  currentStep >= s ? 'bg-[#ff3c83] text-white shadow-lg shadow-pink-100' : 'bg-white text-gray-300 border border-gray-100'
+  return (
+    <div className="min-h-screen bg-white pt-32 pb-20">
+      <div className="container mx-auto px-6 max-w-7xl">
+        
+        {/* Header */}
+        <div className="text-center mb-12">
+          <h1 className="text-3xl md:text-4xl font-light text-gray-900 mb-3">
+            {currentStep === 1 ? 'Shopping Bag' : currentStep === 2 ? 'Delivery Address' : 'Payment'}
+          </h1>
+          <div className="w-12 h-px bg-gray-300 mx-auto" />
+        </div>
+
+        {/* Stepper */}
+        <div className="flex justify-center items-center gap-8 mb-12">
+          {steps.map((step, idx) => (
+            <React.Fragment key={step.number}>
+              <div className="flex flex-col items-center gap-2">
+                <div className={`flex items-center justify-center w-8 h-8 transition-all duration-300 ${
+                  currentStep >= step.number 
+                    ? currentStep > step.number 
+                      ? 'text-gray-800' 
+                      : 'text-gray-800 border-b border-gray-800'
+                    : 'text-gray-300'
                 }`}>
-                  {currentStep > s ? <Check size={20} /> : s}
+                  {currentStep > step.number ? (
+                    <Check size={16} strokeWidth={1.5} />
+                  ) : (
+                    <span className="text-xs font-light">{step.number}</span>
+                  )}
                 </div>
-                {s < 3 && <div className={`w-8 h-1 rounded-full transition-all ${currentStep > s ? 'bg-[#ff3c83]' : 'bg-gray-100'}`} />}
-              </React.Fragment>
-            ))}
-          </div>
+                <span className={`text-[10px] tracking-wide ${
+                  currentStep >= step.number ? 'text-gray-500' : 'text-gray-300'
+                }`}>
+                  {step.label}
+                </span>
+              </div>
+              {idx < steps.length - 1 && (
+                <div className={`w-12 h-px transition-all duration-300 ${
+                  currentStep > step.number ? 'bg-gray-400' : 'bg-gray-200'
+                }`} />
+              )}
+            </React.Fragment>
+          ))}
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-          {/* Step 1: Bag Items */}
-          {currentStep === 1 && (
-            <div className="lg:col-span-2 space-y-6">
-              <AnimatePresence>
-                {cart.items.map((item: any) => {
-                  const product = item.productId;
-                  const pid = product._id || product;
-                  return (
-                    <motion.div 
-                      key={pid}
-                      initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 20 }}
-                      className="bg-white p-6 rounded-[2rem] shadow-sm flex flex-col md:flex-row items-center gap-6 group hover:shadow-md transition-shadow"
-                    >
-                      <div className="w-24 h-24 bg-gray-50 rounded-2xl overflow-hidden shrink-0">
-                        <img src={product.images?.[0] || '/images/combo-6-1.png'} alt={product.title} className="w-full h-full object-cover" />
-                      </div>
-                      <div className="flex-1 text-center md:text-left">
-                        <h3 className="text-xl font-bold text-[#1e3a8a]">{product.title}</h3>
-                        <p className="text-gray-400 font-bold text-sm">{product.category}</p>
-                      </div>
-                      
-                      <div className="flex items-center gap-4 bg-gray-50 p-2 rounded-2xl">
-                        <button onClick={() => handleUpdateQuantity(pid, item.quantity - 1)}
-                          className="w-10 h-10 flex items-center justify-center bg-white rounded-xl shadow-sm hover:text-[#ff3c83] transition-colors">
-                          <Minus size={18} />
-                        </button>
-                        <span className="w-8 text-center font-black text-[#1e3a8a]">{item.quantity}</span>
-                        <button onClick={() => handleUpdateQuantity(pid, item.quantity + 1)}
-                          className="w-10 h-10 flex items-center justify-center bg-white rounded-xl shadow-sm hover:text-[#ff3c83] transition-colors">
-                          <Plus size={18} />
-                        </button>
-                      </div>
-
-                      <div className="text-right min-w-[100px]">
-                        <p className="text-xl font-black text-[#ff3c83]">₹{item.price * item.quantity}.00</p>
-                        <p className="text-xs text-gray-400 font-bold">₹{item.price} each</p>
-                      </div>
-
-                      <button onClick={() => handleRemove(pid)}
-                        className="p-3 text-gray-300 hover:text-red-500 hover:bg-red-50 rounded-xl transition-all">
-                        <Trash2 size={22} />
-                      </button>
-                    </motion.div>
-                  );
-                })}
-              </AnimatePresence>
-            </div>
-          )}
-
-          {/* Step 2: Address Selection */}
-          {currentStep === 2 && (
-            <div className="lg:col-span-2 space-y-8">
-              <div className="flex items-center justify-between">
-                <h3 className="text-xl font-black text-[#1e3a8a]">Select Delivery Address</h3>
-                <button onClick={() => navigate('/profile?section=addresses')} className="text-[#ff3c83] font-black text-sm uppercase tracking-wider hover:underline">
-                  + Add New Address
-                </button>
+          
+          {/* Main Content Area */}
+          <div className="lg:col-span-2">
+            
+            {/* Step 1: Cart Items */}
+            {currentStep === 1 && (
+              <div className="space-y-4">
+                <AnimatePresence>
+                  {cart.items.map((item: any) => {
+                    const product = item.productId;
+                    const pid = product._id || product;
+                    return (
+                      <motion.div 
+                        key={pid}
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -10 }}
+                        className="border border-gray-100 p-5 hover:border-gray-200 transition-all duration-300"
+                      >
+                        <div className="flex gap-5">
+                          {/* Image */}
+                          <div className="w-20 h-20 bg-gray-50 flex-shrink-0">
+                            <img 
+                              src={product.images?.[0] || '/images/combo-6-1.png'} 
+                              alt={product.title} 
+                              className="w-full h-full object-cover"
+                            />
+                          </div>
+                          
+                          {/* Info */}
+                          <div className="flex-1">
+                            <h3 className="text-sm font-light text-gray-800 mb-1">{product.title}</h3>
+                            <p className="text-gray-400 text-xs font-light mb-2">
+                              {product.category || 'Combo Pack'}
+                            </p>
+                            <p className="text-gray-900 text-base font-light">₹{item.price}</p>
+                          </div>
+                          
+                          {/* Quantity Controls */}
+                          <div className="flex items-center gap-2">
+                            <button 
+                              onClick={() => handleUpdateQuantity(pid, item.quantity - 1)}
+                              className="w-7 h-7 border border-gray-200 flex items-center justify-center hover:border-gray-400 transition-all"
+                            >
+                              <Minus size={12} strokeWidth={1} />
+                            </button>
+                            <span className="text-xs text-gray-600 w-6 text-center">{item.quantity}</span>
+                            <button 
+                              onClick={() => handleUpdateQuantity(pid, item.quantity + 1)}
+                              className="w-7 h-7 border border-gray-200 flex items-center justify-center hover:border-gray-400 transition-all"
+                            >
+                              <Plus size={12} strokeWidth={1} />
+                            </button>
+                          </div>
+                          
+                          {/* Remove Button */}
+                          <button 
+                            onClick={() => handleRemove(pid)}
+                            className="text-gray-300 hover:text-gray-500 transition-all"
+                          >
+                            <Trash2 size={16} strokeWidth={1} />
+                          </button>
+                        </div>
+                      </motion.div>
+                    );
+                  })}
+                </AnimatePresence>
               </div>
+            )}
 
-              {addressLoading ? (
-                <div className="flex justify-center py-12"><div className="animate-spin rounded-full h-10 w-10 border-b-2 border-[#ff3c83]" /></div>
-              ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {addresses.map((addr) => (
+            {/* Step 2: Address Selection */}
+            {currentStep === 2 && (
+              <div>
+                <div className="flex justify-between items-center mb-6">
+                  <h3 className="text-sm font-light text-gray-600">Select delivery address</h3>
+                  <button 
+                    onClick={() => navigate('/profile?section=addresses')} 
+                    className="text-xs text-gray-400 hover:text-gray-600 transition-colors"
+                  >
+                    + Add New
+                  </button>
+                </div>
+
+                {addressLoading ? (
+                  <div className="flex justify-center py-12">
+                    <div className="w-6 h-6 border border-gray-200 border-t-gray-800 rounded-full animate-spin" />
+                  </div>
+                ) : addresses.length === 0 ? (
+                  <div className="border border-gray-100 p-12 text-center">
+                    <MapPin size={32} className="mx-auto text-gray-200 mb-4" strokeWidth={1} />
+                    <p className="text-gray-400 text-sm font-light mb-6">No saved addresses</p>
+                    <button 
+                      onClick={() => navigate('/profile?section=addresses')} 
+                      className="px-6 py-2 border border-gray-300 text-gray-600 text-xs font-light hover:border-gray-500 transition-all"
+                    >
+                      ADD ADDRESS
+                    </button>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 gap-4">
+                    {addresses.map((addr) => (
+                      <div 
+                        key={addr._id}
+                        onClick={() => setSelectedAddressId(addr._id)}
+                        className={`border p-5 cursor-pointer transition-all duration-300 ${
+                          selectedAddressId === addr._id ? 'border-gray-400' : 'border-gray-100 hover:border-gray-200'
+                        }`}
+                      >
+                        <div className="flex items-start justify-between">
+                          <div>
+                            <div className="flex items-center gap-2 mb-2">
+                              {addr.type === 'Home' ? <Home size={12} className="text-gray-400" /> : <Briefcase size={12} className="text-gray-400" />}
+                              <span className="text-[10px] tracking-wide text-gray-400 uppercase">{addr.type}</span>
+                            </div>
+                            <p className="text-sm font-light text-gray-800 mb-1">{addr.name}</p>
+                            <p className="text-xs text-gray-400 font-light">
+                              {addr.streetAddress}, {addr.locality}, {addr.city}, {addr.state} - {addr.pinCode}
+                            </p>
+                            <p className="text-xs text-gray-500 mt-2">{addr.phone}</p>
+                          </div>
+                          {selectedAddressId === addr._id && (
+                            <Check size={14} className="text-gray-600" strokeWidth={1.5} />
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* Step 3: Payment Method */}
+            {currentStep === 3 && (
+              <div>
+                <h3 className="text-sm font-light text-gray-600 mb-6">Choose payment method</h3>
+                <div className="space-y-3">
+                  {[
+                    { id: 'COD', label: 'Cash on Delivery', icon: <Truck size={16} />, desc: 'Pay when your order arrives' },
+                    { id: 'UPI', label: 'UPI', icon: <Smartphone size={16} />, desc: 'Google Pay, PhonePe, etc.' },
+                    { id: 'CARD', label: 'Credit/Debit Card', icon: <CreditCard size={16} />, desc: 'All major cards accepted' },
+                    { id: 'WALLET', label: 'Digital Wallet', icon: <Wallet size={16} />, desc: 'Paytm, Amazon Pay, etc.' }
+                  ].map((m) => (
                     <div 
-                      key={addr._id}
-                      onClick={() => setSelectedAddressId(addr._id)}
-                      className={`p-6 rounded-[2rem] border-2 cursor-pointer transition-all relative ${
-                        selectedAddressId === addr._id ? 'border-[#ff3c83] bg-pink-50/30' : 'border-gray-50 bg-white hover:border-gray-100'
+                      key={m.id}
+                      onClick={() => setSelectedPaymentMethod(m.id)}
+                      className={`border p-4 cursor-pointer transition-all duration-300 flex items-center gap-4 ${
+                        selectedPaymentMethod === m.id ? 'border-gray-400' : 'border-gray-100 hover:border-gray-200'
                       }`}
                     >
-                      {selectedAddressId === addr._id && (
-                        <div className="absolute top-4 right-4 w-6 h-6 bg-[#ff3c83] rounded-full flex items-center justify-center text-white">
-                          <Check size={14} strokeWidth={4} />
-                        </div>
-                      )}
-                      <div className="flex items-center gap-3 mb-4">
-                        {addr.type === 'Home' ? <Home size={18} className="text-gray-400" /> : <Briefcase size={18} className="text-gray-400" />}
-                        <span className="text-[10px] font-black uppercase tracking-widest px-2 py-1 bg-gray-100 rounded-lg text-gray-500">{addr.type}</span>
+                      <div className={`${selectedPaymentMethod === m.id ? 'text-gray-800' : 'text-gray-400'}`}>
+                        {m.icon}
                       </div>
-                      <p className="font-black text-[#1e3a8a] mb-1">{addr.name}</p>
-                      <p className="text-sm text-gray-500 font-bold leading-relaxed">
-                        {addr.streetAddress}, {addr.locality}, {addr.city}, {addr.state} - {addr.pinCode}
-                      </p>
-                      <p className="mt-4 font-black text-[#ff3c83] text-sm">{addr.phone}</p>
+                      <div className="flex-1">
+                        <p className="text-sm font-light text-gray-800">{m.label}</p>
+                        <p className="text-xs text-gray-400 font-light">{m.desc}</p>
+                      </div>
+                      {selectedPaymentMethod === m.id && (
+                        <Check size={14} className="text-gray-600" strokeWidth={1.5} />
+                      )}
                     </div>
                   ))}
-                  
-                  {addresses.length === 0 && (
-                    <div className="col-span-2 p-12 bg-white rounded-[2.5rem] border border-dashed text-center">
-                      <MapPin size={40} className="mx-auto text-gray-200 mb-4" />
-                      <p className="text-gray-400 font-bold mb-6">No saved addresses found</p>
-                      <button onClick={() => navigate('/profile?section=addresses')} className="bg-[#ff3c83] text-white px-8 py-3 rounded-xl font-black text-sm uppercase tracking-widest shadow-lg shadow-pink-100">
-                        Add New Address
-                      </button>
-                    </div>
-                  )}
                 </div>
-              )}
-            </div>
-          )}
-
-          {/* Step 3: Payment Method */}
-          {currentStep === 3 && (
-            <div className="lg:col-span-2 space-y-8">
-              <h3 className="text-xl font-black text-[#1e3a8a]">Choose Payment Method</h3>
-              <div className="grid grid-cols-1 gap-4">
-                {[
-                  { id: 'UPI', label: 'UPI (GPay, PhonePe, etc.)', icon: <Smartphone size={24} />, desc: 'Pay instantly using your UPI apps' },
-                  { id: 'CARD', label: 'Credit / Debit Cards', icon: <CreditCard size={24} />, desc: 'All major cards supported' },
-                  { id: 'WALLET', label: 'Digital Wallets', icon: <Wallet size={24} />, desc: 'Pay with popular wallets' },
-                  { id: 'COD', label: 'Cash on Delivery', icon: <Truck size={24} />, desc: 'Pay when your bar arrives' }
-                ].map((m) => (
-                  <div 
-                    key={m.id}
-                    onClick={() => setSelectedPaymentMethod(m.id)}
-                    className={`p-6 rounded-[2rem] border-2 cursor-pointer transition-all flex items-center gap-6 ${
-                      selectedPaymentMethod === m.id ? 'border-[#ff3c83] bg-pink-50/30' : 'border-gray-50 bg-white hover:border-gray-100'
-                    }`}
-                  >
-                    <div className={`p-4 rounded-2xl ${selectedPaymentMethod === m.id ? 'bg-[#ff3c83] text-white' : 'bg-gray-50 text-gray-400'}`}>
-                      {m.icon}
-                    </div>
-                    <div className="flex-1">
-                      <p className="font-black text-[#1e3a8a]">{m.label}</p>
-                      <p className="text-xs text-gray-400 font-bold">{m.desc}</p>
-                    </div>
-                    <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${selectedPaymentMethod === m.id ? 'border-[#ff3c83]' : 'border-gray-200'}`}>
-                      {selectedPaymentMethod === m.id && <div className="w-3 h-3 bg-[#ff3c83] rounded-full" />}
-                    </div>
-                  </div>
-                ))}
               </div>
-            </div>
-          )}
+            )}
+          </div>
 
-          {/* Summary */}
+          {/* Order Summary */}
           <div className="lg:col-span-1">
-            <div className="bg-white p-8 rounded-[2.5rem] shadow-sm sticky top-36 border border-gray-50">
-              <h2 className="text-2xl font-black text-[#1e3a8a] mb-8">Summary</h2>
-              <div className="space-y-4 mb-8">
-                <div className="flex justify-between font-bold text-gray-500">
-                  <span>Subtotal</span>
-                  <span>₹{cart.totalAmount}.00</span>
+            <div className="border border-gray-100 p-6 sticky top-32">
+              <h3 className="text-sm font-light text-gray-600 mb-5">Order Summary</h3>
+              
+              <div className="space-y-3 mb-5">
+                <div className="flex justify-between text-xs">
+                  <span className="text-gray-400 font-light">Subtotal</span>
+                  <span className="text-gray-600">₹{cart.totalAmount}</span>
                 </div>
-                <div className="flex justify-between font-bold text-gray-500">
-                  <span>Shipping</span>
-                  <span className="text-green-500">FREE</span>
+                <div className="flex justify-between text-xs">
+                  <span className="text-gray-400 font-light">Shipping</span>
+                  <span className="text-gray-500">Free</span>
                 </div>
-                <div className="h-px bg-gray-100 my-4" />
-                <div className="flex justify-between items-center">
-                  <span className="text-xl font-black text-[#1e3a8a]">Total</span>
-                  <span className="text-3xl font-black text-[#ff3c83]">₹{cart.totalAmount}.00</span>
+                <div className="border-t border-gray-100 my-3" />
+                <div className="flex justify-between">
+                  <span className="text-sm font-light text-gray-600">Total</span>
+                  <span className="text-base font-light text-gray-900">₹{cart.totalAmount}</span>
                 </div>
               </div>
-              
-              <div className="space-y-4">
+
+              <div className="space-y-3">
                 {currentStep > 1 && (
                   <button 
                     onClick={prevStep}
-                    className="w-full flex items-center justify-center gap-2 text-gray-400 font-bold text-sm py-4 rounded-2xl hover:bg-gray-50 transition-all uppercase tracking-widest"
+                    className="w-full py-3 border border-gray-200 text-gray-500 text-xs font-light tracking-wider hover:border-gray-400 transition-all"
                   >
-                    <ArrowLeft size={16} />
-                    Back
+                    BACK
                   </button>
                 )}
                 
-                <motion.button 
-                  whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}
+                <button 
                   onClick={currentStep === 3 ? handleCheckout : nextStep}
                   disabled={(currentStep === 2 && !selectedAddressId) || placingOrder}
-                  className="w-full bg-[#ff3c83] text-white font-black py-5 rounded-2xl shadow-xl shadow-pink-100 flex items-center justify-center gap-3 tracking-widest group disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full py-3 bg-gray-900 text-white text-xs font-light tracking-wider hover:bg-gray-800 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {placingOrder ? 'PLACING ORDER...' : currentStep === 1 ? 'CHECKOUT' : currentStep === 2 ? 'CONTINUE TO PAYMENT' : 'PLACE ORDER'}
-                  {!placingOrder && <ArrowRight size={20} className="group-hover:translate-x-2 transition-transform" />}
-                </motion.button>
+                  {placingOrder ? 'PROCESSING...' : currentStep === 1 ? 'CHECKOUT' : currentStep === 2 ? 'CONTINUE' : 'PLACE ORDER'}
+                </button>
+                
+                <Link to="/happy-shop" className="block text-center">
+                  <span className="text-xs text-gray-400 hover:text-gray-600 transition-colors">
+                    Continue Shopping
+                  </span>
+                </Link>
               </div>
-              
-              <Link to="/happy-shop" className="block text-center mt-6 text-[#1e3a8a] font-bold text-sm tracking-wide hover:underline uppercase">
-                Continue Shopping
-              </Link>
             </div>
           </div>
         </div>

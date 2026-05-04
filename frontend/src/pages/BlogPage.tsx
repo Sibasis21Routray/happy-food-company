@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import { ArrowRight, Calendar, User } from 'lucide-react';
 
 interface BlogPost {
   id: string;
@@ -54,7 +55,7 @@ const blogPosts: BlogPost[] = [
     image: "https://thehappyfoodcompany.com/wp-content/uploads/2024/06/my-daily-fix-400x250.webp",
     imageAlt: 'Protein bars and nuts for energy'
   },
-    {
+  {
     id: '5',
     title: 'Fuel Your Well-being with Happy Bars: A Natural Protein Energy Solution',
     path: '/blog/fuel-wellbeing-happy-bars',
@@ -64,7 +65,7 @@ const blogPosts: BlogPost[] = [
     image: "https://thehappyfoodcompany.com/wp-content/uploads/2024/06/fuel-your-wellbeing-400x250.webp",
     imageAlt: 'Healthy lifestyle with natural protein bars'
   },
-   {
+  {
     id: '6',
     title: 'Happy Bars: The Perfect Snack for Busy Parents and Kids On-The-Go',
     path: '/blog/happy-bars-parents-kids',
@@ -84,8 +85,6 @@ const blogPosts: BlogPost[] = [
     image: "https://thehappyfoodcompany.com/wp-content/uploads/2024/06/fuel-workout-protein-pro-400x250.webp",
     imageAlt: 'Person working out with protein bar'
   },
-  
-
   {
     id: '8',
     title: 'Craving Control: How Protein Bars Can Support Your Weight Loss Journey',
@@ -96,78 +95,89 @@ const blogPosts: BlogPost[] = [
     image: "https://thehappyfoodcompany.com/wp-content/uploads/2024/06/craving-for-chocolate-400x250.webp",
     imageAlt: 'Healthy food choices for weight management'
   },
-  
- 
 ];
 
 export const BlogPage: React.FC = () => {
   return (
-    <div className="min-h-screen bg-white">
-      {/* 1. Hero Header Section */}
-      <div className="relative bg-[#ff7043] h-64 md:h-80 flex items-center mb-24">
-        <div className="container mx-auto px-4 max-w-7xl flex justify-end items-center">
-          {/* Floating Image Card */}
-          {/* <div className="absolute left-4 md:left-20 top-12 md:top-16 bg-slate-100 rounded-3xl p-4 shadow-2xl w-48 md:w-72 overflow-hidden rotate-[-2deg]">
-            <img 
-              src="https://thehappyfoodcompany.com/wp-content/uploads/2024/06/my-daily-fix-400x250.webp" 
-              alt="Happy Bars background" 
-              className="rounded-2xl w-full h-auto"
-            />
-          </div> */}
-          
-          <h1 className="text-4xl md:text-7xl font-bold text-black mr-4 md:mr-20">
-            The Happy Blog
-          </h1>
+    <div className="min-h-screen bg-white pt-24 pb-16">
+      
+      {/* Hero Section */}
+      <div
+  className="py-16 mb-12"
+  style={{
+    backgroundImage: "url('https://img.freepik.com/premium-vector/blue-background-with-line-that-says-blue-vector-illustration-autumn-leaves_1007350-15391.jpg')",
+    backgroundSize: "fill",
+    backgroundPosition: "center",
+    // backgroundRepeat: "no-repeat"
+  }}
+>
+        <div className="container mx-auto px-6 max-w-7xl">
+          <div className="text-center">
+            <h1 className="text-3xl md:text-4xl font-light text-white mb-3">The Happy Blog</h1>
+            <div className="w-12 h-px bg-gray-300 mx-auto" />
+            <p className="text-gray-400 text-sm font-light mt-4 max-w-md mx-auto">
+              Stories, tips, and inspiration for a healthier, happier life
+            </p>
+          </div>
         </div>
       </div>
 
-      {/* 2. Blog Grid Section - Show ALL posts */}
-      <div className="container mx-auto px-4 max-w-7xl pb-20">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+      {/* Blog Grid Section */}
+      <div className="container mx-auto px-6 max-w-7xl">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {blogPosts.map((post, index) => (
             <motion.article
               key={post.id}
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
-              className="flex flex-col group bg-white rounded-[2.5rem] overflow-hidden border border-slate-100 shadow-[0_10px_30px_-15px_rgba(0,0,0,0.1)] hover:shadow-2xl transition-all duration-300"
+              transition={{ delay: index * 0.05, duration: 0.5 }}
+              whileHover={{ y: -4 }}
+              className="group bg-white border border-gray-100 hover:border-gray-200 transition-all duration-300"
             >
-              {/* Image Container with specific aspect ratio */}
-              <div className="h-64 overflow-hidden">
-                <img 
-                  src={post.image} 
-                  alt={post.imageAlt}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-              </div>
+              {/* Image Container */}
+              <Link to={post.path} className="block overflow-hidden">
+                <div className="aspect-[16/10] overflow-hidden bg-gray-50">
+                  <img 
+                    src={post.image} 
+                    alt={post.imageAlt}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                </div>
+              </Link>
               
               {/* Content Area */}
-              <div className="p-8 flex flex-col flex-grow">
-                <h2 className="text-xl font-bold text-slate-800 mb-2 leading-tight line-clamp-2">
-                  {post.title}
-                </h2>
-                
-                <div className="text-xs text-purple-800 font-medium mb-4">
-                  by {post.author} | {post.date}
+              <div className="p-6 flex flex-col flex-grow">
+                {/* Meta Info */}
+                <div className="flex items-center gap-4 text-xs text-gray-400 mb-3">
+                  <span className="flex items-center gap-1">
+                    <User size={12} strokeWidth={1.5} />
+                    {post.author.split(' ')[0]}
+                  </span>
+                  <span className="flex items-center gap-1">
+                    <Calendar size={12} strokeWidth={1.5} />
+                    {post.date}
+                  </span>
                 </div>
                 
-                <p className="text-slate-500 text-sm leading-relaxed mb-4 line-clamp-3">
+                {/* Title */}
+                <h2 className="text-lg font-light text-gray-800 mb-3 leading-relaxed line-clamp-2">
+                  <Link to={post.path} className="hover:text-gray-600 transition-colors">
+                    {post.title}
+                  </Link>
+                </h2>
+                
+                {/* Excerpt */}
+                <p className="text-gray-400 text-sm font-light leading-relaxed mb-4 line-clamp-3">
                   {post.excerpt}
                 </p>
                 
+                {/* Read More Link */}
                 <Link
                   to={post.path}
-                  className="mt-auto text-purple-900 text-sm font-bold hover:underline inline-flex items-center group/link"
+                  className="mt-auto text-gray-500 text-xs font-light tracking-wider hover:text-gray-700 transition-colors inline-flex items-center gap-1 group/link"
                 >
-                  read more
-                  <svg 
-                    className="w-3 h-3 ml-1 group-hover/link:translate-x-1 transition-transform" 
-                    fill="none" 
-                    stroke="currentColor" 
-                    viewBox="0 0 24 24"
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
+                  READ MORE
+                  <ArrowRight size={12} className="group-hover/link:translate-x-1 transition-transform" strokeWidth={1.5} />
                 </Link>
               </div>
             </motion.article>

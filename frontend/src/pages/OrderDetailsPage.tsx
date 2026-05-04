@@ -4,10 +4,10 @@ import { motion } from 'framer-motion';
 import { ArrowLeft, Package, MapPin, CheckCircle, Truck, ShoppingBag, Clock, XCircle } from 'lucide-react';
 import { api } from '../services/api';
 
-// ── Tracking steps definition ──────────────────────────────────────────────
+// Tracking steps definition
 const TRACKING_STEPS = [
   { key: 'pending',    label: 'Order Placed',      icon: ShoppingBag },
-  { key: 'confirmed', label: 'Order Confirmed',    icon: CheckCircle },
+  { key: 'confirmed', label: 'Confirmed',          icon: CheckCircle },
   { key: 'processing',label: 'Processing',         icon: Clock },
   { key: 'shipped',   label: 'Shipped',            icon: Truck },
   { key: 'delivered', label: 'Delivered',          icon: Package },
@@ -20,14 +20,13 @@ function getStepIndex(status: string): number {
   return idx === -1 ? 0 : idx;
 }
 
-// ── Status badge colours ───────────────────────────────────────────────────
 function statusStyle(status: string) {
   switch (status) {
-    case 'delivered':  return 'bg-green-100 text-green-600';
-    case 'cancelled':  return 'bg-red-100 text-red-500';
-    case 'shipped':    return 'bg-blue-100 text-blue-600';
-    case 'processing': return 'bg-yellow-100 text-yellow-600';
-    default:           return 'bg-orange-100 text-orange-500';
+    case 'delivered':  return 'bg-green-50 text-green-700 border border-green-200';
+    case 'cancelled':  return 'bg-red-50 text-red-600 border border-red-200';
+    case 'shipped':    return 'bg-blue-50 text-blue-700 border border-blue-200';
+    case 'processing': return 'bg-yellow-50 text-yellow-700 border border-yellow-200';
+    default:           return 'bg-gray-50 text-gray-700 border border-gray-200';
   }
 }
 
@@ -52,21 +51,22 @@ export const OrderDetailsPage: React.FC = () => {
     })();
   }, [id]);
 
-  // ── Loading / Error states ─────────────────────────────────────────────
   if (loading) {
     return (
-      <div className="min-h-screen pt-24 sm:pt-32 flex items-center justify-center bg-[#f1f3f6]">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#FA6011]" />
+      <div className="min-h-screen pt-32 flex items-center justify-center bg-white">
+        <div className="w-10 h-10 border-2 border-gray-200 border-t-gray-800 rounded-full animate-spin" />
       </div>
     );
   }
 
   if (error || !order) {
     return (
-      <div className="min-h-screen pt-24 sm:pt-32 flex flex-col items-center justify-center bg-[#f1f3f6] gap-4">
-        <XCircle size={48} className="text-red-400" />
-        <p className="text-gray-500 font-bold">{error || 'Order not found'}</p>
-        <button onClick={() => navigate(-1)} className="text-[#FA6011] font-black underline text-sm">Go Back</button>
+      <div className="min-h-screen pt-32 flex flex-col items-center justify-center bg-white gap-5">
+        <XCircle size={48} className="text-gray-400" strokeWidth={1.5} />
+        <p className="text-gray-500 text-base font-light">{error || 'Order not found'}</p>
+        <button onClick={() => navigate(-1)} className="text-gray-700 text-sm font-medium underline-offset-4 hover:underline">
+          Go Back
+        </button>
       </div>
     );
   }
@@ -75,54 +75,53 @@ export const OrderDetailsPage: React.FC = () => {
   const currentStep = getStepIndex(order.status);
 
   return (
-    <div className="min-h-screen pt-20 sm:pt-24 md:pt-28 pb-16 bg-[#f1f3f6]">
-      <div className="container mx-auto px-3 sm:px-4 max-w-4xl">
+    <div className="min-h-screen pt-32 pb-24 bg-gray-50">
+      <div className="container mx-auto px-6 max-w-4xl">
 
         {/* Back button */}
         <button
           onClick={() => navigate(-1)}
-          className="flex items-center gap-2 text-gray-500 hover:text-[#FA6011] font-bold text-sm mb-6 transition-colors group"
+          className="flex items-center gap-2 text-gray-500 hover:text-gray-800 text-sm font-medium mb-8 transition-colors group"
         >
           <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
-          Back to My Orders
+          Back to Orders
         </button>
 
         <motion.div
-          initial={{ opacity: 0, y: 16 }}
+          initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.35 }}
-          className="space-y-4"
+          transition={{ duration: 0.4 }}
+          className="space-y-6"
         >
 
-          {/* ── Header card ──────────────────────────────────────────── */}
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 sm:p-7">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          {/* Header Card */}
+          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-7">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div>
-                <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">Order ID</p>
-                <p className="text-sm sm:text-base font-bold text-gray-800 break-all">{order._id}</p>
+                <p className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-1.5">Order ID</p>
+                <p className="text-base font-mono text-gray-800 break-all">{order._id?.slice(-12)}</p>
               </div>
-              <div className="flex items-center gap-3 flex-wrap">
-                <span className={`px-3 py-1.5 rounded-full text-[10px] sm:text-xs font-black uppercase tracking-widest ${statusStyle(order.status)}`}>
-                  {order.status}
+              <div className="flex items-center gap-4 flex-wrap">
+                <span className={`px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wide ${statusStyle(order.status)}`}>
+                  {order.status?.toUpperCase()}
                 </span>
-                <span className="text-xs font-bold text-gray-400">
+                <span className="text-sm font-medium text-gray-500">
                   {new Date(order.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })}
                 </span>
               </div>
             </div>
           </div>
 
-          {/* ── Tracking Timeline ─────────────────────────────────────── */}
+          {/* Tracking Timeline */}
           {!isCancelled && (
-            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 sm:p-7">
-              <h2 className="text-sm sm:text-base font-black uppercase text-gray-900 tracking-widest mb-6">Track Order</h2>
+            <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-7">
+              <h2 className="text-sm font-semibold text-gray-700 uppercase tracking-wider mb-8">Order Status</h2>
 
               {/* Desktop: horizontal steps */}
               <div className="hidden sm:flex items-center justify-between relative">
-                {/* connector line */}
                 <div className="absolute left-0 right-0 top-5 h-0.5 bg-gray-100 z-0">
                   <div
-                    className="h-full bg-[#FA6011] transition-all duration-700"
+                    className="h-full bg-gray-600 transition-all duration-700"
                     style={{ width: `${(currentStep / (TRACKING_STEPS.length - 1)) * 100}%` }}
                   />
                 </div>
@@ -131,18 +130,20 @@ export const OrderDetailsPage: React.FC = () => {
                   const done = idx <= currentStep;
                   const Icon = step.icon;
                   return (
-                    <div key={step.key} className="relative z-10 flex flex-col items-center gap-2 flex-1">
+                    <div key={step.key} className="relative z-10 flex flex-col items-center gap-3 flex-1">
                       <motion.div
-                        initial={{ scale: 0.8 }}
-                        animate={{ scale: done ? 1 : 0.85 }}
-                        transition={{ delay: idx * 0.08 }}
-                        className={`w-10 h-10 rounded-full flex items-center justify-center shadow transition-all ${
-                          done ? 'bg-[#FA6011] text-white shadow-orange-200' : 'bg-gray-100 text-gray-300'
+                        initial={{ scale: 0.9 }}
+                        animate={{ scale: done ? 1 : 0.9 }}
+                        transition={{ delay: idx * 0.05 }}
+                        className={`w-12 h-12 rounded-full flex items-center justify-center transition-all ${
+                          done ? 'bg-gray-800 text-white shadow-md' : 'bg-gray-100 text-gray-400'
                         }`}
                       >
-                        <Icon size={18} />
+                        <Icon size={20} strokeWidth={1.5} />
                       </motion.div>
-                      <p className={`text-[10px] font-black uppercase tracking-wider text-center ${done ? 'text-[#FA6011]' : 'text-gray-300'}`}>
+                      <p className={`text-xs font-medium tracking-wide text-center ${
+                        done ? 'text-gray-700' : 'text-gray-400'
+                      }`}>
                         {step.label}
                       </p>
                     </div>
@@ -156,19 +157,19 @@ export const OrderDetailsPage: React.FC = () => {
                   const done = idx <= currentStep;
                   const Icon = step.icon;
                   return (
-                    <div key={step.key} className="flex items-stretch gap-4">
+                    <div key={step.key} className="flex items-stretch gap-5">
                       <div className="flex flex-col items-center">
-                        <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 transition-all ${
-                          done ? 'bg-[#FA6011] text-white' : 'bg-gray-100 text-gray-300'
+                        <div className={`w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0 transition-all ${
+                          done ? 'bg-gray-800 text-white shadow-sm' : 'bg-gray-100 text-gray-400'
                         }`}>
-                          <Icon size={15} />
+                          <Icon size={18} strokeWidth={1.5} />
                         </div>
                         {idx < TRACKING_STEPS.length - 1 && (
-                          <div className={`w-0.5 flex-1 my-1 ${done && idx < currentStep ? 'bg-[#FA6011]' : 'bg-gray-100'}`} style={{ minHeight: 24 }} />
+                          <div className={`w-0.5 flex-1 my-1 ${done && idx < currentStep ? 'bg-gray-600' : 'bg-gray-200'}`} style={{ minHeight: 30 }} />
                         )}
                       </div>
-                      <div className="pb-4 pt-1">
-                        <p className={`text-xs font-black uppercase tracking-widest ${done ? 'text-[#FA6011]' : 'text-gray-300'}`}>
+                      <div className="pb-6 pt-1">
+                        <p className={`text-sm font-medium tracking-wide ${done ? 'text-gray-800' : 'text-gray-400'}`}>
                           {step.label}
                         </p>
                       </div>
@@ -179,79 +180,90 @@ export const OrderDetailsPage: React.FC = () => {
             </div>
           )}
 
+          {/* Cancelled State */}
           {isCancelled && (
-            <div className="bg-red-50 border border-red-100 rounded-2xl p-5 sm:p-7 flex items-center gap-4">
-              <XCircle size={28} className="text-red-400 flex-shrink-0" />
+            <div className="bg-red-50 border border-red-200 rounded-xl p-7 flex items-start gap-5">
+              <XCircle size={28} className="text-red-500 flex-shrink-0" strokeWidth={1.5} />
               <div>
-                <p className="font-black text-red-500 uppercase tracking-widest text-xs sm:text-sm">Order Cancelled</p>
-                <p className="text-xs text-red-400 font-bold mt-0.5">This order has been cancelled.</p>
+                <p className="font-semibold text-red-700 uppercase tracking-wide text-sm mb-1">Order Cancelled</p>
+                <p className="text-sm text-red-600 font-normal">This order has been cancelled. Contact support for more information.</p>
               </div>
             </div>
           )}
 
-          {/* ── Items ────────────────────────────────────────────────── */}
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 sm:p-7">
-            <h2 className="text-sm sm:text-base font-black uppercase text-gray-900 tracking-widest mb-5">Order Items</h2>
-            <div className="divide-y divide-gray-50">
+          {/* Order Items */}
+          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-7">
+            <h2 className="text-sm font-semibold text-gray-700 uppercase tracking-wider mb-6">Order Items</h2>
+            <div className="divide-y divide-gray-100">
               {order.items?.map((item: any, idx: number) => (
-                <div key={item.productId || idx} className="flex items-center justify-between gap-4 py-3 first:pt-0 last:pb-0">
-                  <div className="flex items-center gap-3 min-w-0">
-                    {item.image && (
+                <div key={item.productId || idx} className="flex items-center justify-between gap-5 py-4 first:pt-0 last:pb-0">
+                  <div className="flex items-center gap-4 min-w-0">
+                    {item.image ? (
                       <img
                         src={item.image}
                         alt={item.title}
-                        className="w-12 h-12 sm:w-14 sm:h-14 object-cover rounded-xl border border-gray-100 flex-shrink-0"
+                        className="w-14 h-14 object-cover rounded-lg border border-gray-100 flex-shrink-0"
                         onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
                       />
+                    ) : (
+                      <div className="w-14 h-14 bg-gray-50 rounded-lg flex items-center justify-center flex-shrink-0">
+                        <Package size={20} className="text-gray-400" strokeWidth={1.5} />
+                      </div>
                     )}
                     <div className="min-w-0">
-                      <p className="text-sm font-black text-gray-900 truncate">{item.title}</p>
-                      <p className="text-xs font-bold text-gray-400">Qty: {item.quantity}</p>
+                      <p className="text-base font-medium text-gray-800 truncate">{item.title}</p>
+                      <p className="text-sm text-gray-500 mt-0.5">Quantity: {item.quantity}</p>
                     </div>
                   </div>
-                  <p className="text-sm sm:text-base font-black text-[#FA6011] flex-shrink-0">
-                    ₹{(item.price * item.quantity).toFixed(2)}
+                  <p className="text-lg font-semibold text-gray-800 flex-shrink-0">
+                    ₹{item.price * item.quantity}
                   </p>
                 </div>
               ))}
             </div>
 
-            <div className="mt-5 pt-4 border-t border-gray-50 flex flex-col gap-2">
+            <div className="mt-6 pt-5 border-t border-gray-100 space-y-3">
               {order.discount > 0 && (
-                <div className="flex justify-between text-xs font-bold text-gray-500">
-                  <span>Discount</span>
-                  <span className="text-green-500">- ₹{order.discount?.toFixed(2)}</span>
+                <div className="flex justify-between text-base">
+                  <span className="text-gray-500">Discount</span>
+                  <span className="text-green-600 font-medium">- ₹{order.discount?.toFixed(2)}</span>
                 </div>
               )}
-              <div className="flex justify-between items-center">
-                <p className="text-xs sm:text-sm font-black text-gray-400 uppercase tracking-widest">Order Total</p>
-                <p className="text-lg sm:text-xl font-black text-gray-900">₹{order.totalAmount?.toFixed(2)}</p>
+              <div className="flex justify-between items-center pt-2">
+                <p className="text-base font-medium text-gray-600 uppercase tracking-wider">Total Amount</p>
+                <p className="text-2xl font-bold text-gray-900">₹{order.totalAmount?.toFixed(2)}</p>
               </div>
             </div>
           </div>
 
-          {/* ── Shipping Address ──────────────────────────────────────── */}
+          {/* Shipping Address */}
           {order.shippingAddress && (
-            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 sm:p-7">
-              <div className="flex items-center gap-2 mb-4">
-                <MapPin size={16} className="text-[#FA6011]" />
-                <h2 className="text-sm sm:text-base font-black uppercase text-gray-900 tracking-widest">Delivery Address</h2>
+            <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-7">
+              <div className="flex items-center gap-3 mb-5">
+                <MapPin size={20} className="text-gray-600" strokeWidth={1.5} />
+                <h2 className="text-sm font-semibold text-gray-700 uppercase tracking-wider">Delivery Address</h2>
               </div>
-              <p className="font-black text-gray-900 text-sm sm:text-base">{order.shippingAddress.name}</p>
-              <p className="text-[#FA6011] font-bold text-xs sm:text-sm mt-0.5">{order.shippingAddress.phone}</p>
-              <p className="text-xs sm:text-sm text-gray-500 font-bold leading-relaxed mt-1">
-                {order.shippingAddress.streetAddress}
-                {order.shippingAddress.locality && `, ${order.shippingAddress.locality}`},&nbsp;
-                {order.shippingAddress.city}, {order.shippingAddress.state} - {order.shippingAddress.pinCode}
-              </p>
+              <div className="space-y-1.5">
+                <p className="text-base font-medium text-gray-800">{order.shippingAddress.name}</p>
+                <p className="text-sm text-gray-600">{order.shippingAddress.phone}</p>
+                <p className="text-sm text-gray-500 leading-relaxed mt-2">
+                  {order.shippingAddress.streetAddress}
+                  {order.shippingAddress.locality && `, ${order.shippingAddress.locality}`}
+                  {order.shippingAddress.city && `, ${order.shippingAddress.city}`}
+                  {order.shippingAddress.state && `, ${order.shippingAddress.state}`}
+                  {order.shippingAddress.pinCode && ` - ${order.shippingAddress.pinCode}`}
+                </p>
+              </div>
             </div>
           )}
 
-          {/* ── Payment Method ─────────────────────────────────────────── */}
+          {/* Payment Method */}
           {order.paymentMethod && (
-            <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-5 sm:p-7">
-              <h2 className="text-sm sm:text-base font-black uppercase text-gray-900 tracking-widest mb-2">Payment Method</h2>
-              <p className="text-sm font-bold text-gray-600 capitalize">{order.paymentMethod.replace(/_/g, ' ')}</p>
+            <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-7">
+              <h2 className="text-sm font-semibold text-gray-700 uppercase tracking-wider mb-3">Payment Method</h2>
+              <p className="text-base font-medium text-gray-700">
+                {order.paymentMethod.replace(/_/g, ' ').toUpperCase()}
+              </p>
             </div>
           )}
 

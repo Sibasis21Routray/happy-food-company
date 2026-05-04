@@ -1,31 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { motion, AnimatePresence, useInView } from 'framer-motion';
-import { Heart, ShoppingCart, ArrowLeft, ChevronLeft, ChevronRight } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Heart, ShoppingCart } from 'lucide-react';
 import { api } from '../services/api';
 import { ShopNowSection } from '../components/ShopNowSection';
-
-const SectionHeader = ({
-  title,
-  color = "text-gray-800",
-}: {
-  title: string;
-  color?: string;
-}) => {
-  const ref = React.useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
-  return (
-    <motion.h2
-      ref={ref}
-      initial={{ opacity: 0, y: 30 }}
-      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-      transition={{ duration: 0.6, type: "spring", bounce: 0.4 }}
-      className={`text-center font-bold text-3xl md:text-4xl mb-4 px-4 ${color} tracking-tight`}
-    >
-      {title}
-    </motion.h2>
-  );
-};
 
 type ProductData = {
   titleLines: string[];
@@ -39,13 +17,19 @@ type ProductData = {
   waveColor2: string;
   featuresBg: string;
   featuresTitleColor: string;
-  ingredientsBg: string;
-  ingredientsBgHex: string;
-  ingredientsHeaderColor: string;
-  ingredientsCardBg: string;
-  ingredientsCardTitleColor: string;
-  ingredientsCardDescColor: string;
   mascots: { id: string; name: string; desc: string; img: string }[];
+  ingredientsList: { title: string; img: string }[];
+};
+
+const ingredients = {
+  almond: { title: "ALMONDS", img: "/ingredients/almond.png" },
+  cranberry: { title: "CRANBERRIES", img: "/ingredients/Cranberry.png" },
+  cashew: { title: "CASHEWS", img: "/ingredients/cashew.png" },
+  raisin: { title: "RAISINS", img: "/ingredients/raisin.png" },
+  coconut: { title: "COCONUT", img: "/ingredients/Coconut Craze.png" },
+  peanut: { title: "PEANUTS", img: "/ingredients/Peanut.png" },
+  jaggery: { title: "JAGGERY", img: "/ingredients/Jaggery.png" },
+  date: { title: "DATES", img: "/ingredients/Date.png" },
 };
 
 const productLibrary: Record<string, ProductData> = {
@@ -61,19 +45,40 @@ const productLibrary: Record<string, ProductData> = {
     waveColor2: '#3c3c72',
     featuresBg: 'bg-[#3c3c72]',
     featuresTitleColor: 'text-[#fb8a3b]',
-    ingredientsBg: 'bg-gray-50',
-    ingredientsBgHex: '#f9fafb',
-    ingredientsHeaderColor: 'text-gray-800',
-    ingredientsCardBg: 'bg-white',
-    ingredientsCardTitleColor: 'text-gray-800',
-    ingredientsCardDescColor: 'text-gray-500',
     mascots: [
-      { id: 'cashew', name: 'Cashew Carnival', desc: 'Join the cashew carnival for a nutty joyride, as cashews bring a crunch of happiness, healthy fats, and protein, supporting a cheerful mood and a satisfied tummy.', img: '/images/mascot-cashew.png' },
-      { id: 'raisin', name: 'Raisin Radiance', desc: 'Embark on a sweet rendezvous with raisins, delivering a chewy burst of natural sweetness and antioxidants, adding a bounce of energy to your day.', img: '/images/mascot-raisin.png' },
-      { id: 'peanut', name: 'Peanut Party', desc: 'Be part of the peanut party, where peanuts pack a protein punch, coupled with healthy fats and a satisfying crunch, ensuring a snacking adventure that fuels your energy levels.', img: '/images/mascot-peanut.png' },
-      { id: 'jaggery', name: 'Jaggery Jive', desc: 'Sweeten the scene with the jaggery jive, as this natural sweetener not only satisfies your sweet tooth but also brings antioxidants and iron to the dance floor, boosting your energy levels with a touch of sweetness.', img: '/images/mascot-jaggery.png' }
+      {
+        id: 'cashew',
+        name: 'Cashew Carnival',
+        desc: 'Join the cashew carnival for a nutty joyride, as cashews bring a crunch of happiness, healthy fats, and protein, supporting a cheerful mood and a satisfied tummy.',
+        img: ingredients.cashew.img
+      },
+      {
+        id: 'raisin',
+        name: 'Raisin Radiance',
+        desc: 'Embark on a sweet rendezvous with raisins, delivering a chewy burst of natural sweetness and antioxidants, adding a bounce of energy to your day.',
+        img: ingredients.raisin.img
+      },
+      {
+        id: 'peanut',
+        name: 'Peanut Party',
+        desc: 'Be part of the peanut party, where peanuts pack a protein punch, coupled with healthy fats and a satisfying crunch, ensuring a snacking adventure that fuels your energy levels.',
+        img: ingredients.peanut.img
+      },
+      {
+        id: 'jaggery',
+        name: 'Jaggery Jive',
+        desc: 'Sweeten the scene with the jaggery jive, as this natural sweetener not only satisfies your sweet tooth but also brings antioxidants and iron to the dance floor, boosting your energy levels with a touch of sweetness.',
+        img: ingredients.jaggery.img
+      }
+    ],
+    ingredientsList: [
+      ingredients.cashew,
+      ingredients.raisin,
+      ingredients.peanut,
+      ingredients.jaggery
     ]
   },
+
   'coconut-almond': {
     titleLines: ['Coconut', 'Almond'],
     titleColor: 'text-[#d65f4c]',
@@ -86,19 +91,40 @@ const productLibrary: Record<string, ProductData> = {
     waveColor2: '#cc4b34',
     featuresBg: 'bg-[#cc4b34]',
     featuresTitleColor: 'text-[#4c2415]',
-    ingredientsBg: 'bg-gray-50',
-    ingredientsBgHex: '#f9fafb',
-    ingredientsHeaderColor: 'text-gray-800',
-    ingredientsCardBg: 'bg-white',
-    ingredientsCardTitleColor: 'text-gray-800',
-    ingredientsCardDescColor: 'text-gray-500',
     mascots: [
-      { id: 'coconut', name: 'Coconut Craze', desc: 'Ride the wave of coconut craze, as coconuts add an exotic twist with their creamy texture and tropical flavor, making your snacking escapade a delightful and refreshing experience.', img: '/images/mascot-coconut.png' },
-      { id: 'almond', name: 'Almond Adventure', desc: 'Embark on an almond adventure, as almonds offer a nutty crunch filled with healthy fats and vitamin E, promoting heart health and adding a dose of excitement to your snacking journey.', img: '/images/mascot-almond.png' },
-      { id: 'peanut', name: 'Peanut Party', desc: 'Be part of the peanut party, where peanuts pack a protein punch, coupled with healthy fats and a satisfying crunch, ensuring a snacking adventure that fuels your energy levels.', img: '/images/mascot-peanut.png' },
-      { id: 'jaggery', name: 'Jaggery Jive', desc: 'Sweeten the scene with the jaggery jive, as this natural sweetener not only satisfies your sweet tooth but also brings antioxidants and iron to the dance floor, boosting your energy levels with a touch of sweetness.', img: '/images/mascot-jaggery.png' }
+      {
+        id: 'coconut',
+        name: 'Coconut Craze',
+        desc: 'Ride the wave of coconut craze, as coconuts add an exotic twist with their creamy texture and tropical flavor, making your snacking escapade a delightful and refreshing experience.',
+        img: ingredients.coconut.img
+      },
+      {
+        id: 'almond',
+        name: 'Almond Adventure',
+        desc: 'Embark on an almond adventure, as almonds offer a nutty crunch filled with healthy fats and vitamin E, promoting heart health and adding a dose of excitement to your snacking journey.',
+        img: ingredients.almond.img
+      },
+      {
+        id: 'peanut',
+        name: 'Peanut Party',
+        desc: 'Be part of the peanut party, where peanuts pack a protein punch, coupled with healthy fats and a satisfying crunch, ensuring a snacking adventure that fuels your energy levels.',
+        img: ingredients.peanut.img
+      },
+      {
+        id: 'jaggery',
+        name: 'Jaggery Jive',
+        desc: 'Sweeten the scene with the jaggery jive, as this natural sweetener not only satisfies your sweet tooth but also brings antioxidants and iron to the dance floor, boosting your energy levels with a touch of sweetness.',
+        img: ingredients.jaggery.img
+      }
+    ],
+    ingredientsList: [
+      ingredients.coconut,
+      ingredients.almond,
+      ingredients.peanut,
+      ingredients.jaggery
     ]
   },
+
   'date-almond-cranberry': {
     titleLines: ['Date', 'Almond', 'Cranberry'],
     titleColor: 'text-[#9b1d20]',
@@ -111,117 +137,37 @@ const productLibrary: Record<string, ProductData> = {
     waveColor2: '#7a181b',
     featuresBg: 'bg-[#7a181b]',
     featuresTitleColor: 'text-[#fb8a3b]',
-    ingredientsBg: 'bg-gray-50',
-    ingredientsBgHex: '#f9fafb',
-    ingredientsHeaderColor: 'text-gray-800',
-    ingredientsCardBg: 'bg-white',
-    ingredientsCardTitleColor: 'text-gray-800',
-    ingredientsCardDescColor: 'text-gray-500',
     mascots: [
-      { id: 'date', name: 'Date Delight', desc: 'Indulge in a date delight, as the sweet and chewy dates bring fiber, iron, and essential minerals to the table, ensuring a delightful snacking experience that\'s as nutritious as it is tasty.', img: '/images/mascot-date.png' },
-      { id: 'almond', name: 'Almond Adventure', desc: 'Embark on an almond adventure, as almonds offer a nutty crunch filled with healthy fats and vitamin E, promoting heart health and adding a dose of excitement to your snacking journey.', img: '/images/mascot-almond.png' },
-      { id: 'cranberry', name: 'Cranberry Carnival', desc: 'Join the cranberry carnival, savoring the zesty sweetness and antioxidants that cranberries bring, providing a burst of flavor and immune-boosting benefits to your snacking fiesta.', img: '/images/mascot-cranberry.png' },
-      { id: 'peanut', name: 'Peanut Party', desc: 'Be part of the peanut party, where peanuts pack a protein punch, coupled with healthy fats and a satisfying crunch, ensuring a snacking adventure that fuels your energy levels.', img: '/images/mascot-peanut.png' }
-    ]
-  },
-  'almond-cranberry': {
-    titleLines: ['Almond', 'Cranberry'],
-    titleColor: 'text-[#6a3093]',
-    img: '/images/almond-cranberry.png',
-    pitchTitle: 'Unleash the Awesome!',
-    pitchTitleColor: 'text-[#a044ff]',
-    pitchDesc: "Are you ready for a taste explosion that's as good for your taste buds as it is for your body? Dive into our Protein Power Play – a delightful energy bar loaded with almonds, cranberries and jaggery that will make your snacking game strong!",
-    pitchDescColor: 'text-[#4b0082]',
-    waveColor1: '#d2b4de',
-    waveColor2: '#6a3093',
-    featuresBg: 'bg-[#6a3093]',
-    featuresTitleColor: 'text-[#fb8a3b]',
-    ingredientsBg: 'bg-gray-50',
-    ingredientsBgHex: '#f9fafb',
-    ingredientsHeaderColor: 'text-gray-800',
-    ingredientsCardBg: 'bg-white',
-    ingredientsCardTitleColor: 'text-gray-800',
-    ingredientsCardDescColor: 'text-gray-500',
-    mascots: [
-      { id: 'almond', name: 'Almond Adventure', desc: 'Embark on an almond adventure, as almonds offer a nutty crunch filled with healthy fats and vitamin E, promoting heart health and adding a dose of excitement to your snacking journey.', img: '/images/mascot-almond.png' },
-      { id: 'cranberry', name: 'Cranberry Carnival', desc: 'Join the cranberry carnival, savoring the zesty sweetness and antioxidants that cranberries bring, providing a burst of flavor and immune-boosting benefits to your snacking fiesta.', img: '/images/mascot-cranberry.png' },
-      { id: 'peanut', name: 'Peanut Party', desc: 'Be part of the peanut party, where peanuts pack a protein punch, coupled with healthy fats and a satisfying crunch, ensuring a snacking adventure that fuels your energy levels.', img: '/images/mascot-peanut.png' },
-      { id: 'jaggery', name: 'Jaggery Jive', desc: 'Sweeten the scene with the jaggery jive, as this natural sweetener not only satisfies your sweet tooth but also brings antioxidants and iron to the dance floor, boosting your energy levels with a touch of sweetness.', img: '/images/mascot-jaggery.png' }
-    ]
-  },
-  'combo-6-1': {
-    titleLines: ['Almond Cranberry', '+ Cashew Raisin'],
-    titleColor: 'text-[#a12368]',
-    img: '/images/combo-6-1.png',
-    pitchTitle: 'Double the Delight!',
-    pitchTitleColor: 'text-[#ff3c83]',
-    pitchDesc: "Embark on a flavor-packed journey with our Combo Box featuring the dynamic duo of Almond Cranberry and Cashew Raisin. Twice the flavor, twice the fun!",
-    pitchDescColor: 'text-[#1d3557]',
-    waveColor1: '#ffb3c1',
-    waveColor2: '#ff3c83',
-    featuresBg: 'bg-[#ff3c83]',
-    featuresTitleColor: 'text-white',
-    ingredientsBg: 'bg-gray-50',
-    ingredientsBgHex: '#f9fafb',
-    ingredientsHeaderColor: 'text-gray-800',
-    ingredientsCardBg: 'bg-white',
-    ingredientsCardTitleColor: 'text-gray-800',
-    ingredientsCardDescColor: 'text-gray-500',
-    mascots: [
-      { id: 'almond', name: 'Almond Adventure', desc: 'Embark on an almond adventure, as almonds offer a nutty crunch filled with healthy fats and vitamin E.', img: '/images/mascot-almond.png' },
-      { id: 'cranberry', name: 'Cranberry Carnival', desc: 'Join the cranberry carnival, savoring the zesty sweetness and antioxidants that cranberries bring.', img: '/images/mascot-cranberry.png' },
-      { id: 'cashew', name: 'Cashew Carnival', desc: 'Join the cashew carnival for a nutty joyride, as cashews bring a crunch of happiness and protein.', img: '/images/mascot-cashew.png' },
-      { id: 'raisin', name: 'Raisin Radiance', desc: 'Embark on a sweet rendezvous with raisins, delivering a chewy burst of natural sweetness.', img: '/images/mascot-raisin.png' }
-    ]
-  },
-  'combo-6-2': {
-    titleLines: ['Coconut Almond', '+ Date Almond Cranberry'],
-    titleColor: 'text-[#a12368]',
-    img: '/images/combo-6-2.png',
-    pitchTitle: 'Tropical Escape!',
-    pitchTitleColor: 'text-[#ff3c83]',
-    pitchDesc: "Savor the delightful medley of flavors in our Combo Box, featuring the irresistible pairing of Coconut Almond and Date Almond Cranberry. A vacation in every bite!",
-    pitchDescColor: 'text-[#1d3557]',
-    waveColor1: '#ffb3c1',
-    waveColor2: '#ff3c83',
-    featuresBg: 'bg-[#ff3c83]',
-    featuresTitleColor: 'text-white',
-    ingredientsBg: 'bg-gray-50',
-    ingredientsBgHex: '#f9fafb',
-    ingredientsHeaderColor: 'text-gray-800',
-    ingredientsCardBg: 'bg-white',
-    ingredientsCardTitleColor: 'text-gray-800',
-    ingredientsCardDescColor: 'text-gray-500',
-    mascots: [
-      { id: 'coconut', name: 'Coconut Craze', desc: 'Ride the wave of coconut craze, as coconuts add an exotic twist with their creamy texture.', img: '/images/mascot-coconut.png' },
-      { id: 'almond', name: 'Almond Adventure', desc: 'Embark on an almond adventure, as almonds offer a nutty crunch filled with healthy fats.', img: '/images/mascot-almond.png' },
-      { id: 'date', name: 'Date Delight', desc: 'Indulge in a date delight, as the sweet and chewy dates bring fiber and essential minerals.', img: '/images/mascot-date.png' },
-      { id: 'cranberry', name: 'Cranberry Carnival', desc: 'Join the cranberry carnival, savoring the zesty sweetness and antioxidants.', img: '/images/mascot-cranberry.png' }
-    ]
-  },
-  'combo-12': {
-    titleLines: ['Happy Bar', 'Combo Box of 12'],
-    titleColor: 'text-[#a12368]',
-    img: '/images/combo-12.png',
-    pitchTitle: 'Ultimate Snacking!',
-    pitchTitleColor: 'text-[#ff3c83]',
-    pitchDesc: "Enjoy a snack symphony with our Combo Box featuring Almond Cranberry, Cashew Raisin, Coconut Almond, and Date Almond Cranberry. The ultimate variety pack for the ultimate snack fan!",
-    pitchDescColor: 'text-[#1d3557]',
-    waveColor1: '#ffb3c1',
-    waveColor2: '#ff3c83',
-    featuresBg: 'bg-[#ff3c83]',
-    featuresTitleColor: 'text-white',
-    ingredientsBg: 'bg-gray-50',
-    ingredientsBgHex: '#f9fafb',
-    ingredientsHeaderColor: 'text-gray-800',
-    ingredientsCardBg: 'bg-white',
-    ingredientsCardTitleColor: 'text-gray-800',
-    ingredientsCardDescColor: 'text-gray-500',
-    mascots: [
-      { id: 'almond', name: 'Almond Adventure', desc: 'Embark on an almond adventure with healthy fats and crunch.', img: '/images/mascot-almond.png' },
-      { id: 'cashew', name: 'Cashew Carnival', desc: 'Join the cashew carnival for happiness and protein.', img: '/images/mascot-cashew.png' },
-      { id: 'coconut', name: 'Coconut Craze', desc: 'Ride the wave of coconut craze with creamy texture.', img: '/images/mascot-coconut.png' },
-      { id: 'date', name: 'Date Delight', desc: 'Indulge in a date delight with fiber and minerals.', img: '/images/mascot-date.png' }
+      {
+        id: 'date',
+        name: 'Date Delight',
+        desc: 'Indulge in a date delight, as the sweet and chewy dates bring fiber, iron, and essential minerals to the table, ensuring a delightful snacking experience that\'s as nutritious as it is tasty.',
+        img: ingredients.date.img
+      },
+      {
+        id: 'almond',
+        name: 'Almond Adventure',
+        desc: 'Embark on an almond adventure, as almonds offer a nutty crunch filled with healthy fats and vitamin E, promoting heart health and adding a dose of excitement to your snacking journey.',
+        img: ingredients.almond.img
+      },
+      {
+        id: 'cranberry',
+        name: 'Cranberry Carnival',
+        desc: 'Join the cranberry carnival, savoring the zesty sweetness and antioxidants that cranberries bring, providing a burst of flavor and immune-boosting benefits to your snacking fiesta.',
+        img: ingredients.cranberry.img
+      },
+      {
+        id: 'peanut',
+        name: 'Peanut Party',
+        desc: 'Be part of the peanut party, where peanuts pack a protein punch, coupled with healthy fats and a satisfying crunch, ensuring a snacking adventure that fuels your energy levels.',
+        img: ingredients.peanut.img
+      }
+    ],
+    ingredientsList: [
+      ingredients.date,
+      ingredients.almond,
+      ingredients.cranberry,
+      ingredients.peanut
     ]
   }
 };
@@ -322,6 +268,7 @@ export const ProductDetailsPage: React.FC = () => {
   const productKey = id && productLibrary[id] ? id : 'cashew-raisin';
   const data = productLibrary[productKey];
 
+  // YOUR ORIGINAL FEATURES WITH SAME ICONS - COMPLETELY UNCHANGED
   const features = [
     { title: "Protein Packed Punch", desc: "5.x grams of protein per serving (30g) – the secret sauce for muscle magic and all-day energy!", img: "https://angstrohmfoods.com/wp-content/uploads/2025/07/energy-bar_7634814.png" },
     { title: "All-Natural Awesomeness", desc: "Crafted with love with the best ingredients. No funny business – just natural goodness!", img: "https://angstrohmfoods.com/wp-content/uploads/2025/07/lotus_2610118.png" },
@@ -335,104 +282,148 @@ export const ProductDetailsPage: React.FC = () => {
 
   return (
     <div className="w-full font-sans bg-white overflow-hidden pt-20 sm:pt-24">
-      {/* 1. Hero Product Summary Section */}
-      <AnimatePresence mode="wait">
-        <motion.section 
-          key={`hero-${productKey}`}
-          initial={{ opacity: 0 }} 
-          animate={{ opacity: 1 }} 
-          exit={{ opacity: 0 }} 
-          transition={{ duration: 0.4 }}
-          className="relative z-10 pt-8 sm:pt-12 md:pt-24 bg-gradient-to-b from-blue-50 to-white" 
-        >
-          <div className="container mx-auto px-4 sm:px-6 relative z-10 max-w-[1200px]">
-            <div className="flex flex-col items-center">
-              
-              {/* Image and Title - Responsive Layout */}
-              <div className="flex flex-col lg:flex-row items-center justify-center gap-6 md:gap-10 lg:gap-16 mb-10 md:mb-16 w-full">
-                <motion.div 
-                  initial={{ opacity: 0, x: -50 }} 
-                  animate={{ opacity: 1, x: 0 }} 
-                  transition={{ type: "spring", stiffness: 70, damping: 15 }}
-                  className="w-full lg:w-1/2 flex justify-center"
-                >
-                  <img 
-                    src={data.img} 
-                    alt={data.titleLines.join(' ')} 
-                    className="w-[250px] sm:w-[300px] md:w-[380px] lg:w-[420px] drop-shadow-xl hover:scale-105 transition-transform duration-500" 
-                  />
-                </motion.div>
-                
-                <motion.div 
-                  initial={{ opacity: 0, x: 50 }} 
-                  animate={{ opacity: 1, x: 0 }} 
-                  transition={{ type: "spring", stiffness: 70, damping: 15, delay: 0.1 }}
-                  className="w-full lg:w-1/2 flex flex-col justify-center text-center lg:text-left"
-                >
-                  <h1 className={`text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 ${data.titleColor}`}>
-                    Happy Bar
-                  </h1>
-                  {data.titleLines.map((line, idx) => (
-                    <h2 key={idx} className={`text-2xl sm:text-3xl md:text-4xl font-semibold ${data.titleColor}`}>
-                      {line}
-                    </h2>
-                  ))}
-                </motion.div>
-              </div>
+     {/* Hero Section */}
+<AnimatePresence mode="wait">
+  <motion.section 
+    key={`hero-${productKey}`}
+    initial={{ opacity: 0 }} 
+    animate={{ opacity: 1 }} 
+    exit={{ opacity: 0 }} 
+    transition={{ duration: 0.4 }}
+    className="relative z-10 pt-8 sm:pt-12 md:pt-16 lg:pt-20 overflow-hidden mb-12" 
+  >
+    {/* Subtle Background Pattern */}
+    <div className="absolute inset-0 opacity-30 pointer-events-none">
+      <div className="absolute top-0 right-0 w-96 h-96 bg-gradient-to-b from-gray-100 to-transparent rounded-full blur-3xl" />
+      <div className="absolute bottom-0 left-0 w-96 h-96 bg-gradient-to-t from-gray-100 to-transparent rounded-full blur-3xl" />
+    </div>
 
-              {/* Buy Now Button - Only for Combos */}
-              {isCombo && dbProduct && (
-                <div className="flex items-center gap-4 sm:gap-6 mt-2 mb-6">
-                  <motion.button 
-                    whileHover={{ scale: 1.05 }} 
-                    whileTap={{ scale: 0.95 }}
-                    onClick={handleAddToCart}
-                    className="bg-orange-500 text-white font-bold py-3 sm:py-4 px-6 sm:px-10 rounded-full shadow-lg tracking-wide text-sm sm:text-base hover:bg-orange-600 flex items-center gap-2 sm:gap-3 transition-all"
-                  >
-                    <ShoppingCart size={18} className="sm:w-5 sm:h-5" />
-                    BUY NOW - ₹{dbProduct.price}
-                  </motion.button>
-
-                  <button
-                    onClick={handleAddToWishlist}
-                    className="w-10 h-10 sm:w-12 sm:h-12 bg-white rounded-full flex items-center justify-center shadow-md text-gray-400 hover:scale-110 transition-all border border-gray-200"
-                  >
-                    <Heart 
-                      size={20} 
-                      className={`sm:w-5 sm:h-5 ${(dbProduct && wishlist.includes(dbProduct._id)) ? 'fill-red-500 text-red-500' : ''}`} 
-                    />
-                  </button>
-                </div>
-              )}
-              
-              {/* Descriptive Pitch */}
-              <motion.div 
-                initial={{ opacity: 0, y: 30 }} 
-                animate={{ opacity: 1, y: 0 }} 
-                transition={{ delay: 0.3 }} 
-                className="text-center mt-8 md:mt-12 lg:mt-16 max-w-4xl px-4 z-20 relative"
-              >
-                <h3 className={`text-xl sm:text-2xl md:text-3xl font-bold mb-4 md:mb-6 ${data.pitchTitleColor}`}>
-                  {data.pitchTitle}
-                </h3>
-                <p className={`text-base sm:text-lg md:text-xl leading-relaxed ${data.pitchDescColor}`}>
-                  {data.pitchDesc}
-                </p>
-              </motion.div>
+    <div className="container mx-auto px-4 sm:px-6 relative z-10 max-w-[1200px]">
+      <div className="flex flex-col items-center">
+        
+        {/* Image and Title */}
+        <div className="flex flex-col-reverse lg:flex-row items-center justify-center gap-8 md:gap-12 lg:gap-16 mb-12 md:mb-16 w-full">
+          
+          {/* Title Section */}
+          <motion.div 
+            initial={{ opacity: 0, x: -50 }} 
+            animate={{ opacity: 1, x: 0 }} 
+            transition={{ type: "spring", stiffness: 70, damping: 15, delay: 0.1 }}
+            className="w-full lg:w-1/2 flex flex-col justify-center text-center lg:text-left"
+          >
+            <div className="mb-2">
+              <span className="text-xs tracking-[0.2em] text-gray-400 uppercase">
+                {isCombo ? 'COMBO PACK' : 'PREMIUM PROTEIN BAR'}
+              </span>
             </div>
-          </div>
+            
+            <h1 className={`text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-light tracking-tight mb-3 ${data.titleColor}`}>
+              Happy Bar
+            </h1>
+            
+            {data.titleLines.map((line, idx) => (
+              <h2 key={idx} className={`text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light ${data.titleColor}`}>
+                {line}
+              </h2>
+            ))}
+            
+            <div className="w-12 h-px bg-gray-200 my-8 mx-auto lg:mx-0" />
+            
+            {/* Quick Info Tags */}
+            <div className="flex flex-wrap gap-3 justify-center lg:justify-start">
+              <span className="px-3 py-1 bg-gray-100 text-gray-600 text-xs font-light tracking-wide">
+                All Natural
+              </span>
+              <span className="px-3 py-1 bg-gray-100 text-gray-600 text-xs font-light tracking-wide">
+                No Preservatives
+              </span>
+              <span className="px-3 py-1 bg-gray-100 text-gray-600 text-xs font-light tracking-wide">
+                Vegetarian
+              </span>
+              <span className="px-3 py-1 bg-gray-100 text-gray-600 text-xs font-light tracking-wide">
+                No Added Sugar
+              </span>
+            </div>
 
-          {/* Wave */}
-          <div className="w-full mt-[-40px] sm:mt-[-60px] md:mt-[-80px] pointer-events-none relative z-10">
-            <svg viewBox="0 0 1440 250" className="w-full h-auto" preserveAspectRatio="none">
-              <path fill={data.waveColor1} fillOpacity="0.3" d="M0,150 C360,250 1080,50 1440,150 L1440,250 L0,250 Z"></path>
-              <path fill={data.waveColor2} d="M0,200 C480,300 960,100 1440,200 L1440,250 L0,250 Z"></path>
-            </svg>
-          </div>
-        </motion.section>
-      </AnimatePresence>
+            <button onClick={()=>{navigate("/happy-shop")} }
+            className='mt-7 w-fit bg-gray-900 text-white font-light py-3 px-8 tracking-wider text-sm hover:bg-gray-800 flex items-center gap-2 transition-all duration-300 '>Shop now</button>
+          </motion.div>
+          
+          {/* Image Section */}
+          <motion.div 
+            initial={{ opacity: 0, x: 50 }} 
+            animate={{ opacity: 1, x: 0 }} 
+            transition={{ type: "spring", stiffness: 70, damping: 15 }}
+            className="w-full lg:w-1/2 flex justify-center"
+          >
+            <div className="relative">
+              {/* Decorative Circle behind image */}
+              <div className="absolute inset-0 bg-gradient-to-br from-gray-100 to-transparent rounded-full blur-2xl scale-110" />
+              <img 
+                src={data.img} 
+                alt={data.titleLines.join(' ')} 
+                className="relative w-[280px] sm:w-[350px] md:w-[400px] lg:w-[450px] drop-shadow-2xl hover:scale-105 transition-transform duration-700 ease-out" 
+              />
+            </div>
+          </motion.div>
+        </div>
 
-      {/* 2. Features Section - Clean Professional */}
+        {/* Buy Now Button - Only for Combos */}
+        {isCombo && dbProduct && (
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2 }}
+            className="flex items-center gap-4 mb-8"
+          >
+            <motion.button 
+              whileHover={{ scale: 1.02 }} 
+              whileTap={{ scale: 0.98 }}
+              onClick={handleAddToCart}
+              className="bg-gray-900 text-white font-light py-3 px-8 tracking-wider text-sm hover:bg-gray-800 flex items-center gap-2 transition-all duration-300"
+            >
+              <ShoppingCart size={16} />
+              BUY NOW — ₹{dbProduct.price}
+            </motion.button>
+
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={handleAddToWishlist}
+              className="w-10 h-10 border border-gray-200 flex items-center justify-center hover:border-gray-400 transition-all duration-300"
+            >
+              <Heart 
+                size={16} 
+                className={`${(dbProduct && wishlist.includes(dbProduct._id)) ? 'fill-gray-900 text-gray-900' : 'text-gray-400'}`} 
+              />
+            </motion.button>
+          </motion.div>
+        )}
+        
+        {/* Descriptive Pitch */}
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }} 
+          animate={{ opacity: 1, y: 0 }} 
+          transition={{ delay: 0.35 }} 
+          className="text-center max-w-3xl mx-auto px-4"
+        >
+          <div className="relative">
+            {/* Decorative quotes */}
+            <div className="absolute -top-6 left-1/2 transform -translate-x-1/2 text-gray-200 text-4xl font-serif">"</div>
+            <h3 className={`text-xl sm:text-2xl md:text-3xl font-light mb-4 pt-4 ${data.pitchTitleColor}`}>
+              {data.pitchTitle}
+            </h3>
+            <div className="w-8 h-px bg-gray-200 mx-auto my-4" />
+            <p className={`text-gray-500 text-base leading-relaxed font-light max-w-2xl mx-auto ${data.pitchDescColor}`}>
+              {data.pitchDesc}
+            </p>
+          </div>
+        </motion.div>
+      </div>
+    </div>
+  </motion.section>
+</AnimatePresence>
+      {/* Features Section - YOUR ORIGINAL ICONS PRESERVED */}
       <AnimatePresence mode="wait">
         <motion.section 
           key={`features-${productKey}`}
@@ -440,17 +431,17 @@ export const ProductDetailsPage: React.FC = () => {
           animate={{ opacity: 1 }} 
           exit={{ opacity: 0 }} 
           transition={{ duration: 0.4 }}
-          className={`${data.featuresBg} py-16 sm:py-20 md:py-24 relative z-0 transition-colors duration-500`}
+          className={`${data.featuresBg} py-16 sm:py-20 md:py-24 relative z-0`}
         >
           <div className="container mx-auto px-4 sm:px-6 max-w-6xl">
             <div className="text-center mb-12">
-              <h2 className={`${data.featuresTitleColor} text-2xl sm:text-3xl md:text-4xl font-bold mb-4`}>
+              <h2 className={`${data.featuresTitleColor} text-2xl sm:text-3xl md:text-4xl font-light mb-4`}>
                 Why Choose Us
               </h2>
-              <div className="w-20 h-1 bg-orange-400 mx-auto rounded-full"></div>
+              <div className="w-12 h-px mx-auto rounded-full" style={{ backgroundColor: data.featuresTitleColor === 'text-white' ? 'rgba(255,255,255,0.3)' : '#d1d5db' }}></div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {features.map((f, i) => (
                 <motion.div 
                   key={i} 
@@ -459,13 +450,13 @@ export const ProductDetailsPage: React.FC = () => {
                   viewport={{ once: true }} 
                   transition={{ duration: 0.5, delay: i * 0.1 }}
                   whileHover={{ y: -5 }}
-                  className="bg-white/10 backdrop-blur-sm rounded-xl p-6 text-center shadow-lg hover:shadow-xl transition-all duration-300"
+                  className="text-center p-6"
                 >
-                  <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-white/20 flex items-center justify-center">
-                    <img src={f.img} alt={f.title} className="w-8 h-8 object-contain brightness-0 invert" />
+                  <div className="w-16 h-16 mx-auto mb-4 flex items-center justify-center">
+                    <img src={f.img} alt={f.title} className="w-10 h-10 object-contain brightness-0 invert opacity-80" />
                   </div>
-                  <h3 className={`${data.featuresTitleColor} font-bold text-lg mb-2`}>{f.title}</h3>
-                  <p className="text-white/90 text-sm leading-relaxed">{f.desc}</p>
+                  <h3 className={`${data.featuresTitleColor} font-light text-lg mb-2`}>{f.title}</h3>
+                  <p className="text-white/70 text-sm font-light leading-relaxed">{f.desc}</p>
                 </motion.div>
               ))}
             </div>
@@ -473,7 +464,7 @@ export const ProductDetailsPage: React.FC = () => {
         </motion.section>
       </AnimatePresence>
 
-      {/* 3. Mascots Section - Clean Professional */}
+      {/* Mascots Section */}
       <AnimatePresence mode="wait">
         <motion.section 
           key={`ingredients-${productKey}`}
@@ -481,20 +472,20 @@ export const ProductDetailsPage: React.FC = () => {
           animate={{ opacity: 1 }} 
           exit={{ opacity: 0 }} 
           transition={{ duration: 0.4 }}
-          className="py-16 sm:py-20 md:py-24 bg-gray-50 relative z-10"
+          className="py-16 sm:py-20 md:py-24 bg-gray-50"
         >
           <div className="container mx-auto px-4 sm:px-6 max-w-[1200px]">
             <div className="text-center mb-12">
-              <h2 className="text-gray-800 text-2xl sm:text-3xl md:text-4xl font-bold mb-4">
+              <h2 className="text-gray-800 text-2xl sm:text-3xl md:text-4xl font-light mb-4">
                 The Goodness of Awesome Ingredients
               </h2>
-              <div className="w-20 h-1 bg-orange-400 mx-auto rounded-full"></div>
-              <p className="text-gray-500 mt-4 max-w-2xl mx-auto">
+              <div className="w-12 h-px bg-gray-300 mx-auto"></div>
+              <p className="text-gray-400 mt-4 max-w-2xl mx-auto text-sm font-light">
                 Pure, natural, and carefully selected ingredients for your happiness
               </p>
             </div>
             
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
               {data.mascots.map((mascot, i) => (
                 <motion.div 
                   key={mascot.id} 
@@ -503,13 +494,13 @@ export const ProductDetailsPage: React.FC = () => {
                   viewport={{ once: true }} 
                   transition={{ duration: 0.4, delay: i * 0.1 }} 
                   whileHover={{ y: -5 }}
-                  className="bg-white rounded-xl p-6 text-center shadow-md hover:shadow-lg transition-all duration-300 border border-gray-100"
+                  className="text-center"
                 >
-                  <div className="w-24 h-24 mx-auto mb-4 rounded-full bg-orange-50 flex items-center justify-center overflow-hidden">
-                    <img src={mascot.img} alt={mascot.name} className="w-20 h-20 object-contain" />
+                  <div className="w-24 h-24 mx-auto mb-4 flex items-center justify-center">
+                    <img src={mascot.img} alt={mascot.name} className="w-20 h-20 object-contain opacity-80" />
                   </div>
-                  <h3 className="text-gray-800 font-bold text-base mb-2">{mascot.name}</h3>
-                  <p className="text-gray-500 text-xs leading-relaxed">{mascot.desc.substring(0, 100)}...</p>
+                  <h3 className="text-gray-800 font-light text-base mb-2">{mascot.name}</h3>
+                  <p className="text-gray-400 text-xs font-light leading-relaxed">{mascot.desc.substring(0, 100)}...</p>
                 </motion.div>
               ))}
             </div>
@@ -517,7 +508,7 @@ export const ProductDetailsPage: React.FC = () => {
         </motion.section>
       </AnimatePresence>
 
-      {/* 4. Combos Wave & Shop Section */}
+      {/* Shop Now Section */}
       <ShopNowSection />
     </div>
   );

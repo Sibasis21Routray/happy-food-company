@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { ShoppingCart, Menu, X, User, Package, Heart, Ticket, Gift, Bell, LogOut, Coins, ChevronDown, ChevronRight } from 'lucide-react';
+import { ShoppingCart, Menu, X, User, Package, Heart, Ticket, Gift, Bell, LogOut, Coins, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { api } from '../../services/api';
 
@@ -10,34 +10,34 @@ export const Navbar: React.FC = () => {
   const [mobileHappyBarsOpen, setMobileHappyBarsOpen] = useState(false);
   const [mobileUserMenuOpen, setMobileUserMenuOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
   const [user, setUser] = useState<{ fullName: string, role: string } | null>(null);
   const [cartCount, setCartCount] = useState(0);
-  const navigate=useNavigate();
   
   const links = [
     { path: '/', label: 'HOME' },
-    { path: '/happy-bars', label: 'HAPPY BARS', hasDropdown: true },
-    { path: '/blog', label: 'BLOG' },
-    { path: '/happy-shop', label: 'HAPPY SHOP' },
-    { path: '/login', label: user ? user.fullName : 'LOGIN', isUserLink: true, hasDropdown: true }
+    { path: '/happy-bars', label: 'COLLECTION', hasDropdown: true },
+    { path: '/blog', label: 'JOURNAL' },
+    { path: '/happy-shop', label: 'SHOP' },
+    { path: '/login', label: user ? user.fullName : 'ACCOUNT', isUserLink: true, hasDropdown: true }
   ];
 
   const userMenuItems = [
-    { label: 'My Profile', path: '/my-account', icon: <User size={18} color="#FD6804" /> },
-    { label: 'Happy Points', path: '/points', icon: <Coins size={18} color="#FD6804" /> },
-    { label: 'Orders', path: '/orders', icon: <Package size={18} color="#FD6804" /> },
-    { label: 'Wishlist', path: '/wishlist', icon: <Heart size={18} color="#FD6804" /> },
-    { label: 'Coupons', path: '/coupons', icon: <Ticket size={18} color="#FD6804" /> },
-    { label: 'Gift Cards', path: '/gift-cards', icon: <Gift size={18} color="#FD6804" /> },
-    { label: 'Notifications', path: '/notifications', icon: <Bell size={18} color="#FD6804" /> },
-    { label: 'Logout', path: '/login', icon: <LogOut size={18} color="#FD6804" />, isLogout: true },
+    { label: 'Profile', path: '/my-account', icon: <User size={16} /> },
+    { label: 'Points', path: '/points', icon: <Coins size={16} /> },
+    { label: 'Orders', path: '/orders', icon: <Package size={16} /> },
+    { label: 'Wishlist', path: '/wishlist', icon: <Heart size={16} /> },
+    { label: 'Coupons', path: '/coupons', icon: <Ticket size={16} /> },
+    { label: 'Gift Cards', path: '/gift-cards', icon: <Gift size={16} /> },
+    { label: 'Notifications', path: '/notifications', icon: <Bell size={16} /> },
+    { label: 'Logout', path: '/', icon: <LogOut size={16} />, isLogout: true },
   ];
 
   const happyBarsMenu = [
-    { title: 'CASHEW RAISIN', subtitle: 'Energize your Enjoyment!', color: 'text-[#4A3E8E]', img: '/images/cashew-raisin.png', link: '/product/cashew-raisin' },
-    { title: 'COCONUT ALMOND', subtitle: 'Spark your snacking!', color: 'text-[#E86E24]', img: '/images/coconut-almond.png', link: '/product/coconut-almond' },
-    { title: 'DATE ALMOND CRANBERRY', subtitle: 'Fuel your Fun!', color: 'text-[#C92C3A]', img: '/images/date-almond-cranberry.png', link: '/product/date-almond-cranberry' },
-    { title: 'ALMOND CRANBERRY', subtitle: 'Unleash the Awesome!', color: 'text-[#902A78]', img: '/images/almond-cranberry.png', link: '/product/almond-cranberry' }
+    { title: 'Cashew Raisin', subtitle: 'Energize your Enjoyment', color: '#4A3E8E', img: '/images/cashew-raisin.png', link: '/product/cashew-raisin' },
+    { title: 'Coconut Almond', subtitle: 'Spark your snacking', color: '#E86E24', img: '/images/coconut-almond.png', link: '/product/coconut-almond' },
+    { title: 'Date Almond Cranberry', subtitle: 'Fuel your Fun', color: '#C92C3A', img: '/images/date-almond-cranberry.png', link: '/product/date-almond-cranberry' },
+    { title: 'Almond Cranberry', subtitle: 'Unleash the Awesome', color: '#902A78', img: '/images/almond-cranberry.png', link: '/product/almond-cranberry' }
   ];
 
   const fetchCartAndUser = async () => {
@@ -70,6 +70,7 @@ export const Navbar: React.FC = () => {
     setCartCount(0);
     setMobileMenuOpen(false);
     setMobileUserMenuOpen(false);
+    navigate('/');
   };
 
   useEffect(() => {
@@ -80,7 +81,6 @@ export const Navbar: React.FC = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Close mobile menu when route changes
   useEffect(() => {
     setMobileMenuOpen(false);
     setMobileHappyBarsOpen(false);
@@ -91,70 +91,101 @@ export const Navbar: React.FC = () => {
     <motion.header 
       initial={{ y: -100 }}
       animate={{ y: 0 }}
-      transition={{ type: "spring", stiffness: 100, damping: 20 }}
-      className={`fixed top-0 w-full z-[100] transition-all duration-300 ${
+      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+      className={`fixed top-0 w-full z-[100] transition-all duration-500 ${
         scrolled 
-          ? 'h-[70px] bg-white/95 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.05)] border-b border-gray-100' 
-          : 'h-[85px] bg-white border-b border-transparent'
+          ? 'h-[64px] bg-white/98 backdrop-blur-md shadow-sm border-b border-gray-100' 
+          : 'h-[80px] bg-white border-b border-transparent'
       }`}
     >
       <div className="container mx-auto px-6 flex justify-between items-center w-full max-w-[1400px] h-full">
         {/* Brand Logo */}
-        <motion.div whileHover={{ scale: 1.05 }} transition={{ type: 'spring' }} className="h-full flex items-center py-2">
+        <motion.div 
+          whileHover={{ scale: 1.02 }} 
+          transition={{ duration: 0.3 }}
+          className="h-full flex items-center py-2"
+        >
           <Link to={user?.role === 'admin' ? '/admin/dashboard' : user?.role === 'vendor' ? '/vendor/dashboard' : '/'}>
             <img 
               src="/images/logo.png" 
-              alt="Happy Bar Logo" 
-              className={`object-contain transition-all duration-300 drop-shadow-sm ${scrolled ? 'h-[50px]' : 'h-[70px]'}`}
+              alt="Happy Bar" 
+              className={`object-contain transition-all duration-500 ${scrolled ? 'h-[42px]' : 'h-[56px]'}`}
             />
           </Link>
         </motion.div>
         
         {/* Desktop Navigation */}
-        <nav className="hidden lg:flex gap-8 xl:gap-10 items-center h-full relative">
+        <nav className="hidden lg:flex gap-10 items-center h-full">
           {links.map((link, idx) => {
             const isActive = location.pathname === link.path || (link.path !== '/' && location.pathname.startsWith(link.path));
-            const isHappyBars = link.label === 'HAPPY BARS';
+            const isHappyBars = link.label === 'COLLECTION';
             const isUserLink = link.isUserLink;
+            
+            if (link.label === 'ACCOUNT' && user) {
+              return null;
+            }
+            
+            if (isUserLink && !user && link.label !== 'ACCOUNT') {
+              return null;
+            }
             
             return (
               <div key={idx} className="relative group flex items-center h-full">
-                <Link 
-                  to={isHappyBars || (isUserLink && user) ? '#' : link.path} 
-                  onClick={(e) => { if (isHappyBars || (isUserLink && user)) e.preventDefault(); }}
-                  className={`relative h-full flex items-center pt-1 gap-1.5 ${isHappyBars || (isUserLink && user) ? 'cursor-default' : ''}`}
-                >
-                  <span className={`font-black tracking-[0.1em] text-[13px] xl:text-[14px] transition-colors duration-300 ${
-                    isActive ? 'text-[#ff6b00]' : 'text-[#dd5d36] group-hover:text-[#ff6b00]'
-                  }`}>
-                    {link.label}
-                  </span>
-                  {(isUserLink && user) || isHappyBars ? (
-                    <ChevronDown size={14} className="text-[#dd5d36] group-hover:text-[#ff6b00] transition-transform group-hover:rotate-180" />
-                  ) : null}
-                  
-                  {/* Active/Hover Underline Indicator */}
-                  <div 
-                    className={`absolute bottom-0 left-0 h-1.5 w-full bg-[#ff6b00] rounded-t-lg transition-transform duration-300 origin-left ${
-                      isActive ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
-                    }`}
-                  />
-                </Link>
+                {(!isHappyBars && !(isUserLink && user)) ? (
+                  <Link 
+                    to={link.path}
+                    className="relative h-full flex items-center"
+                  >
+                    <span className={`text-[13px] font-light tracking-wide transition-colors duration-300 ${
+                      isActive ? 'text-gray-900' : 'text-gray-400 group-hover:text-gray-700'
+                    }`}>
+                      {link.label}
+                    </span>
+                    
+                    <div 
+                      className={`absolute bottom-0 left-0 h-px bg-gray-900 transition-all duration-300 ${
+                        isActive ? 'w-full' : 'w-0 group-hover:w-full'
+                      }`}
+                    />
+                  </Link>
+                ) : (
+                  <div className="relative h-full flex items-center cursor-default">
+                    <span className={`text-[13px] font-light tracking-wide transition-colors duration-300 ${
+                      isActive ? 'text-gray-900' : 'text-gray-400 group-hover:text-gray-700'
+                    }`}>
+                      {isHappyBars ? 'COLLECTION' : (user?.fullName?.split(' ')[0] || 'ACCOUNT')}
+                    </span>
+                    <ChevronDown size={14} className="ml-1 text-gray-400 group-hover:text-gray-700 transition-all duration-300 group-hover:rotate-180" />
+                    
+                    <div 
+                      className={`absolute bottom-0 left-0 h-px bg-gray-900 transition-all duration-300 ${
+                        isActive ? 'w-full' : 'w-0 group-hover:w-full'
+                      }`}
+                    />
+                  </div>
+                )}
 
-                {/* --- MEGA MENU DROPDOWN FOR HAPPY BARS (DESKTOP) --- */}
+                {/* Collection Dropdown */}
                 {isHappyBars && (
-                  <div className="absolute top-[80%] left-1/2 -translate-x-1/2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 w-[420px] pt-8 cursor-default z-50 pointer-events-none group-hover:pointer-events-auto">
-                    <div className="relative bg-white rounded-[2rem] shadow-[0_20px_60px_rgba(0,0,0,0.15)] p-5 border border-gray-100/80">
-                      <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-6 h-6 bg-white rotate-45 rounded-[4px] border-l border-t border-gray-100/80"></div>
-                      <div className="flex flex-col gap-2 relative z-10">
+                  <div className="absolute top-full left-1/2 -translate-x-1/2 pt-6 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 w-[380px] cursor-default z-50">
+                    <div className="bg-white shadow-xl border border-gray-100">
+                      <div className="p-4 space-y-1">
                         {happyBarsMenu.map((item, i) => (
-                          <Link key={i} to={item.link} className="flex gap-6 items-center group/item hover:bg-orange-50/50 p-3 rounded-[1.5rem] transition-colors overflow-visible">
-                            <div className="w-[90px] h-14 flex items-center justify-center shrink-0">
-                              <img src={item.img} alt={item.title} className="max-w-[130%] max-h-[160%] object-contain group-hover/item:scale-[1.15] group-hover/item:-rotate-3 transition-transform duration-300 drop-shadow-md z-20 relative" />
+                          <Link 
+                            key={i} 
+                            to={item.link} 
+                            className="flex gap-5 items-center p-3 hover:bg-gray-50 transition-all duration-300 group/item"
+                          >
+                            <div className="w-14 h-14 flex items-center justify-center">
+                              <img 
+                                src={item.img} 
+                                alt={item.title} 
+                                className="w-full h-full object-contain group-hover/item:scale-105 transition-transform duration-300" 
+                              />
                             </div>
-                            <div className="flex flex-col justify-center translate-y-0.5">
-                              <span className={`font-black text-[14px] tracking-widest ${item.color} leading-none mb-1.5 uppercase`}>{item.title}</span>
-                              <span className="font-extrabold text-gray-400 text-[11px] tracking-widest leading-none block">{item.subtitle}</span>
+                            <div className="flex flex-col">
+                              <span className="font-light text-gray-800 text-sm tracking-wide">{item.title}</span>
+                              <span className="text-gray-400 text-xs font-light">{item.subtitle}</span>
                             </div>
                           </Link>
                         ))}
@@ -163,23 +194,22 @@ export const Navbar: React.FC = () => {
                   </div>
                 )}
 
-                {/* --- USER PROFILE DROPDOWN (DESKTOP) --- */}
+                {/* User Dropdown */}
                 {isUserLink && user && (
-                  <div className="absolute top-[80%] left-1/2 -translate-x-1/2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 w-[260px] pt-8 cursor-default z-50 pointer-events-none group-hover:pointer-events-auto">
-                    <div className="relative bg-white rounded-[2rem] shadow-[0_20px_60px_rgba(0,0,0,0.12)] p-3 border border-gray-100/80">
-                      <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-6 h-6 bg-white rotate-45 rounded-[4px] border-l border-t border-gray-100/80"></div>
-                      <div className="flex flex-col relative z-10">
+                  <div className="absolute top-full left-1/2 -translate-x-1/2 pt-6 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 w-[220px] cursor-default z-50">
+                    <div className="bg-white shadow-xl border border-gray-100">
+                      <div className="py-2">
                         {userMenuItems.map((item, i) => (
                           <Link 
                             key={i} 
                             to={item.path} 
                             onClick={item.isLogout ? handleLogout : undefined}
-                            className="flex items-center gap-4 px-6 py-4 hover:bg-orange-50/70 rounded-2xl transition-all group/item"
+                            className="flex items-center gap-3 px-5 py-3 hover:bg-gray-50 transition-all duration-300 group/item"
                           >
-                            <span className="group-hover/item:scale-110 transition-transform">
+                            <span className="text-gray-400 group-hover/item:text-gray-700 transition-colors">
                               {item.icon}
                             </span>
-                            <span className="font-bold text-[14px] text-gray-600 group-hover/item:text-gray-900 tracking-tight">
+                            <span className="text-[13px] font-light text-gray-600 group-hover/item:text-gray-900">
                               {item.label}
                             </span>
                           </Link>
@@ -192,143 +222,141 @@ export const Navbar: React.FC = () => {
             )
           })}
           
-          <motion.div whileHover={{ y: -2 }} whileTap={{ scale: 0.95 }} className="ml-4 h-full flex items-center">
-            <Link to="/cart" className="flex items-center gap-2 bg-gradient-to-r from-[#ff6b00] to-[#f3521b] text-white px-6 py-2.5 rounded-full hover:shadow-[0_8px_20px_rgba(255,107,0,0.3)] transition-all">
-              <ShoppingCart size={18} strokeWidth={3} />
-              <span className="font-black tracking-[0.1em] text-[13px]">{cartCount} {cartCount === 1 ? 'Item' : 'Items'}</span>
+          {/* Cart Button */}
+          <motion.div whileHover={{ y: -1 }} whileTap={{ scale: 0.98 }} className="ml-2">
+            <Link to="/cart" className="flex items-center gap-2 text-gray-400 hover:text-gray-900 transition-all duration-300">
+              <ShoppingCart size={18} strokeWidth={1.5} />
+              <span className="text-[13px] font-light tracking-wide">{cartCount}</span>
             </Link>
           </motion.div>
         </nav>
 
-        {/* Mobile Menu Toggle Button */}
+        {/* Mobile Menu Button */}
         <button 
-          className="lg:hidden text-[#ff6b00] p-2 hover:bg-orange-50 rounded-full transition-colors"
+          className="lg:hidden text-gray-600 p-2 hover:text-gray-900 transition-colors"
           onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
         >
-          {mobileMenuOpen ? <X size={28} strokeWidth={2.5} /> : <Menu size={28} strokeWidth={2.5} />}
+          {mobileMenuOpen ? <X size={24} strokeWidth={1.5} /> : <Menu size={24} strokeWidth={1.5} />}
         </button>
       </div>
 
-      {/* Mobile Menu Overlay */}
-      {/* Mobile Menu Overlay */}
-<AnimatePresence>
-  {mobileMenuOpen && (
-    <motion.div 
-      initial={{ opacity: 0, x: '100%' }}
-      animate={{ opacity: 1, x: 0 }}
-      exit={{ opacity: 0, x: '100%' }}
-      transition={{ type: 'tween', duration: 0.3 }}
-      className="lg:hidden fixed inset-0 top-[72px] z-50 bg-white shadow-2xl overflow-y-auto"
-    >
-      <div className="flex flex-col min-h-[calc(100vh-72px)] py-6 px-6 gap-2">
-        {links.map((link, idx) => {
-          const isActive = location.pathname === link.path || (link.path !== '/' && location.pathname.startsWith(link.path));
-          const isHappyBars = link.label === 'HAPPY BARS';
-          const isUserLink = link.isUserLink;
-          const isMobileDropdownOpen = isHappyBars ? mobileHappyBarsOpen : (isUserLink && user ? mobileUserMenuOpen : false);
-          
-          return (
-            <div key={idx} className="flex flex-col">
-              {/* Mobile Menu Item */}
-              <div 
-                className={`flex items-center justify-between py-4 border-b border-gray-100 cursor-pointer ${isActive ? 'text-[#ff6b00]' : 'text-[#cf5f3c]'}`}
-                onClick={() => {
-                  if (isHappyBars || (isUserLink && user)) {
-                    // Toggle dropdown for items with dropdown
-                    if (isHappyBars) {
-                      setMobileHappyBarsOpen(!mobileHappyBarsOpen);
-                      setMobileUserMenuOpen(false);
-                    } else if (isUserLink && user) {
-                      setMobileUserMenuOpen(!mobileUserMenuOpen);
-                      setMobileHappyBarsOpen(false);
-                    }
-                  } else {
-                    // Navigate for items without dropdown
-                    navigate(link.path);
-                    setMobileMenuOpen(false);
-                  }
-                }}
-              >
-                <span className={`font-black tracking-[0.1em] text-[14px] ${isActive ? 'text-[#ff6b00]' : 'text-[#cf5f3c]'}`}>
-                  {link.label}
-                </span>
-                {(isHappyBars || (isUserLink && user)) && (
-                  <ChevronRight 
-                    size={18} 
-                    className={`transition-transform duration-200 ${isMobileDropdownOpen ? 'rotate-90' : ''}`}
-                  />
-                )}
-              </div>
-
-              {/* Happy Bars Mobile Dropdown */}
-              {isHappyBars && mobileHappyBarsOpen && (
-                <motion.div
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: 'auto' }}
-                  exit={{ opacity: 0, height: 0 }}
-                  className="pl-2 mt-2 mb-3 space-y-3"
-                >
-                  {happyBarsMenu.map((item, i) => (
-                    <Link
-                      key={i}
-                      to={item.link}
-                      onClick={() => setMobileMenuOpen(false)}
-                      className="flex gap-4 items-center p-3 hover:bg-orange-50 rounded-xl transition-colors"
-                    >
-                      <div className="w-14 h-14 flex items-center justify-center bg-orange-50 rounded-xl">
-                        <img src={item.img} alt={item.title} className="w-12 h-12 object-contain" />
-                      </div>
-                      <div className="flex flex-col">
-                        <span className={`font-black text-[12px] tracking-wider ${item.color} uppercase`}>{item.title}</span>
-                        <span className="text-gray-400 text-[10px] font-bold tracking-wider">{item.subtitle}</span>
-                      </div>
-                    </Link>
-                  ))}
-                </motion.div>
-              )}
-
-              {/* User Menu Mobile Dropdown */}
-              {isUserLink && user && mobileUserMenuOpen && (
-                <motion.div
-                  initial={{ opacity: 0, height: 0 }}
-                  animate={{ opacity: 1, height: 'auto' }}
-                  exit={{ opacity: 0, height: 0 }}
-                  className="pl-2 mt-2 mb-3 space-y-1"
-                >
-                  {userMenuItems.map((item, i) => (
-                    <Link
-                      key={i}
-                      to={item.path}
+      {/* Mobile Menu */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="lg:hidden fixed inset-0 top-[64px] z-50 bg-white overflow-y-auto"
+          >
+            <div className="flex flex-col py-8 px-6 gap-1">
+              {links.map((link, idx) => {
+                if (link.label === 'ACCOUNT' && user) {
+                  return null;
+                }
+                
+                const isHappyBars = link.label === 'COLLECTION';
+                const isUserLink = link.isUserLink;
+                const isMobileDropdownOpen = isHappyBars ? mobileHappyBarsOpen : (isUserLink && user ? mobileUserMenuOpen : false);
+                
+                return (
+                  <div key={idx} className="flex flex-col border-b border-gray-50">
+                    <div 
+                      className="flex items-center justify-between py-4 cursor-pointer"
                       onClick={() => {
-                        if (item.isLogout) {
-                          handleLogout();
+                        if (isHappyBars) {
+                          setMobileHappyBarsOpen(!mobileHappyBarsOpen);
+                          setMobileUserMenuOpen(false);
+                        } else if (isUserLink && user) {
+                          setMobileUserMenuOpen(!mobileUserMenuOpen);
+                          setMobileHappyBarsOpen(false);
+                        } else {
+                          navigate(link.path);
+                          setMobileMenuOpen(false);
                         }
-                        setMobileMenuOpen(false);
                       }}
-                      className="flex items-center gap-4 px-4 py-3 hover:bg-orange-50 rounded-xl transition-colors"
                     >
-                      <span>{item.icon}</span>
-                      <span className="font-semibold text-[13px] text-gray-700">{item.label}</span>
-                    </Link>
-                  ))}
-                </motion.div>
-              )}
+                      <span className="text-[15px] font-light tracking-wide text-gray-800">
+                        {isUserLink && user ? (user.fullName?.split(' ')[0] || 'ACCOUNT') : link.label}
+                      </span>
+                      {((isHappyBars) || (isUserLink && user)) && (
+                        <ChevronDown 
+                          size={16} 
+                          className={`text-gray-400 transition-transform duration-300 ${isMobileDropdownOpen ? 'rotate-180' : ''}`}
+                        />
+                      )}
+                    </div>
+
+                    {/* Collection Mobile Dropdown */}
+                    {isHappyBars && mobileHappyBarsOpen && (
+                      <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: 'auto' }}
+                        exit={{ opacity: 0, height: 0 }}
+                        className="pl-4 pb-4 space-y-3"
+                      >
+                        {happyBarsMenu.map((item, i) => (
+                          <Link
+                            key={i}
+                            to={item.link}
+                            onClick={() => setMobileMenuOpen(false)}
+                            className="flex gap-4 items-center p-2"
+                          >
+                            <div className="w-12 h-12 flex items-center justify-center">
+                              <img src={item.img} alt={item.title} className="w-full h-full object-contain" />
+                            </div>
+                            <div className="flex flex-col">
+                              <span className="text-[13px] font-light text-gray-800">{item.title}</span>
+                              <span className="text-gray-400 text-[11px] font-light">{item.subtitle}</span>
+                            </div>
+                          </Link>
+                        ))}
+                      </motion.div>
+                    )}
+
+                    {/* User Mobile Dropdown */}
+                    {isUserLink && user && mobileUserMenuOpen && (
+                      <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: 'auto' }}
+                        exit={{ opacity: 0, height: 0 }}
+                        className="pl-4 pb-4 space-y-1"
+                      >
+                        {userMenuItems.map((item, i) => (
+                          <Link
+                            key={i}
+                            to={item.path}
+                            onClick={() => {
+                              if (item.isLogout) {
+                                handleLogout();
+                              }
+                              setMobileMenuOpen(false);
+                            }}
+                            className="flex items-center gap-3 py-3"
+                          >
+                            <span className="text-gray-400">{item.icon}</span>
+                            <span className="text-[13px] font-light text-gray-600">{item.label}</span>
+                          </Link>
+                        ))}
+                      </motion.div>
+                    )}
+                  </div>
+                );
+              })}
+              
+              {/* Mobile Cart */}
+              <Link 
+                to="/cart" 
+                onClick={() => setMobileMenuOpen(false)}
+                className="flex items-center justify-center gap-3 mt-6 py-4 border border-gray-200 text-gray-800 text-[13px] font-light tracking-wide hover:border-gray-400 transition-all duration-300"
+              >
+                <ShoppingCart size={16} strokeWidth={1.5} /> CART ({cartCount})
+              </Link>
             </div>
-          );
-        })}
-        
-        {/* Cart Button for Mobile */}
-        <Link 
-          to="/cart" 
-          onClick={() => setMobileMenuOpen(false)}
-          className="flex items-center justify-center gap-3 bg-[#ff6b00] text-white px-5 py-4 rounded-full mt-4 font-black tracking-[0.1em] text-sm shadow-md"
-        >
-          <ShoppingCart size={18} strokeWidth={3} /> VIEW CART ({cartCount} {cartCount === 1 ? 'Item' : 'Items'})
-        </Link>
-      </div>
-    </motion.div>
-  )}
-</AnimatePresence>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.header>
   );
 };

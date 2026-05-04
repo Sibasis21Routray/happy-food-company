@@ -15,59 +15,119 @@ export const NotFound: React.FC = () => {
     return '/';
   };
 
+  // Animation variants
+  const containerVariants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.6 }
+    }
+  };
+
+  const iconVariants = {
+    hidden: { scale: 0.8, opacity: 0 },
+    visible: {
+      scale: 1,
+      opacity: 1,
+      transition: { duration: 0.5, delay: 0.2 }
+    }
+  };
+
+  const buttonVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.4, delay: 0.4 }
+    },
+    hover: {
+      scale: 1.02,
+      transition: { duration: 0.2 }
+    },
+    tap: {
+      scale: 0.98
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-[#f8faff] flex items-center justify-center px-6 overflow-hidden relative">
-      {/* Abstract Background Decorations */}
-      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-orange-100/40 rounded-full blur-[120px] -mr-64 -mt-64" />
-      <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-pink-100/40 rounded-full blur-[120px] -ml-64 -mb-64" />
+    <div className="min-h-screen bg-white flex items-center justify-center px-6 overflow-hidden relative">
+      
+      {/* Simple Background - No colored blobs */}
+      <div className="absolute inset-0 bg-gradient-to-br from-gray-50 via-white to-gray-50" />
 
       <div className="max-w-2xl w-full text-center relative z-10">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+          variants={containerVariants}
+          initial="hidden"
+          animate="visible"
         >
-          <div className="flex justify-center mb-6 md:mb-8">
+          {/* 404 Icon */}
+          <motion.div 
+            variants={iconVariants}
+            className="flex justify-center mb-8"
+          >
             <div className="relative">
-              <span className="text-[100px] md:text-[200px] font-black text-slate-900/5 leading-none select-none">404</span>
+              <span className="text-[120px] md:text-[180px] font-light text-gray-200 leading-none select-none">404</span>
               <div className="absolute inset-0 flex items-center justify-center">
-                <div className="w-20 h-20 md:w-32 md:h-32 bg-white rounded-[1.5rem] md:rounded-[2rem] shadow-2xl flex items-center justify-center border border-gray-100 group">
-                  <ShieldAlert size={40} className="md:size-[48px] text-[#FA6011] group-hover:rotate-12 transition-transform duration-500" />
-                </div>
+               
               </div>
             </div>
-          </div>
+          </motion.div>
 
-          <h1 className="text-3xl md:text-5xl font-black text-slate-900 mb-6 tracking-tight">
-            Lost in the <span className="text-[#FA6011]">Hub?</span>
-          </h1>
+          <motion.h1 
+            variants={iconVariants}
+            className="text-2xl md:text-3xl font-light text-gray-800 mb-3"
+          >
+            Page Not Found
+          </motion.h1>
           
-          <p className="text-gray-500 font-bold text-lg mb-12 max-w-md mx-auto leading-relaxed">
-            Oops! The page you're searching for doesn't exist or you don't have the clearance to view it.
-          </p>
+          <motion.div 
+            variants={iconVariants}
+            className="w-12 h-px bg-gray-300 mx-auto mb-5"
+          />
 
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <button 
+          <motion.p 
+            variants={iconVariants}
+            className="text-gray-400 text-sm font-light max-w-md mx-auto leading-relaxed mb-8"
+          >
+            Oops! The page you're looking for doesn't exist or you don't have the clearance to view it.
+          </motion.p>
+
+          <motion.div 
+            variants={buttonVariants}
+            className="flex flex-col sm:flex-row items-center justify-center gap-4"
+          >
+            <motion.button 
+              whileHover="hover"
+              whileTap="tap"
+              variants={buttonVariants}
               onClick={() => navigate(-1)}
-              className="w-full sm:w-auto px-8 py-4 bg-white border border-gray-200 rounded-2xl font-black text-slate-700 hover:bg-gray-50 transition-all flex items-center justify-center gap-3 shadow-sm active:scale-95"
+              className="w-full sm:w-auto px-6 py-2.5 border border-gray-200 text-gray-600 text-sm font-light hover:border-gray-400 transition-all duration-300 flex items-center justify-center gap-2"
             >
-              <ArrowLeft size={18} />
+              <ArrowLeft size={14} strokeWidth={1.5} />
               GO BACK
-            </button>
-            <Link 
-              to={getRedirectPath()}
-              className="w-full sm:w-auto px-8 py-4 bg-gradient-to-r from-[#FA6011] to-[#ff3c83] text-white rounded-2xl font-black transition-all flex items-center justify-center gap-3 shadow-[0_10px_30px_rgba(250,96,17,0.3)] hover:brightness-110 active:scale-95"
-            >
-              <Home size={18} />
-              {user ? 'BACK TO DASHBOARD' : 'GO TO HOME'}
-            </Link>
-          </div>
+            </motion.button>
+            
+            <motion.div variants={buttonVariants}>
+              <Link 
+                to={getRedirectPath()}
+                className="inline-flex w-full sm:w-auto px-6 py-2.5 bg-gray-800 text-white text-sm font-light tracking-wider hover:bg-gray-700 transition-all duration-300 items-center justify-center gap-2"
+              >
+                <Home size={14} strokeWidth={1.5} />
+                {user ? 'DASHBOARD' : 'HOME'}
+              </Link>
+            </motion.div>
+          </motion.div>
 
-          <div className="mt-16 flex items-center justify-center gap-4 text-gray-300 font-black text-[10px] uppercase tracking-[0.2em]">
+          <motion.div 
+            variants={iconVariants}
+            className="mt-12 flex items-center justify-center gap-4 text-gray-300 text-[10px] tracking-[0.2em]"
+          >
             <div className="h-px w-8 bg-gray-200"></div>
-            HAPPY FOOD COMPANY • HUB PRO
+            HAPPY FOOD COMPANY
             <div className="h-px w-8 bg-gray-200"></div>
-          </div>
+          </motion.div>
         </motion.div>
       </div>
     </div>

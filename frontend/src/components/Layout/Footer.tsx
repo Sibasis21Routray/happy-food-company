@@ -3,16 +3,22 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 
 const FacebookIcon = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
-    <path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-1.1 0-2 .9-2 2v1h3v3h-3v6.95c5.05-.5 9-4.76 9-9.95z"/>
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+    <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
   </svg>
 );
 
 const InstagramIcon = () => (
-  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
     <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
     <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
     <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+  </svg>
+);
+
+const TwitterIcon = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+    <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/>
   </svg>
 );
 
@@ -24,125 +30,164 @@ export const Footer: React.FC = () => {
     almondCranberry: "almond-cranberry"
   };
 
+  const footerLinks = {
+    products: [
+      { name: 'Cashew Raisin', path: `/product/${productLinks.cashewRaisin}` },
+      { name: 'Coconut Almond', path: `/product/${productLinks.coconutAlmond}` },
+      { name: 'Date Almond Cranberry', path: `/product/${productLinks.dateAlmondCranberry}` },
+      { name: 'Almond Cranberry', path: `/product/${productLinks.almondCranberry}` },
+    ],
+    company: [
+      { name: 'About', path: '/about-us' },
+      { name: 'Our Team', path: '/happy-team' },
+      { name: 'Careers', path: '/careers' },
+      { name: 'Nutrition', path: 'https://happybarnutrition.org/', external: true },
+    ],
+    support: [
+      { name: 'Privacy Policy', path: '/privacy' },
+      { name: 'Terms of Use', path: '/terms' },
+      { name: 'Returns', path: '/returns' },
+      { name: 'Contact', path: '/contact' },
+    ],
+  };
+
+  const socialLinks = [
+    { icon: FacebookIcon, href: 'https://facebook.com', label: 'Facebook' },
+    { icon: InstagramIcon, href: 'https://instagram.com', label: 'Instagram' },
+    { icon: TwitterIcon, href: 'https://twitter.com', label: 'Twitter' },
+  ];
+
   return (
-    <footer className="relative w-full overflow-hidden pt-32 pb-12 mt-auto">
-      <div className="container mx-auto px-6 relative z-10">
-        {/* 2. Top Links - 4 Column Layout */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 text-center lg:text-left mb-20">
+    <footer className="bg-white border-t border-gray-100 mt-auto">
+      <div className="container mx-auto px-6 max-w-[1400px] py-16">
+        
+        {/* Main Footer Content */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
           
-          {/* Column 1 - Products */}
-          <div className="flex flex-col items-center lg:items-start">
-            <h4 className="text-[#133863] font-bold text-lg mb-6 tracking-tight">
-              Products
-            </h4>
-            <div className="flex flex-col gap-3">
-              <Link to={`/product/${productLinks.cashewRaisin}`} className="text-[#5a7184] font-semibold hover:text-[#0ea5e9] transition-colors text-sm">
-                Cashew Raisin
-              </Link>
-              <Link to={`/product/${productLinks.coconutAlmond}`} className="text-[#5a7184] font-semibold hover:text-[#0ea5e9] transition-colors text-sm">
-                Coconut Almond
-              </Link>
-              <Link to={`/product/${productLinks.dateAlmondCranberry}`} className="text-[#5a7184] font-semibold hover:text-[#0ea5e9] transition-colors text-sm">
-                Date Almond Cranberry
-              </Link>
-              <Link to={`/product/${productLinks.almondCranberry}`} className="text-[#5a7184] font-semibold hover:text-[#0ea5e9] transition-colors text-sm">
-                Almond Cranberry
-              </Link>
-              <Link to="/happy-shop" className="text-[#ef4444] font-bold hover:scale-105 transform inline-block transition-all text-sm">
-                Buy Now
-              </Link>
-            </div>
-          </div>
-          
-          {/* Column 2 - About Us */}
-          <div className="flex flex-col items-center lg:items-start">
-            <h4 className="text-[#133863] font-bold text-lg mb-6 tracking-tight">
-              About Us
-            </h4>
-            <div className="flex flex-col gap-3">
-              <Link to="/about-us" className="text-[#5a7184] font-semibold hover:text-[#0ea5e9] transition-colors text-sm">
-                The Company
-              </Link>
-              <Link to="/happy-team" className="text-[#5a7184] font-semibold hover:text-[#0ea5e9] transition-colors text-sm">
-                Our Happy Team
-              </Link>
-              <Link to="/careers" className="text-[#5a7184] font-semibold hover:text-[#0ea5e9] transition-colors text-sm">
-                Careers
-              </Link>
-              <a href="https://happybarnutrition.org/" target="_blank" rel="noreferrer" className="text-[#5a7184] font-semibold hover:text-[#0ea5e9] transition-colors text-sm">
-                Nutrition Inc.
-              </a>
-            </div>
-          </div>
-          
-          {/* Column 3 - Quick Links */}
-          <div className="flex flex-col items-center lg:items-start">
-            <h4 className="text-[#133863] font-bold text-lg mb-6 tracking-tight">
-              Quick Links
-            </h4>
-            <div className="flex flex-col gap-3">
-              <Link to="/privacy" className="text-[#5a7184] font-semibold hover:text-[#0ea5e9] transition-colors text-sm">
-                Privacy Policy
-              </Link>
-              <Link to="/terms" className="text-[#5a7184] font-semibold hover:text-[#0ea5e9] transition-colors text-sm">
-                Terms of Use
-              </Link>
-              <Link to="/returns" className="text-[#5a7184] font-semibold hover:text-[#0ea5e9] transition-colors text-sm">
-                Returns Policy
-              </Link>
-              <Link to="/contact" className="text-[#5a7184] font-semibold hover:text-[#0ea5e9] transition-colors text-sm">
-                Contact Us
-              </Link>
+          {/* Brand Column */}
+          <div className="space-y-6">
+            <Link to="/" className="inline-block">
+              <img 
+                src="/images/logo.png" 
+                alt="Happy Bar" 
+                className="h-12 w-auto object-contain"
+              />
+            </Link>
+            <p className="text-gray-400 text-sm font-light leading-relaxed">
+              All-natural protein bars crafted with premium ingredients for your everyday adventures.
+            </p>
+            <div className="flex gap-4">
+              {socialLinks.map((social, idx) => (
+                <motion.a
+                  key={idx}
+                  href={social.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  whileHover={{ y: -2 }}
+                  className="text-gray-400 hover:text-gray-700 transition-all duration-300"
+                  aria-label={social.label}
+                >
+                  <social.icon />
+                </motion.a>
+              ))}
             </div>
           </div>
 
-          {/* Column 4 - Contact & Social */}
-          <div className="flex flex-col items-center lg:items-start">
-            <h4 className="text-[#133863] font-bold text-lg mb-6 tracking-tight">
-              Connect With Us
+          {/* Products Column */}
+          <div>
+            <h4 className="text-gray-900 font-light text-sm tracking-wide mb-6">
+              PRODUCTS
             </h4>
-            <div className="flex flex-col gap-3 mb-6">
-              <a href="mailto:woohoo@thehappyfoodcompany.com" className="text-[#ef4444] font-bold text-sm hover:underline decoration-2 underline-offset-4">
+            <ul className="space-y-3">
+              {footerLinks.products.map((link, idx) => (
+                <li key={idx}>
+                  <Link 
+                    to={link.path} 
+                    className="text-gray-400 text-sm font-light hover:text-gray-700 transition-colors duration-300"
+                  >
+                    {link.name}
+                  </Link>
+                </li>
+              ))}
+              <li className="pt-2">
+                <Link 
+                  to="/happy-shop" 
+                  className="text-gray-600 text-sm font-light hover:text-gray-900 transition-colors duration-300"
+                >
+                  Shop All →
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Company Column */}
+          <div>
+            <h4 className="text-gray-900 font-light text-sm tracking-wide mb-6">
+              COMPANY
+            </h4>
+            <ul className="space-y-3">
+              {footerLinks.company.map((link, idx) => (
+                <li key={idx}>
+                  {link.external ? (
+                    <a 
+                      href={link.path} 
+                      target="_blank" 
+                      rel="noreferrer"
+                      className="text-gray-400 text-sm font-light hover:text-gray-700 transition-colors duration-300"
+                    >
+                      {link.name}
+                    </a>
+                  ) : (
+                    <Link 
+                      to={link.path} 
+                      className="text-gray-400 text-sm font-light hover:text-gray-700 transition-colors duration-300"
+                    >
+                      {link.name}
+                    </Link>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Support Column */}
+          <div>
+            <h4 className="text-gray-900 font-light text-sm tracking-wide mb-6">
+              SUPPORT
+            </h4>
+            <ul className="space-y-3">
+              {footerLinks.support.map((link, idx) => (
+                <li key={idx}>
+                  <Link 
+                    to={link.path} 
+                    className="text-gray-400 text-sm font-light hover:text-gray-700 transition-colors duration-300"
+                  >
+                    {link.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+            <div className="mt-6 pt-4">
+              <a 
+                href="mailto:woohoo@thehappyfoodcompany.com" 
+                className="text-gray-600 text-sm font-light hover:text-gray-900 transition-colors duration-300"
+              >
                 woohoo@thehappyfoodcompany.com
               </a>
-            </div>
-            
-            <div className="flex gap-4 mt-2">
-              <motion.a
-                href="https://facebook.com"
-                whileHover={{ y: -3 }}
-                className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-[#133863] shadow-sm hover:shadow-md transition-all"
-              >
-                <FacebookIcon />
-              </motion.a>
-              <motion.a
-                href="https://instagram.com"
-                whileHover={{ y: -3 }}
-                className="w-10 h-10 rounded-full bg-white flex items-center justify-center text-[#133863] shadow-sm hover:shadow-md transition-all"
-              >
-                <InstagramIcon />
-              </motion.a>
             </div>
           </div>
         </div>
 
-        {/* 3. Bottom Bar - Address & Copyright */}
-        <div className="flex flex-col md:flex-row justify-between items-center py-10 border-t border-blue-200/50 gap-6">
-          <div className="text-center md:text-left text-[#5a7184] text-[12px] font-semibold leading-relaxed">
-            <p>Angstrohm Foods Pvt Ltd</p>
-            <p>Krishna Arcade, Kodigehalli,</p>
-            <p>Bengaluru, India 560092</p>
+        {/* Bottom Bar */}
+        <div className="pt-8 border-t border-gray-100 flex flex-col md:flex-row justify-between items-center gap-4">
+          <div className="text-gray-400 text-xs font-light">
+            <span>Angstrohm Foods Pvt Ltd</span>
+            <span className="hidden md:inline mx-2">•</span>
+            <br className="md:hidden" />
+            <span>Krishna Arcade, Kodigehalli, Bengaluru - 560092</span>
           </div>
-
-          <div className="order-2 md:order-2">
-            <Link to="/">
-              <img src="/images/logo.png" alt="Happy Bar Logo" className="h-12 w-auto object-contain hover:opacity-80 transition-opacity" />
-            </Link>
-          </div>
-
-          <div className="text-center md:text-right text-[#5a7184] text-[12px] font-semibold">
-            <p>&copy; {new Date().getFullYear()} Happy Bar</p>
-            <p>All rights reserved</p>
+          <div className="text-gray-400 text-xs font-light">
+            © {new Date().getFullYear()} Happy Bar. All rights reserved.
           </div>
         </div>
       </div>

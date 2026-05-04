@@ -1,5 +1,5 @@
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion, easeInOut } from 'framer-motion';
 import { ShopNowSection } from '../components/ShopNowSection';
 
 const teamMembers = [
@@ -24,70 +24,140 @@ export default function HappyTeam() {
     visible: { opacity: 1, y: 0, transition: { duration: 0.5 } }
   };
 
+  const headerVariants = {
+    hidden: { opacity: 0, y: -30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.6, ease: easeInOut }
+    }
+  };
+
+  const sectionVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.5 }
+    }
+  };
+
   return (
-    <div className="bg-[#f8fafc] min-h-screen font-sans text-slate-900">
-      {/* Hero Section */}
-      <section className="relative pt-24 pb-12 px-6">
-        <div className="max-w-7xl mx-auto text-center">
-         
-          
-          <motion.h1 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="text-4xl md:text-7xl font-black text-slate-900 mb-6 tracking-tight mt-5"
-          >
-            The <span className="text-[#ff793b]">Happy</span> Crew
-          </motion.h1>
-        </div>
-      </section>
-
-      {/* Team Flex Container */}
-      <section className="max-w-5xl mx-auto px-6 pb-24">
+    <div className="bg-white min-h-screen pt-24">
+      
+      {/* Hero Section - Fixed Background */}
+      <motion.section
+             variants={headerVariants}
+             initial="hidden"
+             animate="visible"
+             className="py-16 mb-12 relative overflow-hidden "
+               style={{
+         backgroundImage: "url('https://img.freepik.com/premium-vector/blue-background-with-line-that-says-blue-vector-illustration-autumn-leaves_1007350-15391.jpg')",
+         backgroundSize: "fill",
+         backgroundPosition: "center",
+         // backgroundRepeat: "no-repeat"
+       }}
+           >
+        {/* Animated Overlay Gradient */}
         <motion.div 
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          /* Use Flex with wrap and justify-center to handle orphaned items */
-          className="flex flex-wrap justify-center gap-x-8 gap-y-12"
-        >
-          {teamMembers.map((member, idx) => (
-            <motion.div 
-              key={idx}
-              variants={itemVariants}
-              className="group w-full max-w-[260px] flex-shrink-0" 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8 }}
+          className="absolute inset-0 "
+        />
+        
+        {/* Decorative Pattern */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-0 left-0 w-64 h-64 bg-white rounded-full blur-3xl" />
+          <div className="absolute bottom-0 right-0 w-96 h-96 bg-white rounded-full blur-3xl" />
+          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-white rounded-full blur-3xl" />
+        </div>
+        
+        <div className="container mx-auto px-6 max-w-7xl relative z-10">
+          <div className="text-center">
+            <motion.h1 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2, duration: 0.5 }}
+              className="text-3xl md:text-4xl font-light text-white mb-3"
             >
-              <div className="relative overflow-hidden rounded-[2rem] bg-white shadow-sm transition-all duration-500 group-hover:shadow-xl group-hover:-translate-y-1 border border-slate-100">
-                {/* Image Container */}
-                <div className="aspect-[5/6] overflow-hidden relative bg-slate-50">
-                  <img 
-                    src={member.image} 
-                    alt={member.name}
-                    className="w-full h-full object-cover grayscale-[30%] group-hover:grayscale-0 transition-all duration-700 scale-100 group-hover:scale-105"
-                    loading="lazy"
-                  />
-                </div>
+              The Happy Crew
+            </motion.h1>
+            <motion.div 
+              initial={{ width: 0 }}
+              animate={{ width: 48 }}
+              transition={{ delay: 0.4, duration: 0.6 }}
+              className="h-px bg-white/30 mx-auto"
+            />
+            <motion.p 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5, duration: 0.5 }}
+              className="text-white/70 text-sm font-light mt-4 max-w-md mx-auto"
+            >
+              Meet the passionate people behind Happy Bar
+            </motion.p>
+          </div>
+        </div>
+      </motion.section>
 
-                {/* Content */}
-                <div className="p-6 text-center bg-white">
-                  <h3 className="font-bold text-lg text-slate-800 mb-0.5 group-hover:text-[#f26522] transition-colors leading-tight">
-                    {member.name}
-                  </h3>
-                  <p className="text-[11px] font-bold text-slate-400 uppercase tracking-widest">
-                    {member.role}
-                  </p>
-                  
-                  <div className="mt-4 h-0.5 w-6 bg-slate-100 mx-auto rounded-full group-hover:w-10 group-hover:bg-[#369aca] transition-all duration-500" />
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </motion.div>
-      </section>
+      {/* Team Grid */}
+      <motion.section
+        variants={sectionVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        className="pb-24"
+      >
+        <div className="container mx-auto px-6 max-w-5xl">
+          <motion.div 
+            variants={containerVariants}
+            className="flex flex-wrap justify-center gap-8"
+          >
+            {teamMembers.map((member, idx) => (
+              <motion.div 
+                key={idx}
+                variants={itemVariants}
+                whileHover={{ y: -4 }}
+                className="group w-[220px] md:w-[240px]" 
+              >
+                <div className="bg-white border border-gray-100 hover:border-gray-200 transition-all duration-300">
+                  {/* Image Container */}
+                  <div className="aspect-[5/6] overflow-hidden bg-gray-50">
+                    <img 
+                      src={member.image} 
+                      alt={member.name}
+                      className="w-full h-full object-cover transition-all duration-500 group-hover:scale-105"
+                      loading="lazy"
+                    />
+                  </div>
 
-      <div className="bg-white">
+                  {/* Content */}
+                  <div className="p-5 text-center">
+                    <h3 className="font-light text-gray-800 text-base mb-1 tracking-wide">
+                      {member.name}
+                    </h3>
+                    <p className="text-[10px] text-gray-400 uppercase tracking-wider">
+                      {member.role}
+                    </p>
+                    <div className="mt-3 w-8 h-px bg-gray-200 mx-auto group-hover:w-12 transition-all duration-300" />
+                  </div>
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </motion.section>
+
+      {/* Shop Now Section with Animation */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+      >
         <ShopNowSection />
-      </div>
+      </motion.div>
     </div>
   );
 }

@@ -1,5 +1,7 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { Calendar, ArrowRight } from 'lucide-react';
 
 interface BlogPost {
   id: number;
@@ -104,41 +106,66 @@ function YouMayLike() {
 
   return (
     <section className="py-16">
-      <div className="container mx-auto px-4 max-w-7xl">
-        <h2 className="text-4xl font-bold text-[#333] mb-10 ml-2">You May Also Like...</h2>
+      <div className="container mx-auto max-w-7xl">
         
+        {/* Section Header - Increased text size */}
+        <div className="text-center mb-12">
+          <h2 className="text-2xl md:text-3xl font-light text-gray-800 mb-3">You May Also Like</h2>
+          <div className="w-12 h-px bg-gray-300 mx-auto" />
+        </div>
+        
+        {/* Blog Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {suggestedPosts.map((post) => (
-            <div 
-              key={post.id} 
-              className="group bg-white rounded-[2.5rem] overflow-hidden shadow-[0_10px_40px_-15px_rgba(0,0,0,0.1)] hover:shadow-[0_20px_50px_-20px_rgba(0,0,0,0.15)] transition-all duration-300 flex flex-col border border-slate-50"
+          {suggestedPosts.map((post, index) => (
+            <motion.article
+              key={post.id}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: index * 0.1, duration: 0.5 }}
+              whileHover={{ y: -4 }}
+              className="group bg-white border border-gray-100 hover:border-gray-200 transition-all duration-300"
             >
               {/* Image Container */}
-              <Link to={`/blog/${post.slug}`} className="h-56 overflow-hidden block">
-                <img 
-                  src={post.image} 
-                  alt={post.title} 
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                />
+              <Link to={`/blog/${post.slug}`} className="block overflow-hidden">
+                <div className="aspect-[16/10] overflow-hidden bg-gray-50">
+                  <img 
+                    src={post.image} 
+                    alt={post.title} 
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                </div>
               </Link>
 
-              {/* Content Area */}
-              <div className="p-8 flex flex-col flex-grow">
-                <h3 className="text-[17px] font-bold text-[#444] leading-tight mb-3 line-clamp-2">
-                  <Link to={`/blog/${post.slug}`} className="hover:text-[#b04b6e] transition-colors">
+              {/* Content Area - Increased text sizes */}
+              <div className="p-6">
+                {/* Date - Larger */}
+                <div className="flex items-center gap-1.5 text-gray-400 text-xs mb-3">
+                  <Calendar size={12} strokeWidth={1.5} />
+                  <span>{post.date}</span>
+                </div>
+
+                {/* Title - Larger */}
+                <h3 className="text-base md:text-lg font-light text-gray-800 mb-3 leading-relaxed line-clamp-2">
+                  <Link to={`/blog/${post.slug}`} className="hover:text-gray-600 transition-colors">
                     {post.title}
                   </Link>
                 </h3>
 
-                <p className="text-[#b04b6e] text-[13px] font-bold mb-4">
-                  {post.date}
-                </p>
-
-                <p className="text-[#7a7a7a] text-[13px] leading-relaxed line-clamp-3">
+                {/* Excerpt - Larger */}
+                <p className="text-gray-500 text-sm leading-relaxed line-clamp-2 mb-4">
                   {post.excerpt}
                 </p>
+
+                {/* Read More Link - Larger */}
+                <Link
+                  to={`/blog/${post.slug}`}
+                  className="inline-flex items-center gap-1.5 text-gray-500 text-xs tracking-wider hover:text-gray-700 transition-colors group/link"
+                >
+                  READ MORE
+                  <ArrowRight size={12} className="group-hover/link:translate-x-1 transition-transform" strokeWidth={1.5} />
+                </Link>
               </div>
-            </div>
+            </motion.article>
           ))}
         </div>
       </div>

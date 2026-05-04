@@ -58,149 +58,272 @@ const positions = [
 ];
 
 export default function Careers() {
+  // Animation variants
+  const headerVariants = {
+    hidden: { opacity: 0, y: -30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.6 }
+    }
+  };
+
+  const sectionVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.5 }
+    }
+  };
+
+  const cardVariants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.4 }
+    },
+    hover: {
+      y: -4,
+      transition: { duration: 0.2 }
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-white font-sans overflow-x-hidden">
+    <div className="min-h-screen bg-white pt-24 overflow-x-hidden">
       
-      {/* 1. Hero Impact Section */}
-      <section className="relative bg-[#bde0fe] pt-20 pb-42 px-6 mt-10">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-12">
-          <div className="flex-1 text-center md:text-left">
+      {/* Hero Section - Fixed Background */}
+      <motion.section
+        variants={headerVariants}
+        initial="hidden"
+        animate="visible"
+        className="py-16 mb-12 relative overflow-hidden "
+          style={{
+    backgroundImage: "url('https://img.freepik.com/premium-vector/blue-background-with-line-that-says-blue-vector-illustration-autumn-leaves_1007350-15391.jpg')",
+    backgroundSize: "fill",
+    backgroundPosition: "center",
+    // backgroundRepeat: "no-repeat"
+  }}
+      >
+        {/* Animated Overlay Gradient */}
+        <motion.div 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8 }}
+          className="absolute inset-0 "
+        />
+        
+        {/* Decorative Pattern */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-0 left-0 w-64 h-64 bg-white rounded-full blur-3xl" />
+          <div className="absolute bottom-0 right-0 w-96 h-96 bg-white rounded-full blur-3xl" />
+        </div>
+        
+        <div className="container mx-auto px-6 max-w-7xl relative z-10">
+          <div className="text-center">
             <motion.h1 
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              className="text-5xl md:text-7xl font-black text-[#0077c0] leading-tight mb-8 drop-shadow-sm"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2, duration: 0.5 }}
+              className="text-3xl md:text-4xl font-light text-white mb-3"
             >
               READY TO MAKE AN IMPACT?
             </motion.h1>
-            <h2 className="text-4xl md:text-5xl font-bold text-[#1d4289] leading-tight">
-              Join the Happy Team, <br /> Energise your career!
-            </h2>
-          </div>
-          <div className="flex-1 relative">
             <motion.div 
-              animate={{ y: [0, -20, 0] }}
-              transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-              className="bg-slate-50 p-4 rounded-xl shadow-2xl rotate-3"
+              initial={{ width: 0 }}
+              animate={{ width: 48 }}
+              transition={{ delay: 0.4, duration: 0.6 }}
+              className="h-px bg-white/30 mx-auto"
+            />
+            <motion.p 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5, duration: 0.5 }}
+              className="text-white/70 text-sm font-light mt-4 max-w-md mx-auto"
             >
-              <img 
-                src="https://thehappyfoodcompany.com/wp-content/uploads/2025/12/Untitled-design-26.png" 
-                alt="Happy Bars" 
-                className="rounded-lg w-full object-cover"
-              />
+              Join the Happy Team, Energise your career!
+            </motion.p>
+          </div>
+        </div>
+      </motion.section>
+
+      {/* Mission & Video Section */}
+      <motion.section
+        variants={sectionVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        className="py-20"
+      >
+        <div className="container mx-auto px-6 max-w-7xl">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div className="space-y-8">
+              <motion.div 
+                variants={cardVariants}
+                whileHover="hover"
+                className="border border-gray-100 p-8 hover:border-gray-200 transition-all duration-300"
+              >
+                <h3 className="text-lg font-light text-gray-800 mb-4">Our Mission</h3>
+                <p className="text-gray-500 text-sm font-light leading-relaxed">
+                  To boldly go where few have gone before — crafting healthy, nutritious snacks that are junk-free, chemical-free, and bursting with real goodness.
+                </p>
+              </motion.div>
+              <motion.div 
+                variants={cardVariants}
+                whileHover="hover"
+                className="border border-gray-100 p-8 hover:border-gray-200 transition-all duration-300"
+              >
+                <h3 className="text-lg font-light text-gray-800 mb-4">Company Culture</h3>
+                <p className="text-gray-500 text-sm font-light leading-relaxed">
+                  At <span className="text-gray-700">The Happy Food Company</span>, we're obsessed with quality and safety. We're on a mission to make every moment with us fun and exciting for both our customers and our awesome team!
+                </p>
+              </motion.div>
+            </div>
+            <motion.div 
+              variants={cardVariants}
+              whileHover="hover"
+              className="relative group"
+            >
+              <div className="overflow-hidden border border-gray-100 aspect-video">
+                <video
+                  loop
+                  muted
+                  playsInline
+                  controls
+                  className="w-full h-full object-cover"
+                >
+                  <source
+                    src="https://thehappyfoodcompany.com/wp-content/uploads/2024/05/The-Happy-Food-Company-v1.0.mp4"
+                    type="video/mp4"
+                  />
+                </video>
+              </div>
             </motion.div>
           </div>
         </div>
-        {/* Cloud-like Divider Effect */}
-        <div className="absolute bottom-0 left-0 w-full h-24 bg-white clip-path-clouds"></div>
-      </section>
+      </motion.section>
 
-      {/* 2. Mission & Video Section */}
-      <section className="py-20 px-6 max-w-7xl mx-auto">
-        <div className="grid md:grid-cols-2 gap-12 items-center">
-          <div className="space-y-8">
-            <div className="bg-white p-8 rounded-3xl shadow-[0_10px_40px_rgba(0,0,0,0.05)] border border-slate-100">
-              <h3 className="text-[#8e244d] text-2xl font-black mb-4 uppercase">Our Mission</h3>
-              <p className="text-slate-600 leading-relaxed font-medium">
-                To boldly go where few have gone before — crafting healthy, nutritious snacks that are junk-free, chemical-free, and bursting with real goodness.
-              </p>
-            </div>
-            <div className="bg-white p-8 rounded-3xl shadow-[0_10px_40px_rgba(0,0,0,0.05)] border border-slate-100">
-              <h3 className="text-[#8e244d] text-2xl font-black mb-4 uppercase">Company Culture</h3>
-              <p className="text-slate-600 leading-relaxed font-medium">
-                At <span className="text-[#0077c0]">The Happy Food Company</span>, we're obsessed with quality and safety. We're on a mission to make every moment with us fun and exciting for both our customers and our awesome team!
-              </p>
-            </div>
+      {/* Perks Section */}
+      <motion.section
+        variants={sectionVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        className="py-20 bg-gray-50"
+      >
+        <div className="container mx-auto px-6 max-w-7xl">
+          <div className="text-center mb-12">
+            <h2 className="text-2xl md:text-3xl font-light text-gray-800 mb-3">PERKS & BENEFITS</h2>
+            <div className="w-12 h-px bg-gray-300 mx-auto" />
           </div>
-          <div className="relative group cursor-pointer">
-            <div className="rounded-[2.5rem] overflow-hidden shadow-2xl border-8 border-white aspect-video relative">
-<video
-  
-  loop
-  muted
-  playsInline
-  controls
-  className="w-full h-full object-cover"
->
-  <source
-    src="https://thehappyfoodcompany.com/wp-content/uploads/2024/05/The-Happy-Food-Company-v1.0.mp4"
-    type="video/mp4"
-  />
-</video>
-               
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 3. Perks Section */}
-      <section className="py-20 bg-slate-50">
-        <div className="max-w-7xl mx-auto px-6">
-          <h2 className="text-center text-[#f26522] text-5xl font-black mb-16 drop-shadow-md">PERKS & BENEFITS</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-x-20 gap-y-10">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {perks.map((perk, i) => (
-              <div key={i} className="flex items-center gap-6 group">
-                <div className={`p-4 rounded-2xl bg-white shadow-md group-hover:scale-110 transition-transform`}>
-                  <perk.icon className={`w-8 h-8 ${perk.color}`} />
+              <motion.div 
+                key={i} 
+                variants={cardVariants}
+                whileHover="hover"
+                className="flex items-center gap-4 p-4 border border-gray-100 hover:border-gray-200 transition-all"
+              >
+                <div className="p-2">
+                  <perk.icon className={`w-5 h-5 ${perk.color}`} strokeWidth={1.5} />
                 </div>
-                <span className="text-2xl font-bold text-slate-700">{perk.label}</span>
-              </div>
+                <span className="text-sm font-light text-gray-600">{perk.label}</span>
+              </motion.div>
             ))}
           </div>
         </div>
-      </section>
+      </motion.section>
 
-      {/* 4. Team Section */}
-      <section className="py-24 bg-[#d1c4e9]/30">
-        <div className="max-w-7xl mx-auto px-6 text-center">
-          <h2 className="text-[#6a1b9a] text-5xl font-black mb-6">OUR TEAM</h2>
-          <p className="max-w-3xl mx-auto text-slate-600 italic font-medium mb-16 px-4">
-            "Meet our team of bold and whimsical innovators - the visionaries with audacious dreams, 
-            unconventional thinking, and enough madness to shake up the world."
-          </p>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-8">
+      {/* Team Section */}
+      <motion.section
+        variants={sectionVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        className="py-20"
+      >
+        <div className="container mx-auto px-6 max-w-7xl">
+          <div className="text-center mb-12">
+            <h2 className="text-2xl md:text-3xl font-light text-gray-800 mb-3">OUR TEAM</h2>
+            <div className="w-12 h-px bg-gray-300 mx-auto" />
+            <p className="text-gray-400 text-sm font-light mt-4 max-w-2xl mx-auto">
+              "Meet our team of bold and whimsical innovators - the visionaries with audacious dreams, 
+              unconventional thinking, and enough madness to shake up the world."
+            </p>
+          </div>
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
             {teamMembers.map((member, idx) => (
-              <motion.div whileHover={{ y: -10 }} key={idx} className="bg-white p-2 rounded-[2rem] shadow-lg border border-slate-100 overflow-hidden">
-                <div className={`aspect-square overflow-hidden rounded-[1.8rem] mb-4 ${member.special ? 'bg-[#d83a56]' : 'bg-slate-50'}`}>
-                  <img src={member.image} alt={member.name} className="w-full h-full object-cover" />
+              <motion.div 
+                variants={cardVariants}
+                whileHover="hover"
+                key={idx} 
+                className="border border-gray-100 hover:border-gray-200 transition-all duration-300"
+              >
+                <div className="aspect-square overflow-hidden bg-gray-50">
+                  <img 
+                    src={member.image} 
+                    alt={member.name} 
+                    className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
+                  />
                 </div>
-                <div className="bg-[#f26522] py-4 px-2 rounded-2xl text-white">
-                  <p className="font-black text-sm uppercase tracking-tight">{member.name}</p>
-                  <p className="text-[10px] font-bold opacity-80 uppercase">{member.role}</p>
+                <div className="p-4 text-center">
+                  <p className="font-light text-gray-800 text-sm">{member.name}</p>
+                  <p className="text-[10px] text-gray-400 uppercase tracking-wider mt-1">{member.role}</p>
                 </div>
               </motion.div>
             ))}
           </div>
         </div>
-      </section>
+      </motion.section>
 
-      {/* 5. Open Positions Section */}
-      <section className="py-24 bg-[#fce4ec]">
-        <div className="max-w-7xl mx-auto px-6">
-          <h2 className="text-center text-[#f26522] text-5xl font-black mb-20">OPEN POSITIONS</h2>
+      {/* Open Positions Section */}
+      <motion.section
+        variants={sectionVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        className="py-20 bg-gray-50"
+      >
+        <div className="container mx-auto px-6 max-w-7xl">
+          <div className="text-center mb-12">
+            <h2 className="text-2xl md:text-3xl font-light text-gray-800 mb-3">OPEN POSITIONS</h2>
+            <div className="w-12 h-px bg-gray-300 mx-auto" />
+          </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {positions.map((pos, idx) => (
-              <div key={idx} className="bg-white rounded-[2.5rem] p-10 flex flex-col items-center text-center shadow-xl border border-white hover:shadow-2xl transition-all">
-                <div className={`w-20 h-20 ${pos.bgColor} rounded-full flex items-center justify-center mb-6`}>
-                  <pos.icon className={`w-10 h-10 ${pos.iconColor}`} />
+              <motion.div 
+                key={idx} 
+                variants={cardVariants}
+                whileHover="hover"
+                className="bg-white border border-gray-100 p-8 hover:border-gray-200 transition-all duration-300"
+              >
+                <div className={`w-12 h-12 ${pos.bgColor} rounded-full flex items-center justify-center mb-5`}>
+                  <pos.icon className={`w-6 h-6 ${pos.iconColor}`} strokeWidth={1.5} />
                 </div>
-                <h3 className="text-[#8e244d] text-2xl font-black mb-4">{pos.title}</h3>
-                <p className="text-slate-500 text-sm leading-relaxed mb-10 flex-1">
+                <h3 className="text-lg font-light text-gray-800 mb-3">{pos.title}</h3>
+                <p className="text-gray-500 text-sm font-light leading-relaxed mb-6">
                   {pos.description}
                 </p>
-                <button className="flex items-center gap-2 bg-[#8e244d] text-white px-8 py-3 rounded-full font-black text-sm hover:bg-[#6a1b9a] transition-colors group">
-                  APPLY NOW <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                <button className="inline-flex items-center gap-2 text-gray-600 text-xs font-light tracking-wider hover:text-gray-800 transition-colors group">
+                  APPLY NOW
+                  <ChevronRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" strokeWidth={1.5} />
                 </button>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
-        
-       
-      </section>
+      </motion.section>
       
-      <ShopNowSection />
-
+      {/* Shop Now Section */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+      >
+        <ShopNowSection />
+      </motion.div>
     </div>
   );
 }
-

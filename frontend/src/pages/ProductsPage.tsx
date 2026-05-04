@@ -10,6 +10,7 @@ export const ProductsPage: React.FC = () => {
   const [wishlist, setWishlist] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
 
+  // Complete product data with all details
   const INITIAL_PRODUCTS = [
     {
       _id: '69e0bed3ddd3678cb38d4aa3',
@@ -17,7 +18,10 @@ export const ProductsPage: React.FC = () => {
       title: 'Almond Cranberry + Cashew Raisin',
       price: 300,
       images: ['/images/combo-6-1.png'],
-      category: 'Combos'
+      category: 'Combos',
+      description: '6 bars • 2 flavors',
+      features: ['All Natural', 'No Preservatives', 'Vegetarian'],
+      badge: 'Bestseller'
     },
     {
       _id: '69e0bed3ddd3678cb38d4aa4',
@@ -25,7 +29,9 @@ export const ProductsPage: React.FC = () => {
       title: 'Coconut Almond + Date Almond Cranberry',
       price: 300,
       images: ['/images/combo-6-2.png'],
-      category: 'Combos'
+      category: 'Combos',
+      description: '6 bars • 2 flavors',
+      features: ['All Natural', 'No Preservatives', 'Vegetarian']
     },
     {
       _id: '69e0bed3ddd3678cb38d4aa5',
@@ -33,39 +39,69 @@ export const ProductsPage: React.FC = () => {
       title: 'Happy Bar - Combo Box of 12',
       price: 600,
       images: ['/images/combo-12.png'],
-      category: 'Combos'
+      category: 'Combos',
+      description: '12 bars • 4 flavors',
+      features: ['All Natural', 'No Preservatives', 'Vegetarian'],
+      badge: 'Best Value'
     }
   ];
 
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true);
       try {
-        setProducts(INITIAL_PRODUCTS);
+        // Try to fetch from API first
+        const apiProducts = await api.products.getAll();
+        
+        if (apiProducts && apiProducts.length > 0) {
+          // Filter only combo products
+          const comboProducts = apiProducts.filter((p: any) => 
+            p.slug?.startsWith('combo') || p.category === 'Combos'
+          );
+          
+          if (comboProducts.length > 0) {
+            setProducts(comboProducts);
+          } else {
+            setProducts(INITIAL_PRODUCTS);
+          }
+        } else {
+          setProducts(INITIAL_PRODUCTS);
+        }
 
+        // Fetch wishlist if user is logged in
         const user = localStorage.getItem('user');
         if (user) {
-          const wish = await api.wishlist.get();
-          if (wish.wishlist) {
-            setWishlist(wish.wishlist.productIds.map((p: any) => p._id || p));
+          try {
+            const wish = await api.wishlist.get();
+            if (wish && wish.wishlist) {
+              const wishlistIds = wish.wishlist.productIds.map((p: any) => p._id || p);
+              setWishlist(wishlistIds);
+            }
+          } catch (wishErr) {
+            console.error('Wishlist fetch failed:', wishErr);
           }
         }
       } catch (err) {
-        console.error(err);
+        console.error('Products fetch failed, using fallback data:', err);
+        setProducts(INITIAL_PRODUCTS);
       } finally {
         setLoading(false);
       }
     };
+    
     fetchData();
   }, []);
 
   const handleAddToWishlist = async (e: React.MouseEvent, productId: string) => {
     e.preventDefault();
     e.stopPropagation();
+    
     const user = localStorage.getItem('user');
     if (!user) {
       navigate('/login');
       return;
     }
+    
     try {
       if (wishlist.includes(productId)) {
         await api.wishlist.remove(productId);
@@ -75,7 +111,7 @@ export const ProductsPage: React.FC = () => {
         setWishlist(prev => [...prev, productId]);
       }
     } catch (err) {
-      console.error(err);
+      console.error('Wishlist operation failed:', err);
     }
   };
 
@@ -85,109 +121,141 @@ export const ProductsPage: React.FC = () => {
       navigate('/login');
       return;
     }
+    
     try {
       await api.cart.add(productId, 1);
       navigate('/cart');
     } catch (err) {
-      console.error(err);
+      console.error('Add to cart failed:', err);
     }
   };
 
   return (
-    <div className="min-h-screen bg-[#f8faff] pt-24 sm:pt-28 md:pt-32 pb-12 sm:pb-16 md:pb-20 font-sans relative overflow-hidden">
-      {/* Decorative Circles */}
-      <div className="absolute top-20 sm:top-40 right-4 sm:right-10 w-3 h-3 sm:w-4 sm:h-4 rounded-full bg-[#ff3c83]/40 blur-[2px]" />
-      <div className="absolute top-40 sm:top-60 right-10 sm:right-20 w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-[#00d9d9]/30 blur-[4px]" />
-      <div className="absolute bottom-1/4 right-16 sm:right-32 w-4 h-4 sm:w-6 sm:h-6 rounded-full bg-[#4cc9f0]/40 blur-[2px]" />
-      <div className="absolute bottom-5 sm:bottom-10 right-5 sm:right-10 w-8 h-8 sm:w-12 sm:h-12 rounded-full bg-[#00d9d9]/20 blur-[6px]" />
-      <div className="absolute top-1/2 left-5 sm:left-10 w-4 h-4 sm:w-5 sm:h-5 rounded-full bg-[#ff3c83]/30 blur-[3px]" />
-      <div className="absolute bottom-[5%] left-[2%] w-6 h-6 sm:w-10 sm:h-10 rounded-full bg-[#00d9d9]/40 blur-[2px]" />
-
-      <div className="container mx-auto px-4 sm:px-6 max-w-7xl">
-        <header className="text-center mb-8 sm:mb-12 md:mb-16 relative">
+    <div className="min-h-screen bg-white pt-24 pb-20 font-light">
+      <div className="container mx-auto px-6 max-w-7xl">
+        
+        {/* Header */}
+        <header className="text-center mb-16">
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="relative inline-block"
+            transition={{ duration: 0.6 }}
           >
-            <h1
-              className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-[140px] font-black leading-none text-[#ff3c83] drop-shadow-xl tracking-tight mb-2 opacity-80 select-none"
-              style={{ textShadow: '2px 2px 0 rgba(255, 60, 131, 0.1)' }}
-            >
-              SHOP
+            <div className="inline-block mb-4">
+              <span className="text-xs tracking-[0.2em] text-gray-400">COLLECTION</span>
+            </div>
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-light tracking-tight text-gray-900 mb-4">
+              Shop
             </h1>
-            <motion.h2
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3 }}
-              className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-3xl font-black text-[#1e3a8a] absolute left-1/2 -translate-x-1/2 bottom-0 w-full whitespace-nowrap drop-shadow-sm"
-            >
-              Truly Special Happy Bars
-            </motion.h2>
+            <div className="w-12 h-px bg-gray-300 mx-auto" />
+            <p className="text-gray-400 text-sm font-light mt-6 max-w-md mx-auto">
+              Premium protein bars crafted for your everyday adventures
+            </p>
           </motion.div>
         </header>
 
         {loading ? (
-          <div className="flex justify-center items-center h-64 w-full">
-            <div className="animate-spin rounded-full h-12 w-12 sm:h-16 sm:w-16 border-b-4 border-[#ff3c83]" />
+          <div className="flex justify-center items-center h-96">
+            <div className="w-8 h-8 border border-gray-200 border-t-gray-800 rounded-full animate-spin" />
           </div>
         ) : (
-          /* Grid Layout - 1 col mobile, 2 cols tablet, 3 cols desktop */
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 lg:gap-10 xl:gap-12 mt-8 md:mt-12 lg:mt-16">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {products.map((p, idx) => (
               <motion.div
                 key={p._id}
-                initial={{ opacity: 0, y: 50 }}
+                initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: idx * 0.1, type: "spring", stiffness: 60 }}
-                whileHover={{ y: -10 }}
-                className="flex flex-col items-center group w-full"
+                transition={{ delay: idx * 0.1, duration: 0.5 }}
+                whileHover={{ y: -4 }}
+                className="group"
               >
-                <div className="bg-white rounded-[35px] lg:rounded-[45px] p-4 lg:p-5 shadow-[0_25px_60px_rgba(0,0,0,0.07)] border border-gray-50/50 mb-6 md:mb-8 w-full relative">
-                  <motion.div
-                    whileHover={{ scale: 1.03 }}
-                    transition={{ type: "spring", stiffness: 150 }}
-                    className="w-full aspect-[4/5] rounded-[25px] lg:rounded-[35px] overflow-hidden"
-                  >
+                <div className="bg-white border border-gray-100 hover:border-gray-200 transition-all duration-300 relative">
+                  
+                  {/* Badge */}
+                  {p.badge && (
+                    <div className="absolute top-3 left-3 z-10">
+                      <span className="text-[10px] tracking-wider text-gray-500 border-b border-gray-300 pb-1">
+                        {p.badge}
+                      </span>
+                    </div>
+                  )}
+                  
+                  {/* Image Container */}
+                  <div className="relative bg-gray-50">
                     <Link to={`/product/${p.slug}`}>
-                      <img
-                        src={p.images[0]}
-                        alt={p.title}
-                        className="w-full h-full object-cover brightness-100 group-hover:brightness-[1.02] transition-all duration-500"
-                      />
+                      <div className="aspect-square overflow-hidden">
+                        <img
+                          src={p.images?.[0] || '/images/placeholder.png'}
+                          alt={p.title}
+                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                        />
+                      </div>
                     </Link>
-                  </motion.div>
+                    
+                    {/* Wishlist Button */}
+                    <button
+                      onClick={(e) => handleAddToWishlist(e, p._id)}
+                      className="absolute top-3 right-3 p-2 bg-white/90 backdrop-blur-sm hover:bg-white transition-all duration-300 z-20"
+                    >
+                      <Heart
+                        size={16}
+                        strokeWidth={1.5}
+                        className={`${wishlist.includes(p._id) ? 'fill-gray-800 text-gray-800' : 'text-gray-400 hover:text-gray-600'}`}
+                      />
+                    </button>
+                  </div>
 
-                  {/* Wishlist Button */}
-                  <button
-                    onClick={(e) => handleAddToWishlist(e, p._id)}
-                    className="absolute top-4 sm:top-5 lg:top-6 right-4 sm:right-5 lg:right-6 p-2 lg:p-3 bg-white/90 backdrop-blur-sm rounded-xl lg:rounded-2xl shadow-lg hover:scale-110 transition-all z-20"
-                  >
-                    <Heart
-                      size={20}
-                      className={`lg:w-6 lg:h-6 ${wishlist.includes(p._id) ? 'fill-[#ff3c83] text-[#ff3c83]' : 'text-gray-300 hover:text-[#ff3c83] transition-colors'}`}
-                    />
-                  </button>
+                  {/* Product Info */}
+                  <div className="p-6 text-center">
+                    {/* Category */}
+                    {p.category && (
+                      <p className="text-gray-400 text-[10px] font-light tracking-wider mb-2 uppercase">
+                        {p.category}
+                      </p>
+                    )}
+                    
+                    {/* Description/Serving info */}
+                    {p.description && (
+                      <p className="text-gray-400 text-xs font-light tracking-wide mb-2">
+                        {p.description}
+                      </p>
+                    )}
+                    
+                    {/* Title */}
+                    <h3 className="text-gray-800 font-light text-base tracking-wide mb-3 leading-relaxed">
+                      {p.title}
+                    </h3>
+                    
+                    {/* Divider */}
+                    <div className="w-8 h-px bg-gray-200 mx-auto my-3" />
+                    
+                    {/* Price */}
+                    <p className="text-gray-900 text-xl font-light">
+                      ₹{p.price}
+                    </p>
+                    
+                    {/* Features Tags */}
+                    {p.features && p.features.length > 0 && (
+                      <div className="flex flex-wrap gap-2 justify-center mt-3 mb-4">
+                        {p.features.slice(0, 3).map((feature: string, i: number) => (
+                          <span key={i} className="text-[10px] text-gray-400">
+                            {feature}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+                    
+                    {/* Action Button */}
+                    <motion.button
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      onClick={() => handleAddToCart(p._id)}
+                      className="mt-5 w-full py-3 border border-gray-200 text-gray-700 text-xs font-light tracking-wider hover:border-gray-400 hover:text-gray-900 transition-all duration-300"
+                    >
+                      ADD TO CART
+                    </motion.button>
+                  </div>
                 </div>
-
-                <div className="text-center px-3 lg:px-4">
-                  <h3 className="text-lg sm:text-xl lg:text-2xl font-black text-[#1e3a8a] mb-2 md:mb-3 leading-tight tracking-tight">
-                    {p.title}
-                  </h3>
-                  <p className="text-[#ff3c83] text-2xl lg:text-[32px] font-black tracking-tight leading-none">
-                    ₹{p.price}.00
-                  </p>
-                </div>
-
-                <motion.button
-                  whileHover={{ scale: 1.05 }}
-                  whileTap={{ scale: 0.95 }}
-                  onClick={() => handleAddToCart(p._id)}
-                  className="mt-5 md:mt-6 lg:mt-8 bg-[#ff3c83] text-white font-black py-2.5 md:py-3 lg:py-4 px-6 md:px-8 lg:px-10 rounded-full text-sm sm:text-base lg:text-lg tracking-widest shadow-xl shadow-pink-100 uppercase transition-all flex items-center gap-2"
-                >
-                  <ShoppingCart size={16} className="sm:w-4 sm:h-4 lg:w-5 lg:h-5" />
-                  Buy Now
-                </motion.button>
               </motion.div>
             ))}
           </div>
