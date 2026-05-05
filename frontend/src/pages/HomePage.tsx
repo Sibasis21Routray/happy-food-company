@@ -208,7 +208,7 @@ const ProductSlider = ({ products }: { products: any[] }) => {
           {/* Navigation Arrows */}
           <button
             onClick={prevSlide}
-            className="absolute left-1 md:left-6 md:top-1/2 top-[15vh] -translate-y-1/2 w-12 h-12 bg-white shadow-lg hover:bg-gray-50 transition-all duration-300 flex items-center justify-center rounded-full z-20"
+            className="absolute left-1 md:left-6 md:top-1/2 top-[20vh] -translate-y-1/2 w-12 h-12 bg-white shadow-lg hover:bg-gray-50 transition-all duration-300 flex items-center justify-center rounded-full z-20"
           >
             <svg className="w-5 h-5 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 19l-7-7 7-7" />
@@ -217,7 +217,7 @@ const ProductSlider = ({ products }: { products: any[] }) => {
           
           <button
             onClick={nextSlide}
-            className="absolute right-1 md:right-6 md:top-1/2 top-[15vh] -translate-y-1/2 w-12 h-12 bg-white shadow-lg hover:bg-gray-50 transition-all duration-300 flex items-center justify-center rounded-full z-20"
+            className="absolute right-1 md:right-6 md:top-1/2 top-[20vh] -translate-y-1/2 w-12 h-12 bg-white shadow-lg hover:bg-gray-50 transition-all duration-300 flex items-center justify-center rounded-full z-20"
           >
             <svg className="w-5 h-5 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5l7 7-7 7" />
@@ -456,7 +456,7 @@ export const HomePage: React.FC = () => {
       </section>
 
       {/* Features Section */}
-      <section className="py-20 bg-white">
+      <section className="py-10 bg-white">
         <div className="container mx-auto px-6">
           <SectionHeader 
             title="Why Choose Us"
@@ -472,7 +472,7 @@ export const HomePage: React.FC = () => {
       </section>
 
       {/* Ingredients Section */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-10 bg-gray-50">
         <div className="container mx-auto px-6">
           <SectionHeader 
             title="Pure Ingredients"
@@ -488,7 +488,7 @@ export const HomePage: React.FC = () => {
       </section>
 
       {/* Combo Offers Section */}
-      <section className="py-20 bg-white">
+      <section className="py-10 bg-white">
         <div className="container mx-auto px-6">
           <SectionHeader 
             title="Combo Packs"

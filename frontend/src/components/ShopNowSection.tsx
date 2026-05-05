@@ -47,7 +47,7 @@ export const ShopNowSection: React.FC = () => {
   };
 
   return (
-    <section className="py-20 bg-gray-50">
+    <section className="py-5 bg-gray-50">
       <div className="container mx-auto px-6 max-w-7xl">
         
         {/* Section Header */}

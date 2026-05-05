@@ -187,6 +187,7 @@ export const AuthPage: React.FC = () => {
       />
 
       <motion.div 
+        
         variants={containerVariants}
         initial="hidden"
         animate="visible"
