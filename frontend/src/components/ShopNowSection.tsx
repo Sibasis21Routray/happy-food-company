@@ -53,13 +53,13 @@ export const ShopNowSection: React.FC = () => {
         {/* Section Header */}
         <div className="text-center mb-12">
           <div className="mb-3">
-            <span className="text-xs tracking-[0.2em] text-gray-400">COMBO PACKS</span>
+            <span className="text-md tracking-[0.2em] text-gray-400">COMBO PACKS</span>
           </div>
           <h2 className="text-3xl md:text-4xl font-light text-gray-900 mb-3">
             Better Together
           </h2>
           <div className="w-12 h-px bg-gray-300 mx-auto" />
-          <p className="text-gray-400 text-sm font-light mt-4 max-w-md mx-auto">
+          <p className="text-gray-400 text-md font-light mt-4 max-w-md mx-auto">
             Perfect for sharing or stocking up
           </p>
         </div>
@@ -77,7 +77,7 @@ export const ShopNowSection: React.FC = () => {
             {/* Popular Badge */}
             {combos[currentComboIndex].popular && (
               <div className="text-center mb-4">
-                <span className="text-xs tracking-wide text-gray-500 border-b border-gray-300 pb-1">
+                <span className="text-md tracking-wide text-gray-500 border-b border-gray-300 pb-1">
                   MOST POPULAR
                 </span>
               </div>
@@ -97,13 +97,13 @@ export const ShopNowSection: React.FC = () => {
               <h3 className="text-lg font-light text-gray-800 mb-1">
                 {combos[currentComboIndex].title}
               </h3>
-              <p className="text-xs text-gray-400 mb-2">
+              <p className="text-md text-gray-400 mb-2">
                 {combos[currentComboIndex].subtitle}
               </p>
-              <p className="text-xs text-gray-500 mb-3">
+              <p className="text-md text-gray-500 mb-3">
                 {combos[currentComboIndex].size}
               </p>
-              <p className="text-gray-500 text-xs font-light leading-relaxed mb-4">
+              <p className="text-gray-500 text-md font-light leading-relaxed mb-4">
                 {combos[currentComboIndex].desc}
               </p>
               <div className="mb-4">
@@ -113,7 +113,7 @@ export const ShopNowSection: React.FC = () => {
               </div>
               <button
                 onClick={() => navigate(combos[currentComboIndex].link)}
-                className="w-full py-2.5 border border-gray-300 text-gray-700 text-xs font-light tracking-wider hover:border-gray-500 transition-all duration-300"
+                className="w-full py-2.5 border border-gray-300 text-gray-700 text-md font-light tracking-wider hover:border-gray-500 transition-all duration-300"
               >
                 VIEW DETAILS
               </button>
@@ -187,13 +187,13 @@ export const ShopNowSection: React.FC = () => {
                 <h3 className="text-lg font-light text-gray-800 mb-1">
                   {combo.title}
                 </h3>
-                <p className="text-xs text-gray-400 mb-2">
+                <p className="text-md text-gray-400 mb-2">
                   {combo.subtitle}
                 </p>
-                <p className="text-xs text-gray-500 mb-3">
+                <p className="text-md text-gray-500 mb-3">
                   {combo.size}
                 </p>
-                <p className="text-gray-500 text-xs font-light leading-relaxed mb-4">
+                <p className="text-gray-500 text-md font-light leading-relaxed mb-4">
                   {combo.desc}
                 </p>
                 <div className="mb-5">
@@ -203,7 +203,7 @@ export const ShopNowSection: React.FC = () => {
                 </div>
                 <button
                   onClick={() => navigate(combo.link)}
-                  className="w-full py-2.5 border border-gray-300 text-gray-700 text-xs font-light tracking-wider hover:border-gray-500 transition-all duration-300"
+                  className="w-full py-2.5 border border-gray-300 text-gray-700 text-md font-light tracking-wider hover:border-gray-500 transition-all duration-300"
                 >
                   VIEW DETAILS
                 </button>

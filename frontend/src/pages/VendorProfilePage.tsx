@@ -92,7 +92,7 @@ export const VendorProfilePage: React.FC = () => {
       <main className="container mx-auto px-6 mt-8 max-w-4xl">
         {/* Back Button */}
         <div className="mb-6">
-          <button onClick={() => navigate('/vendor/dashboard')} className="flex items-center gap-2 text-gray-400 hover:text-gray-600 transition-colors text-sm font-light">
+          <button onClick={() => navigate('/vendor/dashboard')} className="flex items-center gap-2 text-gray-400 hover:text-gray-600 transition-colors text-md font-light">
             <ArrowLeft size={14} strokeWidth={1.5} />
             Back to Dashboard
           </button>
@@ -103,13 +103,13 @@ export const VendorProfilePage: React.FC = () => {
           {/* Header */}
           <div className="border-b border-gray-100 p-6">
             <h1 className="text-xl font-light text-gray-800 mb-1">Vendor Profile</h1>
-            <p className="text-gray-400 text-sm font-light">Partner Management & Fulfillment Control Center</p>
+            <p className="text-gray-400 text-md font-light">Partner Management & Fulfillment Control Center</p>
           </div>
 
           <div className="p-6 md:p-8">
             {/* Message */}
             {message && (
-              <div className={`mb-6 p-3 flex items-center gap-2 text-sm ${
+              <div className={`mb-6 p-3 flex items-center gap-2 text-md ${
                 message.type === 'success' ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-600'
               }`}>
                 {message.type === 'success' ? <CheckCircle size={14} strokeWidth={1.5} /> : <AlertCircle size={14} strokeWidth={1.5} />}
@@ -121,38 +121,38 @@ export const VendorProfilePage: React.FC = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {/* Full Name */}
                 <div>
-                  <label className="block text-xs text-gray-400 mb-1.5 tracking-wide">FULL NAME</label>
+                  <label className="block text-sm text-gray-400 mb-1.5 tracking-wide">FULL NAME</label>
                   <input 
                     required
                     type="text" 
                     value={formData.fullName}
                     onChange={e => setFormData({...formData, fullName: e.target.value})}
                     placeholder="Enter owner name" 
-                    className="w-full px-4 py-2.5 border border-gray-200 text-sm focus:border-gray-400 focus:outline-none transition-all"
+                    className="w-full px-4 py-2.5 border border-gray-200 text-md focus:border-gray-400 focus:outline-none transition-all"
                   />
                 </div>
 
                 {/* Email */}
                 <div>
-                  <label className="block text-xs text-gray-400 mb-1.5 tracking-wide">BUSINESS EMAIL</label>
+                  <label className="block text-sm text-gray-400 mb-1.5 tracking-wide">BUSINESS EMAIL</label>
                   <input 
                     required
                     type="email" 
                     value={formData.email}
                     onChange={e => setFormData({...formData, email: e.target.value})}
                     placeholder="vendor@company.com" 
-                    className="w-full px-4 py-2.5 border border-gray-200 text-sm focus:border-gray-400 focus:outline-none transition-all"
+                    className="w-full px-4 py-2.5 border border-gray-200 text-md focus:border-gray-400 focus:outline-none transition-all"
                   />
                 </div>
 
                 {/* Mobile Number */}
                 <div>
-                  <label className="block text-xs text-gray-400 mb-1.5 tracking-wide">MOBILE NUMBER</label>
+                  <label className="block text-sm text-gray-400 mb-1.5 tracking-wide">MOBILE NUMBER</label>
                   <PhoneInput 
                     country={'in'}
                     value={formData.mobileNumber}
                     onChange={(phone: string) => setFormData({...formData, mobileNumber: phone})}
-                    inputClass="!w-full !px-4 !py-2.5 !border !border-gray-200 !text-sm focus:!border-gray-400 focus:!outline-none !h-auto"
+                    inputClass="!w-full !px-4 !py-2.5 !border !border-gray-200 !text-md focus:!border-gray-400 focus:!outline-none !h-auto"
                     buttonClass="!bg-transparent !border-0"
                     containerClass="!w-full"
                   />
@@ -160,20 +160,20 @@ export const VendorProfilePage: React.FC = () => {
 
                 {/* Password */}
                 <div>
-                  <label className="block text-xs text-gray-400 mb-1.5 tracking-wide">NEW PASSWORD (OPTIONAL)</label>
+                  <label className="block text-sm text-gray-400 mb-1.5 tracking-wide">NEW PASSWORD (OPTIONAL)</label>
                   <input 
                     type="password" 
                     value={formData.password}
                     onChange={e => setFormData({...formData, password: e.target.value})}
                     placeholder="Leave blank to keep current" 
-                    className="w-full px-4 py-2.5 border border-gray-200 text-sm focus:border-gray-400 focus:outline-none transition-all"
+                    className="w-full px-4 py-2.5 border border-gray-200 text-md focus:border-gray-400 focus:outline-none transition-all"
                   />
                 </div>
 
                 {/* Verification Status */}
                 <div>
-                  <label className="block text-xs text-gray-400 mb-1.5 tracking-wide">VERIFICATION STATUS</label>
-                  <div className="w-full px-4 py-2.5 border border-gray-200 bg-gray-50 text-gray-600 text-xs flex items-center gap-2">
+                  <label className="block text-sm text-gray-400 mb-1.5 tracking-wide">VERIFICATION STATUS</label>
+                  <div className="w-full px-4 py-2.5 border border-gray-200 bg-gray-50 text-gray-600 text-sm flex items-center gap-2">
                     <span className="w-1.5 h-1.5 bg-green-500 rounded-full"></span>
                     Verified Partner
                   </div>
@@ -185,7 +185,7 @@ export const VendorProfilePage: React.FC = () => {
                 <button 
                   type="submit" 
                   disabled={loading}
-                  className="bg-gray-800 text-white px-8 py-2.5 text-sm font-light tracking-wider hover:bg-gray-700 transition-all disabled:opacity-50"
+                  className="bg-gray-800 text-white px-8 py-2.5 text-md font-light tracking-wider hover:bg-gray-700 transition-all disabled:opacity-50"
                 >
                   {loading ? 'UPDATING...' : 'SAVE PROFILE'}
                 </button>
@@ -199,18 +199,18 @@ export const VendorProfilePage: React.FC = () => {
           <div className="bg-white border border-gray-100 p-6">
             <div className="flex items-center gap-2 mb-3">
               <Truck size={16} className="text-gray-500" strokeWidth={1.5} />
-              <h3 className="text-sm font-light text-gray-700">Fulfillment</h3>
+              <h3 className="text-md font-light text-gray-700">Fulfillment</h3>
             </div>
-            <p className="text-gray-400 text-xs font-light leading-relaxed">
+            <p className="text-gray-400 text-sm font-light leading-relaxed">
               Your business email and mobile number are used to send order alerts and coordination updates. Keep them current to avoid missed orders.
             </p>
           </div>
           <div className="bg-white border border-gray-100 p-6">
             <div className="flex items-center gap-2 mb-3">
               <CheckCircle size={16} className="text-gray-500" strokeWidth={1.5} />
-              <h3 className="text-sm font-light text-gray-700">Compliance</h3>
+              <h3 className="text-md font-light text-gray-700">Compliance</h3>
             </div>
-            <p className="text-gray-400 text-xs font-light leading-relaxed">
+            <p className="text-gray-400 text-sm font-light leading-relaxed">
               As a verified partner, your profile information must match your business registration documents for tax and payout purposes.
             </p>
           </div>

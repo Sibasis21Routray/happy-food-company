@@ -140,7 +140,7 @@ export default function Careers() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.5, duration: 0.5 }}
-              className="text-white/70 text-sm font-light mt-4 max-w-md mx-auto"
+              className="text-white/70 text-md font-light mt-4 max-w-md mx-auto"
             >
               Join the Happy Team, Energise your career!
             </motion.p>
@@ -165,7 +165,7 @@ export default function Careers() {
                 className="border border-gray-100 p-8 hover:border-gray-200 transition-all duration-300"
               >
                 <h3 className="text-lg font-light text-gray-800 mb-4">Our Mission</h3>
-                <p className="text-gray-500 text-sm font-light leading-relaxed">
+                <p className="text-gray-500 text-md font-light leading-relaxed">
                   To boldly go where few have gone before — crafting healthy, nutritious snacks that are junk-free, chemical-free, and bursting with real goodness.
                 </p>
               </motion.div>
@@ -175,7 +175,7 @@ export default function Careers() {
                 className="border border-gray-100 p-8 hover:border-gray-200 transition-all duration-300"
               >
                 <h3 className="text-lg font-light text-gray-800 mb-4">Company Culture</h3>
-                <p className="text-gray-500 text-sm font-light leading-relaxed">
+                <p className="text-gray-500 text-md font-light leading-relaxed">
                   At <span className="text-gray-700">The Happy Food Company</span>, we're obsessed with quality and safety. We're on a mission to make every moment with us fun and exciting for both our customers and our awesome team!
                 </p>
               </motion.div>
@@ -228,7 +228,7 @@ export default function Careers() {
                 <div className="p-2">
                   <perk.icon className={`w-5 h-5 ${perk.color}`} strokeWidth={1.5} />
                 </div>
-                <span className="text-sm font-light text-gray-600">{perk.label}</span>
+                <span className="text-md font-light text-gray-600">{perk.label}</span>
               </motion.div>
             ))}
           </div>
@@ -247,7 +247,7 @@ export default function Careers() {
           <div className="text-center mb-12">
             <h2 className="text-2xl md:text-3xl font-light text-gray-800 mb-3">OUR TEAM</h2>
             <div className="w-12 h-px bg-gray-300 mx-auto" />
-            <p className="text-gray-400 text-sm font-light mt-4 max-w-2xl mx-auto">
+            <p className="text-gray-400 text-md font-light mt-4 max-w-2xl mx-auto">
               "Meet our team of bold and whimsical innovators - the visionaries with audacious dreams, 
               unconventional thinking, and enough madness to shake up the world."
             </p>
@@ -268,7 +268,7 @@ export default function Careers() {
                   />
                 </div>
                 <div className="p-4 text-center">
-                  <p className="font-light text-gray-800 text-sm">{member.name}</p>
+                  <p className="font-light text-gray-800 text-md">{member.name}</p>
                   <p className="text-[10px] text-gray-400 uppercase tracking-wider mt-1">{member.role}</p>
                 </div>
               </motion.div>
@@ -302,10 +302,10 @@ export default function Careers() {
                   <pos.icon className={`w-6 h-6 ${pos.iconColor}`} strokeWidth={1.5} />
                 </div>
                 <h3 className="text-lg font-light text-gray-800 mb-3">{pos.title}</h3>
-                <p className="text-gray-500 text-sm font-light leading-relaxed mb-6">
+                <p className="text-gray-500 text-md font-light leading-relaxed mb-6">
                   {pos.description}
                 </p>
-                <button className="inline-flex items-center gap-2 text-gray-600 text-xs font-light tracking-wider hover:text-gray-800 transition-colors group">
+                <button className="inline-flex items-center gap-2 text-gray-600 text-sm font-light tracking-wider hover:text-gray-800 transition-colors group">
                   APPLY NOW
                   <ChevronRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" strokeWidth={1.5} />
                 </button>

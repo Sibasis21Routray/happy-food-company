@@ -82,7 +82,7 @@ const ToastItem: React.FC<{ toast: Toast; onClose: () => void }> = ({ toast, onC
       <div className="shrink-0">
         {icons[toast.type]}
       </div>
-      <div className="flex-1 text-sm font-bold text-slate-800 leading-tight">
+      <div className="flex-1 text-md font-bold text-slate-800 leading-tight">
         {toast.message}
       </div>
       <button 

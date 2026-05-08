@@ -89,7 +89,7 @@ export const NotFound: React.FC = () => {
 
           <motion.p 
             variants={iconVariants}
-            className="text-gray-400 text-sm font-light max-w-md mx-auto leading-relaxed mb-8"
+            className="text-gray-400 text-md font-light max-w-md mx-auto leading-relaxed mb-8"
           >
             Oops! The page you're looking for doesn't exist or you don't have the clearance to view it.
           </motion.p>
@@ -103,7 +103,7 @@ export const NotFound: React.FC = () => {
               whileTap="tap"
               variants={buttonVariants}
               onClick={() => navigate(-1)}
-              className="w-full sm:w-auto px-6 py-2.5 border border-gray-200 text-gray-600 text-sm font-light hover:border-gray-400 transition-all duration-300 flex items-center justify-center gap-2"
+              className="w-full sm:w-auto px-6 py-2.5 border border-gray-200 text-gray-600 text-md font-light hover:border-gray-400 transition-all duration-300 flex items-center justify-center gap-2"
             >
               <ArrowLeft size={14} strokeWidth={1.5} />
               GO BACK
@@ -112,7 +112,7 @@ export const NotFound: React.FC = () => {
             <motion.div variants={buttonVariants}>
               <Link 
                 to={getRedirectPath()}
-                className="inline-flex w-full sm:w-auto px-6 py-2.5 bg-gray-800 text-white text-sm font-light tracking-wider hover:bg-gray-700 transition-all duration-300 items-center justify-center gap-2"
+                className="inline-flex w-full sm:w-auto px-6 py-2.5 bg-gray-800 text-white text-md font-light tracking-wider hover:bg-gray-700 transition-all duration-300 items-center justify-center gap-2"
               >
                 <Home size={14} strokeWidth={1.5} />
                 {user ? 'DASHBOARD' : 'HOME'}

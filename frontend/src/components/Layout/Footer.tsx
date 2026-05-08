@@ -59,7 +59,7 @@ export const Footer: React.FC = () => {
 
   return (
     <footer className="bg-white border-t border-gray-100 mt-auto">
-      <div className="container mx-auto px-6 max-w-[1400px] py-16">
+      <div className="container mx-auto px-6  py-16">
         
         {/* Main Footer Content */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
@@ -73,7 +73,7 @@ export const Footer: React.FC = () => {
                 className="h-12 w-auto object-contain"
               />
             </Link>
-            <p className="text-gray-400 text-sm font-light leading-relaxed">
+            <p className="text-gray-400 text-md font-light leading-relaxed">
               All-natural protein bars crafted with premium ingredients for your everyday adventures.
             </p>
             <div className="flex gap-4">
@@ -95,7 +95,7 @@ export const Footer: React.FC = () => {
 
           {/* Products Column */}
           <div>
-            <h4 className="text-gray-900 font-light text-sm tracking-wide mb-6">
+            <h4 className="text-gray-900 font-light text-md tracking-wide mb-6">
               PRODUCTS
             </h4>
             <ul className="space-y-3">
@@ -103,7 +103,7 @@ export const Footer: React.FC = () => {
                 <li key={idx}>
                   <Link 
                     to={link.path} 
-                    className="text-gray-400 text-sm font-light hover:text-gray-700 transition-colors duration-300"
+                    className="text-gray-400 text-md font-light hover:text-gray-700 transition-colors duration-300"
                   >
                     {link.name}
                   </Link>
@@ -112,7 +112,7 @@ export const Footer: React.FC = () => {
               <li className="pt-2">
                 <Link 
                   to="/happy-shop" 
-                  className="text-gray-600 text-sm font-light hover:text-gray-900 transition-colors duration-300"
+                  className="text-gray-600 text-md font-light hover:text-gray-900 transition-colors duration-300"
                 >
                   Shop All →
                 </Link>
@@ -122,7 +122,7 @@ export const Footer: React.FC = () => {
 
           {/* Company Column */}
           <div>
-            <h4 className="text-gray-900 font-light text-sm tracking-wide mb-6">
+            <h4 className="text-gray-900 font-light text-md tracking-wide mb-6">
               COMPANY
             </h4>
             <ul className="space-y-3">
@@ -133,14 +133,14 @@ export const Footer: React.FC = () => {
                       href={link.path} 
                       target="_blank" 
                       rel="noreferrer"
-                      className="text-gray-400 text-sm font-light hover:text-gray-700 transition-colors duration-300"
+                      className="text-gray-400 text-md font-light hover:text-gray-700 transition-colors duration-300"
                     >
                       {link.name}
                     </a>
                   ) : (
                     <Link 
                       to={link.path} 
-                      className="text-gray-400 text-sm font-light hover:text-gray-700 transition-colors duration-300"
+                      className="text-gray-400 text-md font-light hover:text-gray-700 transition-colors duration-300"
                     >
                       {link.name}
                     </Link>
@@ -152,7 +152,7 @@ export const Footer: React.FC = () => {
 
           {/* Support Column */}
           <div>
-            <h4 className="text-gray-900 font-light text-sm tracking-wide mb-6">
+            <h4 className="text-gray-900 font-light text-md tracking-wide mb-6">
               SUPPORT
             </h4>
             <ul className="space-y-3">
@@ -160,7 +160,7 @@ export const Footer: React.FC = () => {
                 <li key={idx}>
                   <Link 
                     to={link.path} 
-                    className="text-gray-400 text-sm font-light hover:text-gray-700 transition-colors duration-300"
+                    className="text-gray-400 text-md font-light hover:text-gray-700 transition-colors duration-300"
                   >
                     {link.name}
                   </Link>
@@ -170,7 +170,7 @@ export const Footer: React.FC = () => {
             <div className="mt-6 pt-4">
               <a 
                 href="mailto:woohoo@thehappyfoodcompany.com" 
-                className="text-gray-600 text-sm font-light hover:text-gray-900 transition-colors duration-300"
+                className="text-gray-600 text-md font-light hover:text-gray-900 transition-colors duration-300"
               >
                 woohoo@thehappyfoodcompany.com
               </a>
@@ -180,13 +180,13 @@ export const Footer: React.FC = () => {
 
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-gray-100 flex flex-col md:flex-row justify-between items-center gap-4">
-          <div className="text-gray-400 text-xs font-light">
+          <div className="text-gray-400 text-sm font-light">
             <span>Angstrohm Foods Pvt Ltd</span>
             <span className="hidden md:inline mx-2">•</span>
             <br className="md:hidden" />
             <span>Krishna Arcade, Kodigehalli, Bengaluru - 560092</span>
           </div>
-          <div className="text-gray-400 text-xs font-light">
+          <div className="text-gray-400 text-sm font-light">
             © {new Date().getFullYear()} Happy Bar. All rights reserved.
           </div>
         </div>

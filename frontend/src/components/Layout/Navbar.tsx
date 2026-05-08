@@ -95,7 +95,7 @@ export const Navbar: React.FC = () => {
       className={`fixed top-0 w-full z-[100] transition-all duration-500 ${
         scrolled 
           ? 'h-[64px] bg-white/98 backdrop-blur-md shadow-sm border-b border-gray-100' 
-          : 'h-[80px] bg-white border-b border-transparent'
+          : 'h-[80px] bg-white border-b border-transparent shadow-sm'
       }`}
     >
       <div className="container mx-auto px-6 flex justify-between items-center w-full max-w-[1400px] h-full">
@@ -136,7 +136,7 @@ export const Navbar: React.FC = () => {
                     to={link.path}
                     className="relative h-full flex items-center"
                   >
-                    <span className={`text-[13px] font-light tracking-wide transition-colors duration-300 ${
+                    <span className={`text-[16px] font-light tracking-wide transition-colors duration-300 ${
                       isActive ? 'text-gray-900' : 'text-gray-400 group-hover:text-gray-700'
                     }`}>
                       {link.label}
@@ -150,7 +150,7 @@ export const Navbar: React.FC = () => {
                   </Link>
                 ) : (
                   <div className="relative h-full flex items-center cursor-default">
-                    <span className={`text-[13px] font-light tracking-wide transition-colors duration-300 ${
+                    <span className={`text-[16px] font-light tracking-wide transition-colors duration-300 ${
                       isActive ? 'text-gray-900' : 'text-gray-400 group-hover:text-gray-700'
                     }`}>
                       {isHappyBars ? 'COLLECTION' : (user?.fullName?.split(' ')[0] || 'ACCOUNT')}
@@ -184,8 +184,8 @@ export const Navbar: React.FC = () => {
                               />
                             </div>
                             <div className="flex flex-col">
-                              <span className="font-light text-gray-800 text-sm tracking-wide">{item.title}</span>
-                              <span className="text-gray-400 text-xs font-light">{item.subtitle}</span>
+                              <span className="font-light text-gray-800 text-md tracking-wide">{item.title}</span>
+                              <span className="text-gray-400 text-sm font-light">{item.subtitle}</span>
                             </div>
                           </Link>
                         ))}

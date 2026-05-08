@@ -104,7 +104,7 @@ const CravingControlPage: React.FC = () => {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 }}
-                className="inline-block text-xs tracking-[0.2em] text-gray-300 mb-4"
+                className="inline-block text-sm tracking-[0.2em] text-gray-300 mb-4"
               >
                 WELLNESS
               </motion.span>
@@ -130,7 +130,7 @@ const CravingControlPage: React.FC = () => {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.6, duration: 0.5 }}
-                className="flex items-center justify-center gap-6 text-sm text-gray-300"
+                className="flex items-center justify-center gap-6 text-md text-gray-300"
               >
                 <span className="flex items-center gap-2">
                   <User size={14} strokeWidth={1.5} />
@@ -210,7 +210,7 @@ const CravingControlPage: React.FC = () => {
                 viewport={{ once: true }}
                 whileHover="hover"
                 transition={{ delay: idx * 0.05 }}
-                className="flex items-start gap-2 text-gray-500 text-sm"
+                className="flex items-start gap-2 text-gray-500 text-md"
               >
                 <span className="text-gray-400 mt-0.5">•</span>
                 {item}
@@ -244,7 +244,7 @@ const CravingControlPage: React.FC = () => {
                 viewport={{ once: true }}
                 whileHover="hover"
                 transition={{ delay: idx * 0.05 }}
-                className="flex items-start gap-2 text-gray-500 text-sm"
+                className="flex items-start gap-2 text-gray-500 text-md"
               >
                 <span className="text-gray-400 mt-0.5">•</span>
                 {item}
@@ -268,7 +268,7 @@ const CravingControlPage: React.FC = () => {
             whileHover={{ scale: 1.01, transition: { duration: 0.3 } }}
             className="bg-gray-50 p-6 my-8 border border-gray-100 hover:border-gray-200 transition-all duration-300"
           >
-            <p className="text-gray-600 text-sm font-light leading-relaxed">
+            <p className="text-gray-600 text-md font-light leading-relaxed">
               <span className="font-medium text-gray-800">Did You Know?</span> Our 100% natural protein bars are 
               crafted with real ingredients like cashews, raisins, almonds, and cranberries. No artificial 
               additives—just pure goodness.
@@ -317,7 +317,7 @@ const CravingControlPage: React.FC = () => {
             variants={paragraphVariants}
             className="border-t border-gray-100 pt-6 mt-6 text-center"
           >
-            <p className="text-gray-500 text-sm font-light italic">
+            <p className="text-gray-500 text-md font-light italic">
               So, grab a bar, satisfy those cravings, and stay on track. Your waistline—and your taste buds—will thank you!
             </p>
           </motion.div>
@@ -342,7 +342,7 @@ const CravingControlPage: React.FC = () => {
                   viewport={{ once: true }}
                   whileHover="hover"
                   transition={{ delay: idx * 0.05 }}
-                  className="flex items-start gap-2 text-gray-500 text-sm"
+                  className="flex items-start gap-2 text-gray-500 text-md"
                 >
                   <span className="text-gray-400 mt-0.5">•</span>
                   {item}
@@ -367,10 +367,10 @@ const CravingControlPage: React.FC = () => {
           transition={{ delay: 0.9 }}
           className="flex flex-col md:flex-row justify-between gap-4"
         >
-          <span className="text-gray-300 text-sm">No previous article</span>
+          <span className="text-gray-300 text-md">No previous article</span>
           <Link
             to="/blog/fueling-your-workouts-with-happy-bars"
-            className="group flex items-center gap-2 text-gray-500 text-sm hover:text-gray-700 transition-colors"
+            className="group flex items-center gap-2 text-gray-500 text-md hover:text-gray-700 transition-colors"
           >
             Next Article
             <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />

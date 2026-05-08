@@ -115,7 +115,7 @@ export const BlogPage: React.FC = () => {
           <div className="text-center">
             <h1 className="text-3xl md:text-4xl font-light text-white mb-3">The Happy Blog</h1>
             <div className="w-12 h-px bg-gray-300 mx-auto" />
-            <p className="text-gray-400 text-sm font-light mt-4 max-w-md mx-auto">
+            <p className="text-gray-400 text-md font-light mt-4 max-w-md mx-auto">
               Stories, tips, and inspiration for a healthier, happier life
             </p>
           </div>
@@ -148,7 +148,7 @@ export const BlogPage: React.FC = () => {
               {/* Content Area */}
               <div className="p-6 flex flex-col flex-grow">
                 {/* Meta Info */}
-                <div className="flex items-center gap-4 text-xs text-gray-400 mb-3">
+                <div className="flex items-center gap-4 text-sm text-gray-400 mb-3">
                   <span className="flex items-center gap-1">
                     <User size={12} strokeWidth={1.5} />
                     {post.author.split(' ')[0]}
@@ -167,14 +167,14 @@ export const BlogPage: React.FC = () => {
                 </h2>
                 
                 {/* Excerpt */}
-                <p className="text-gray-400 text-sm font-light leading-relaxed mb-4 line-clamp-3">
+                <p className="text-gray-400 text-md font-light leading-relaxed mb-4 line-clamp-3">
                   {post.excerpt}
                 </p>
                 
                 {/* Read More Link */}
                 <Link
                   to={post.path}
-                  className="mt-auto text-gray-500 text-xs font-light tracking-wider hover:text-gray-700 transition-colors inline-flex items-center gap-1 group/link"
+                  className="mt-auto text-gray-500 text-sm font-light tracking-wider hover:text-gray-700 transition-colors inline-flex items-center gap-1 group/link"
                 >
                   READ MORE
                   <ArrowRight size={12} className="group-hover/link:translate-x-1 transition-transform" strokeWidth={1.5} />

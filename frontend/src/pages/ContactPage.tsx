@@ -93,7 +93,7 @@ const ContactPage = () => {
             Contact Us
           </h1>
           <div className="w-12 h-px bg-gray-300 mx-auto mb-4" />
-          <p className="text-gray-400 text-sm font-light max-w-2xl mx-auto">
+          <p className="text-gray-400 text-md font-light max-w-2xl mx-auto">
             We'd love to hear from you! Reach out with any questions, feedback, or just to say hello.
           </p>
         </motion.div>
@@ -119,10 +119,10 @@ const ContactPage = () => {
                 <Mail className="w-5 h-5 text-gray-500" strokeWidth={1.5} />
               </div>
               <h3 className="text-base font-light text-gray-800 mb-1">Email Us</h3>
-              <p className="text-gray-400 text-xs font-light mb-2">For general inquiries and support</p>
+              <p className="text-gray-400 text-sm font-light mb-2">For general inquiries and support</p>
               <a 
                 href="mailto:woohoo@thehappyfoodcompany.com" 
-                className="text-gray-600 text-sm font-light hover:text-gray-900 transition-colors break-all"
+                className="text-gray-600 text-md font-light hover:text-gray-900 transition-colors break-all"
               >
                 woohoo@thehappyfoodcompany.com
               </a>
@@ -140,8 +140,8 @@ const ContactPage = () => {
                 <Phone className="w-5 h-5 text-gray-500" strokeWidth={1.5} />
               </div>
               <h3 className="text-base font-light text-gray-800 mb-1">Call Us</h3>
-              <p className="text-gray-400 text-xs font-light mb-2">Mon-Fri, 10 AM - 6 PM IST</p>
-              <a href="tel:+918042987652" className="text-gray-600 text-sm font-light hover:text-gray-900 transition-colors">
+              <p className="text-gray-400 text-sm font-light mb-2">Mon-Fri, 10 AM - 6 PM IST</p>
+              <a href="tel:+918042987652" className="text-gray-600 text-md font-light hover:text-gray-900 transition-colors">
                 +91 8042987652
               </a>
             </motion.div>
@@ -158,7 +158,7 @@ const ContactPage = () => {
                 <MapPin className="w-5 h-5 text-gray-500" strokeWidth={1.5} />
               </div>
               <h3 className="text-base font-light text-gray-800 mb-1">Visit Us</h3>
-              <p className="text-gray-500 text-xs font-light leading-relaxed">
+              <p className="text-gray-500 text-sm font-light leading-relaxed">
                 Angstrohm Foods Pvt Ltd<br />
                 3rd Floor, Krishna Arcade,<br />
                 No. 17, S K Nagar, Kodigehalli,<br />
@@ -178,7 +178,7 @@ const ContactPage = () => {
                 <Clock className="w-5 h-5 text-gray-500" strokeWidth={1.5} />
               </div>
               <h3 className="text-base font-light text-gray-800 mb-1">Business Hours</h3>
-              <div className="space-y-1 text-xs text-gray-500 font-light">
+              <div className="space-y-1 text-sm text-gray-500 font-light">
                 <p><span className="text-gray-600">Monday - Friday:</span> 9:00 AM - 6:00 PM</p>
                 <p><span className="text-gray-600">Saturday:</span> 10:00 AM - 4:00 PM</p>
                 <p><span className="text-gray-600">Sunday:</span> Closed</p>
@@ -199,7 +199,7 @@ const ContactPage = () => {
               <form onSubmit={handleSubmit} className="space-y-5">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                   <motion.div variants={fieldVariants}>
-                    <label className="block text-xs text-gray-500 mb-1.5 tracking-wide">YOUR NAME *</label>
+                    <label className="block text-sm text-gray-500 mb-1.5 tracking-wide">YOUR NAME *</label>
                     <input
                       type="text"
                       id="name"
@@ -207,13 +207,13 @@ const ContactPage = () => {
                       required
                       value={formData.name}
                       onChange={handleChange}
-                      className="w-full px-4 py-2.5 border border-gray-300 text-sm focus:border-gray-600 focus:outline-none transition-all duration-300 hover:border-gray-400"
+                      className="w-full px-4 py-2.5 border border-gray-300 text-md focus:border-gray-600 focus:outline-none transition-all duration-300 hover:border-gray-400"
                       placeholder="John Doe"
                     />
                   </motion.div>
                   
                   <motion.div variants={fieldVariants}>
-                    <label className="block text-xs text-gray-500 mb-1.5 tracking-wide">EMAIL ADDRESS *</label>
+                    <label className="block text-sm text-gray-500 mb-1.5 tracking-wide">EMAIL ADDRESS *</label>
                     <input
                       type="email"
                       id="email"
@@ -221,21 +221,21 @@ const ContactPage = () => {
                       required
                       value={formData.email}
                       onChange={handleChange}
-                      className="w-full px-4 py-2.5 border border-gray-300 text-sm focus:border-gray-600 focus:outline-none transition-all duration-300 hover:border-gray-400"
+                      className="w-full px-4 py-2.5 border border-gray-300 text-md focus:border-gray-600 focus:outline-none transition-all duration-300 hover:border-gray-400"
                       placeholder="john@example.com"
                     />
                   </motion.div>
                 </div>
 
                 <motion.div variants={fieldVariants}>
-                  <label className="block text-xs text-gray-500 mb-1.5 tracking-wide">SUBJECT *</label>
+                  <label className="block text-sm text-gray-500 mb-1.5 tracking-wide">SUBJECT *</label>
                   <select
                     id="subject"
                     name="subject"
                     required
                     value={formData.subject}
                     onChange={handleChange}
-                    className="w-full px-4 py-2.5 border border-gray-300 text-sm focus:border-gray-600 focus:outline-none transition-all duration-300 hover:border-gray-400 bg-white"
+                    className="w-full px-4 py-2.5 border border-gray-300 text-md focus:border-gray-600 focus:outline-none transition-all duration-300 hover:border-gray-400 bg-white"
                   >
                     <option value="">Select a subject</option>
                     <option value="General Inquiry">General Inquiry</option>
@@ -248,7 +248,7 @@ const ContactPage = () => {
                 </motion.div>
 
                 <motion.div variants={fieldVariants}>
-                  <label className="block text-xs text-gray-500 mb-1.5 tracking-wide">MESSAGE *</label>
+                  <label className="block text-sm text-gray-500 mb-1.5 tracking-wide">MESSAGE *</label>
                   <textarea
                     id="message"
                     name="message"
@@ -256,7 +256,7 @@ const ContactPage = () => {
                     rows={6}
                     value={formData.message}
                     onChange={handleChange}
-                    className="w-full px-4 py-2.5 border border-gray-300 text-sm focus:border-gray-600 focus:outline-none transition-all duration-300 hover:border-gray-400 resize-none"
+                    className="w-full px-4 py-2.5 border border-gray-300 text-md focus:border-gray-600 focus:outline-none transition-all duration-300 hover:border-gray-400 resize-none"
                     placeholder="Tell us how we can help you..."
                   />
                 </motion.div>
@@ -265,7 +265,7 @@ const ContactPage = () => {
                   <motion.div 
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="border border-green-300 bg-green-50 text-green-700 px-4 py-3 text-sm font-light"
+                    className="border border-green-300 bg-green-50 text-green-700 px-4 py-3 text-md font-light"
                   >
                     Thank you for your message! We'll get back to you soon.
                   </motion.div>
@@ -275,7 +275,7 @@ const ContactPage = () => {
                   <motion.div 
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="border border-red-300 bg-red-50 text-red-700 px-4 py-3 text-sm font-light"
+                    className="border border-red-300 bg-red-50 text-red-700 px-4 py-3 text-md font-light"
                   >
                     Something went wrong. Please try again.
                   </motion.div>
@@ -287,7 +287,7 @@ const ContactPage = () => {
                   whileTap={{ scale: 0.98 }}
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full bg-gray-800 text-white py-3 text-sm font-light tracking-wider hover:bg-gray-700 transition-all duration-300 disabled:opacity-50 flex items-center justify-center gap-2 group"
+                  className="w-full bg-gray-800 text-white py-3 text-md font-light tracking-wider hover:bg-gray-700 transition-all duration-300 disabled:opacity-50 flex items-center justify-center gap-2 group"
                 >
                   {isSubmitting ? (
                     <>
@@ -313,7 +313,7 @@ const ContactPage = () => {
             >
               <div className="p-5 pb-0">
                 <h3 className="text-base font-light text-gray-800 mb-1">Find Us</h3>
-                <p className="text-gray-400 text-xs font-light">Located in Bengaluru, Karnataka</p>
+                <p className="text-gray-400 text-sm font-light">Located in Bengaluru, Karnataka</p>
               </div>
               <div className="h-64 bg-gray-100 mt-4">
                 <iframe

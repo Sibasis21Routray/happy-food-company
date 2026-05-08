@@ -21,9 +21,9 @@ const AccountPlaceholder: React.FC<PlaceholderProps> = ({ title, icon, subtitle 
     </motion.div>
     <h1 className="text-2xl font-light text-gray-800 mb-2">{title}</h1>
     <div className="w-12 h-px bg-gray-200 my-4" />
-    <p className="text-gray-400 text-sm font-light max-w-md mx-auto">{subtitle}</p>
+    <p className="text-gray-400 text-md font-light max-w-md mx-auto">{subtitle}</p>
     <Link to="/happy-shop">
-      <button className="mt-8 px-8 py-3 bg-gray-900 text-white text-sm font-light tracking-wider hover:bg-gray-800 transition-all duration-300">
+      <button className="mt-8 px-8 py-3 bg-gray-900 text-white text-md font-light tracking-wider hover:bg-gray-800 transition-all duration-300">
         START SHOPPING
       </button>
     </Link>
@@ -65,7 +65,7 @@ export const OrdersPage = () => {
   if (error) {
     return (
       <div className="pt-32 bg-white min-h-screen flex items-center justify-center">
-        <p className="text-gray-500 text-sm font-light">{error}</p>
+        <p className="text-gray-500 text-md font-light">{error}</p>
       </div>
     );
   }
@@ -107,10 +107,10 @@ export const OrdersPage = () => {
                 <div className="flex flex-wrap items-center justify-between gap-4 mb-4">
                   <div>
                     <p className="text-[10px] text-gray-400 tracking-wider mb-1">ORDER ID</p>
-                    <p className="text-xs font-light text-gray-600 font-mono">{order._id.slice(-8)}</p>
+                    <p className="text-sm font-light text-gray-600 font-mono">{order._id.slice(-8)}</p>
                   </div>
                   <div className="flex items-center gap-4">
-                    {date && <p className="text-xs text-gray-400 font-light">{date}</p>}
+                    {date && <p className="text-sm text-gray-400 font-light">{date}</p>}
                     <span className={`text-[10px] font-light tracking-wider px-2 py-1 ${status.bg} ${status.text}`}>
                       {status.label}
                     </span>
@@ -125,22 +125,22 @@ export const OrdersPage = () => {
                           <Package size={14} className="text-gray-400" strokeWidth={1} />
                         </div>
                         <div>
-                          <p className="font-light text-gray-700 text-sm line-clamp-1">{item.title}</p>
-                          <p className="text-xs text-gray-400 font-light">Qty: {item.quantity}</p>
+                          <p className="font-light text-gray-700 text-md line-clamp-1">{item.title}</p>
+                          <p className="text-sm text-gray-400 font-light">Qty: {item.quantity}</p>
                         </div>
                       </div>
-                      <p className="font-light text-gray-600 text-sm">₹{item.price * item.quantity}</p>
+                      <p className="font-light text-gray-600 text-md">₹{item.price * item.quantity}</p>
                     </div>
                   ))}
                   {order.items?.length > 2 && (
-                    <p className="text-xs text-gray-400 font-light text-center pt-2">
+                    <p className="text-sm text-gray-400 font-light text-center pt-2">
                       +{order.items.length - 2} more items
                     </p>
                   )}
                 </div>
 
                 <div className="mt-4 pt-4 border-t border-gray-50 flex justify-between items-center">
-                  <p className="text-gray-400 text-xs font-light">Total Amount</p>
+                  <p className="text-gray-400 text-sm font-light">Total Amount</p>
                   <div className="flex items-center gap-3">
                     <p className="text-lg font-light text-gray-800">₹{order.totalAmount?.toFixed(0)}</p>
                     <ChevronRight size={14} className="text-gray-300 group-hover:text-gray-500 transition-all" />
@@ -246,13 +246,13 @@ export const WishlistPage = () => {
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
                 </div>
-                <h3 className="text-sm font-light text-gray-800 line-clamp-1">{product.title}</h3>
+                <h3 className="text-md font-light text-gray-800 line-clamp-1">{product.title}</h3>
                 <p className="text-base font-light text-gray-900 mt-1">₹{product.price}</p>
               </Link>
 
               <button 
                 onClick={() => handleAddToCart(product._id)}
-                className="w-full py-2 border border-gray-200 text-gray-600 text-xs font-light tracking-wider hover:border-gray-400 hover:text-gray-900 transition-all duration-300"
+                className="w-full py-2 border border-gray-200 text-gray-600 text-sm font-light tracking-wider hover:border-gray-400 hover:text-gray-900 transition-all duration-300"
               >
                 ADD TO CART
               </button>
@@ -297,7 +297,7 @@ export const CouponsPage = () => {
   if (error) {
     return (
       <div className="pt-32 bg-white min-h-screen flex items-center justify-center">
-        <p className="text-gray-500 text-sm font-light">{error}</p>
+        <p className="text-gray-500 text-md font-light">{error}</p>
       </div>
     );
   }
@@ -348,7 +348,7 @@ export const CouponsPage = () => {
                 <div className="border-t border-gray-100 my-4" />
                 
                 <div className="flex items-center justify-between bg-gray-50 px-3 py-2">
-                  <span className="font-mono text-sm text-gray-700 tracking-wider">{coupon.code}</span>
+                  <span className="font-mono text-md text-gray-700 tracking-wider">{coupon.code}</span>
                   <button
                     onClick={() => handleCopy(coupon.code)}
                     disabled={isExpired}
@@ -358,7 +358,7 @@ export const CouponsPage = () => {
                   </button>
                 </div>
                 
-                <div className="mt-3 flex items-center justify-between text-xs">
+                <div className="mt-3 flex items-center justify-between text-sm">
                   {coupon.minOrderAmount > 0 && (
                     <span className="text-gray-400 font-light">Min: ₹{coupon.minOrderAmount}</span>
                   )}

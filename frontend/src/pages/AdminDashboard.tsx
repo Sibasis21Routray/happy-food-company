@@ -191,7 +191,7 @@ export const AdminDashboard: React.FC = () => {
         <div className="mb-8">
           <h1 className="text-2xl font-light text-gray-800">Admin Dashboard</h1>
           <div className="w-12 h-px bg-gray-300 mt-2" />
-          <p className="text-gray-400 text-sm font-light mt-2">Global ecosystem overview and administrative controls</p>
+          <p className="text-gray-400 text-md font-light mt-2">Global ecosystem overview and administrative controls</p>
         </div>
 
         {/* Tabs */}
@@ -200,7 +200,7 @@ export const AdminDashboard: React.FC = () => {
             <button
               key={tab}
               onClick={() => setActiveTab(tab as any)}
-              className={`px-6 py-2.5 text-sm font-light tracking-wide transition-all ${
+              className={`px-6 py-2.5 text-md font-light tracking-wide transition-all ${
                 activeTab === tab 
                   ? 'text-gray-800 border-b-2 border-gray-800' 
                   : 'text-gray-400 hover:text-gray-600'
@@ -215,25 +215,25 @@ export const AdminDashboard: React.FC = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             <div className="bg-white border border-gray-100 p-6">
               <Package size={20} className="text-gray-400 mb-4" strokeWidth={1.5} />
-              <p className="text-xs text-gray-400 uppercase tracking-wide mb-1">Total Orders</p>
+              <p className="text-sm text-gray-400 uppercase tracking-wide mb-1">Total Orders</p>
               <h3 className="text-2xl font-light text-gray-800">{stats.totalOrders}</h3>
             </div>
             <div className="bg-white border border-gray-100 p-6">
               <Users size={20} className="text-gray-400 mb-4" strokeWidth={1.5} />
-              <p className="text-xs text-gray-400 uppercase tracking-wide mb-1">Total Users</p>
+              <p className="text-sm text-gray-400 uppercase tracking-wide mb-1">Total Users</p>
               <h3 className="text-2xl font-light text-gray-800">{stats.totalVendors + stats.totalUsers}</h3>
-              <p className="text-xs text-gray-400 mt-1">{stats.totalVendors} Vendors</p>
+              <p className="text-sm text-gray-400 mt-1">{stats.totalVendors} Vendors</p>
             </div>
             <div className="bg-white border border-gray-100 p-6">
               <Activity size={20} className="text-gray-400 mb-4" strokeWidth={1.5} />
-              <p className="text-xs text-gray-400 uppercase tracking-wide mb-1">Success Rate</p>
+              <p className="text-sm text-gray-400 uppercase tracking-wide mb-1">Success Rate</p>
               <h3 className="text-2xl font-light text-gray-800">{Math.round((stats.completedOrders / stats.totalOrders) * 100) || 0}%</h3>
             </div>
             <button onClick={() => setActiveTab('revenue')} className="bg-gray-800 border border-gray-800 p-6 text-left hover:bg-gray-700 transition-all">
               <DollarSign size={20} className="text-gray-300 mb-4" strokeWidth={1.5} />
-              <p className="text-xs text-gray-400 uppercase tracking-wide mb-1">Total Revenue</p>
+              <p className="text-sm text-gray-400 uppercase tracking-wide mb-1">Total Revenue</p>
               <h3 className="text-2xl font-light text-white">₹{stats.totalRevenue.toLocaleString()}</h3>
-              <p className="text-xs text-gray-400 mt-2">View Details →</p>
+              <p className="text-sm text-gray-400 mt-2">View Details →</p>
             </button>
           </div>
         ) : activeTab === 'revenue' ? (
@@ -242,16 +242,16 @@ export const AdminDashboard: React.FC = () => {
               <div className="flex flex-col gap-6">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div>
-                    <label className="block text-xs text-gray-400 mb-1.5">Start Date</label>
-                    <input type="date" value={revenueState.startDate} onChange={e => setRevenueState({ ...revenueState, startDate: e.target.value, page: 1 })} className="w-full px-3 py-2 border border-gray-200 text-sm focus:border-gray-400 focus:outline-none" />
+                    <label className="block text-sm text-gray-400 mb-1.5">Start Date</label>
+                    <input type="date" value={revenueState.startDate} onChange={e => setRevenueState({ ...revenueState, startDate: e.target.value, page: 1 })} className="w-full px-3 py-2 border border-gray-200 text-md focus:border-gray-400 focus:outline-none" />
                   </div>
                   <div>
-                    <label className="block text-xs text-gray-400 mb-1.5">End Date</label>
-                    <input type="date" value={revenueState.endDate} onChange={e => setRevenueState({ ...revenueState, endDate: e.target.value, page: 1 })} className="w-full px-3 py-2 border border-gray-200 text-sm focus:border-gray-400 focus:outline-none" />
+                    <label className="block text-sm text-gray-400 mb-1.5">End Date</label>
+                    <input type="date" value={revenueState.endDate} onChange={e => setRevenueState({ ...revenueState, endDate: e.target.value, page: 1 })} className="w-full px-3 py-2 border border-gray-200 text-md focus:border-gray-400 focus:outline-none" />
                   </div>
                   <div>
-                    <label className="block text-xs text-gray-400 mb-1.5">Status</label>
-                    <select value={revenueState.status} onChange={e => setRevenueState({ ...revenueState, status: e.target.value, page: 1 })} className="w-full px-3 py-2 border border-gray-200 text-sm focus:border-gray-400 focus:outline-none bg-white">
+                    <label className="block text-sm text-gray-400 mb-1.5">Status</label>
+                    <select value={revenueState.status} onChange={e => setRevenueState({ ...revenueState, status: e.target.value, page: 1 })} className="w-full px-3 py-2 border border-gray-200 text-md focus:border-gray-400 focus:outline-none bg-white">
                       <option value="all">All</option>
                       <option value="pending">Pending</option>
                       <option value="confirmed">Confirmed</option>
@@ -262,12 +262,12 @@ export const AdminDashboard: React.FC = () => {
                   </div>
                 </div>
                 <div className="bg-gray-50 p-4">
-                  <p className="text-xs text-gray-400 uppercase tracking-wide mb-1">Filtered Total</p>
+                  <p className="text-sm text-gray-400 uppercase tracking-wide mb-1">Filtered Total</p>
                   <h3 className="text-2xl font-light text-gray-800">₹{revenueState.totalPeriodRevenue.toLocaleString()}</h3>
-                  <p className="text-xs text-gray-400 mt-1">{revenueState.totalPeriodOrders} transactions</p>
+                  <p className="text-sm text-gray-400 mt-1">{revenueState.totalPeriodOrders} transactions</p>
                 </div>
                 <div className="relative">
-                  <input type="text" placeholder="Search by Order ID..." value={revenueState.search} onChange={e => setRevenueState({ ...revenueState, search: e.target.value, page: 1 })} className="w-full px-4 py-2 border border-gray-200 text-sm focus:border-gray-400 focus:outline-none pl-10" />
+                  <input type="text" placeholder="Search by Order ID..." value={revenueState.search} onChange={e => setRevenueState({ ...revenueState, search: e.target.value, page: 1 })} className="w-full px-4 py-2 border border-gray-200 text-md focus:border-gray-400 focus:outline-none pl-10" />
                   <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" strokeWidth={1.5} />
                 </div>
               </div>
@@ -278,22 +278,22 @@ export const AdminDashboard: React.FC = () => {
                 <table className="w-full text-left">
                   <thead className="border-b border-gray-100">
                     <tr>
-                      <th className="px-5 py-4 text-xs font-light text-gray-400 uppercase tracking-wide">Order ID</th>
-                      <th className="px-5 py-4 text-xs font-light text-gray-400 uppercase tracking-wide">Date</th>
-                      <th className="px-5 py-4 text-xs font-light text-gray-400 uppercase tracking-wide">Customer</th>
-                      <th className="px-5 py-4 text-xs font-light text-gray-400 uppercase tracking-wide">Amount</th>
-                      <th className="px-5 py-4 text-xs font-light text-gray-400 uppercase tracking-wide">Status</th>
+                      <th className="px-5 py-4 text-sm font-light text-gray-400 uppercase tracking-wide">Order ID</th>
+                      <th className="px-5 py-4 text-sm font-light text-gray-400 uppercase tracking-wide">Date</th>
+                      <th className="px-5 py-4 text-sm font-light text-gray-400 uppercase tracking-wide">Customer</th>
+                      <th className="px-5 py-4 text-sm font-light text-gray-400 uppercase tracking-wide">Amount</th>
+                      <th className="px-5 py-4 text-sm font-light text-gray-400 uppercase tracking-wide">Status</th>
                     </tr>
                   </thead>
                   <tbody>
                     {revenueState.data.map((o: any) => (
                       <tr key={o._id} className="border-b border-gray-50 hover:bg-gray-50 transition-all">
-                        <td className="px-5 py-4 text-sm text-gray-600 font-mono">{o._id.slice(-8)}</td>
-                        <td className="px-5 py-4 text-sm text-gray-500">{new Date(o.createdAt).toLocaleDateString()}</td>
-                        <td className="px-5 py-4 text-sm text-gray-600">{o.userId?.fullName || 'Guest'}</td>
-                        <td className="px-5 py-4 text-sm font-medium text-gray-800">₹{o.totalAmount.toLocaleString()}</td>
+                        <td className="px-5 py-4 text-md text-gray-600 font-mono">{o._id.slice(-8)}</td>
+                        <td className="px-5 py-4 text-md text-gray-500">{new Date(o.createdAt).toLocaleDateString()}</td>
+                        <td className="px-5 py-4 text-md text-gray-600">{o.userId?.fullName || 'Guest'}</td>
+                        <td className="px-5 py-4 text-md font-medium text-gray-800">₹{o.totalAmount.toLocaleString()}</td>
                         <td className="px-5 py-4">
-                          <span className={`text-xs font-light uppercase ${o.status === 'delivered' ? 'text-green-600' : o.status === 'cancelled' ? 'text-red-500' : 'text-gray-500'}`}>
+                          <span className={`text-sm font-light uppercase ${o.status === 'delivered' ? 'text-green-600' : o.status === 'cancelled' ? 'text-red-500' : 'text-gray-500'}`}>
                             {o.status}
                           </span>
                         </td>
@@ -309,21 +309,21 @@ export const AdminDashboard: React.FC = () => {
             <div className="bg-white border border-gray-100 p-6">
               <h2 className="text-lg font-light text-gray-800 mb-4">Create New Vendor</h2>
               <form onSubmit={createVendor} className="grid grid-cols-1 md:grid-cols-5 gap-3">
-                <input required value={vendorForm.fullName} onChange={e => setVendorForm({ ...vendorForm, fullName: e.target.value })} placeholder="Full Name" className="px-3 py-2 border border-gray-200 text-sm focus:border-gray-400 focus:outline-none" />
-                <input required type="email" value={vendorForm.email} onChange={e => setVendorForm({ ...vendorForm, email: e.target.value })} placeholder="Email" className="px-3 py-2 border border-gray-200 text-sm focus:border-gray-400 focus:outline-none" />
-                <input required type="password" value={vendorForm.password} onChange={e => setVendorForm({ ...vendorForm, password: e.target.value })} placeholder="Password" className="px-3 py-2 border border-gray-200 text-sm focus:border-gray-400 focus:outline-none" />
-                <PhoneInput country={'in'} value={vendorForm.mobileNumber} onChange={(phone: string) => setVendorForm({ ...vendorForm, mobileNumber: phone })} inputClass="!w-full !px-3 !py-2 !border !border-gray-200 !text-sm focus:!border-gray-400 !outline-none" buttonClass="!bg-transparent !border-0" />
-                <button type="submit" className="bg-gray-800 text-white text-sm font-light py-2 hover:bg-gray-700 transition-all">Create Vendor</button>
+                <input required value={vendorForm.fullName} onChange={e => setVendorForm({ ...vendorForm, fullName: e.target.value })} placeholder="Full Name" className="px-3 py-2 border border-gray-200 text-md focus:border-gray-400 focus:outline-none" />
+                <input required type="email" value={vendorForm.email} onChange={e => setVendorForm({ ...vendorForm, email: e.target.value })} placeholder="Email" className="px-3 py-2 border border-gray-200 text-md focus:border-gray-400 focus:outline-none" />
+                <input required type="password" value={vendorForm.password} onChange={e => setVendorForm({ ...vendorForm, password: e.target.value })} placeholder="Password" className="px-3 py-2 border border-gray-200 text-md focus:border-gray-400 focus:outline-none" />
+                <PhoneInput country={'in'} value={vendorForm.mobileNumber} onChange={(phone: string) => setVendorForm({ ...vendorForm, mobileNumber: phone })} inputClass="!w-full !px-3 !py-2 !border !border-gray-200 !text-md focus:!border-gray-400 !outline-none" buttonClass="!bg-transparent !border-0" />
+                <button type="submit" className="bg-gray-800 text-white text-md font-light py-2 hover:bg-gray-700 transition-all">Create Vendor</button>
               </form>
             </div>
 
             <div className="bg-white border border-gray-100 p-6">
               <div className="flex flex-col md:flex-row gap-4 mb-6">
                 <div className="flex-1 relative">
-                  <input type="text" placeholder="Search vendors..." value={vendorState.search} onChange={(e) => setVendorState(prev => ({ ...prev, search: e.target.value, page: 1 }))} className="w-full px-4 py-2 border border-gray-200 text-sm focus:border-gray-400 focus:outline-none pl-10" />
+                  <input type="text" placeholder="Search vendors..." value={vendorState.search} onChange={(e) => setVendorState(prev => ({ ...prev, search: e.target.value, page: 1 }))} className="w-full px-4 py-2 border border-gray-200 text-md focus:border-gray-400 focus:outline-none pl-10" />
                   <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" strokeWidth={1.5} />
                 </div>
-                <select value={vendorState.filter} onChange={(e) => setVendorState(prev => ({ ...prev, filter: e.target.value, page: 1 }))} className="px-3 py-2 border border-gray-200 text-sm focus:border-gray-400 focus:outline-none bg-white">
+                <select value={vendorState.filter} onChange={(e) => setVendorState(prev => ({ ...prev, filter: e.target.value, page: 1 }))} className="px-3 py-2 border border-gray-200 text-md focus:border-gray-400 focus:outline-none bg-white">
                   <option value="all">All</option>
                   <option value="active">Active</option>
                   <option value="blocked">Blocked</option>
@@ -334,26 +334,26 @@ export const AdminDashboard: React.FC = () => {
                 <table className="w-full text-left">
                   <thead className="border-b border-gray-100">
                     <tr>
-                      <th className="px-4 py-3 text-xs font-light text-gray-400 uppercase tracking-wide">Name</th>
-                      <th className="px-4 py-3 text-xs font-light text-gray-400 uppercase tracking-wide">Email</th>
-                      <th className="px-4 py-3 text-xs font-light text-gray-400 uppercase tracking-wide">Mobile</th>
-                      <th className="px-4 py-3 text-xs font-light text-gray-400 uppercase tracking-wide">Status</th>
-                      <th className="px-4 py-3 text-xs font-light text-gray-400 uppercase tracking-wide">Action</th>
+                      <th className="px-4 py-3 text-sm font-light text-gray-400 uppercase tracking-wide">Name</th>
+                      <th className="px-4 py-3 text-sm font-light text-gray-400 uppercase tracking-wide">Email</th>
+                      <th className="px-4 py-3 text-sm font-light text-gray-400 uppercase tracking-wide">Mobile</th>
+                      <th className="px-4 py-3 text-sm font-light text-gray-400 uppercase tracking-wide">Status</th>
+                      <th className="px-4 py-3 text-sm font-light text-gray-400 uppercase tracking-wide">Action</th>
                     </tr>
                   </thead>
                   <tbody>
                     {vendorState.data.map((v: any) => (
                       <tr key={v._id} className="border-b border-gray-50 hover:bg-gray-50">
-                        <td className="px-4 py-3 text-sm text-gray-700">{v.fullName}</td>
-                        <td className="px-4 py-3 text-sm text-gray-500">{v.email}</td>
-                        <td className="px-4 py-3 text-sm text-gray-500">{v.mobileNumber}</td>
+                        <td className="px-4 py-3 text-md text-gray-700">{v.fullName}</td>
+                        <td className="px-4 py-3 text-md text-gray-500">{v.email}</td>
+                        <td className="px-4 py-3 text-md text-gray-500">{v.mobileNumber}</td>
                         <td className="px-4 py-3">
-                          <span className={`text-xs font-light uppercase ${v.isBlocked ? 'text-red-500' : 'text-green-600'}`}>
+                          <span className={`text-sm font-light uppercase ${v.isBlocked ? 'text-red-500' : 'text-green-600'}`}>
                             {v.isBlocked ? 'Blocked' : 'Active'}
                           </span>
                         </td>
                         <td className="px-4 py-3">
-                          <button onClick={() => toggleBlock(v._id, v.isBlocked, 'vendors')} className={`px-3 py-1 text-xs font-light text-white ${v.isBlocked ? 'bg-green-600 hover:bg-green-700' : 'bg-red-500 hover:bg-red-600'} transition-all`}>
+                          <button onClick={() => toggleBlock(v._id, v.isBlocked, 'vendors')} className={`px-3 py-1 text-sm font-light text-white ${v.isBlocked ? 'bg-green-600 hover:bg-green-700' : 'bg-red-500 hover:bg-red-600'} transition-all`}>
                             {v.isBlocked ? 'Unblock' : 'Block'}
                           </button>
                         </td>
@@ -368,7 +368,7 @@ export const AdminDashboard: React.FC = () => {
           <div className="bg-white border border-gray-100 overflow-hidden">
             <div className="p-6 border-b border-gray-100">
               <div className="relative">
-                <input type="text" placeholder="Search orders..." value={orderState.search} onChange={(e) => setOrderState(prev => ({ ...prev, search: e.target.value, page: 1 }))} className="w-full px-4 py-2 border border-gray-200 text-sm focus:border-gray-400 focus:outline-none pl-10" />
+                <input type="text" placeholder="Search orders..." value={orderState.search} onChange={(e) => setOrderState(prev => ({ ...prev, search: e.target.value, page: 1 }))} className="w-full px-4 py-2 border border-gray-200 text-md focus:border-gray-400 focus:outline-none pl-10" />
                 <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" strokeWidth={1.5} />
               </div>
             </div>
@@ -376,31 +376,31 @@ export const AdminDashboard: React.FC = () => {
               <table className="w-full text-left">
                 <thead className="border-b border-gray-100">
                   <tr>
-                    <th className="px-5 py-4 text-xs font-light text-gray-400 uppercase tracking-wide">Order ID</th>
-                    <th className="px-5 py-4 text-xs font-light text-gray-400 uppercase tracking-wide">Customer</th>
-                    <th className="px-5 py-4 text-xs font-light text-gray-400 uppercase tracking-wide">Items</th>
-                    <th className="px-5 py-4 text-xs font-light text-gray-400 uppercase tracking-wide">Amount</th>
-                    <th className="px-5 py-4 text-xs font-light text-gray-400 uppercase tracking-wide">Vendor</th>
-                    <th className="px-5 py-4 text-xs font-light text-gray-400 uppercase tracking-wide">Status</th>
-                    <th className="px-5 py-4 text-xs font-light text-gray-400 uppercase tracking-wide">Action</th>
+                    <th className="px-5 py-4 text-sm font-light text-gray-400 uppercase tracking-wide">Order ID</th>
+                    <th className="px-5 py-4 text-sm font-light text-gray-400 uppercase tracking-wide">Customer</th>
+                    <th className="px-5 py-4 text-sm font-light text-gray-400 uppercase tracking-wide">Items</th>
+                    <th className="px-5 py-4 text-sm font-light text-gray-400 uppercase tracking-wide">Amount</th>
+                    <th className="px-5 py-4 text-sm font-light text-gray-400 uppercase tracking-wide">Vendor</th>
+                    <th className="px-5 py-4 text-sm font-light text-gray-400 uppercase tracking-wide">Status</th>
+                    <th className="px-5 py-4 text-sm font-light text-gray-400 uppercase tracking-wide">Action</th>
                   </tr>
                 </thead>
                 <tbody>
                   {orderState.data.map((o: any) => (
                     <tr key={o._id} className="border-b border-gray-50 hover:bg-gray-50">
-                      <td className="px-5 py-4 text-sm text-gray-600 font-mono">{o._id.slice(-8)}</td>
-                      <td className="px-5 py-4 text-sm text-gray-600">{o.userId?.fullName || 'Guest'}</td>
-                      <td className="px-5 py-4 text-sm text-gray-500">{o.items?.length} items</td>
-                      <td className="px-5 py-4 text-sm font-medium text-gray-800">₹{o.totalAmount}</td>
+                      <td className="px-5 py-4 text-md text-gray-600 font-mono">{o._id.slice(-8)}</td>
+                      <td className="px-5 py-4 text-md text-gray-600">{o.userId?.fullName || 'Guest'}</td>
+                      <td className="px-5 py-4 text-md text-gray-500">{o.items?.length} items</td>
+                      <td className="px-5 py-4 text-md font-medium text-gray-800">₹{o.totalAmount}</td>
                       <td className="px-5 py-4">
                         {reassigning === o._id ? (
-                          <select onChange={(e) => reassignVendor(o._id, e.target.value)} className="px-2 py-1 border border-gray-200 text-sm" defaultValue={o.vendorId?._id || ""}>
+                          <select onChange={(e) => reassignVendor(o._id, e.target.value)} className="px-2 py-1 border border-gray-200 text-md" defaultValue={o.vendorId?._id || ""}>
                             <option value="">Assign...</option>
                             {vendors.map((v: any) => (<option key={v._id} value={v._id}>{v.fullName}</option>))}
                           </select>
                         ) : (
                           <div className="flex items-center gap-2">
-                            <span className="text-sm text-gray-600">{o.vendorId?.fullName || "Unassigned"}</span>
+                            <span className="text-md text-gray-600">{o.vendorId?.fullName || "Unassigned"}</span>
                             <button onClick={() => setReassigning(o._id)} className="text-gray-400 hover:text-gray-600">
                               <RefreshCw size={12} strokeWidth={1.5} />
                             </button>
@@ -408,12 +408,12 @@ export const AdminDashboard: React.FC = () => {
                         )}
                       </td>
                       <td className="px-5 py-4">
-                        <span className={`text-xs font-light uppercase ${o.status === 'delivered' ? 'text-green-600' : o.status === 'cancelled' ? 'text-red-500' : 'text-gray-500'}`}>
+                        <span className={`text-sm font-light uppercase ${o.status === 'delivered' ? 'text-green-600' : o.status === 'cancelled' ? 'text-red-500' : 'text-gray-500'}`}>
                           {o.status}
                         </span>
                       </td>
                       <td className="px-5 py-4">
-                        <button onClick={() => navigate(`/orders/${o._id}`)} className="text-gray-500 text-sm hover:text-gray-700">View</button>
+                        <button onClick={() => navigate(`/orders/${o._id}`)} className="text-gray-500 text-md hover:text-gray-700">View</button>
                       </td>
                     </tr>
                   ))}
@@ -425,7 +425,7 @@ export const AdminDashboard: React.FC = () => {
           <div className="bg-white border border-gray-100 overflow-hidden">
             <div className="p-6 border-b border-gray-100">
               <div className="relative">
-                <input type="text" placeholder="Search users..." value={userState.search} onChange={(e) => setUserState(prev => ({ ...prev, search: e.target.value, page: 1 }))} className="w-full px-4 py-2 border border-gray-200 text-sm focus:border-gray-400 focus:outline-none pl-10" />
+                <input type="text" placeholder="Search users..." value={userState.search} onChange={(e) => setUserState(prev => ({ ...prev, search: e.target.value, page: 1 }))} className="w-full px-4 py-2 border border-gray-200 text-md focus:border-gray-400 focus:outline-none pl-10" />
                 <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" strokeWidth={1.5} />
               </div>
             </div>
@@ -433,26 +433,26 @@ export const AdminDashboard: React.FC = () => {
               <table className="w-full text-left">
                 <thead className="border-b border-gray-100">
                   <tr>
-                    <th className="px-5 py-4 text-xs font-light text-gray-400 uppercase tracking-wide">Name</th>
-                    <th className="px-5 py-4 text-xs font-light text-gray-400 uppercase tracking-wide">Email</th>
-                    <th className="px-5 py-4 text-xs font-light text-gray-400 uppercase tracking-wide">Mobile</th>
-                    <th className="px-5 py-4 text-xs font-light text-gray-400 uppercase tracking-wide">Status</th>
-                    <th className="px-5 py-4 text-xs font-light text-gray-400 uppercase tracking-wide">Action</th>
+                    <th className="px-5 py-4 text-sm font-light text-gray-400 uppercase tracking-wide">Name</th>
+                    <th className="px-5 py-4 text-sm font-light text-gray-400 uppercase tracking-wide">Email</th>
+                    <th className="px-5 py-4 text-sm font-light text-gray-400 uppercase tracking-wide">Mobile</th>
+                    <th className="px-5 py-4 text-sm font-light text-gray-400 uppercase tracking-wide">Status</th>
+                    <th className="px-5 py-4 text-sm font-light text-gray-400 uppercase tracking-wide">Action</th>
                   </tr>
                 </thead>
                 <tbody>
                   {userState.data.map((u: any) => (
                     <tr key={u._id} className="border-b border-gray-50 hover:bg-gray-50">
-                      <td className="px-5 py-4 text-sm text-gray-700">{u.fullName}</td>
-                      <td className="px-5 py-4 text-sm text-gray-500">{u.email}</td>
-                      <td className="px-5 py-4 text-sm text-gray-500">{u.mobileNumber}</td>
+                      <td className="px-5 py-4 text-md text-gray-700">{u.fullName}</td>
+                      <td className="px-5 py-4 text-md text-gray-500">{u.email}</td>
+                      <td className="px-5 py-4 text-md text-gray-500">{u.mobileNumber}</td>
                       <td className="px-5 py-4">
-                        <span className={`text-xs font-light uppercase ${u.isBlocked ? 'text-red-500' : 'text-green-600'}`}>
+                        <span className={`text-sm font-light uppercase ${u.isBlocked ? 'text-red-500' : 'text-green-600'}`}>
                           {u.isBlocked ? 'Blocked' : 'Active'}
                         </span>
                       </td>
                       <td className="px-5 py-4">
-                        <button onClick={() => toggleBlock(u._id, u.isBlocked, 'users')} className={`px-3 py-1 text-xs font-light text-white ${u.isBlocked ? 'bg-green-600 hover:bg-green-700' : 'bg-red-500 hover:bg-red-600'} transition-all`}>
+                        <button onClick={() => toggleBlock(u._id, u.isBlocked, 'users')} className={`px-3 py-1 text-sm font-light text-white ${u.isBlocked ? 'bg-green-600 hover:bg-green-700' : 'bg-red-500 hover:bg-red-600'} transition-all`}>
                           {u.isBlocked ? 'Unblock' : 'Block'}
                         </button>
                       </td>

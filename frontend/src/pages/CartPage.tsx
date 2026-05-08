@@ -168,9 +168,9 @@ export const CartPage: React.FC = () => {
             <ShoppingBag size={48} className="text-gray-300 mx-auto" strokeWidth={1} />
           </div>
           <h1 className="text-2xl font-light text-gray-800 mb-2">Your cart is empty</h1>
-          <p className="text-gray-400 text-sm font-light mb-8">Add some happiness to your bag</p>
+          <p className="text-gray-400 text-md font-light mb-8">Add some happiness to your bag</p>
           <Link to="/happy-shop">
-            <button className="px-8 py-3 bg-gray-900 text-white text-sm font-light tracking-wider hover:bg-gray-800 transition-all duration-300">
+            <button className="px-8 py-3 bg-gray-900 text-white text-md font-light tracking-wider hover:bg-gray-800 transition-all duration-300">
               CONTINUE SHOPPING
             </button>
           </Link>
@@ -212,7 +212,7 @@ export const CartPage: React.FC = () => {
                   {currentStep > step.number ? (
                     <Check size={16} strokeWidth={1.5} />
                   ) : (
-                    <span className="text-xs font-light">{step.number}</span>
+                    <span className="text-sm font-light">{step.number}</span>
                   )}
                 </div>
                 <span className={`text-[10px] tracking-wide ${
@@ -262,8 +262,8 @@ export const CartPage: React.FC = () => {
                           
                           {/* Info */}
                           <div className="flex-1">
-                            <h3 className="text-sm font-light text-gray-800 mb-1">{product.title}</h3>
-                            <p className="text-gray-400 text-xs font-light mb-2">
+                            <h3 className="text-md font-light text-gray-800 mb-1">{product.title}</h3>
+                            <p className="text-gray-400 text-sm font-light mb-2">
                               {product.category || 'Combo Pack'}
                             </p>
                             <p className="text-gray-900 text-base font-light">₹{item.price}</p>
@@ -277,7 +277,7 @@ export const CartPage: React.FC = () => {
                             >
                               <Minus size={12} strokeWidth={1} />
                             </button>
-                            <span className="text-xs text-gray-600 w-6 text-center">{item.quantity}</span>
+                            <span className="text-sm text-gray-600 w-6 text-center">{item.quantity}</span>
                             <button 
                               onClick={() => handleUpdateQuantity(pid, item.quantity + 1)}
                               className="w-7 h-7 border border-gray-200 flex items-center justify-center hover:border-gray-400 transition-all"
@@ -305,10 +305,10 @@ export const CartPage: React.FC = () => {
             {currentStep === 2 && (
               <div>
                 <div className="flex justify-between items-center mb-6">
-                  <h3 className="text-sm font-light text-gray-600">Select delivery address</h3>
+                  <h3 className="text-md font-light text-gray-600">Select delivery address</h3>
                   <button 
                     onClick={() => navigate('/profile?section=addresses')} 
-                    className="text-xs text-gray-400 hover:text-gray-600 transition-colors"
+                    className="text-sm text-gray-400 hover:text-gray-600 transition-colors"
                   >
                     + Add New
                   </button>
@@ -321,10 +321,10 @@ export const CartPage: React.FC = () => {
                 ) : addresses.length === 0 ? (
                   <div className="border border-gray-100 p-12 text-center">
                     <MapPin size={32} className="mx-auto text-gray-200 mb-4" strokeWidth={1} />
-                    <p className="text-gray-400 text-sm font-light mb-6">No saved addresses</p>
+                    <p className="text-gray-400 text-md font-light mb-6">No saved addresses</p>
                     <button 
                       onClick={() => navigate('/profile?section=addresses')} 
-                      className="px-6 py-2 border border-gray-300 text-gray-600 text-xs font-light hover:border-gray-500 transition-all"
+                      className="px-6 py-2 border border-gray-300 text-gray-600 text-sm font-light hover:border-gray-500 transition-all"
                     >
                       ADD ADDRESS
                     </button>
@@ -345,11 +345,11 @@ export const CartPage: React.FC = () => {
                               {addr.type === 'Home' ? <Home size={12} className="text-gray-400" /> : <Briefcase size={12} className="text-gray-400" />}
                               <span className="text-[10px] tracking-wide text-gray-400 uppercase">{addr.type}</span>
                             </div>
-                            <p className="text-sm font-light text-gray-800 mb-1">{addr.name}</p>
-                            <p className="text-xs text-gray-400 font-light">
+                            <p className="text-md font-light text-gray-800 mb-1">{addr.name}</p>
+                            <p className="text-sm text-gray-400 font-light">
                               {addr.streetAddress}, {addr.locality}, {addr.city}, {addr.state} - {addr.pinCode}
                             </p>
-                            <p className="text-xs text-gray-500 mt-2">{addr.phone}</p>
+                            <p className="text-sm text-gray-500 mt-2">{addr.phone}</p>
                           </div>
                           {selectedAddressId === addr._id && (
                             <Check size={14} className="text-gray-600" strokeWidth={1.5} />
@@ -365,7 +365,7 @@ export const CartPage: React.FC = () => {
             {/* Step 3: Payment Method */}
             {currentStep === 3 && (
               <div>
-                <h3 className="text-sm font-light text-gray-600 mb-6">Choose payment method</h3>
+                <h3 className="text-md font-light text-gray-600 mb-6">Choose payment method</h3>
                 <div className="space-y-3">
                   {[
                     { id: 'COD', label: 'Cash on Delivery', icon: <Truck size={16} />, desc: 'Pay when your order arrives' },
@@ -384,8 +384,8 @@ export const CartPage: React.FC = () => {
                         {m.icon}
                       </div>
                       <div className="flex-1">
-                        <p className="text-sm font-light text-gray-800">{m.label}</p>
-                        <p className="text-xs text-gray-400 font-light">{m.desc}</p>
+                        <p className="text-md font-light text-gray-800">{m.label}</p>
+                        <p className="text-sm text-gray-400 font-light">{m.desc}</p>
                       </div>
                       {selectedPaymentMethod === m.id && (
                         <Check size={14} className="text-gray-600" strokeWidth={1.5} />
@@ -400,20 +400,20 @@ export const CartPage: React.FC = () => {
           {/* Order Summary */}
           <div className="lg:col-span-1">
             <div className="border border-gray-100 p-6 sticky top-32">
-              <h3 className="text-sm font-light text-gray-600 mb-5">Order Summary</h3>
+              <h3 className="text-md font-light text-gray-600 mb-5">Order Summary</h3>
               
               <div className="space-y-3 mb-5">
-                <div className="flex justify-between text-xs">
+                <div className="flex justify-between text-sm">
                   <span className="text-gray-400 font-light">Subtotal</span>
                   <span className="text-gray-600">₹{cart.totalAmount}</span>
                 </div>
-                <div className="flex justify-between text-xs">
+                <div className="flex justify-between text-sm">
                   <span className="text-gray-400 font-light">Shipping</span>
                   <span className="text-gray-500">Free</span>
                 </div>
                 <div className="border-t border-gray-100 my-3" />
                 <div className="flex justify-between">
-                  <span className="text-sm font-light text-gray-600">Total</span>
+                  <span className="text-md font-light text-gray-600">Total</span>
                   <span className="text-base font-light text-gray-900">₹{cart.totalAmount}</span>
                 </div>
               </div>
@@ -422,7 +422,7 @@ export const CartPage: React.FC = () => {
                 {currentStep > 1 && (
                   <button 
                     onClick={prevStep}
-                    className="w-full py-3 border border-gray-200 text-gray-500 text-xs font-light tracking-wider hover:border-gray-400 transition-all"
+                    className="w-full py-3 border border-gray-200 text-gray-500 text-sm font-light tracking-wider hover:border-gray-400 transition-all"
                   >
                     BACK
                   </button>
@@ -431,13 +431,13 @@ export const CartPage: React.FC = () => {
                 <button 
                   onClick={currentStep === 3 ? handleCheckout : nextStep}
                   disabled={(currentStep === 2 && !selectedAddressId) || placingOrder}
-                  className="w-full py-3 bg-gray-900 text-white text-xs font-light tracking-wider hover:bg-gray-800 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full py-3 bg-gray-900 text-white text-sm font-light tracking-wider hover:bg-gray-800 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {placingOrder ? 'PROCESSING...' : currentStep === 1 ? 'CHECKOUT' : currentStep === 2 ? 'CONTINUE' : 'PLACE ORDER'}
                 </button>
                 
                 <Link to="/happy-shop" className="block text-center">
-                  <span className="text-xs text-gray-400 hover:text-gray-600 transition-colors">
+                  <span className="text-sm text-gray-400 hover:text-gray-600 transition-colors">
                     Continue Shopping
                   </span>
                 </Link>

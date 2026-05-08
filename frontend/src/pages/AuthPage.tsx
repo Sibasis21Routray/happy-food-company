@@ -199,7 +199,7 @@ export const AuthPage: React.FC = () => {
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             onClick={() => { setIsLogin(true); setShowOtpStep(false); }}
-            className={`relative text-sm font-light tracking-wider pb-2 transition-all duration-300 ${
+            className={`relative text-md font-light tracking-wider pb-2 transition-all duration-300 ${
               isLogin ? 'text-gray-900' : 'text-gray-400 hover:text-gray-600'
             }`}
           >
@@ -216,7 +216,7 @@ export const AuthPage: React.FC = () => {
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             onClick={() => { setIsLogin(false); setShowOtpStep(false); }}
-            className={`relative text-sm font-light tracking-wider pb-2 transition-all duration-300 ${
+            className={`relative text-md font-light tracking-wider pb-2 transition-all duration-300 ${
               !isLogin ? 'text-gray-900' : 'text-gray-400 hover:text-gray-600'
             }`}
           >
@@ -243,7 +243,7 @@ export const AuthPage: React.FC = () => {
               className="space-y-5"
             >
               <motion.div variants={fieldVariants}>
-                <label className="block text-xs text-gray-500 mb-1.5 tracking-wide">EMAIL OR MOBILE</label>
+                <label className="block text-sm text-gray-500 mb-1.5 tracking-wide">EMAIL OR MOBILE</label>
                 <input 
                   name="identifier"
                   type="text" 
@@ -251,12 +251,12 @@ export const AuthPage: React.FC = () => {
                   value={formData.identifier}
                   onChange={handleInputChange}
                   required
-                  className="w-full px-4 py-3 border border-gray-300 text-sm focus:border-gray-600 focus:outline-none transition-all duration-300 hover:border-gray-400"
+                  className="w-full px-4 py-3 border border-gray-300 text-md focus:border-gray-600 focus:outline-none transition-all duration-300 hover:border-gray-400"
                 />
               </motion.div>
 
               <motion.div variants={fieldVariants}>
-                <label className="block text-xs text-gray-500 mb-1.5 tracking-wide">PASSWORD</label>
+                <label className="block text-sm text-gray-500 mb-1.5 tracking-wide">PASSWORD</label>
                 <input 
                   name="password"
                   type="password" 
@@ -264,7 +264,7 @@ export const AuthPage: React.FC = () => {
                   value={formData.password}
                   onChange={handleInputChange}
                   required
-                  className="w-full px-4 py-3 border border-gray-300 text-sm focus:border-gray-600 focus:outline-none transition-all duration-300 hover:border-gray-400"
+                  className="w-full px-4 py-3 border border-gray-300 text-md focus:border-gray-600 focus:outline-none transition-all duration-300 hover:border-gray-400"
                 />
               </motion.div>
 
@@ -292,7 +292,7 @@ export const AuthPage: React.FC = () => {
                     value={captchaInput}
                     onChange={(e) => setCaptchaInput(e.target.value)}
                     required
-                    className="w-24 px-3 py-3 border border-gray-300 text-center text-sm focus:border-gray-600 focus:outline-none transition-all duration-300"
+                    className="w-24 px-3 py-3 border border-gray-300 text-center text-md focus:border-gray-600 focus:outline-none transition-all duration-300"
                   />
                 </div>
               </motion.div>
@@ -303,7 +303,7 @@ export const AuthPage: React.FC = () => {
                 whileTap={{ scale: 0.98 }}
                 disabled={loading}
                 type="submit" 
-                className="w-full bg-gray-900 text-white py-3 text-sm font-light tracking-wider hover:bg-gray-800 transition-all duration-300 disabled:opacity-50 flex items-center justify-center gap-2 group"
+                className="w-full bg-gray-900 text-white py-3 text-md font-light tracking-wider hover:bg-gray-800 transition-all duration-300 disabled:opacity-50 flex items-center justify-center gap-2 group"
               >
                 {loading ? <RefreshCw size={16} className="animate-spin" strokeWidth={1.5} /> : 'LOGIN'}
                 <ChevronRight size={14} strokeWidth={1.5} className="group-hover:translate-x-1 transition-transform duration-300" />
@@ -320,7 +320,7 @@ export const AuthPage: React.FC = () => {
               {!showOtpStep ? (
                 <form onSubmit={handleRegisterStart} className="space-y-4">
                   <motion.div variants={fieldVariants}>
-                    <label className="block text-xs text-gray-500 mb-1.5 tracking-wide">FULL NAME</label>
+                    <label className="block text-sm text-gray-500 mb-1.5 tracking-wide">FULL NAME</label>
                     <input 
                       name="fullName"
                       type="text" 
@@ -328,13 +328,13 @@ export const AuthPage: React.FC = () => {
                       value={formData.fullName}
                       onChange={handleInputChange}
                       required
-                      className="w-full px-4 py-3 border border-gray-300 text-sm focus:border-gray-600 focus:outline-none transition-all duration-300 hover:border-gray-400"
+                      className="w-full px-4 py-3 border border-gray-300 text-md focus:border-gray-600 focus:outline-none transition-all duration-300 hover:border-gray-400"
                     />
                   </motion.div>
                   
                   <div className="grid grid-cols-2 gap-4">
                     <motion.div variants={fieldVariants}>
-                      <label className="block text-xs text-gray-500 mb-1.5 tracking-wide">EMAIL</label>
+                      <label className="block text-sm text-gray-500 mb-1.5 tracking-wide">EMAIL</label>
                       <input 
                         name="email"
                         type="email" 
@@ -342,17 +342,17 @@ export const AuthPage: React.FC = () => {
                         value={formData.email}
                         onChange={handleInputChange}
                         required
-                        className="w-full px-4 py-3 border border-gray-300 text-sm focus:border-gray-600 focus:outline-none transition-all duration-300 hover:border-gray-400"
+                        className="w-full px-4 py-3 border border-gray-300 text-md focus:border-gray-600 focus:outline-none transition-all duration-300 hover:border-gray-400"
                       />
                     </motion.div>
                     <motion.div variants={fieldVariants}>
-                      <label className="block text-xs text-gray-500 mb-1.5 tracking-wide">GENDER</label>
+                      <label className="block text-sm text-gray-500 mb-1.5 tracking-wide">GENDER</label>
                       <select 
                         name="gender"
                         value={formData.gender}
                         onChange={handleInputChange}
                         required
-                        className="w-full px-4 py-3 border border-gray-300 text-sm focus:border-gray-600 focus:outline-none transition-all duration-300 bg-white text-gray-600 hover:border-gray-400"
+                        className="w-full px-4 py-3 border border-gray-300 text-md focus:border-gray-600 focus:outline-none transition-all duration-300 bg-white text-gray-600 hover:border-gray-400"
                       >
                         <option value="">Select</option>
                         <option value="Male">Male</option>
@@ -363,19 +363,19 @@ export const AuthPage: React.FC = () => {
                   </div>
 
                   <motion.div variants={fieldVariants}>
-                    <label className="block text-xs text-gray-500 mb-1.5 tracking-wide">MOBILE NUMBER</label>
+                    <label className="block text-sm text-gray-500 mb-1.5 tracking-wide">MOBILE NUMBER</label>
                     <PhoneInput 
                       country={'in'}
                       value={formData.mobileNumber}
                       onChange={(phone: string) => setFormData({ ...formData, mobileNumber: phone })}
-                      inputClass="!w-full !px-4 !py-3 !border !border-gray-300 !text-sm focus:!border-gray-600 focus:!outline-none !h-auto hover:!border-gray-400 transition-all duration-300"
+                      inputClass="!w-full !px-4 !py-3 !border !border-gray-300 !text-md focus:!border-gray-600 focus:!outline-none !h-auto hover:!border-gray-400 transition-all duration-300"
                       buttonClass="!bg-transparent !border-0"
                       containerClass="!w-full"
                     />
                   </motion.div>
 
                   <motion.div variants={fieldVariants}>
-                    <label className="block text-xs text-gray-500 mb-1.5 tracking-wide">PASSWORD</label>
+                    <label className="block text-sm text-gray-500 mb-1.5 tracking-wide">PASSWORD</label>
                     <input 
                       name="password"
                       type="password" 
@@ -383,7 +383,7 @@ export const AuthPage: React.FC = () => {
                       value={formData.password}
                       onChange={handleInputChange}
                       required
-                      className="w-full px-4 py-3 border border-gray-300 text-sm focus:border-gray-600 focus:outline-none transition-all duration-300 hover:border-gray-400"
+                      className="w-full px-4 py-3 border border-gray-300 text-md focus:border-gray-600 focus:outline-none transition-all duration-300 hover:border-gray-400"
                     />
                   </motion.div>
 
@@ -392,7 +392,7 @@ export const AuthPage: React.FC = () => {
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     type="submit" 
-                    className="w-full bg-gray-900 text-white py-3 text-sm font-light tracking-wider hover:bg-gray-800 transition-all duration-300 flex items-center justify-center gap-2 group"
+                    className="w-full bg-gray-900 text-white py-3 text-md font-light tracking-wider hover:bg-gray-800 transition-all duration-300 flex items-center justify-center gap-2 group"
                   >
                     CONTINUE
                     <ChevronRight size={14} strokeWidth={1.5} className="group-hover:translate-x-1 transition-transform duration-300" />
@@ -411,12 +411,12 @@ export const AuthPage: React.FC = () => {
                     animate={{ opacity: 1, y: 0 }}
                     className="text-center"
                   >
-                    <p className="text-gray-500 text-sm font-light mb-1">We've sent a 6-digit code to</p>
+                    <p className="text-gray-500 text-md font-light mb-1">We've sent a 6-digit code to</p>
                     <p className="text-gray-900 text-base font-light">{formData.mobileNumber}</p>
                   </motion.div>
                   
                   <motion.div variants={fieldVariants}>
-                    <label className="block text-xs text-gray-500 mb-1.5 tracking-wide text-center">ENTER OTP</label>
+                    <label className="block text-sm text-gray-500 mb-1.5 tracking-wide text-center">ENTER OTP</label>
                     <motion.input 
                       type="text" 
                       maxLength={6}
@@ -435,7 +435,7 @@ export const AuthPage: React.FC = () => {
                       whileTap={{ scale: 0.98 }}
                       onClick={handleRegisterComplete}
                       disabled={loading || otpInput.length < 6}
-                      className="w-full bg-gray-900 text-white py-3 text-sm font-light tracking-wider hover:bg-gray-800 transition-all duration-300 disabled:opacity-50 flex items-center justify-center gap-2 group"
+                      className="w-full bg-gray-900 text-white py-3 text-md font-light tracking-wider hover:bg-gray-800 transition-all duration-300 disabled:opacity-50 flex items-center justify-center gap-2 group"
                     >
                       {loading ? <RefreshCw size={16} className="animate-spin" strokeWidth={1.5} /> : 'VERIFY & REGISTER'}
                       <CheckCircle size={14} strokeWidth={1.5} className="group-hover:scale-110 transition-transform duration-300" />
@@ -445,7 +445,7 @@ export const AuthPage: React.FC = () => {
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                       onClick={() => setShowOtpStep(false)}
-                      className="w-full text-gray-400 text-xs font-light tracking-wider hover:text-gray-600 transition-colors duration-300"
+                      className="w-full text-gray-400 text-sm font-light tracking-wider hover:text-gray-600 transition-colors duration-300"
                     >
                       Change Mobile Number
                     </motion.button>

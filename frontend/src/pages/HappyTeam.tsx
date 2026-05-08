@@ -93,7 +93,7 @@ export default function HappyTeam() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.5, duration: 0.5 }}
-              className="text-white/70 text-sm font-light mt-4 max-w-md mx-auto"
+              className="text-white/70 text-md font-light mt-4 max-w-md mx-auto"
             >
               Meet the passionate people behind Happy Bar
             </motion.p>

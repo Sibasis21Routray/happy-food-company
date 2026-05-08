@@ -5,38 +5,38 @@ import { Link } from "react-router-dom";
 // ========== PREMIUM COMPONENTS ==========
 
 // Premium Section Header
-const SectionHeader = ({ 
-  title, 
-  subtitle 
-}: { 
-  title: string; 
+const SectionHeader = ({
+  title,
+  subtitle,
+}: {
+  title: string;
   subtitle?: string;
 }) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   return (
-    <div ref={ref} className="text-center mb-16">
+    <div ref={ref} className="text-center mb-12 md:mb-16">
       <motion.h2
         initial={{ opacity: 0, y: 30 }}
         animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
         transition={{ duration: 0.6 }}
-        className="text-3xl sm:text-4xl md:text-5xl font-light tracking-tight text-gray-900 mb-4"
+        className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light tracking-tight text-gray-900 mb-4 px-2"
       >
         {title}
       </motion.h2>
-      
+
       {subtitle && (
         <motion.p
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : { opacity: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="text-gray-400 max-w-2xl mx-auto text-sm font-light tracking-wide"
+          className="text-gray-400 max-w-2xl mx-auto text-md sm:text-md font-light tracking-wide px-4"
         >
           {subtitle}
         </motion.p>
       )}
-      
+
       <motion.div
         initial={{ width: 0 }}
         animate={isInView ? { width: 40 } : { width: 0 }}
@@ -71,9 +71,7 @@ const ProductSlider = ({ products }: { products: any[] }) => {
 
   useEffect(() => {
     if (isAutoPlaying) {
-      autoPlayRef.current = setInterval(() => {
-        nextSlide();
-      }, 5000);
+      autoPlayRef.current = setInterval(nextSlide, 3000);
     }
     return () => {
       if (autoPlayRef.current) clearInterval(autoPlayRef.current);
@@ -82,7 +80,7 @@ const ProductSlider = ({ products }: { products: any[] }) => {
 
   const slideVariants = {
     enter: (direction: number) => ({
-      x: direction > 0 ? 400 : -400,
+      x: direction > 0 ? "20%" : "-20%",
       opacity: 0,
       scale: 0.95,
     }),
@@ -98,38 +96,43 @@ const ProductSlider = ({ products }: { products: any[] }) => {
       },
     },
     exit: (direction: number) => ({
-      x: direction > 0 ? -400 : 400,
+      x: direction > 0 ? "-20%" : "20%",
       opacity: 0,
       scale: 0.95,
-      transition: {
-        duration: 0.4,
-      },
+      transition: { duration: 0.4 },
     }),
   };
 
   const currentProduct = products[currentIndex];
 
   return (
-    <div className="relative w-full max-w-7xl mx-auto">
-      {/* Watermark */}
-      <div className=" flex items-center justify-center pointer-events-none z-0">
-        <div className="text-start">
-          <span className="text-[50px] md:text-[80px] lg:text-[120px] font-light text-gray-200 select-none tracking-[-0.02em]">
-            Happy Bar
-          </span>
-        </div>
+    <div
+      className="relative w-full min-h-screen lg:h-screen flex flex-col items-center justify-center overflow-hidden py-12 lg:py-0"
+      style={{
+        backgroundImage: "url('https://angstrohmfoods.com/wp-content/uploads/2025/04/Untitled-design-28.png')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        
+        backgroundRepeat: "no-repeat",
+      }}
+    >
+      {/* Watermark - Moved to Top */}
+      <div className="absolute top-6 sm:top-10 md:top-16 left-0 w-full flex justify-center px-6 pointer-events-none z-0 mt-18 lg:mt-4">
+        <span className="text-[10vw] sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-light text-gray-200/80 text-center select-none tracking-tight leading-none uppercase">
+          A Lil Something
+        </span>
       </div>
 
-      <div 
-        className="relative z-10"
+      <div
+        className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-8 mt-12 lg:mt-0"
         onMouseEnter={() => setIsAutoPlaying(false)}
         onMouseLeave={() => setIsAutoPlaying(true)}
       >
-        {/* Main Slider Content */}
-        <div className="relative overflow-hidden bg-transparent">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 min-h-[600px]">
-            {/* Image Section */}
-            <div className="relative bg-gradient-to-br from-gray-50 to-gray-100 p-12 flex items-center justify-center">
+        <div className="relative mr-8">
+          <div className="flex flex-col lg:flex-row items-center gap-0 lg:gap-4 ">
+            
+            {/* Image Container */}
+            <div className="relative w-full lg:w-1/2 flex items-center justify-center min-h-[300px] sm:min-h-[400px] md:min-h-[500px]">
               <AnimatePresence mode="wait" custom={direction}>
                 <motion.div
                   key={currentIndex}
@@ -138,19 +141,39 @@ const ProductSlider = ({ products }: { products: any[] }) => {
                   initial="enter"
                   animate="center"
                   exit="exit"
-                  className="w-full h-full flex items-center justify-center"
+                  className="w-full flex items-center justify-center"
                 >
                   <img
                     src={currentProduct.img}
                     alt={currentProduct.name}
-                    className="w-full max-w-md h-auto object-contain drop-shadow-2xl"
+                    className="w-auto h-[250px] sm:h-[350px] md:h-[450px] lg:h-[500px] object-contain drop-shadow-2xl"
                   />
                 </motion.div>
               </AnimatePresence>
+
+              {/* Mobile Arrows (Overlaying Image) */}
+              <div className="absolute inset-0 flex items-center justify-between pointer-events-none px-2 lg:hidden">
+                <button
+                  onClick={prevSlide}
+                  className="pointer-events-auto w-10 h-10 bg-white/80 backdrop-blur-sm shadow-md rounded-full flex items-center justify-center"
+                >
+                  <svg className="w-5 h-5 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                  </svg>
+                </button>
+                <button
+                  onClick={nextSlide}
+                  className="pointer-events-auto w-10 h-10 bg-white/80 backdrop-blur-sm shadow-md rounded-full flex items-center justify-center"
+                >
+                  <svg className="w-5 h-5 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </button>
+              </div>
             </div>
 
-            {/* Content Section */}
-            <div className="p-2 md:p-20  flex flex-col justify-center bg-white">
+            {/* Content Container */}
+            <div className="w-full lg:w-1/2 flex flex-col justify-center text-center lg:text-left">
               <AnimatePresence mode="wait" custom={direction}>
                 <motion.div
                   key={currentIndex}
@@ -159,82 +182,85 @@ const ProductSlider = ({ products }: { products: any[] }) => {
                   initial="enter"
                   animate="center"
                   exit="exit"
-                  className="space-y-8"
+                  className="space-y-4 sm:space-y-6 md:space-y-8"
                 >
-                  <div>
-                    <p className="text-xs tracking-[0.2em] text-gray-400 mb-4">PREMIUM PROTEIN BAR</p>
+                  <div className="flex flex-col items-center lg:items-start">
+                    <p className="text-[10px] sm:text-sm tracking-[0.3em] text-gray-400 mb-2 uppercase">
+                      Premium Protein Bar
+                    </p>
                     <div className="w-12 h-px bg-gray-300" />
                   </div>
-                  
-                  <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-light tracking-tight text-gray-900">
+
+                  <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-light tracking-tight text-gray-900 leading-[1.1]">
                     {currentProduct.name}
                   </h1>
-                  
-                  <p className="text-gray-500 leading-relaxed text-base font-light max-w-lg">
+
+                  <p className="text-gray-800 leading-relaxed text-md sm:text-base font-light max-w-md mx-auto lg:mx-0">
                     {currentProduct.desc}
                   </p>
-                  
-                  <div className="flex gap-8 pt-4">
-                    <div>
-                      <div className="text-2xl font-light text-gray-900">5g</div>
-                      <div className="text-xs text-gray-400 tracking-wide">PROTEIN</div>
+
+                  <div className="flex justify-center lg:justify-start gap-6 sm:gap-10 pt-2">
+                    <div className="flex flex-col">
+                      <span className="text-xl sm:text-2xl font-light text-gray-900">5g</span>
+                      <span className="text-[10px] text-gray-400 tracking-wider">PROTEIN</span>
                     </div>
                     <div className="w-px h-10 bg-gray-200" />
-                    <div>
-                      <div className="text-2xl font-light text-gray-900">100%</div>
-                      <div className="text-xs text-gray-400 tracking-wide">NATURAL</div>
+                    <div className="flex flex-col">
+                      <span className="text-xl sm:text-2xl font-light text-gray-900">100%</span>
+                      <span className="text-[10px] text-gray-400 tracking-wider">NATURAL</span>
                     </div>
                     <div className="w-px h-10 bg-gray-200" />
-                    <div>
-                      <div className="text-2xl font-light text-gray-900">₹{currentProduct.price}</div>
-                      <div className="text-xs text-gray-400 tracking-wide">PER BAR</div>
+                    <div className="flex flex-col">
+                      <span className="text-xl sm:text-2xl font-light text-gray-900">₹{currentProduct.price}</span>
+                      <span className="text-[10px] text-gray-400 tracking-wider">PER BAR</span>
                     </div>
                   </div>
-                  
-                  <Link to={`/product/${currentProduct.slug}`}>
-                    <motion.button
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                      className="mt-4 px-10 py-4 bg-gray-900 text-white text-sm font-light tracking-[0.2em] hover:bg-gray-800 transition-all duration-300"
-                    >
-                      DISCOVER
-                    </motion.button>
-                  </Link>
+
+                  <div className="pt-4">
+                    <Link to={`/product/${currentProduct.slug}`} className="inline-block w-full sm:w-auto">
+                      <motion.button
+                        whileHover={{ scale: 1.05 }}
+                        whileTap={{ scale: 0.98 }}
+                        className="w-full sm:w-auto px-12 py-4 bg-gray-900 text-white text-sm font-light tracking-[0.2em] hover:bg-gray-800 transition-colors"
+                      >
+                        DISCOVER
+                      </motion.button>
+                    </Link>
+                  </div>
                 </motion.div>
               </AnimatePresence>
             </div>
           </div>
 
-          {/* Navigation Arrows */}
-          <button
-            onClick={prevSlide}
-            className="absolute left-1 md:left-6 md:top-1/2 top-[20vh] -translate-y-1/2 w-12 h-12 bg-white shadow-lg hover:bg-gray-50 transition-all duration-300 flex items-center justify-center rounded-full z-20"
-          >
-            <svg className="w-5 h-5 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M15 19l-7-7 7-7" />
-            </svg>
-          </button>
-          
-          <button
-            onClick={nextSlide}
-            className="absolute right-1 md:right-6 md:top-1/2 top-[20vh] -translate-y-1/2 w-12 h-12 bg-white shadow-lg hover:bg-gray-50 transition-all duration-300 flex items-center justify-center rounded-full z-20"
-          >
-            <svg className="w-5 h-5 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5l7 7-7 7" />
-            </svg>
-          </button>
+          {/* Desktop Only Side Controls */}
+          <div className="hidden lg:block">
+             <button
+                onClick={prevSlide}
+                className="absolute left-[-60px] top-1/2 -translate-y-1/2 w-12 h-12 bg-white shadow-xl rounded-full flex items-center justify-center hover:bg-gray-50 transition-all"
+              >
+                <svg className="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M15 19l-7-7 7-7" />
+                </svg>
+              </button>
+              <button
+                onClick={nextSlide}
+                className="absolute right-[-60px] top-1/2 -translate-y-1/2 w-12 h-12 bg-white shadow-xl rounded-full flex items-center justify-center hover:bg-gray-50 transition-all"
+              >
+                <svg className="w-6 h-6 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
+          </div>
         </div>
 
-        {/* Dot Indicators */}
-        <div className="flex justify-center gap-3 mt-8 relative z-10">
+        {/* Indicators */}
+        <div className="flex justify-center gap-3 mt-12">
           {products.map((_, index) => (
             <button
               key={index}
               onClick={() => goToSlide(index)}
-              className={`transition-all duration-300 ${
-                index === currentIndex
-                  ? "w-8 h-px bg-gray-800"
-                  : "w-4 h-px bg-gray-300 hover:bg-gray-400"
+              className={`transition-all duration-500 h-1 rounded-full ${
+                index === currentIndex ? "w-12 bg-gray-800" : "w-4 bg-gray-300"
               }`}
             />
           ))}
@@ -244,7 +270,9 @@ const ProductSlider = ({ products }: { products: any[] }) => {
   );
 };
 
-// Feature Card
+
+
+// Feature Card (ENLARGED)
 const FeatureCard = ({ feature, index }: { feature: any; index: number }) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-50px" });
@@ -258,22 +286,26 @@ const FeatureCard = ({ feature, index }: { feature: any; index: number }) => {
       whileHover={{ y: -5 }}
       className="group"
     >
-      <div className="text-center">
-        <div className="w-20 h-20 mx-auto mb-5 flex items-center justify-center">
-          <img 
-            src={feature.img} 
-            alt={feature.title} 
-            className="w-14 h-14 object-contain opacity-60 group-hover:opacity-100 transition-opacity duration-300" 
+      <div className="text-center hover:scale-105 transition-transform duration-300 p-4 sm:p-6 md:p-8 rounded-lg">
+        <div className="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 mx-auto mb-4 sm:mb-6 flex items-center justify-center">
+          <img
+            src={feature.img}
+            alt={feature.title}
+            className="w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 object-contain opacity-60 group-hover:opacity-100 transition-opacity duration-300"
           />
         </div>
-        <h3 className="font-light text-gray-800 text-base mb-2 tracking-wide">{feature.title}</h3>
-        <p className="text-gray-400 text-xs leading-relaxed font-light max-w-xs mx-auto">{feature.desc}</p>
+        <h3 className="font-light text-gray-800 text-base sm:text-lg md:text-xl mb-2 sm:mb-3 tracking-wide">
+          {feature.title}
+        </h3>
+        <p className="text-gray-400 text-sm sm:text-md md:text-base leading-relaxed font-light max-w-xs mx-auto">
+          {feature.desc}
+        </p>
       </div>
     </motion.div>
   );
 };
 
-// Ingredient Card
+// Ingredient Card (ENLARGED)
 const IngredientCard = ({ ingredient, index }: { ingredient: any; index: number }) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-50px" });
@@ -283,18 +315,19 @@ const IngredientCard = ({ ingredient, index }: { ingredient: any; index: number 
       ref={ref}
       initial={{ opacity: 0, scale: 0.95 }}
       animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.95 }}
-      viewport={{ once: true }}
       transition={{ delay: index * 0.02 }}
-      className="text-center"
+      className="text-center hover:scale-105 transition-transform duration-300 p-2 sm:p-4 md:p-8 rounded-lg"
     >
-      <div className="w-24 h-24 mx-auto mb-4 flex items-center justify-center">
-        <img 
-          src={ingredient.img} 
-          alt={ingredient.title} 
-          className="w-16 h-16 object-contain opacity-70 hover:opacity-100 transition-opacity duration-300" 
+      <div className="w-20 h-20 sm:w-24 sm:h-24 md:w-32 md:h-32 mx-auto mb-3 sm:mb-6 flex items-center justify-center">
+        <img
+          src={ingredient.img}
+          alt={ingredient.title}
+          className="w-16 h-16 sm:w-20 sm:h-20 md:w-28 md:h-28 object-contain opacity-70 hover:opacity-100 transition-opacity duration-300"
         />
       </div>
-      <p className="font-light text-gray-600 text-sm tracking-wide">{ingredient.title}</p>
+      <p className="font-light text-gray-600 text-sm sm:text-md md:text-lg tracking-wide">
+        {ingredient.title}
+      </p>
     </motion.div>
   );
 };
@@ -313,26 +346,36 @@ const ComboCard = ({ combo, index }: { combo: any; index: number }) => {
       whileHover={{ y: -5 }}
       className="group"
     >
-      <div className="bg-white p-8 text-center border border-gray-100 hover:border-gray-200 transition-all duration-300">
-        <div className="w-40 h-40 mx-auto mb-6">
-          <img src={combo.img} alt={combo.title} className="w-full h-full object-contain" />
+      <div className="bg-white p-6 sm:p-8 text-center border border-gray-100 hover:border-gray-200 transition-all duration-300">
+        <div className="w-32 h-32 sm:w-36 sm:h-36 md:w-40 md:h-40 mx-auto mb-6">
+          <img
+            src={combo.img}
+            alt={combo.title}
+            className="w-full h-full object-contain"
+          />
         </div>
-        
-        <h3 className="text-lg font-light text-gray-900 mb-1 tracking-wide">{combo.title}</h3>
-        <p className="text-xs text-gray-400 mb-3 tracking-wide">{combo.flavors}</p>
-        <p className="text-gray-500 text-xs leading-relaxed mb-4 font-light">
+
+        <h3 className="text-base sm:text-lg font-light text-gray-900 mb-1 tracking-wide">
+          {combo.title}
+        </h3>
+        <p className="text-sm sm:text-md text-gray-400 mb-3 tracking-wide">
+          {combo.flavors}
+        </p>
+        <p className="text-gray-500 text-sm sm:text-md leading-relaxed mb-4 font-light">
           {combo.desc}
         </p>
-        
+
         <div className="mb-4">
-          <span className="text-2xl font-light text-gray-900">₹{combo.price}</span>
+          <span className="text-xl sm:text-2xl font-light text-gray-900">
+            ₹{combo.price}
+          </span>
         </div>
-        
+
         <Link to="/happy-shop">
           <motion.button
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
-            className="w-full py-2.5 border border-gray-200 text-gray-700 text-xs font-light tracking-wider hover:border-gray-400 transition-all duration-300"
+            className="w-full py-2 sm:py-2.5 border border-gray-200 text-gray-700 text-sm sm:text-md font-light tracking-wider hover:border-gray-400 transition-all duration-300"
           >
             SHOP NOW
           </motion.button>
@@ -445,25 +488,20 @@ export const HomePage: React.FC = () => {
 
   return (
     <div className="w-full bg-white overflow-x-hidden">
-      
       {/* Hero + Product Slider Section */}
-      <section className="relative min-h-screen flex items-center justify-center py-20">
-        <div className="absolute inset-0 bg-gradient-to-br from-gray-50 via-white to-gray-50" />
-        
-        <div className="container mx-auto px-6 relative z-10">
-          <ProductSlider products={products} />
-        </div>
+      <section className="relative">
+        <ProductSlider products={products} />
       </section>
 
       {/* Features Section */}
-      <section className="py-10 bg-white">
-        <div className="container mx-auto px-6">
-          <SectionHeader 
+      <section className="py-12 sm:py-16 md:py-20 bg-white">
+        <div className="container mx-auto px-4 sm:px-6">
+          <SectionHeader
             title="Why Choose Us"
             subtitle="Crafted with precision and care"
           />
 
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8 max-w-6xl mx-auto">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6 sm:gap-8  mx-auto">
             {features.map((feature, i) => (
               <FeatureCard key={i} feature={feature} index={i} />
             ))}
@@ -472,14 +510,14 @@ export const HomePage: React.FC = () => {
       </section>
 
       {/* Ingredients Section */}
-      <section className="py-10 bg-gray-50">
-        <div className="container mx-auto px-6">
-          <SectionHeader 
+      <section className="py-12 sm:py-16 md:py-20 bg-gray-50">
+        <div className="container mx-auto px-4 sm:px-6">
+          <SectionHeader
             title="Pure Ingredients"
             subtitle="Simple. Natural. Honest."
           />
 
-          <div className="grid grid-cols-4 md:grid-cols-8 gap-8 max-w-5xl mx-auto">
+          <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-8 gap-4 sm:gap-6 md:gap-8  mx-auto">
             {ingredients.map((ingredient, i) => (
               <IngredientCard key={i} ingredient={ingredient} index={i} />
             ))}
@@ -488,14 +526,11 @@ export const HomePage: React.FC = () => {
       </section>
 
       {/* Combo Offers Section */}
-      <section className="py-10 bg-white">
-        <div className="container mx-auto px-6">
-          <SectionHeader 
-            title="Combo Packs"
-            subtitle="Better together"
-          />
+      <section className="py-12 sm:py-16 md:py-20 bg-white">
+        <div className="container mx-auto px-4 sm:px-6">
+          <SectionHeader title="Combo Packs" subtitle="Better together" />
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-6xl mx-auto">
             {combos.map((combo, i) => (
               <ComboCard key={i} combo={combo} index={i} />
             ))}

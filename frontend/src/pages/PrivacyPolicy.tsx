@@ -111,7 +111,7 @@ const PrivacyPolicyUI = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.5, duration: 0.5 }}
-              className="text-white/70 text-sm font-light mt-4"
+              className="text-white/70 text-md font-light mt-4"
             >
               Effective as of January 11, 2024
             </motion.p>
@@ -132,7 +132,7 @@ const PrivacyPolicyUI = () => {
             variants={contentVariants}
             className="bg-white border border-gray-100 p-8 md:p-12 hover:border-gray-200 transition-all duration-300"
           >
-            <div className="space-y-6 text-gray-600 text-sm leading-relaxed">
+            <div className="space-y-6 text-gray-600 text-md leading-relaxed">
               
               <motion.p variants={sectionVariants}>
                 Welcome to <strong className="text-gray-800">thehappyfoodcompany.com</strong>, a website owned and 
@@ -169,7 +169,7 @@ const PrivacyPolicyUI = () => {
                     className="flex items-start gap-3"
                   >
                     <span className="text-gray-400 mt-1.5">•</span> 
-                    <span className="text-gray-500 text-sm">{item}</span>
+                    <span className="text-gray-500 text-md">{item}</span>
                   </motion.li>
                 ))}
               </motion.ul>
@@ -211,7 +211,7 @@ const PrivacyPolicyUI = () => {
                     className="flex items-start gap-3"
                   >
                     <span className="text-gray-400 mt-1.5">•</span> 
-                    <span className="text-gray-500 text-sm">{item}</span>
+                    <span className="text-gray-500 text-md">{item}</span>
                   </motion.li>
                 ))}
               </motion.ul>
@@ -275,7 +275,7 @@ const PrivacyPolicyUI = () => {
                   initial={{ opacity: 0 }}
                   whileInView={{ opacity: 1 }}
                   transition={{ delay: 0.2 }}
-                  className="text-gray-500 text-sm font-light italic leading-relaxed"
+                  className="text-gray-500 text-md font-light italic leading-relaxed"
                 >
                   "Cookie" technology enables the Websites or service provider's system to recognize your browser and 
                   capture and remember certain information. We use cookies to understand and save your preferences for 
@@ -308,7 +308,7 @@ const PrivacyPolicyUI = () => {
                   initial={{ opacity: 0, y: 10 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.15 }}
-                  className="text-gray-500 text-sm"
+                  className="text-gray-500 text-md"
                 >
                   3rd Floor, Krishna Arcade,
                 </motion.p>
@@ -316,7 +316,7 @@ const PrivacyPolicyUI = () => {
                   initial={{ opacity: 0, y: 10 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.2 }}
-                  className="text-gray-500 text-sm"
+                  className="text-gray-500 text-md"
                 >
                   No. 17, S K NAGAR, KODIGEHALLI,
                 </motion.p>
@@ -324,7 +324,7 @@ const PrivacyPolicyUI = () => {
                   initial={{ opacity: 0, y: 10 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.25 }}
-                  className="text-gray-500 text-sm"
+                  className="text-gray-500 text-md"
                 >
                   Bengaluru, Karnataka, 560092
                 </motion.p>
@@ -332,7 +332,7 @@ const PrivacyPolicyUI = () => {
                   initial={{ opacity: 0, y: 10 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.3 }}
-                  className="mt-3 text-sm"
+                  className="mt-3 text-md"
                 >
                   <span className="font-light text-gray-600">Email:</span>{' '}
                   <a 

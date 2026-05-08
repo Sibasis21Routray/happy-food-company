@@ -18,7 +18,7 @@ export const AboutUsPage: React.FC = () => {
         <div className="text-center mb-10">
           <h1 className="text-3xl md:text-4xl font-light text-white mb-3">About Us</h1>
           <div className="w-12 h-px bg-gray-300 mx-auto" />
-          <p className="text-gray-400 text-sm font-light mt-4 max-w-md mx-auto">
+          <p className="text-gray-400 text-md font-light mt-4 max-w-md mx-auto">
             Crafting happiness through healthy nutrition since 2019
           </p>
         </div>
@@ -85,7 +85,7 @@ export const AboutUsPage: React.FC = () => {
             </div>
             <div className="p-6 text-center">
               <h3 className="text-lg font-light text-gray-700 mb-2">Kids Approved</h3>
-              <p className="text-gray-400 text-sm font-light leading-relaxed">
+              <p className="text-gray-400 text-md font-light leading-relaxed">
                 Loved by children and parents alike. Delicious taste that kids enjoy, with nutrition that parents trust.
               </p>
             </div>
@@ -120,7 +120,7 @@ export const AboutUsPage: React.FC = () => {
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: 0.3 }}
-              className="text-gray-300 text-sm font-light leading-relaxed mb-4"
+              className="text-gray-300 text-md font-light leading-relaxed mb-4"
             >
               The Happy Food Company (Angstrohm Foods Private Limited) (est. 2019) is a specialty food manufacturer focusing on healthy, protein rich nutrition snacks for the family.
             </motion.p>
@@ -129,7 +129,7 @@ export const AboutUsPage: React.FC = () => {
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.4, delay: 0.4 }}
-              className="text-gray-300 text-sm font-light leading-relaxed"
+              className="text-gray-300 text-md font-light leading-relaxed"
             >
               In collaboration & under license from Happy Bar Inc. (USA), Angstrohm Foods creates amazing products that are perfect for children and adults alike.
             </motion.p>
@@ -156,7 +156,7 @@ export const AboutUsPage: React.FC = () => {
             </div>
             <div className="p-6 text-center">
               <h3 className="text-lg font-light text-gray-700 mb-2">Fuel Your Day</h3>
-              <p className="text-gray-400 text-sm font-light leading-relaxed">
+              <p className="text-gray-400 text-md font-light leading-relaxed">
                 Natural ingredients combined to create tasty and healthy nutrition bars that taste like family recipes.
               </p>
             </div>
@@ -196,7 +196,7 @@ export const AboutUsPage: React.FC = () => {
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: 0.2 }}
-                className="text-gray-500 text-sm font-light leading-relaxed"
+                className="text-gray-500 text-md font-light leading-relaxed"
               >
                 BOING is the mascot of purpose and focus. BOING is the ostrich that kept its eyes on the egg, 
                 guarded and nurtured it till it hatched without being distracted. BOING reminds us that good 
@@ -253,7 +253,7 @@ export const AboutUsPage: React.FC = () => {
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.4, delay: 0.2 }}
-            className="text-gray-500 text-sm font-light leading-relaxed italic"
+            className="text-gray-500 text-md font-light leading-relaxed italic"
           >
             "The proprietary recipes developed by the scientists at Happy Bar and Angstrohm Foods combine 
             natural ingredients to create tasty and healthy nutrition bars that taste like family recipes."

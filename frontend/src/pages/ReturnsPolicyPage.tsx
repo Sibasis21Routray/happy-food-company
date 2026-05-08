@@ -105,7 +105,7 @@ const ReturnsPolicyPage = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.5, duration: 0.5 }}
-              className="text-white/70 text-sm font-light mt-4"
+              className="text-white/70 text-md font-light mt-4"
             >
               Effective as of January 11, 2024
             </motion.p>
@@ -126,7 +126,7 @@ const ReturnsPolicyPage = () => {
             
             <motion.div 
               variants={contentVariants}
-              className="space-y-6 text-gray-600 text-sm leading-relaxed"
+              className="space-y-6 text-gray-600 text-md leading-relaxed"
             >
               <motion.p variants={sectionVariants}>
                 Welcome to <strong className="text-gray-800">thehappyfoodcompany.com</strong>, a website owned and operated 
@@ -180,7 +180,7 @@ const ReturnsPolicyPage = () => {
                     className="flex gap-3"
                   >
                     <span className="text-gray-400 mt-0.5">–</span> 
-                    <span className="text-gray-500 text-sm">{item}</span>
+                    <span className="text-gray-500 text-md">{item}</span>
                   </motion.li>
                 ))}
               </motion.ul>
@@ -239,10 +239,10 @@ const ReturnsPolicyPage = () => {
                 className="border border-gray-100 p-6 mt-6 hover:border-gray-200 transition-all duration-300"
               >
                 <p className="font-light text-gray-800 text-base mb-2">Angstrohm Foods Pvt Ltd</p>
-                <p className="text-gray-500 text-sm">3rd Floor, Krishna Arcade,</p>
-                <p className="text-gray-500 text-sm">No. 17, S K NAGAR, KODIGEHALLI,</p>
-                <p className="text-gray-500 text-sm">Bengaluru, Karnataka, 560092</p>
-                <p className="mt-3 text-sm">
+                <p className="text-gray-500 text-md">3rd Floor, Krishna Arcade,</p>
+                <p className="text-gray-500 text-md">No. 17, S K NAGAR, KODIGEHALLI,</p>
+                <p className="text-gray-500 text-md">Bengaluru, Karnataka, 560092</p>
+                <p className="mt-3 text-md">
                   <span className="font-light text-gray-600">Email:</span>{' '}
                   <a href="mailto:woohoo@thehappyfoodcompany.com" className="text-gray-500 hover:text-gray-700 transition-colors">
                     woohoo@thehappyfoodcompany.com

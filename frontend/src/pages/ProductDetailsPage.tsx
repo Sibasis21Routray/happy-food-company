@@ -312,7 +312,7 @@ export const ProductDetailsPage: React.FC = () => {
             className="w-full lg:w-1/2 flex flex-col justify-center text-center lg:text-left"
           >
             <div className="mb-2">
-              <span className="text-xs tracking-[0.2em] text-gray-400 uppercase">
+              <span className="text-sm tracking-[0.2em] text-gray-400 uppercase">
                 {isCombo ? 'COMBO PACK' : 'PREMIUM PROTEIN BAR'}
               </span>
             </div>
@@ -331,22 +331,22 @@ export const ProductDetailsPage: React.FC = () => {
             
             {/* Quick Info Tags */}
             <div className="flex flex-wrap gap-3 justify-center lg:justify-start">
-              <span className="px-3 py-1 bg-gray-100 text-gray-600 text-xs font-light tracking-wide">
+              <span className="px-3 py-1 bg-gray-100 text-gray-600 text-sm font-light tracking-wide">
                 All Natural
               </span>
-              <span className="px-3 py-1 bg-gray-100 text-gray-600 text-xs font-light tracking-wide">
+              <span className="px-3 py-1 bg-gray-100 text-gray-600 text-sm font-light tracking-wide">
                 No Preservatives
               </span>
-              <span className="px-3 py-1 bg-gray-100 text-gray-600 text-xs font-light tracking-wide">
+              <span className="px-3 py-1 bg-gray-100 text-gray-600 text-sm font-light tracking-wide">
                 Vegetarian
               </span>
-              <span className="px-3 py-1 bg-gray-100 text-gray-600 text-xs font-light tracking-wide">
+              <span className="px-3 py-1 bg-gray-100 text-gray-600 text-sm font-light tracking-wide">
                 No Added Sugar
               </span>
             </div>
 
             <button onClick={()=>{navigate("/happy-shop")} }
-            className='mt-7 w-fit bg-gray-900 text-white font-light py-3 px-8 tracking-wider text-sm hover:bg-gray-800 flex items-center gap-2 transition-all duration-300 '>Shop now</button>
+            className='mt-7 w-fit bg-gray-900 text-white font-light py-3 px-8 tracking-wider text-md hover:bg-gray-800 flex items-center gap-2 transition-all duration-300 '>Shop now</button>
           </motion.div>
           
           {/* Image Section */}
@@ -380,7 +380,7 @@ export const ProductDetailsPage: React.FC = () => {
               whileHover={{ scale: 1.02 }} 
               whileTap={{ scale: 0.98 }}
               onClick={handleAddToCart}
-              className="bg-gray-900 text-white font-light py-3 px-8 tracking-wider text-sm hover:bg-gray-800 flex items-center gap-2 transition-all duration-300"
+              className="bg-gray-900 text-white font-light py-3 px-8 tracking-wider text-md hover:bg-gray-800 flex items-center gap-2 transition-all duration-300"
             >
               <ShoppingCart size={16} />
               BUY NOW — ₹{dbProduct.price}
@@ -456,7 +456,7 @@ export const ProductDetailsPage: React.FC = () => {
                     <img src={f.img} alt={f.title} className="w-10 h-10 object-contain brightness-0 invert opacity-80" />
                   </div>
                   <h3 className={`${data.featuresTitleColor} font-light text-lg mb-2`}>{f.title}</h3>
-                  <p className="text-white/70 text-sm font-light leading-relaxed">{f.desc}</p>
+                  <p className="text-white/70 text-md font-light leading-relaxed">{f.desc}</p>
                 </motion.div>
               ))}
             </div>
@@ -474,13 +474,13 @@ export const ProductDetailsPage: React.FC = () => {
           transition={{ duration: 0.4 }}
           className="py-16 sm:py-20 md:py-24 bg-gray-50"
         >
-          <div className="container mx-auto px-4 sm:px-6 max-w-[1200px]">
+          <div className="container mx-auto px-4 sm:px-6 ">
             <div className="text-center mb-12">
               <h2 className="text-gray-800 text-2xl sm:text-3xl md:text-4xl font-light mb-4">
                 The Goodness of Awesome Ingredients
               </h2>
               <div className="w-12 h-px bg-gray-300 mx-auto"></div>
-              <p className="text-gray-400 mt-4 max-w-2xl mx-auto text-sm font-light">
+              <p className="text-gray-400 mt-4 max-w-2xl mx-auto text-md font-light">
                 Pure, natural, and carefully selected ingredients for your happiness
               </p>
             </div>
@@ -499,8 +499,8 @@ export const ProductDetailsPage: React.FC = () => {
                   <div className="w-24 h-24 mx-auto mb-4 flex items-center justify-center">
                     <img src={mascot.img} alt={mascot.name} className="w-20 h-20 object-contain opacity-80" />
                   </div>
-                  <h3 className="text-gray-800 font-light text-base mb-2">{mascot.name}</h3>
-                  <p className="text-gray-400 text-xs font-light leading-relaxed">{mascot.desc.substring(0, 100)}...</p>
+                  <h3 className="text-gray-800 font-light text-xl mb-2">{mascot.name}</h3>
+                  <p className="text-gray-400 text-md font-light leading-relaxed">{mascot.desc.substring(0, 100)}...</p>
                 </motion.div>
               ))}
             </div>

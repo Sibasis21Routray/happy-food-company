@@ -142,13 +142,13 @@ export const ProductsPage: React.FC = () => {
             transition={{ duration: 0.6 }}
           >
             <div className="inline-block mb-4">
-              <span className="text-xs tracking-[0.2em] text-gray-400">COLLECTION</span>
+              <span className="text-sm tracking-[0.2em] text-gray-400">COLLECTION</span>
             </div>
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-light tracking-tight text-gray-900 mb-4">
               Shop
             </h1>
             <div className="w-12 h-px bg-gray-300 mx-auto" />
-            <p className="text-gray-400 text-sm font-light mt-6 max-w-md mx-auto">
+            <p className="text-gray-400 text-md font-light mt-6 max-w-md mx-auto">
               Premium protein bars crafted for your everyday adventures
             </p>
           </motion.div>
@@ -216,7 +216,7 @@ export const ProductsPage: React.FC = () => {
                     
                     {/* Description/Serving info */}
                     {p.description && (
-                      <p className="text-gray-400 text-xs font-light tracking-wide mb-2">
+                      <p className="text-gray-400 text-sm font-light tracking-wide mb-2">
                         {p.description}
                       </p>
                     )}
@@ -250,7 +250,7 @@ export const ProductsPage: React.FC = () => {
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                       onClick={() => handleAddToCart(p._id)}
-                      className="mt-5 w-full py-3 border border-gray-200 text-gray-700 text-xs font-light tracking-wider hover:border-gray-400 hover:text-gray-900 transition-all duration-300"
+                      className="mt-5 w-full py-3 border border-gray-200 text-gray-700 text-sm font-light tracking-wider hover:border-gray-400 hover:text-gray-900 transition-all duration-300"
                     >
                       ADD TO CART
                     </motion.button>

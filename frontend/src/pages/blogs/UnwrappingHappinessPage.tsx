@@ -103,7 +103,7 @@ const UnwrappingHappinessPage: React.FC = () => {
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 }}
-                className="inline-block text-xs tracking-[0.2em] text-gray-300 mb-4"
+                className="inline-block text-sm tracking-[0.2em] text-gray-300 mb-4"
               >
                 INGREDIENTS
               </motion.span>
@@ -129,7 +129,7 @@ const UnwrappingHappinessPage: React.FC = () => {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ delay: 0.6, duration: 0.5 }}
-                className="flex items-center justify-center gap-6 text-sm text-gray-300"
+                className="flex items-center justify-center gap-6 text-md text-gray-300"
               >
                 <span className="flex items-center gap-2">
                   <User size={14} strokeWidth={1.5} />
@@ -227,7 +227,7 @@ const UnwrappingHappinessPage: React.FC = () => {
                 className="border-l-2 border-gray-100 pl-5 py-2"
               >
                 <h3 className="text-lg font-light text-gray-800 mb-2">{ingredient.name}</h3>
-                <p className="text-gray-500 text-sm leading-relaxed">{ingredient.desc}</p>
+                <p className="text-gray-500 text-md leading-relaxed">{ingredient.desc}</p>
               </motion.div>
             ))}
           </div>
@@ -238,7 +238,7 @@ const UnwrappingHappinessPage: React.FC = () => {
             whileHover={{ scale: 1.01, transition: { duration: 0.3 } }}
             className="bg-gray-50 p-6 my-8 border border-gray-100 hover:border-gray-200 transition-all duration-300"
           >
-            <p className="text-gray-600 text-sm font-light leading-relaxed">
+            <p className="text-gray-600 text-md font-light leading-relaxed">
               <span className="font-medium text-gray-800">Did You Know?</span> One Happy Bar provides 
               you with an egg's worth of protein (6 grams), making it a perfect post-workout snack!
             </p>
@@ -296,7 +296,7 @@ const UnwrappingHappinessPage: React.FC = () => {
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.2 + idx * 0.1 }}
                   whileHover={{ x: 5 }}
-                  className="flex items-start gap-2 text-gray-500 text-sm"
+                  className="flex items-start gap-2 text-gray-500 text-md"
                 >
                   <span className="text-gray-400 mt-0.5">•</span>
                   {item}
@@ -323,14 +323,14 @@ const UnwrappingHappinessPage: React.FC = () => {
         >
           <Link
             to="/blog/nourish-energize-thrive"
-            className="group flex items-center gap-2 text-gray-500 text-sm hover:text-gray-700 transition-colors"
+            className="group flex items-center gap-2 text-gray-500 text-md hover:text-gray-700 transition-colors"
           >
             <ArrowLeft size={14} className="group-hover:-translate-x-1 transition-transform" />
             Previous Article
           </Link>
           <Link
             to="/blog/satisfy-your-sugar-cravings-naturally"
-            className="group flex items-center gap-2 text-gray-500 text-sm hover:text-gray-700 transition-colors"
+            className="group flex items-center gap-2 text-gray-500 text-md hover:text-gray-700 transition-colors"
           >
             Next Article
             <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />

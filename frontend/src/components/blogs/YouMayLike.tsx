@@ -139,7 +139,7 @@ function YouMayLike() {
               {/* Content Area - Increased text sizes */}
               <div className="p-6">
                 {/* Date - Larger */}
-                <div className="flex items-center gap-1.5 text-gray-400 text-xs mb-3">
+                <div className="flex items-center gap-1.5 text-gray-400 text-sm mb-3">
                   <Calendar size={12} strokeWidth={1.5} />
                   <span>{post.date}</span>
                 </div>
@@ -152,14 +152,14 @@ function YouMayLike() {
                 </h3>
 
                 {/* Excerpt - Larger */}
-                <p className="text-gray-500 text-sm leading-relaxed line-clamp-2 mb-4">
+                <p className="text-gray-500 text-md leading-relaxed line-clamp-2 mb-4">
                   {post.excerpt}
                 </p>
 
                 {/* Read More Link - Larger */}
                 <Link
                   to={`/blog/${post.slug}`}
-                  className="inline-flex items-center gap-1.5 text-gray-500 text-xs tracking-wider hover:text-gray-700 transition-colors group/link"
+                  className="inline-flex items-center gap-1.5 text-gray-500 text-sm tracking-wider hover:text-gray-700 transition-colors group/link"
                 >
                   READ MORE
                   <ArrowRight size={12} className="group-hover/link:translate-x-1 transition-transform" strokeWidth={1.5} />

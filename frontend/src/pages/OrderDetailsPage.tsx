@@ -64,7 +64,7 @@ export const OrderDetailsPage: React.FC = () => {
       <div className="min-h-screen pt-32 flex flex-col items-center justify-center bg-white gap-5">
         <XCircle size={48} className="text-gray-400" strokeWidth={1.5} />
         <p className="text-gray-500 text-base font-light">{error || 'Order not found'}</p>
-        <button onClick={() => navigate(-1)} className="text-gray-700 text-sm font-medium underline-offset-4 hover:underline">
+        <button onClick={() => navigate(-1)} className="text-gray-700 text-md font-medium underline-offset-4 hover:underline">
           Go Back
         </button>
       </div>
@@ -81,7 +81,7 @@ export const OrderDetailsPage: React.FC = () => {
         {/* Back button */}
         <button
           onClick={() => navigate(-1)}
-          className="flex items-center gap-2 text-gray-500 hover:text-gray-800 text-sm font-medium mb-8 transition-colors group"
+          className="flex items-center gap-2 text-gray-500 hover:text-gray-800 text-md font-medium mb-8 transition-colors group"
         >
           <ArrowLeft size={18} className="group-hover:-translate-x-1 transition-transform" />
           Back to Orders
@@ -98,14 +98,14 @@ export const OrderDetailsPage: React.FC = () => {
           <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-7">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div>
-                <p className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-1.5">Order ID</p>
+                <p className="text-sm font-medium text-gray-400 uppercase tracking-wider mb-1.5">Order ID</p>
                 <p className="text-base font-mono text-gray-800 break-all">{order._id?.slice(-12)}</p>
               </div>
               <div className="flex items-center gap-4 flex-wrap">
-                <span className={`px-4 py-1.5 rounded-full text-xs font-semibold uppercase tracking-wide ${statusStyle(order.status)}`}>
+                <span className={`px-4 py-1.5 rounded-full text-sm font-semibold uppercase tracking-wide ${statusStyle(order.status)}`}>
                   {order.status?.toUpperCase()}
                 </span>
-                <span className="text-sm font-medium text-gray-500">
+                <span className="text-md font-medium text-gray-500">
                   {new Date(order.createdAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })}
                 </span>
               </div>
@@ -115,7 +115,7 @@ export const OrderDetailsPage: React.FC = () => {
           {/* Tracking Timeline */}
           {!isCancelled && (
             <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-7">
-              <h2 className="text-sm font-semibold text-gray-700 uppercase tracking-wider mb-8">Order Status</h2>
+              <h2 className="text-md font-semibold text-gray-700 uppercase tracking-wider mb-8">Order Status</h2>
 
               {/* Desktop: horizontal steps */}
               <div className="hidden sm:flex items-center justify-between relative">
@@ -141,7 +141,7 @@ export const OrderDetailsPage: React.FC = () => {
                       >
                         <Icon size={20} strokeWidth={1.5} />
                       </motion.div>
-                      <p className={`text-xs font-medium tracking-wide text-center ${
+                      <p className={`text-sm font-medium tracking-wide text-center ${
                         done ? 'text-gray-700' : 'text-gray-400'
                       }`}>
                         {step.label}
@@ -169,7 +169,7 @@ export const OrderDetailsPage: React.FC = () => {
                         )}
                       </div>
                       <div className="pb-6 pt-1">
-                        <p className={`text-sm font-medium tracking-wide ${done ? 'text-gray-800' : 'text-gray-400'}`}>
+                        <p className={`text-md font-medium tracking-wide ${done ? 'text-gray-800' : 'text-gray-400'}`}>
                           {step.label}
                         </p>
                       </div>
@@ -185,15 +185,15 @@ export const OrderDetailsPage: React.FC = () => {
             <div className="bg-red-50 border border-red-200 rounded-xl p-7 flex items-start gap-5">
               <XCircle size={28} className="text-red-500 flex-shrink-0" strokeWidth={1.5} />
               <div>
-                <p className="font-semibold text-red-700 uppercase tracking-wide text-sm mb-1">Order Cancelled</p>
-                <p className="text-sm text-red-600 font-normal">This order has been cancelled. Contact support for more information.</p>
+                <p className="font-semibold text-red-700 uppercase tracking-wide text-md mb-1">Order Cancelled</p>
+                <p className="text-md text-red-600 font-normal">This order has been cancelled. Contact support for more information.</p>
               </div>
             </div>
           )}
 
           {/* Order Items */}
           <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-7">
-            <h2 className="text-sm font-semibold text-gray-700 uppercase tracking-wider mb-6">Order Items</h2>
+            <h2 className="text-md font-semibold text-gray-700 uppercase tracking-wider mb-6">Order Items</h2>
             <div className="divide-y divide-gray-100">
               {order.items?.map((item: any, idx: number) => (
                 <div key={item.productId || idx} className="flex items-center justify-between gap-5 py-4 first:pt-0 last:pb-0">
@@ -212,7 +212,7 @@ export const OrderDetailsPage: React.FC = () => {
                     )}
                     <div className="min-w-0">
                       <p className="text-base font-medium text-gray-800 truncate">{item.title}</p>
-                      <p className="text-sm text-gray-500 mt-0.5">Quantity: {item.quantity}</p>
+                      <p className="text-md text-gray-500 mt-0.5">Quantity: {item.quantity}</p>
                     </div>
                   </div>
                   <p className="text-lg font-semibold text-gray-800 flex-shrink-0">
@@ -241,12 +241,12 @@ export const OrderDetailsPage: React.FC = () => {
             <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-7">
               <div className="flex items-center gap-3 mb-5">
                 <MapPin size={20} className="text-gray-600" strokeWidth={1.5} />
-                <h2 className="text-sm font-semibold text-gray-700 uppercase tracking-wider">Delivery Address</h2>
+                <h2 className="text-md font-semibold text-gray-700 uppercase tracking-wider">Delivery Address</h2>
               </div>
               <div className="space-y-1.5">
                 <p className="text-base font-medium text-gray-800">{order.shippingAddress.name}</p>
-                <p className="text-sm text-gray-600">{order.shippingAddress.phone}</p>
-                <p className="text-sm text-gray-500 leading-relaxed mt-2">
+                <p className="text-md text-gray-600">{order.shippingAddress.phone}</p>
+                <p className="text-md text-gray-500 leading-relaxed mt-2">
                   {order.shippingAddress.streetAddress}
                   {order.shippingAddress.locality && `, ${order.shippingAddress.locality}`}
                   {order.shippingAddress.city && `, ${order.shippingAddress.city}`}
@@ -260,7 +260,7 @@ export const OrderDetailsPage: React.FC = () => {
           {/* Payment Method */}
           {order.paymentMethod && (
             <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-7">
-              <h2 className="text-sm font-semibold text-gray-700 uppercase tracking-wider mb-3">Payment Method</h2>
+              <h2 className="text-md font-semibold text-gray-700 uppercase tracking-wider mb-3">Payment Method</h2>
               <p className="text-base font-medium text-gray-700">
                 {order.paymentMethod.replace(/_/g, ' ').toUpperCase()}
               </p>

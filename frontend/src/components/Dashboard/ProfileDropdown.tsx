@@ -45,7 +45,7 @@ export const ProfileDropdown: React.FC<ProfileDropdownProps> = ({ user, onLogout
             <User size={20} />
           </div>
           <div className="hidden sm:flex flex-col text-left">
-            <span className="text-sm font-bold text-slate-700 leading-tight group-hover:text-[#FA6011] transition-colors truncate max-w-[120px]">{user?.fullName || 'User'}</span>
+            <span className="text-md font-bold text-slate-700 leading-tight group-hover:text-[#FA6011] transition-colors truncate max-w-[120px]">{user?.fullName || 'User'}</span>
             <span className="text-[11px] font-medium text-gray-400 leading-none mt-0.5 truncate max-w-[120px]">{user?.email}</span>
           </div>
           <ChevronDown size={14} className={`text-gray-400 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
@@ -61,7 +61,7 @@ export const ProfileDropdown: React.FC<ProfileDropdownProps> = ({ user, onLogout
                 </div>
                 <div className="flex flex-col">
                   <span className="text-base font-black text-slate-800 leading-tight truncate max-w-[180px]">{user?.fullName}</span>
-                  <span className="text-xs font-bold text-gray-400 truncate max-w-[180px]">{user?.email}</span>
+                  <span className="text-sm font-bold text-gray-400 truncate max-w-[180px]">{user?.email}</span>
                 </div>
               </div>
             </div>
@@ -77,7 +77,7 @@ export const ProfileDropdown: React.FC<ProfileDropdownProps> = ({ user, onLogout
                   <User size={18} />
                 </div>
                 <div className="flex flex-col text-left">
-                  <span className="text-sm font-black text-slate-700">Profile</span>
+                  <span className="text-md font-black text-slate-700">Profile</span>
                   <span className="text-[10px] font-bold text-gray-400">View your profile</span>
                 </div>
               </Link>
@@ -95,7 +95,7 @@ export const ProfileDropdown: React.FC<ProfileDropdownProps> = ({ user, onLogout
                   <LogOut size={18} />
                 </div>
                 <div className="flex flex-col text-left">
-                  <span className="text-sm font-black text-red-600">Logout</span>
+                  <span className="text-md font-black text-red-600">Logout</span>
                   <span className="text-[10px] font-bold text-red-400/80">Sign out of your account</span>
                 </div>
               </button>

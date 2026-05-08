@@ -24,7 +24,7 @@ const DeliveryPolicyPage = () => {
         <div className="min-h-screen py-12">
           <div className="max-w-5xl mx-auto mt-8 bg-white rounded-[2.5rem] shadow-2xl p-8 md:p-16 text-left text-slate-700 leading-relaxed overflow-hidden">
             
-            <div className="space-y-6 text-sm md:text-base max-w-5xl">
+            <div className="space-y-6 text-md md:text-base max-w-5xl">
               {/* Opening Paragraph */}
               <p>
                 Welcome to <strong>thehappyfoodcompany.com</strong>, a website owned and operated by Angstrohm Foods Pvt Ltd 
@@ -166,7 +166,7 @@ const DeliveryPolicyPage = () => {
                     woohoo@thehappyfoodcompany.com
                   </a>
                 </p>
-                <p className="text-xs mt-4 font-black uppercase text-slate-400 tracking-widest">
+                <p className="text-sm mt-4 font-black uppercase text-slate-400 tracking-widest">
                   Effective as of January 13, 2024
                 </p>
               </div>

@@ -334,7 +334,7 @@
 //                 </div>
 //                 <div className="text-left">
 //                   <span className="text-[11px] text-white/80 font-medium uppercase tracking-wider">My Account</span>
-//                   <p className="text-sm font-black text-white leading-tight">{user.fullName?.split(' ')[0]}</p>
+//                   <p className="text-md font-black text-white leading-tight">{user.fullName?.split(' ')[0]}</p>
 //                 </div>
 //               </div>
 //               <div className="flex items-center gap-2">
@@ -369,7 +369,7 @@
 //                         <UserCircle size={28} className="text-white" />
 //                       </div>
 //                       <div>
-//                         <p className="text-xs text-white/80 font-medium">Welcome back,</p>
+//                         <p className="text-sm text-white/80 font-medium">Welcome back,</p>
 //                         <p className="text-base font-black text-white">{user.fullName}</p>
 //                       </div>
 //                     </div>
@@ -381,7 +381,7 @@
 //                   <div className="bg-white p-4 md:p-4 hidden md:flex items-center gap-4 shadow-sm border border-gray-200/50 rounded-sm md:mb-4">
 //                     <div className="flex flex-col md:mt-2">
 //                       <span className="text-[10px] md:text-[12px] text-gray-500 font-medium">Hello,</span>
-//                       <span className="text-sm md:text-base font-black text-gray-900 leading-tight">
+//                       <span className="text-md md:text-base font-black text-gray-900 leading-tight">
 //                         {user.fullName}
 //                       </span>
 //                     </div>
@@ -400,7 +400,7 @@
 //                     <GroupHeader label="PAYMENTS" icon={<CreditCard size={18} />} />
 //                     <div className="flex items-center justify-between px-4 sm:px-6 py-3 sm:py-4 text-gray-600 hover:bg-gray-50 cursor-pointer">
 //                       <span className="text-[12px] sm:text-[14px] font-bold uppercase">Gift Cards</span>
-//                       <span className="text-[#FD6804] font-black text-sm sm:text-base">₹0</span>
+//                       <span className="text-[#FD6804] font-black text-md sm:text-base">₹0</span>
 //                     </div>
 //                     <SidebarItem id="upi" label="Saved UPI" icon={<Smartphone size={16} />} />
 //                     <SidebarItem id="cards" label="Saved Cards" icon={<CreditCard size={16} />} groupEnd />
@@ -445,7 +445,7 @@
 //                     <div className="space-y-4 sm:space-y-6">
 //                       <div className="flex items-center justify-between flex-wrap gap-2">
 //                         <h2 className="text-base sm:text-lg font-black text-gray-900">Personal Information</h2>
-//                         <button onClick={() => setEditFields({ ...editFields, personal: !editFields.personal })} className="text-[#FA6011] font-black text-xs sm:text-sm hover:underline">
+//                         <button onClick={() => setEditFields({ ...editFields, personal: !editFields.personal })} className="text-[#FA6011] font-black text-sm sm:text-md hover:underline">
 //                           {editFields.personal ? 'Cancel' : 'Edit'}
 //                         </button>
 //                       </div>
@@ -453,18 +453,18 @@
 //                       <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
 //                         <div className="flex-1">
 //                           <input type="text" disabled={!editFields.personal} value={formData.firstName} onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
-//                             className={`w-full p-3 sm:p-4 border rounded-[2px] focus:outline-none transition-all text-sm sm:text-base ${editFields.personal ? 'border-[#FA6011] bg-white' : 'border-gray-200 bg-gray-50 cursor-not-allowed'}`}
+//                             className={`w-full p-3 sm:p-4 border rounded-[2px] focus:outline-none transition-all text-md sm:text-base ${editFields.personal ? 'border-[#FA6011] bg-white' : 'border-gray-200 bg-gray-50 cursor-not-allowed'}`}
 //                             placeholder="First Name" />
 //                         </div>
 //                         <div className="flex-1">
 //                           <input type="text" disabled={!editFields.personal} value={formData.lastName} onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
-//                             className={`w-full p-3 sm:p-4 border rounded-[2px] focus:outline-none transition-all text-sm sm:text-base ${editFields.personal ? 'border-[#FA6011] bg-white' : 'border-gray-200 bg-gray-50 cursor-not-allowed'}`}
+//                             className={`w-full p-3 sm:p-4 border rounded-[2px] focus:outline-none transition-all text-md sm:text-base ${editFields.personal ? 'border-[#FA6011] bg-white' : 'border-gray-200 bg-gray-50 cursor-not-allowed'}`}
 //                             placeholder="Last Name" />
 //                         </div>
 //                       </div>
 
 //                       <div className="space-y-3 sm:space-y-4">
-//                         <p className="text-xs sm:text-sm font-bold text-gray-700">Your Gender</p>
+//                         <p className="text-sm sm:text-md font-bold text-gray-700">Your Gender</p>
 //                         <div className="flex gap-6 sm:gap-8">
 //                           {['Male', 'Female'].map((g) => (
 //                             <label key={g} className="flex items-center gap-2 sm:gap-3 cursor-pointer group">
@@ -475,7 +475,7 @@
 //                               </div>
 //                               <input type="radio" className="hidden" disabled={!editFields.personal} name="gender" value={g}
 //                                 checked={formData.gender === g} onChange={(e) => setFormData({ ...formData, gender: e.target.value })} />
-//                               <span className={`text-xs sm:text-sm font-medium ${editFields.personal ? 'text-gray-700' : 'text-gray-400'}`}>{g}</span>
+//                               <span className={`text-sm sm:text-md font-medium ${editFields.personal ? 'text-gray-700' : 'text-gray-400'}`}>{g}</span>
 //                             </label>
 //                           ))}
 //                         </div>
@@ -485,13 +485,13 @@
 //                     <div className="space-y-4 sm:space-y-6">
 //                       <div className="flex items-center justify-between flex-wrap gap-2">
 //                         <h2 className="text-base sm:text-lg font-black text-gray-900">Email Address</h2>
-//                         <button onClick={() => setEditFields({ ...editFields, email: !editFields.email })} className="text-[#FA6011] font-black text-xs sm:text-sm hover:underline">
+//                         <button onClick={() => setEditFields({ ...editFields, email: !editFields.email })} className="text-[#FA6011] font-black text-sm sm:text-md hover:underline">
 //                           {editFields.email ? 'Cancel' : 'Edit'}
 //                         </button>
 //                       </div>
 //                       <div>
 //                         <input type="email" disabled={!editFields.email} value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-//                           className={`w-full p-3 sm:p-4 border rounded-[2px] focus:outline-none transition-all text-sm sm:text-base ${editFields.email ? 'border-[#FA6011] bg-white' : 'border-gray-200 bg-gray-50 cursor-not-allowed'}`}
+//                           className={`w-full p-3 sm:p-4 border rounded-[2px] focus:outline-none transition-all text-md sm:text-base ${editFields.email ? 'border-[#FA6011] bg-white' : 'border-gray-200 bg-gray-50 cursor-not-allowed'}`}
 //                           placeholder="Email Address" />
 //                       </div>
 //                     </div>
@@ -499,7 +499,7 @@
 //                     <div className="space-y-4 sm:space-y-6">
 //                       <div className="flex items-center justify-between flex-wrap gap-2">
 //                         <h2 className="text-base sm:text-lg font-black text-gray-900">Mobile Number</h2>
-//                         <button onClick={() => setEditFields({ ...editFields, mobile: !editFields.mobile })} className="text-[#FA6011] font-black text-xs sm:text-sm hover:underline">
+//                         <button onClick={() => setEditFields({ ...editFields, mobile: !editFields.mobile })} className="text-[#FA6011] font-black text-sm sm:text-md hover:underline">
 //                           {editFields.mobile ? 'Cancel' : 'Edit'}
 //                         </button>
 //                       </div>
@@ -509,7 +509,7 @@
 //                           country={'in'}
 //                           value={formData.mobileNumber} 
 //                           onChange={(phone: string) => setFormData({ ...formData, mobileNumber: phone })}
-//                           inputClass={`!w-full !p-3 sm:!p-4 !border !rounded-[2px] focus:!outline-none !transition-all !text-sm sm:!text-base ${editFields.mobile ? '!border-[#FA6011] !bg-white' : '!border-gray-200 !bg-gray-50 !cursor-not-allowed'} !h-12 sm:!h-14 !pl-12 sm:!pl-14`}
+//                           inputClass={`!w-full !p-3 sm:!p-4 !border !rounded-[2px] focus:!outline-none !transition-all !text-md sm:!text-base ${editFields.mobile ? '!border-[#FA6011] !bg-white' : '!border-gray-200 !bg-gray-50 !cursor-not-allowed'} !h-12 sm:!h-14 !pl-12 sm:!pl-14`}
 //                           buttonClass={`!bg-transparent !border-0 !rounded-l-[2px] !pl-3 sm:!pl-4 ${!editFields.mobile && '!cursor-not-allowed'}`}
 //                           containerClass="!w-full"
 //                         />
@@ -522,7 +522,7 @@
 //                       </div>
 //                       <div>
 //                         <input type="password" value={formData.password} onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-//                           className={`w-full p-3 sm:p-4 border border-gray-200 rounded-[2px] focus:ring-2 focus:ring-[#FA6011]/30 focus:border-[#FA6011] outline-none transition-all text-sm sm:text-base bg-white`}
+//                           className={`w-full p-3 sm:p-4 border border-gray-200 rounded-[2px] focus:ring-2 focus:ring-[#FA6011]/30 focus:border-[#FA6011] outline-none transition-all text-md sm:text-base bg-white`}
 //                           placeholder="Enter new password to change" />
 //                       </div>
 //                     </div>
@@ -530,11 +530,11 @@
 //                     <div className="pt-6 sm:pt-10 border-t border-gray-100">
 //                       <h2 className="text-base sm:text-lg font-black text-gray-900 mb-4 sm:mb-6">FAQs</h2>
 //                       <div className="space-y-3 sm:space-y-4">
-//                         <p className="font-bold text-gray-700 text-sm sm:text-base flex items-start gap-2">
+//                         <p className="font-bold text-gray-700 text-md sm:text-base flex items-start gap-2">
 //                           <HelpCircle size={16} className="text-gray-400 mt-0.5 flex-shrink-0" />
 //                           <span>What happens when I update my email address (or mobile number)?</span>
 //                         </p>
-//                         <p className="text-xs sm:text-sm text-gray-500 leading-relaxed font-medium pl-6 sm:pl-7">
+//                         <p className="text-sm sm:text-md text-gray-500 leading-relaxed font-medium pl-6 sm:pl-7">
 //                           Your login email id (or mobile number) changes, likewise. You'll receive all your future order details and communications on your new email id (or mobile number).
 //                         </p>
 //                       </div>
@@ -542,14 +542,14 @@
 
 //                     {(editFields.personal || editFields.email || editFields.mobile) && (
 //                       <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="pt-4 sm:pt-6">
-//                         <button onClick={handleUpdate} disabled={loading} className="bg-[#FA6011] text-white px-8 sm:px-12 py-3 sm:py-4 font-black rounded-[2px] hover:brightness-110 shadow-lg shadow-orange-100 transition-all disabled:opacity-50 flex items-center gap-2 sm:gap-3 text-sm sm:text-base w-full sm:w-auto justify-center">
+//                         <button onClick={handleUpdate} disabled={loading} className="bg-[#FA6011] text-white px-8 sm:px-12 py-3 sm:py-4 font-black rounded-[2px] hover:brightness-110 shadow-lg shadow-orange-100 transition-all disabled:opacity-50 flex items-center gap-2 sm:gap-3 text-md sm:text-base w-full sm:w-auto justify-center">
 //                           {loading ? 'SAVING...' : 'SAVE CHANGES'}
 //                         </button>
 //                       </motion.div>
 //                     )}
 
 //                     {message.text && (
-//                       <div className={`p-3 sm:p-4 rounded-[2px] font-bold text-xs sm:text-sm flex items-center gap-2 sm:gap-3 ${
+//                       <div className={`p-3 sm:p-4 rounded-[2px] font-bold text-sm sm:text-md flex items-center gap-2 sm:gap-3 ${
 //                         message.type === 'success' ? 'bg-green-50 text-green-600' : 'bg-red-50 text-red-500'
 //                       }`}>
 //                         {message.type === 'success' ? <CheckCircle size={16} /> : <HelpCircle size={16} />}
@@ -564,7 +564,7 @@
 //                     <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
 //                       <h2 className="text-base sm:text-lg font-black text-gray-900 uppercase">Manage Addresses</h2>
 //                       {!isAddingAddress && (
-//                         <button onClick={() => setIsAddingAddress(true)} className="flex items-center gap-2 text-[#F95F11] font-black text-xs sm:text-sm border border-gray-200 px-3 sm:px-4 py-2 hover:bg-gray-50 rounded-sm w-full sm:w-auto justify-center">
+//                         <button onClick={() => setIsAddingAddress(true)} className="flex items-center gap-2 text-[#F95F11] font-black text-sm sm:text-md border border-gray-200 px-3 sm:px-4 py-2 hover:bg-gray-50 rounded-sm w-full sm:w-auto justify-center">
 //                           + ADD A NEW ADDRESS
 //                         </button>
 //                       )}
@@ -573,8 +573,8 @@
 //                     {isAddingAddress && (
 //                       <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} className="bg-[#fcfdff] p-4 sm:p-6 md:p-10 rounded-2xl space-y-6 sm:space-y-10 border border-blue-50 shadow-sm overflow-hidden">
 //                         <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-gray-100 pb-4 sm:pb-6">
-//                           <h3 className="text-[#F95F11] font-black text-sm sm:text-lg uppercase tracking-wider">ADD A NEW ADDRESS</h3>
-//                           <button onClick={handleGetCurrentLocation} className="bg-[#F95F11]/10 text-[#F95F11] px-3 sm:px-5 py-2 sm:py-2.5 rounded-xl font-bold text-xs sm:text-sm flex items-center gap-2 hover:bg-[#F95F11]/20 transition-all border border-[#F95F11]/20 w-full sm:w-auto justify-center">
+//                           <h3 className="text-[#F95F11] font-black text-md sm:text-lg uppercase tracking-wider">ADD A NEW ADDRESS</h3>
+//                           <button onClick={handleGetCurrentLocation} className="bg-[#F95F11]/10 text-[#F95F11] px-3 sm:px-5 py-2 sm:py-2.5 rounded-xl font-bold text-sm sm:text-md flex items-center gap-2 hover:bg-[#F95F11]/20 transition-all border border-[#F95F11]/20 w-full sm:w-auto justify-center">
 //                             <Navigation size={14} />
 //                             Use my current location
 //                           </button>
@@ -582,65 +582,65 @@
                         
 //                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-8">
 //                           <div className="space-y-1 sm:space-y-2">
-//                             <label className="text-[10px] sm:text-xs font-black text-gray-400 uppercase tracking-widest ml-1">Full Name</label>
-//                             <input type="text" className="w-full p-3 sm:p-4 bg-gray-50 border-0 rounded-xl sm:rounded-2xl focus:ring-2 focus:ring-[#F95F11]/30 focus:bg-white outline-none transition-all font-bold text-gray-700 text-sm sm:text-base"
+//                             <label className="text-[10px] sm:text-sm font-black text-gray-400 uppercase tracking-widest ml-1">Full Name</label>
+//                             <input type="text" className="w-full p-3 sm:p-4 bg-gray-50 border-0 rounded-xl sm:rounded-2xl focus:ring-2 focus:ring-[#F95F11]/30 focus:bg-white outline-none transition-all font-bold text-gray-700 text-md sm:text-base"
 //                               placeholder="John Doe" value={addressForm.name} onChange={(e) => setAddressForm({ ...addressForm, name: e.target.value })} />
 //                           </div>
 //                           <div className="space-y-1 sm:space-y-2">
-//                             <label className="text-[10px] sm:text-xs font-black text-gray-400 uppercase tracking-widest ml-1">Mobile Number</label>
+//                             <label className="text-[10px] sm:text-sm font-black text-gray-400 uppercase tracking-widest ml-1">Mobile Number</label>
 //                             <PhoneInput country={'in'} value={addressForm.phone} onChange={(phone: string) => setAddressForm({ ...addressForm, phone })}
-//                               inputClass="!w-full !h-12 sm:!h-14 !bg-gray-50 !border-0 !rounded-xl sm:!rounded-2xl !pl-12 sm:!pl-14 !font-bold !text-gray-700 focus:!ring-2 focus:!ring-[#F95F11]/30 focus:!bg-white outline-none transition-all !text-sm sm:!text-base"
+//                               inputClass="!w-full !h-12 sm:!h-14 !bg-gray-50 !border-0 !rounded-xl sm:!rounded-2xl !pl-12 sm:!pl-14 !font-bold !text-gray-700 focus:!ring-2 focus:!ring-[#F95F11]/30 focus:!bg-white outline-none transition-all !text-md sm:!text-base"
 //                               buttonClass="!bg-transparent !border-0 !rounded-l-xl sm:!rounded-l-2xl !pl-3 sm:!pl-4" containerClass="!h-12 sm:!h-14" />
 //                           </div>
 //                           <div className="space-y-1 sm:space-y-2">
-//                             <label className="text-[10px] sm:text-xs font-black text-gray-400 uppercase tracking-widest ml-1">Country</label>
-//                             <select className="w-full p-3 sm:p-4 bg-gray-50 border-0 rounded-xl sm:rounded-2xl focus:ring-2 focus:ring-[#F95F11]/30 focus:bg-white outline-none transition-all font-bold text-gray-700 appearance-none cursor-pointer text-sm sm:text-base"
+//                             <label className="text-[10px] sm:text-sm font-black text-gray-400 uppercase tracking-widest ml-1">Country</label>
+//                             <select className="w-full p-3 sm:p-4 bg-gray-50 border-0 rounded-xl sm:rounded-2xl focus:ring-2 focus:ring-[#F95F11]/30 focus:bg-white outline-none transition-all font-bold text-gray-700 appearance-none cursor-pointer text-md sm:text-base"
 //                               value={addressForm.country} onChange={(e) => setAddressForm({ ...addressForm, country: e.target.value, state: '' })}>
 //                               {countries.slice(0, 50).map(c => <option key={c.isoCode} value={c.isoCode}>{c.name}</option>)}
 //                             </select>
 //                           </div>
 //                           <div className="space-y-1 sm:space-y-2">
-//                             <label className="text-[10px] sm:text-xs font-black text-gray-400 uppercase tracking-widest ml-1">State</label>
-//                             <select className="w-full p-3 sm:p-4 bg-gray-50 border-0 rounded-xl sm:rounded-2xl focus:ring-2 focus:ring-[#F95F11]/30 focus:bg-white outline-none transition-all font-bold text-gray-700 appearance-none cursor-pointer text-sm sm:text-base"
+//                             <label className="text-[10px] sm:text-sm font-black text-gray-400 uppercase tracking-widest ml-1">State</label>
+//                             <select className="w-full p-3 sm:p-4 bg-gray-50 border-0 rounded-xl sm:rounded-2xl focus:ring-2 focus:ring-[#F95F11]/30 focus:bg-white outline-none transition-all font-bold text-gray-700 appearance-none cursor-pointer text-md sm:text-base"
 //                               value={addressForm.state} onChange={(e) => setAddressForm({ ...addressForm, state: e.target.value })}>
 //                               <option value="">Select State</option>
 //                               {states.map(s => <option key={s.isoCode} value={s.isoCode}>{s.name}</option>)}
 //                             </select>
 //                           </div>
 //                           <div className="space-y-1 sm:space-y-2">
-//                             <label className="text-[10px] sm:text-xs font-black text-gray-400 uppercase tracking-widest ml-1">Pincode</label>
-//                             <input type="text" className="w-full p-3 sm:p-4 bg-gray-50 border-0 rounded-xl sm:rounded-2xl focus:ring-2 focus:ring-[#F95F11]/30 focus:bg-white outline-none transition-all font-bold text-gray-700 text-sm sm:text-base"
+//                             <label className="text-[10px] sm:text-sm font-black text-gray-400 uppercase tracking-widest ml-1">Pincode</label>
+//                             <input type="text" className="w-full p-3 sm:p-4 bg-gray-50 border-0 rounded-xl sm:rounded-2xl focus:ring-2 focus:ring-[#F95F11]/30 focus:bg-white outline-none transition-all font-bold text-gray-700 text-md sm:text-base"
 //                               placeholder="6-digit Pincode" value={addressForm.pinCode} onChange={(e) => setAddressForm({ ...addressForm, pinCode: e.target.value })} />
 //                           </div>
 //                           <div className="space-y-1 sm:space-y-2">
-//                             <label className="text-[10px] sm:text-xs font-black text-gray-400 uppercase tracking-widest ml-1">Locality</label>
-//                             <input type="text" className="w-full p-3 sm:p-4 bg-gray-50 border-0 rounded-xl sm:rounded-2xl focus:ring-2 focus:ring-[#F95F11]/30 focus:bg-white outline-none transition-all font-bold text-gray-700 text-sm sm:text-base"
+//                             <label className="text-[10px] sm:text-sm font-black text-gray-400 uppercase tracking-widest ml-1">Locality</label>
+//                             <input type="text" className="w-full p-3 sm:p-4 bg-gray-50 border-0 rounded-xl sm:rounded-2xl focus:ring-2 focus:ring-[#F95F11]/30 focus:bg-white outline-none transition-all font-bold text-gray-700 text-md sm:text-base"
 //                               placeholder="Locality / Area" value={addressForm.locality} onChange={(e) => setAddressForm({ ...addressForm, locality: e.target.value })} />
 //                           </div>
 //                         </div>
 
 //                         <div className="space-y-1 sm:space-y-2">
-//                           <label className="text-[10px] sm:text-xs font-black text-gray-400 uppercase tracking-widest ml-1">Address Detail</label>
-//                           <textarea className="w-full p-3 sm:p-4 bg-gray-50 border-0 rounded-xl sm:rounded-2xl focus:ring-2 focus:ring-[#F95F11]/30 focus:bg-white outline-none transition-all font-bold text-gray-700 min-h-[100px] sm:min-h-[120px] text-sm sm:text-base"
+//                           <label className="text-[10px] sm:text-sm font-black text-gray-400 uppercase tracking-widest ml-1">Address Detail</label>
+//                           <textarea className="w-full p-3 sm:p-4 bg-gray-50 border-0 rounded-xl sm:rounded-2xl focus:ring-2 focus:ring-[#F95F11]/30 focus:bg-white outline-none transition-all font-bold text-gray-700 min-h-[100px] sm:min-h-[120px] text-md sm:text-base"
 //                             placeholder="House No, Building Name, Street Name..." value={addressForm.streetAddress} onChange={(e) => setAddressForm({ ...addressForm, streetAddress: e.target.value })} />
 //                         </div>
 
 //                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-8">
 //                           <div className="space-y-1 sm:space-y-2">
-//                             <label className="text-[10px] sm:text-xs font-black text-gray-400 uppercase tracking-widest ml-1">City / Town</label>
-//                             <input type="text" className="w-full p-3 sm:p-4 bg-gray-50 border-0 rounded-xl sm:rounded-2xl focus:ring-2 focus:ring-[#F95F11]/30 focus:bg-white outline-none transition-all font-bold text-gray-700 text-sm sm:text-base"
+//                             <label className="text-[10px] sm:text-sm font-black text-gray-400 uppercase tracking-widest ml-1">City / Town</label>
+//                             <input type="text" className="w-full p-3 sm:p-4 bg-gray-50 border-0 rounded-xl sm:rounded-2xl focus:ring-2 focus:ring-[#F95F11]/30 focus:bg-white outline-none transition-all font-bold text-gray-700 text-md sm:text-base"
 //                               placeholder="City" value={addressForm.city} onChange={(e) => setAddressForm({ ...addressForm, city: e.target.value })} />
 //                           </div>
 //                           <div className="space-y-1 sm:space-y-2">
-//                             <label className="text-[10px] sm:text-xs font-black text-gray-400 uppercase tracking-widest ml-1">Landmark (Optional)</label>
-//                             <input type="text" className="w-full p-3 sm:p-4 bg-gray-50 border-0 rounded-xl sm:rounded-2xl focus:ring-2 focus:ring-[#F95F11]/30 focus:bg-white outline-none transition-all font-bold text-gray-700 text-sm sm:text-base"
+//                             <label className="text-[10px] sm:text-sm font-black text-gray-400 uppercase tracking-widest ml-1">Landmark (Optional)</label>
+//                             <input type="text" className="w-full p-3 sm:p-4 bg-gray-50 border-0 rounded-xl sm:rounded-2xl focus:ring-2 focus:ring-[#F95F11]/30 focus:bg-white outline-none transition-all font-bold text-gray-700 text-md sm:text-base"
 //                               placeholder="Near..." value={addressForm.landmark} onChange={(e) => setAddressForm({ ...addressForm, landmark: e.target.value })} />
 //                           </div>
 //                         </div>
 
 //                         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6 sm:gap-10 pt-2 sm:pt-4">
 //                           <div className="space-y-2 sm:space-y-4">
-//                             <p className="text-[10px] sm:text-xs font-black text-gray-400 uppercase tracking-widest ml-1">Address Type</p>
+//                             <p className="text-[10px] sm:text-sm font-black text-gray-400 uppercase tracking-widest ml-1">Address Type</p>
 //                             <div className="flex gap-6 sm:gap-10">
 //                               {(['Home', 'Work'] as const).map((t) => (
 //                                 <label key={t} className="flex items-center gap-2 sm:gap-3 cursor-pointer group">
@@ -648,7 +648,7 @@
 //                                     {addressForm.type === t && <div className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-[#F95F11]" />}
 //                                   </div>
 //                                   <input type="radio" className="hidden" name="addressType" value={t} checked={addressForm.type === t} onChange={(e) => setAddressForm({ ...addressForm, type: e.target.value as 'Home' | 'Work' })} />
-//                                   <span className="text-[11px] sm:text-sm font-black text-gray-600 uppercase tracking-widest">{t}</span>
+//                                   <span className="text-[11px] sm:text-md font-black text-gray-600 uppercase tracking-widest">{t}</span>
 //                                 </label>
 //                               ))}
 //                             </div>
@@ -669,10 +669,10 @@
 //                                     setAddressForm(prev => ({ ...prev, phone: '', pinCode: '', locality: '', streetAddress: '', city: '', state: '', landmark: '', alternatePhone: '', type: 'Home' }));
 //                                   }
 //                                 } catch (error) { console.error(error); } finally { setLoading(false); }
-//                               }} className="bg-[#F95F11] text-white px-6 sm:px-12 py-3 sm:py-4 rounded-xl sm:rounded-2xl font-black tracking-widest text-xs sm:text-sm shadow-[0_10px_30px_rgba(249,95,17,0.3)] hover:brightness-110 active:scale-95 transition-all uppercase w-full sm:w-auto">
+//                               }} className="bg-[#F95F11] text-white px-6 sm:px-12 py-3 sm:py-4 rounded-xl sm:rounded-2xl font-black tracking-widest text-sm sm:text-md shadow-[0_10px_30px_rgba(249,95,17,0.3)] hover:brightness-110 active:scale-95 transition-all uppercase w-full sm:w-auto">
 //                               SAVE ADDRESS
 //                             </button>
-//                             <button onClick={() => setIsAddingAddress(false)} className="text-gray-400 font-black text-xs sm:text-sm hover:text-[#F95F11] tracking-widest uppercase transition-colors">
+//                             <button onClick={() => setIsAddingAddress(false)} className="text-gray-400 font-black text-sm sm:text-md hover:text-[#F95F11] tracking-widest uppercase transition-colors">
 //                               CANCEL
 //                             </button>
 //                           </div>
@@ -689,8 +689,8 @@
 //                             </span>
 //                           </div>
 //                           <p className="font-black text-gray-900 text-base sm:text-lg mb-2 sm:mb-3 tracking-tight">{addr.name}</p>
-//                           <p className="text-[#F95F11] font-black mb-3 sm:mb-4 text-sm sm:text-base tracking-wider">{addr.phone}</p>
-//                           <p className="text-xs sm:text-sm text-gray-500 leading-relaxed font-bold tracking-tight">
+//                           <p className="text-[#F95F11] font-black mb-3 sm:mb-4 text-md sm:text-base tracking-wider">{addr.phone}</p>
+//                           <p className="text-sm sm:text-md text-gray-500 leading-relaxed font-bold tracking-tight">
 //                             {addr.streetAddress}, {addr.locality}, {addr.city}, {addr.state} - <span className="text-gray-900">{addr.pinCode}</span>
 //                           </p>
 //                         </div>
@@ -702,7 +702,7 @@
 //                         <div className="w-16 h-16 sm:w-24 sm:h-24 bg-gray-50 rounded-full flex items-center justify-center mb-4 sm:mb-8">
 //                           <MapPin size={32} className="text-gray-200" />
 //                         </div>
-//                         <p className="text-gray-300 font-black uppercase tracking-widest text-xs sm:text-sm">You haven't saved any addresses yet</p>
+//                         <p className="text-gray-300 font-black uppercase tracking-widest text-sm sm:text-md">You haven't saved any addresses yet</p>
 //                       </div>
 //                     )}
 //                   </motion.div>
@@ -735,7 +735,7 @@
 //                                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
 //                                   onError={(e) => { (e.target as HTMLImageElement).src = '/images/avatar-placeholder.png'; }} />
 //                               </div>
-//                               <h3 className="text-xs sm:text-sm font-black text-gray-900 line-clamp-2 mb-1 sm:mb-2 uppercase tracking-tight min-h-[2rem] sm:min-h-[2.5rem]">
+//                               <h3 className="text-sm sm:text-md font-black text-gray-900 line-clamp-2 mb-1 sm:mb-2 uppercase tracking-tight min-h-[2rem] sm:min-h-[2.5rem]">
 //                                 {item.title}
 //                               </h3>
 //                               <p className="text-[#FA6011] font-black text-base sm:text-lg mb-3 sm:mb-4">
@@ -756,9 +756,9 @@
 //                         <div className="w-16 h-16 sm:w-24 sm:h-24 bg-orange-50 rounded-full flex items-center justify-center mb-4 sm:mb-8">
 //                           <Heart size={32} className="text-[#FA6011]" />
 //                         </div>
-//                         <p className="text-gray-300 font-black uppercase tracking-widest text-xs sm:text-sm mb-4 sm:mb-6">Your wishlist is empty</p>
+//                         <p className="text-gray-300 font-black uppercase tracking-widest text-sm sm:text-md mb-4 sm:mb-6">Your wishlist is empty</p>
 //                         <button onClick={() => navigate('/happy-shop')}
-//                           className="bg-[#FA6011] text-white px-6 sm:px-8 py-2.5 sm:py-3 rounded-xl font-black text-xs sm:text-sm uppercase tracking-widest hover:brightness-110 transition-all shadow-lg shadow-orange-100">
+//                           className="bg-[#FA6011] text-white px-6 sm:px-8 py-2.5 sm:py-3 rounded-xl font-black text-sm sm:text-md uppercase tracking-widest hover:brightness-110 transition-all shadow-lg shadow-orange-100">
 //                           Explore Products
 //                         </button>
 //                       </div>
@@ -786,18 +786,18 @@
 //                           >
 //                             <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-2 mb-4 border-b border-gray-50 pb-4">
 //                               <div>
-//                                 <p className="text-[10px] sm:text-xs font-black text-gray-400 uppercase tracking-widest">Order ID</p>
-//                                 <p className="text-xs sm:text-sm font-bold text-gray-900">{order._id}</p>
+//                                 <p className="text-[10px] sm:text-sm font-black text-gray-400 uppercase tracking-widest">Order ID</p>
+//                                 <p className="text-sm sm:text-md font-bold text-gray-900">{order._id}</p>
 //                               </div>
 //                               <div className="flex items-center gap-3">
-//                                 <span className={`px-3 py-1 rounded-full text-[10px] sm:text-xs font-black uppercase tracking-widest ${
+//                                 <span className={`px-3 py-1 rounded-full text-[10px] sm:text-sm font-black uppercase tracking-widest ${
 //                                   order.status === 'delivered' ? 'bg-green-100 text-green-600' :
 //                                   order.status === 'cancelled' ? 'bg-red-100 text-red-500' :
 //                                   'bg-blue-100 text-blue-500'
 //                                 }`}>
 //                                   {order.status}
 //                                 </span>
-//                                 <span className="text-[10px] sm:text-xs font-bold text-gray-400">
+//                                 <span className="text-[10px] sm:text-sm font-bold text-gray-400">
 //                                   {new Date(order.createdAt).toLocaleDateString()}
 //                                 </span>
 //                               </div>
@@ -807,19 +807,19 @@
 //                               {order.items.map((item: any) => (
 //                                 <div key={item.productId} className="flex gap-4">
 //                                   <div className="flex-1">
-//                                     <h4 className="text-sm sm:text-base font-black text-gray-900">{item.title}</h4>
-//                                     <p className="text-xs sm:text-sm font-bold text-gray-500">Qty: {item.quantity}</p>
+//                                     <h4 className="text-md sm:text-base font-black text-gray-900">{item.title}</h4>
+//                                     <p className="text-sm sm:text-md font-bold text-gray-500">Qty: {item.quantity}</p>
 //                                   </div>
-//                                   <p className="text-sm sm:text-base font-black text-[#FA6011]">₹{item.price * item.quantity}.00</p>
+//                                   <p className="text-md sm:text-base font-black text-[#FA6011]">₹{item.price * item.quantity}.00</p>
 //                                 </div>
 //                               ))}
 //                             </div>
 
 //                             <div className="mt-4 pt-4 border-t border-gray-50 flex justify-between items-center">
-//                               <p className="text-xs sm:text-sm font-black text-gray-400 uppercase tracking-widest">Order Total</p>
+//                               <p className="text-sm sm:text-md font-black text-gray-400 uppercase tracking-widest">Order Total</p>
 //                               <div className="flex items-center gap-4">
 //                                 <p className="text-lg sm:text-xl font-black text-gray-900">₹{order.totalAmount}.00</p>
-//                                 <span className="text-[10px] sm:text-xs font-black text-[#FA6011] uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity">
+//                                 <span className="text-[10px] sm:text-sm font-black text-[#FA6011] uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity">
 //                                   View Details →
 //                                 </span>
 //                               </div>
@@ -832,9 +832,9 @@
 //                         <div className="w-16 h-16 sm:w-24 sm:h-24 bg-blue-50 rounded-full flex items-center justify-center mb-4 sm:mb-8">
 //                           <Package size={32} className="text-blue-500" />
 //                         </div>
-//                         <p className="text-gray-300 font-black uppercase tracking-widest text-xs sm:text-sm mb-4 sm:mb-6">You haven't placed any orders</p>
+//                         <p className="text-gray-300 font-black uppercase tracking-widest text-sm sm:text-md mb-4 sm:mb-6">You haven't placed any orders</p>
 //                         <button onClick={() => navigate('/happy-shop')}
-//                           className="bg-[#FA6011] text-white px-6 sm:px-8 py-2.5 sm:py-3 rounded-xl font-black text-xs sm:text-sm uppercase tracking-widest hover:brightness-110 transition-all shadow-lg shadow-orange-100">
+//                           className="bg-[#FA6011] text-white px-6 sm:px-8 py-2.5 sm:py-3 rounded-xl font-black text-sm sm:text-md uppercase tracking-widest hover:brightness-110 transition-all shadow-lg shadow-orange-100">
 //                           Start Shopping
 //                         </button>
 //                       </div>
@@ -849,7 +849,7 @@
 //                       <Smartphone size={32} className="text-[#FA6011]" />
 //                     </div>
 //                     <h3 className="text-xl sm:text-2xl font-black text-gray-900 uppercase">{activeSection.replace('-', ' ')}</h3>
-//                     <p className="text-gray-400 font-bold text-xs sm:text-sm">This section is coming soon. Stay tuned!</p>
+//                     <p className="text-gray-400 font-bold text-sm sm:text-md">This section is coming soon. Stay tuned!</p>
 //                   </motion.div>
 //                 )}
 //               </AnimatePresence>
@@ -1168,7 +1168,7 @@ export const ProfilePage: React.FC = () => {
         <span className={activeSection === id ? 'text-gray-700' : 'text-gray-400'}>
           {icon}
         </span>
-        <span className="text-sm font-normal">{label}</span>
+        <span className="text-md font-normal">{label}</span>
       </div>
       {activeSection === id && <ChevronRight size={14} className="text-gray-400" />}
     </button>
@@ -1199,7 +1199,7 @@ export const ProfilePage: React.FC = () => {
                 </div>
                 <div className="text-left">
                   <span className="text-[10px] text-gray-400 uppercase tracking-wider">My Account</span>
-                  <p className="text-sm font-medium text-white">{user.fullName?.split(' ')[0]}</p>
+                  <p className="text-md font-medium text-white">{user.fullName?.split(' ')[0]}</p>
                 </div>
               </div>
               <div className="flex items-center gap-2">
@@ -1230,7 +1230,7 @@ export const ProfilePage: React.FC = () => {
                         <User size={22} className="text-white" />
                       </div>
                       <div>
-                        <p className="text-xs text-gray-400">Welcome back,</p>
+                        <p className="text-sm text-gray-400">Welcome back,</p>
                         <p className="text-base font-medium text-white">{user.fullName}</p>
                       </div>
                     </div>
@@ -1246,9 +1246,9 @@ export const ProfilePage: React.FC = () => {
                         <User size={20} className="text-gray-500" />
                       </div>
                       <div>
-                        <p className="text-xs text-gray-400">Hello,</p>
-                        <p className="text-sm font-medium text-gray-800">{user.fullName}</p>
-                        <p className="text-xs text-gray-400 mt-0.5">{user.email}</p>
+                        <p className="text-sm text-gray-400">Hello,</p>
+                        <p className="text-md font-medium text-gray-800">{user.fullName}</p>
+                        <p className="text-sm text-gray-400 mt-0.5">{user.email}</p>
                       </div>
                     </div>
                   </div>
@@ -1269,7 +1269,7 @@ export const ProfilePage: React.FC = () => {
                     className="mt-4 w-full bg-white border border-gray-100 p-4 text-left text-gray-500 hover:bg-gray-50 transition-all flex items-center gap-3"
                   >
                     <LogOut size={16} />
-                    <span className="text-sm font-normal">Logout</span>
+                    <span className="text-md font-normal">Logout</span>
                   </button>
                 </motion.div>
               )}
@@ -1302,13 +1302,13 @@ export const ProfilePage: React.FC = () => {
                     
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                       <div>
-                        <label className="block text-xs text-gray-400 mb-1.5">First Name</label>
+                        <label className="block text-sm text-gray-400 mb-1.5">First Name</label>
                         <input 
                           type="text" 
                           disabled={!editFields.personal}
                           value={formData.firstName} 
                           onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
-                          className={`w-full px-4 py-2.5 border text-sm transition-all ${
+                          className={`w-full px-4 py-2.5 border text-md transition-all ${
                             editFields.personal 
                               ? 'border-gray-300 focus:border-gray-500 focus:outline-none' 
                               : 'border-gray-100 bg-gray-50 cursor-not-allowed'
@@ -1316,13 +1316,13 @@ export const ProfilePage: React.FC = () => {
                         />
                       </div>
                       <div>
-                        <label className="block text-xs text-gray-400 mb-1.5">Last Name</label>
+                        <label className="block text-sm text-gray-400 mb-1.5">Last Name</label>
                         <input 
                           type="text" 
                           disabled={!editFields.personal}
                           value={formData.lastName} 
                           onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
-                          className={`w-full px-4 py-2.5 border text-sm transition-all ${
+                          className={`w-full px-4 py-2.5 border text-md transition-all ${
                             editFields.personal 
                               ? 'border-gray-300 focus:border-gray-500 focus:outline-none' 
                               : 'border-gray-100 bg-gray-50 cursor-not-allowed'
@@ -1332,7 +1332,7 @@ export const ProfilePage: React.FC = () => {
                     </div>
 
                     <div>
-                      <label className="block text-xs text-gray-400 mb-1.5">Gender</label>
+                      <label className="block text-sm text-gray-400 mb-1.5">Gender</label>
                       <div className="flex gap-6">
                         {['Male', 'Female'].map((g) => (
                           <label key={g} className="flex items-center gap-2 cursor-pointer">
@@ -1343,14 +1343,14 @@ export const ProfilePage: React.FC = () => {
                             </div>
                             <input type="radio" className="hidden" disabled={!editFields.personal} name="gender" value={g}
                               checked={formData.gender === g} onChange={(e) => setFormData({ ...formData, gender: e.target.value })} />
-                            <span className={`text-sm ${editFields.personal ? 'text-gray-600' : 'text-gray-400'}`}>{g}</span>
+                            <span className={`text-md ${editFields.personal ? 'text-gray-600' : 'text-gray-400'}`}>{g}</span>
                           </label>
                         ))}
                       </div>
                       {!editFields.personal && (
                         <button 
                           onClick={() => setEditFields({ ...editFields, personal: true })}
-                          className="text-xs text-gray-400 hover:text-gray-600 mt-2"
+                          className="text-sm text-gray-400 hover:text-gray-600 mt-2"
                         >
                           Edit Personal Info
                         </button>
@@ -1358,13 +1358,13 @@ export const ProfilePage: React.FC = () => {
                     </div>
 
                     <div>
-                      <label className="block text-xs text-gray-400 mb-1.5">Email Address</label>
+                      <label className="block text-sm text-gray-400 mb-1.5">Email Address</label>
                       <input 
                         type="email" 
                         disabled={!editFields.email}
                         value={formData.email} 
                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                        className={`w-full px-4 py-2.5 border text-sm transition-all ${
+                        className={`w-full px-4 py-2.5 border text-md transition-all ${
                           editFields.email 
                             ? 'border-gray-300 focus:border-gray-500 focus:outline-none' 
                             : 'border-gray-100 bg-gray-50 cursor-not-allowed'
@@ -1373,7 +1373,7 @@ export const ProfilePage: React.FC = () => {
                       {!editFields.email && (
                         <button 
                           onClick={() => setEditFields({ ...editFields, email: true })}
-                          className="text-xs text-gray-400 hover:text-gray-600 mt-2"
+                          className="text-sm text-gray-400 hover:text-gray-600 mt-2"
                         >
                           Edit Email
                         </button>
@@ -1381,19 +1381,19 @@ export const ProfilePage: React.FC = () => {
                     </div>
 
                     <div>
-                      <label className="block text-xs text-gray-400 mb-1.5">Mobile Number</label>
+                      <label className="block text-sm text-gray-400 mb-1.5">Mobile Number</label>
                       <input 
                         type="tel"
                         value={formData.mobileNumber} 
                         onChange={(e) => setFormData({ ...formData, mobileNumber: e.target.value })}
-                        className="w-full px-4 py-2.5 border border-gray-200 text-sm focus:border-gray-400 focus:outline-none"
+                        className="w-full px-4 py-2.5 border border-gray-200 text-md focus:border-gray-400 focus:outline-none"
                         placeholder="Enter mobile number"
                         disabled={!editFields.mobile}
                       />
                       {!editFields.mobile && (
                         <button 
                           onClick={() => setEditFields({ ...editFields, mobile: true })}
-                          className="text-xs text-gray-400 hover:text-gray-600 mt-2"
+                          className="text-sm text-gray-400 hover:text-gray-600 mt-2"
                         >
                           Edit Mobile
                         </button>
@@ -1401,12 +1401,12 @@ export const ProfilePage: React.FC = () => {
                     </div>
 
                     <div>
-                      <label className="block text-xs text-gray-400 mb-1.5">Change Password (Optional)</label>
+                      <label className="block text-sm text-gray-400 mb-1.5">Change Password (Optional)</label>
                       <input 
                         type="password" 
                         value={formData.password} 
                         onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                        className="w-full px-4 py-2.5 border border-gray-200 text-sm focus:border-gray-400 focus:outline-none"
+                        className="w-full px-4 py-2.5 border border-gray-200 text-md focus:border-gray-400 focus:outline-none"
                         placeholder="Enter new password"
                       />
                     </div>
@@ -1416,13 +1416,13 @@ export const ProfilePage: React.FC = () => {
                         <button 
                           onClick={handleUpdate} 
                           disabled={loading} 
-                          className="px-6 py-2.5 bg-gray-800 text-white text-sm font-medium hover:bg-gray-700 transition-all disabled:opacity-50"
+                          className="px-6 py-2.5 bg-gray-800 text-white text-md font-medium hover:bg-gray-700 transition-all disabled:opacity-50"
                         >
                           {loading ? 'SAVING...' : 'SAVE CHANGES'}
                         </button>
                         <button 
                           onClick={() => setEditFields({ personal: false, email: false, mobile: false })}
-                          className="px-6 py-2.5 border border-gray-300 text-gray-600 text-sm font-medium hover:border-gray-400 transition-all"
+                          className="px-6 py-2.5 border border-gray-300 text-gray-600 text-md font-medium hover:border-gray-400 transition-all"
                         >
                           CANCEL
                         </button>
@@ -1430,7 +1430,7 @@ export const ProfilePage: React.FC = () => {
                     )}
 
                     {message.text && (
-                      <div className={`p-3 text-sm flex items-center gap-2 ${
+                      <div className={`p-3 text-md flex items-center gap-2 ${
                         message.type === 'success' ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-600'
                       }`}>
                         {message.type === 'success' ? <CheckCircle size={14} /> : <HelpCircle size={14} />}
@@ -1468,7 +1468,7 @@ export const ProfilePage: React.FC = () => {
                             <div className="flex justify-between items-start mb-3 pb-3 border-b border-gray-50">
                               <div>
                                 <p className="text-[10px] text-gray-400 uppercase tracking-wider">Order ID</p>
-                                <p className="text-xs text-gray-600 font-mono">{order._id?.slice(-12)}</p>
+                                <p className="text-sm text-gray-600 font-mono">{order._id?.slice(-12)}</p>
                               </div>
                               <div className="flex items-center gap-3">
                                 <span className={`text-[10px] font-medium uppercase px-2 py-0.5 ${
@@ -1488,19 +1488,19 @@ export const ProfilePage: React.FC = () => {
                               {order.items?.slice(0, 2).map((item: any) => (
                                 <div key={item.productId} className="flex justify-between">
                                   <div>
-                                    <p className="text-sm text-gray-700">{item.title}</p>
-                                    <p className="text-xs text-gray-400">Qty: {item.quantity}</p>
+                                    <p className="text-md text-gray-700">{item.title}</p>
+                                    <p className="text-sm text-gray-400">Qty: {item.quantity}</p>
                                   </div>
-                                  <p className="text-sm font-medium text-gray-800">₹{item.price * item.quantity}</p>
+                                  <p className="text-md font-medium text-gray-800">₹{item.price * item.quantity}</p>
                                 </div>
                               ))}
                               {order.items?.length > 2 && (
-                                <p className="text-xs text-gray-400">+{order.items.length - 2} more items</p>
+                                <p className="text-sm text-gray-400">+{order.items.length - 2} more items</p>
                               )}
                             </div>
 
                             <div className="mt-3 pt-3 border-t border-gray-50 flex justify-between items-center">
-                              <p className="text-xs text-gray-400">Total</p>
+                              <p className="text-sm text-gray-400">Total</p>
                               <div className="flex items-center gap-3">
                                 <p className="text-base font-medium text-gray-800">₹{order.totalAmount}</p>
                                 <ChevronRight size={14} className="text-gray-300 group-hover:text-gray-500 transition-all" />
@@ -1512,9 +1512,9 @@ export const ProfilePage: React.FC = () => {
                     ) : (
                       <div className="text-center py-12 border border-dashed border-gray-200">
                         <Package size={32} className="mx-auto text-gray-300 mb-3" />
-                        <p className="text-gray-400 text-sm mb-3">No orders placed yet</p>
+                        <p className="text-gray-400 text-md mb-3">No orders placed yet</p>
                         <button onClick={() => navigate('/happy-shop')}
-                          className="px-5 py-2 border border-gray-300 text-gray-600 text-xs hover:border-gray-500 transition-all">
+                          className="px-5 py-2 border border-gray-300 text-gray-600 text-sm hover:border-gray-500 transition-all">
                           START SHOPPING
                         </button>
                       </div>
@@ -1539,7 +1539,7 @@ export const ProfilePage: React.FC = () => {
                       {!isAddingAddress && (
                         <button 
                           onClick={() => setIsAddingAddress(true)} 
-                          className="text-xs text-gray-500 hover:text-gray-700 border border-gray-200 px-3 py-1.5 transition-all"
+                          className="text-sm text-gray-500 hover:text-gray-700 border border-gray-200 px-3 py-1.5 transition-all"
                         >
                           + ADD NEW
                         </button>
@@ -1549,40 +1549,40 @@ export const ProfilePage: React.FC = () => {
                     {isAddingAddress && (
                       <div className="border border-gray-100 p-5 space-y-4">
                         <div className="flex justify-between items-center">
-                          <h3 className="text-sm font-light text-gray-700">Add New Address</h3>
-                          <button onClick={handleGetCurrentLocation} className="text-xs text-gray-500 hover:text-gray-700 flex items-center gap-1">
+                          <h3 className="text-md font-light text-gray-700">Add New Address</h3>
+                          <button onClick={handleGetCurrentLocation} className="text-sm text-gray-500 hover:text-gray-700 flex items-center gap-1">
                             <Navigation size={12} /> Use my location
                           </button>
                         </div>
                         
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                          <input type="text" className="w-full px-3 py-2 border border-gray-200 text-sm focus:border-gray-400 focus:outline-none"
+                          <input type="text" className="w-full px-3 py-2 border border-gray-200 text-md focus:border-gray-400 focus:outline-none"
                             placeholder="Full Name" value={addressForm.name} onChange={(e) => setAddressForm({ ...addressForm, name: e.target.value })} />
-                          <input type="tel" className="w-full px-3 py-2 border border-gray-200 text-sm focus:border-gray-400 focus:outline-none"
+                          <input type="tel" className="w-full px-3 py-2 border border-gray-200 text-md focus:border-gray-400 focus:outline-none"
                             placeholder="Mobile Number" value={addressForm.phone} onChange={(e) => setAddressForm({ ...addressForm, phone: e.target.value })} />
-                          <select className="w-full px-3 py-2 border border-gray-200 text-sm focus:border-gray-400 focus:outline-none"
+                          <select className="w-full px-3 py-2 border border-gray-200 text-md focus:border-gray-400 focus:outline-none"
                             value={addressForm.country} onChange={(e) => setAddressForm({ ...addressForm, country: e.target.value, state: '' })}>
                             <option value="">Select Country</option>
                             {countries.slice(0, 50).map(c => <option key={c.isoCode} value={c.isoCode}>{c.name}</option>)}
                           </select>
-                          <select className="w-full px-3 py-2 border border-gray-200 text-sm focus:border-gray-400 focus:outline-none"
+                          <select className="w-full px-3 py-2 border border-gray-200 text-md focus:border-gray-400 focus:outline-none"
                             value={addressForm.state} onChange={(e) => setAddressForm({ ...addressForm, state: e.target.value })}>
                             <option value="">Select State</option>
                             {states.map(s => <option key={s.isoCode} value={s.isoCode}>{s.name}</option>)}
                           </select>
-                          <input type="text" className="w-full px-3 py-2 border border-gray-200 text-sm focus:border-gray-400 focus:outline-none"
+                          <input type="text" className="w-full px-3 py-2 border border-gray-200 text-md focus:border-gray-400 focus:outline-none"
                             placeholder="Pincode" value={addressForm.pinCode} onChange={(e) => setAddressForm({ ...addressForm, pinCode: e.target.value })} />
-                          <input type="text" className="w-full px-3 py-2 border border-gray-200 text-sm focus:border-gray-400 focus:outline-none"
+                          <input type="text" className="w-full px-3 py-2 border border-gray-200 text-md focus:border-gray-400 focus:outline-none"
                             placeholder="Locality" value={addressForm.locality} onChange={(e) => setAddressForm({ ...addressForm, locality: e.target.value })} />
                         </div>
 
-                        <textarea className="w-full px-3 py-2 border border-gray-200 text-sm focus:border-gray-400 focus:outline-none min-h-[80px]"
+                        <textarea className="w-full px-3 py-2 border border-gray-200 text-md focus:border-gray-400 focus:outline-none min-h-[80px]"
                           placeholder="Street Address, House No, Building Name..." value={addressForm.streetAddress} onChange={(e) => setAddressForm({ ...addressForm, streetAddress: e.target.value })} />
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                          <input type="text" className="w-full px-3 py-2 border border-gray-200 text-sm focus:border-gray-400 focus:outline-none"
+                          <input type="text" className="w-full px-3 py-2 border border-gray-200 text-md focus:border-gray-400 focus:outline-none"
                             placeholder="City" value={addressForm.city} onChange={(e) => setAddressForm({ ...addressForm, city: e.target.value })} />
-                          <input type="text" className="w-full px-3 py-2 border border-gray-200 text-sm focus:border-gray-400 focus:outline-none"
+                          <input type="text" className="w-full px-3 py-2 border border-gray-200 text-md focus:border-gray-400 focus:outline-none"
                             placeholder="Landmark (Optional)" value={addressForm.landmark} onChange={(e) => setAddressForm({ ...addressForm, landmark: e.target.value })} />
                         </div>
 
@@ -1597,12 +1597,12 @@ export const ProfilePage: React.FC = () => {
                                 </div>
                                 <input type="radio" className="hidden" name="addressType" value={t} 
                                   checked={addressForm.type === t} onChange={(e) => setAddressForm({ ...addressForm, type: e.target.value as 'Home' | 'Work' })} />
-                                <span className="text-xs text-gray-600">{t}</span>
+                                <span className="text-sm text-gray-600">{t}</span>
                               </label>
                             ))}
                           </div>
                           <div className="flex gap-3">
-                            <button onClick={() => setIsAddingAddress(false)} className="px-4 py-1.5 text-xs text-gray-500 hover:text-gray-700">Cancel</button>
+                            <button onClick={() => setIsAddingAddress(false)} className="px-4 py-1.5 text-sm text-gray-500 hover:text-gray-700">Cancel</button>
                             <button onClick={async () => {
                                 if (addressForm.phone.length < 10) {
                                   alert('Please enter a valid phone number');
@@ -1617,7 +1617,7 @@ export const ProfilePage: React.FC = () => {
                                     setAddressForm(prev => ({ ...prev, phone: '', pinCode: '', locality: '', streetAddress: '', city: '', state: '', landmark: '', alternatePhone: '', type: 'Home' }));
                                   }
                                 } catch (error) { console.error(error); } finally { setLoading(false); }
-                              }} className="px-4 py-1.5 bg-gray-800 text-white text-xs font-medium hover:bg-gray-700 transition-all">
+                              }} className="px-4 py-1.5 bg-gray-800 text-white text-sm font-medium hover:bg-gray-700 transition-all">
                               SAVE
                             </button>
                           </div>
@@ -1633,9 +1633,9 @@ export const ProfilePage: React.FC = () => {
                               {addr.type}
                             </span>
                           </div>
-                          <p className="font-medium text-gray-800 text-sm mb-1">{addr.name}</p>
-                          <p className="text-gray-500 text-xs mb-2">{addr.phone}</p>
-                          <p className="text-xs text-gray-400 leading-relaxed">
+                          <p className="font-medium text-gray-800 text-md mb-1">{addr.name}</p>
+                          <p className="text-gray-500 text-sm mb-2">{addr.phone}</p>
+                          <p className="text-sm text-gray-400 leading-relaxed">
                             {addr.streetAddress}, {addr.locality}, {addr.city}, {addr.state} - {addr.pinCode}
                           </p>
                         </div>
@@ -1645,7 +1645,7 @@ export const ProfilePage: React.FC = () => {
                     {!isAddingAddress && savedAddresses.length === 0 && (
                       <div className="text-center py-12 border border-dashed border-gray-200">
                         <MapPin size={32} className="mx-auto text-gray-300 mb-3" />
-                        <p className="text-gray-400 text-sm">No saved addresses</p>
+                        <p className="text-gray-400 text-md">No saved addresses</p>
                       </div>
                     )}
                   </motion.div>
@@ -1685,12 +1685,12 @@ export const ProfilePage: React.FC = () => {
                                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
                                   onError={(e) => { (e.target as HTMLImageElement).src = '/images/placeholder.png'; }} />
                               </div>
-                              <h3 className="text-sm font-medium text-gray-800 mb-1 line-clamp-2">{item.title}</h3>
+                              <h3 className="text-md font-medium text-gray-800 mb-1 line-clamp-2">{item.title}</h3>
                               <p className="text-base font-medium text-gray-900 mb-3">₹{item.price || 0}</p>
                             </div>
 
                             <button onClick={() => handleAddToCartFromWishlist(item._id)}
-                              className="w-full py-2 border border-gray-200 text-gray-600 text-xs font-medium hover:border-gray-400 transition-all">
+                              className="w-full py-2 border border-gray-200 text-gray-600 text-sm font-medium hover:border-gray-400 transition-all">
                               ADD TO CART
                             </button>
                           </div>
@@ -1699,9 +1699,9 @@ export const ProfilePage: React.FC = () => {
                     ) : (
                       <div className="text-center py-12 border border-dashed border-gray-200">
                         <Heart size={32} className="mx-auto text-gray-300 mb-3" />
-                        <p className="text-gray-400 text-sm mb-3">Your wishlist is empty</p>
+                        <p className="text-gray-400 text-md mb-3">Your wishlist is empty</p>
                         <button onClick={() => navigate('/happy-shop')}
-                          className="px-5 py-2 border border-gray-300 text-gray-600 text-xs hover:border-gray-500 transition-all">
+                          className="px-5 py-2 border border-gray-300 text-gray-600 text-sm hover:border-gray-500 transition-all">
                           EXPLORE PRODUCTS
                         </button>
                       </div>
@@ -1721,7 +1721,7 @@ export const ProfilePage: React.FC = () => {
                       <Gift size={24} className="text-gray-400" />
                     </div>
                     <h3 className="text-base font-light text-gray-600 capitalize">{activeSection.replace('-', ' ')}</h3>
-                    <p className="text-gray-400 text-sm mt-2">Coming soon</p>
+                    <p className="text-gray-400 text-md mt-2">Coming soon</p>
                   </motion.div>
                 )}
               </AnimatePresence>
