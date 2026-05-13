@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from "react";
-import { motion, useInView, AnimatePresence } from "framer-motion";
+import { motion, Variants,useInView, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Quote, Star } from "lucide-react";
 
@@ -791,10 +791,12 @@ const CraftsmanshipSection: React.FC = () => {
 // ALL PRODUCTS SECTION - FIXED: Centered like other headings
 // ============================================================================
 
+
+
 const AllProductsSection: React.FC<{ products: any[] }> = ({ products }) => {
   const [hoveredId, setHoveredId] = useState<string | null>(null);
 
-  const containerVariants = {
+  const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -805,7 +807,7 @@ const AllProductsSection: React.FC<{ products: any[] }> = ({ products }) => {
     },
   };
 
-  const cardVariants = {
+  const cardVariants: Variants = {
     hidden: { opacity: 0, y: 50, scale: 0.95 },
     visible: {
       opacity: 1,
@@ -814,14 +816,11 @@ const AllProductsSection: React.FC<{ products: any[] }> = ({ products }) => {
       transition: { 
         duration: 0.7, 
         ease: [0.16, 1, 0.3, 1],
-        type: "spring",
-        stiffness: 100,
-        damping: 15,
       },
     },
   };
 
-  const headerVariants = {
+  const headerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
@@ -831,7 +830,7 @@ const AllProductsSection: React.FC<{ products: any[] }> = ({ products }) => {
     },
   };
 
-  const headerItemVariants = {
+  const headerItemVariants: Variants = {
     hidden: { opacity: 0, y: 30 },
     visible: {
       opacity: 1,
@@ -840,7 +839,7 @@ const AllProductsSection: React.FC<{ products: any[] }> = ({ products }) => {
     },
   };
 
-  const lineVariants = {
+  const lineVariants: Variants = {
     hidden: { width: 0, opacity: 0 },
     visible: {
       width: 40,
@@ -851,7 +850,7 @@ const AllProductsSection: React.FC<{ products: any[] }> = ({ products }) => {
 
   return (
     <section className="py-14 md:py-20 overflow-hidden">
-      <div className="max-w-7xl mx-auto ">
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
         
         {/* Section Header with Enhanced Animation */}
         <motion.div 
@@ -861,8 +860,6 @@ const AllProductsSection: React.FC<{ products: any[] }> = ({ products }) => {
           whileInView="visible"
           viewport={{ once: true, amount: 0.3 }}
         >
-         
-          
           <motion.h2
             variants={headerItemVariants}
             className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-light tracking-tight text-gray-900 mb-4 px-2"
@@ -891,11 +888,10 @@ const AllProductsSection: React.FC<{ products: any[] }> = ({ products }) => {
           viewport={{ once: true, amount: 0.1 }}
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-16"
         >
-          {products.map((product, idx) => (
+          {products.map((product) => (
             <motion.div
               key={product.slug}
               variants={cardVariants}
-              custom={idx}
               onMouseEnter={() => setHoveredId(product.slug)}
               onMouseLeave={() => setHoveredId(null)}
               className="relative group"
@@ -905,7 +901,6 @@ const AllProductsSection: React.FC<{ products: any[] }> = ({ products }) => {
               {/* Animated Border Glow on Hover */}
               <motion.div 
                 className="absolute -inset-0.5 bg-gradient-to-r from-orange-400 to-amber-400 rounded-[2.6rem] opacity-0 group-hover:opacity-20 transition-opacity duration-500 blur-sm"
-                whileHover={{ opacity: 0.15 }}
               />
               
               {/* Product Visual Container */}
@@ -922,26 +917,30 @@ const AllProductsSection: React.FC<{ products: any[] }> = ({ products }) => {
                 />
                 
                 {/* Floating Particles on Hover */}
-                <motion.div 
-                  className="absolute top-1/4 left-1/4 w-1 h-1 bg-orange-300 rounded-full"
-                  animate={hoveredId === product.slug ? { 
-                    scale: [0, 10, 0],
-                    opacity: [0, 0.3, 0],
-                    x: [0, 30, 60],
-                    y: [0, -20, -40],
-                  } : {}}
-                  transition={{ duration: 1, repeat: Infinity, delay: 0 }}
-                />
-                <motion.div 
-                  className="absolute bottom-1/3 right-1/4 w-1 h-1 bg-amber-300 rounded-full"
-                  animate={hoveredId === product.slug ? { 
-                    scale: [0, 8, 0],
-                    opacity: [0, 0.25, 0],
-                    x: [0, -25, -50],
-                    y: [0, 15, 30],
-                  } : {}}
-                  transition={{ duration: 1.2, repeat: Infinity, delay: 0.3 }}
-                />
+                {hoveredId === product.slug && (
+                  <>
+                    <motion.div 
+                      className="absolute top-1/4 left-1/4 w-1 h-1 bg-orange-300 rounded-full"
+                      animate={{ 
+                        scale: [0, 10, 0],
+                        opacity: [0, 0.3, 0],
+                        x: [0, 30, 60],
+                        y: [0, -20, -40],
+                      }}
+                      transition={{ duration: 1, repeat: Infinity, delay: 0 }}
+                    />
+                    <motion.div 
+                      className="absolute bottom-1/3 right-1/4 w-1 h-1 bg-amber-300 rounded-full"
+                      animate={{ 
+                        scale: [0, 8, 0],
+                        opacity: [0, 0.25, 0],
+                        x: [0, -25, -50],
+                        y: [0, 15, 30],
+                      }}
+                      transition={{ duration: 1.2, repeat: Infinity, delay: 0.3 }}
+                    />
+                  </>
+                )}
                 
                 {/* Image Component with Enhanced Animation */}
                 <motion.div
@@ -1016,11 +1015,12 @@ const AllProductsSection: React.FC<{ products: any[] }> = ({ products }) => {
             </motion.div>
           ))}
         </motion.div>
-
-            </div>
+      </div>
     </section>
   );
 };
+
+export default AllProductsSection;
 
 // Main Component
 export const HomePage: React.FC = () => {
