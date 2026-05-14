@@ -6,20 +6,7 @@ import { Quote, Star } from "lucide-react";
 import { Eye, ShoppingBag, Leaf, Zap, ShieldCheck, ArrowUpRight } from 'lucide-react';
 import { Snowflake, Hand, Package, ArrowRight, Award, Heart, Sparkles } from 'lucide-react';
 
-// ========== CUSTOM HOOK FOR PARALLAX ==========
-const useParallax = (speed: number = 0.5) => {
-  const [offset, setOffset] = useState(0);
-  
-  useEffect(() => {
-    const handleScroll = () => {
-      setOffset(window.scrollY * speed);
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [speed]);
-  
-  return offset;
-};
+
 
 // ========== PREMIUM COMPONENTS ==========
 
@@ -73,69 +60,83 @@ const HappyBarLanding: React.FC = () => {
   const isInView = useInView(sectionRef, { once: true, amount: 0.1 });
 
   // Text animation variants
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.15,
-        delayChildren: 0.2,
-      },
+  const containerVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.15,
+      delayChildren: 0.2,
     },
-  };
+  },
+};
 
-  const itemVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] },
+const itemVariants: Variants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.6,
+      ease: [0.16, 1, 0.3, 1] as const,
     },
-  };
+  },
+};
 
-  const badgeVariants = {
-    hidden: { opacity: 0, scale: 0.9, x: -20 },
-    visible: {
-      opacity: 1,
-      scale: 1,
-      x: 0,
-      transition: { duration: 0.5, ease: "easeOut" },
+const badgeVariants: Variants = {
+  hidden: { opacity: 0, scale: 0.9, x: -20 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    x: 0,
+    transition: {
+      duration: 0.5,
+      ease: "easeOut",
     },
-  };
+  },
+};
 
-  const imageVariants = {
-    hidden: { opacity: 0, scale: 0.92, y: 40 },
-    visible: {
-      opacity: 1,
-      scale: 1,
-      y: 0,
-      transition: {
-        duration: 0.9,
-        delay: 0.3,
-        type: "spring",
-        stiffness: 100,
-        damping: 20,
-      },
+const imageVariants: Variants = {
+  hidden: { opacity: 0, scale: 0.92, y: 40 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    y: 0,
+    transition: {
+      duration: 0.9,
+      delay: 0.3,
+      type: "spring",
+      stiffness: 100,
+      damping: 20,
     },
-  };
+  },
+};
 
-  const statVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: (i: number) => ({
-      opacity: 1,
-      y: 0,
-      transition: { delay: 0.7 + i * 0.1, duration: 0.5 },
-    }),
-  };
+ const statVariants: Variants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    transition: {
+      delay: 0.7 + i * 0.1,
+      duration: 0.5,
+    },
+  }),
+};
 
-  const flavorTagVariants = {
-    hidden: { opacity: 0, scale: 0.8 },
-    visible: (i: number) => ({
-      opacity: 1,
-      scale: 1,
-      transition: { delay: 0.5 + i * 0.05, duration: 0.3 },
-    }),
-  };
+
+
+  const flavorTagVariants: Variants = {
+  hidden: { opacity: 0, scale: 0.8 },
+  visible: (i: number) => ({
+    opacity: 1,
+    scale: 1,
+    transition: {
+      delay: 0.5 + i * 0.05,
+      duration: 0.3,
+    },
+  }),
+};
 
   return (
     <section 
@@ -577,7 +578,7 @@ const TestimonialSection: React.FC = () => {
     }
   };
 
-  const cardVariants = {
+  const cardVariants:Variants = {
     hidden: { opacity: 0, y: 30 },
     visible: { 
       opacity: 1, 
@@ -1020,7 +1021,7 @@ const AllProductsSection: React.FC<{ products: any[] }> = ({ products }) => {
   );
 };
 
-export default AllProductsSection;
+
 
 // Main Component
 export const HomePage: React.FC = () => {
