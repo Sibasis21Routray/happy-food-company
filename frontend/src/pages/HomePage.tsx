@@ -293,7 +293,7 @@ const imageVariants: Variants = {
 
             {/* CTA Buttons */}
             <motion.div variants={itemVariants} className="mt-8 flex flex-col sm:flex-row items-start sm:items-center gap-4">
-              <Link to="/shop">
+              <Link to="/happy-shop">
                 <motion.button 
                   whileHover={{ scale: 1.05, boxShadow: "0 25px 35px -12px rgba(249, 115, 22, 0.4)" }}
                   whileTap={{ scale: 0.98 }}

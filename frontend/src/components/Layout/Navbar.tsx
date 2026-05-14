@@ -98,7 +98,7 @@ export const Navbar: React.FC = () => {
           : 'h-[80px] bg-white border-b border-transparent shadow-sm'
       }`}
     >
-      <div className="container mx-auto px-6 flex justify-between items-center w-full max-w-[1400px] h-full">
+      <div className="container mx-auto px-6 flex justify-between items-center w-full h-full">
         {/* Brand Logo */}
         <motion.div 
           whileHover={{ scale: 1.02 }} 
