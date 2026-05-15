@@ -210,12 +210,11 @@ const imageVariants: Variants = {
               transition={{ delay: 0.4, duration: 0.6 }}
             >
               <motion.div
-                initial={{ rotate: -15, scale: 0 }}
-                animate={{ rotate: -15, scale: 1 }}
-                transition={{ delay: 0.4, type: "spring", stiffness: 200 }}
-                whileHover={{ rotate: -5, scale: 1.05 }}
+                initial={{  scale: 0 }}
+                 animate={{ scale: [1, 1.1, 1], }}
+                  transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
               >
-                <img src="/ingredients/Date.png" alt="Almond Icon" className="w-14 h-14 opacity-100" />
+                <img src="/ingredients/Cranberry.png" alt="Almond Icon" className="w-34 h-34 opacity-100" />
               </motion.div>
               <p className="text-[11px] uppercase tracking-[0.25em] text-orange-600/50 leading-relaxed font-light max-w-[140px]">
                 Pure, simple, <br /> naturally happy
@@ -350,66 +349,120 @@ const imageVariants: Variants = {
             </div>
           </motion.div>
 
-          {/* --- RIGHT COLUMN: LARGE HERO IMAGE --- */}
-          <div className="col-span-12 lg:col-span-6 xl:col-span-5 relative flex justify-center lg:justify-end mt-8 lg:mt-0">
-            <motion.div 
-              variants={imageVariants}
-              initial="hidden"
-              animate={isInView ? "visible" : "hidden"}
-              className="relative w-full flex justify-center lg:justify-end"
-            >
-              {/* Large Background Glow */}
-              <motion.div 
-                className="absolute inset-0 bg-gradient-to-tr from-orange-200/30 via-amber-200/20 to-transparent rounded-full blur-3xl scale-125"
-                animate={{ scale: [1, 1.1, 1], opacity: [0.5, 0.8, 0.5] }}
-                transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-              />
-              
-              {/* Shadow Under Product */}
-              <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 w-[90%] h-8 bg-orange-900/10 blur-2xl rounded-full" />
-              
-              {/* Main Product Image - EXTRA LARGE */}
-              <motion.img 
-                src="/choco.png" 
-                alt="Happy Bar Protein Bar - Delicious healthy snack" 
-                className="w-auto h-auto max-w-[105%] sm:max-w-[105%] md:max-w-[100%] lg:max-w-[125%] xl:max-w-[100%] 2xl:max-w-[130%] relative z-10 drop-shadow-2xl"
-                animate={{ 
-                  y: [0, -10, 0],
-                  rotate: [0, 1, 0]
-                }}
-                transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-                whileHover={{ scale: 1.03 }}
-              />
+         {/* --- RIGHT COLUMN: LARGE HERO IMAGE --- */}
+<div className="col-span-12 lg:col-span-6 xl:col-span-5 relative flex justify-center lg:justify-end mt-8 lg:mt-0">
+  <motion.div 
+    variants={imageVariants}
+    initial="hidden"
+    animate={isInView ? "visible" : "hidden"}
+    className="relative w-full flex justify-center lg:justify-end"
+  >
+    {/* Large Background Glow */}
+    <motion.div 
+      className="absolute inset-0 bg-gradient-to-tr from-orange-200/30 via-amber-200/20 to-transparent rounded-full blur-3xl scale-125"
+      animate={{ scale: [1, 1.1, 1], opacity: [0.5, 0.8, 0.5] }}
+      transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+    />
+    
+    {/* Shadow Under Product */}
+    <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 w-[90%] h-8 bg-orange-900/10 blur-2xl rounded-full" />
+    
+    {/* Main Product Image - EXTRA LARGE */}
+    <motion.img 
+      src="/choco.png" 
+      alt="Happy Bar Protein Bar - Delicious healthy snack" 
+      className="w-auto h-auto max-w-[105%] sm:max-w-[105%] md:max-w-[100%] lg:max-w-[125%] xl:max-w-[100%] 2xl:max-w-[130%] relative z-10 drop-shadow-2xl"
+      animate={{ 
+        y: [0, -10, 0],
+        rotate: [0, 1, 0]
+      }}
+      transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+      whileHover={{ scale: 1.03 }}
+    />
 
-              {/* Floating Ingredient Badges with Enhanced Animation */}
-              <motion.div 
-                animate={{ y: [0, -15, 0], rotate: [0, 8, 0] }}
-                transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
-                className="absolute -top-5 -right-3 md:top-1 md:-right-4 backdrop-blur-sm rounded-full p-2.5 md:p-3 z-20"
-                whileHover={{ scale: 1.1 }}
-              >
-                <img src="/ingredients/almond.png" alt="Premium Almonds" className="w-8 h-8 md:w-18 md:h-18" />
-              </motion.div>
-              
-              <motion.div 
-                animate={{ y: [0, 12, 0], rotate: [0, -8, 0] }}
-                transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1.2 }}
-                className="absolute -bottom-4 -left-3 md:-bottom-7 md:-left-5 backdrop-blur-sm rounded-full p-2.5 md:p-3 z-20"
-                whileHover={{ scale: 1.1 }}
-              >
-                <img src="/ingredients/Cranberry.png" alt="Organic Cranberries" className="w-7 h-7 md:w-18 md:h-18" />
-              </motion.div>
+    {/* Floating Ingredient Badges with Enhanced Animation - INCREASED SIZES */}
+    
+    {/* Almond */}
+    <motion.div 
+      animate={{ y: [0, -15, 0], rotate: [0, 8, 0] }}
+      transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+      className="absolute -top-5 -right-3 md:top-1 md:-right-4  p-2.5 md:p-3 z-20 hidden md:flex"
+      whileHover={{ scale: 1.1 }}
+    >
+      <img src="/ingredients/almond.png" alt="Premium Almonds" className="w-12 h-12 md:w-24 md:h-24" />
+    </motion.div>
+    
+    {/* Cranberry */}
+    {/* <motion.div 
+      animate={{ y: [0, 12, 0], rotate: [0, -8, 0] }}
+      transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1.2 }}
+      className="absolute -bottom-4 -left-3 md:-bottom-0 md:-left-5  p-2.5 md:p-3 z-20"
+      whileHover={{ scale: 1.1 }}
+    >
+      <img src="/ingredients/Cranberry.png" alt="Organic Cranberries" className="w-12 h-12 md:w-24 md:h-24" />
+    </motion.div> */}
 
-              <motion.div 
-                animate={{ y: [0, -10, 0], x: [0, 8, 0] }}
-                transition={{ duration: 3.8, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-                className="absolute top-1/3 -right-2 md:-right-1 backdrop-blur-sm rounded-full p-1.5 md:p-2 z-20 hidden sm:flex"
-                whileHover={{ scale: 1.1 }}
-              >
-                <img src="/ingredients/cashew.png" alt="Premium Cashews" className="w-5 h-5 md:w-22 md:h-22" />
-              </motion.div>
-            </motion.div>
-          </div>
+    {/* Cashew */}
+    <motion.div 
+      animate={{ y: [0, -10, 0], x: [0, 8, 0] }}
+      transition={{ duration: 3.8, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+      className="absolute top-1/4 -right-2 md:-right-10 p-1.5 md:p-2 z-20"
+      whileHover={{ scale: 1.1 }}
+    >
+      <img src="/ingredients/cashew.png" alt="Premium Cashews" className="w-18 h-18 md:w-34 md:h-34" />
+    </motion.div>
+
+    {/* Coconut Craze */}
+    <motion.div 
+      animate={{ y: [0, -8, 0], x: [0, -6, 0], rotate: [0, -5, 0] }}
+      transition={{ duration: 4.2, repeat: Infinity, ease: "easeInOut", delay: 1.5 }}
+      className="absolute top-1/4 -left-0 md:-left-6  lg:-left-46  p-2 md:p-2.5 z-20"
+      whileHover={{ scale: 1.1 }}
+    >
+      <img src="/ingredients/Coconut Craze.png" alt="Coconut Craze" className="w-21 h-21 md:w-32 md:h-32" />
+    </motion.div>
+
+    {/* Date */}
+    <motion.div 
+      animate={{ y: [0, 10, 0], x: [0, 5, 0], rotate: [0, 6, 0] }}
+      transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut", delay: 0.8 }}
+      className="absolute bottom-1 md:bottom-1/3 -right-3 md:-right-5  p-2 md:p-2.5 z-20"
+      whileHover={{ scale: 1.1 }}
+    >
+      <img src="/ingredients/Date.png" alt="Dates" className="w-21 h-21 md:w-32 md:h-32" />
+    </motion.div>
+
+    {/* Jaggery */}
+    <motion.div 
+      animate={{ y: [0, -12, 0], x: [0, -4, 0], rotate: [0, -10, 0] }}
+      transition={{ duration: 4.8, repeat: Infinity, ease: "easeInOut", delay: 2.5 }}
+      className="absolute bottom-1 md:bottom-1/4 -left-3 md:-left-6  lg:-left-25  p-2 md:p-2.5 z-20 "
+      whileHover={{ scale: 1.1 }}
+    >
+      <img src="/ingredients/Jaggery.png" alt="Jaggery" className="w-20 h-20 md:w-30 md:h-30" />
+    </motion.div>
+
+    {/* Peanut */}
+    <motion.div 
+      animate={{ y: [0, 8, 0], rotate: [0, -8, 0] }}
+      transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut", delay: 3 }}
+      className="absolute -top-10 md:-top-2 left-1/3 p-2 md:p-2.5 z-20"
+      whileHover={{ scale: 1.1 }}
+    >
+      <img src="/ingredients/Peanut.png" alt="Peanuts" className="w-21 h-21 md:w-32 md:h-32" />
+    </motion.div>
+
+    {/* Raisin */}
+    <motion.div 
+      animate={{ y: [0, -6, 0], x: [0, 7, 0], rotate: [0, 5, 0] }}
+      transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 1.8 }}
+      className="absolute top-3/4 -right-4 md:-right-0  p-2 md:p-2.5 z-20 hidden md:flex"
+      whileHover={{ scale: 1.1 }}
+    >
+      <img src="/ingredients/raisin.png" alt="Raisins" className="w-10 h-10 md:w-30 md:h-30" />
+    </motion.div>
+  </motion.div>
+</div>
 
         </div>
       </div>

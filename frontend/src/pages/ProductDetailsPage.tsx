@@ -173,6 +173,52 @@ const productLibrary: Record<string, ProductData> = {
       ingredients.peanut,
     ],
   },
+  "almond-cranberry": {
+    titleLines: [ "Almond", "Cranberry"],
+    titleColor: "text-[#7a448e]",
+    img: "/images/almond-cranberry.png",
+    pitchTitle: "Unleash the Awesome!",
+    pitchTitleColor: "text-[#7a448e]",
+    pitchDesc:
+      "Are you ready for a taste explosion that’s as good for your taste buds as it is for your body? Dive into our Protein Power Play – a delightful energy bar loaded with almonds, cranberries and jaggery that will make your snacking game strong!",
+    pitchDescColor: "text-[#7a181b]",
+    waveColor1: "#d66853",
+    waveColor2: "#7a181b",
+    featuresBg: "bg-[#7a448e]",
+    featuresTitleColor: "text-[#fb8a3b]",
+    mascots: [
+      {
+        id: "date",
+        name: "Date Delight",
+        desc: "Indulge in a date delight, as the sweet and chewy dates bring fiber, iron, and essential minerals to the table, ensuring a delightful snacking experience that's as nutritious as it is tasty.",
+        img: ingredients.date.img,
+      },
+      {
+        id: "almond",
+        name: "Almond Adventure",
+        desc: "Embark on an almond adventure, as almonds offer a nutty crunch filled with healthy fats and vitamin E, promoting heart health and adding a dose of excitement to your snacking journey.",
+        img: ingredients.almond.img,
+      },
+      {
+        id: "cranberry",
+        name: "Cranberry Carnival",
+        desc: "Join the cranberry carnival, savoring the zesty sweetness and antioxidants that cranberries bring, providing a burst of flavor and immune-boosting benefits to your snacking fiesta.",
+        img: ingredients.cranberry.img,
+      },
+      {
+        id: "peanut",
+        name: "Peanut Party",
+        desc: "Be part of the peanut party, where peanuts pack a protein punch, coupled with healthy fats and a satisfying crunch, ensuring a snacking adventure that fuels your energy levels.",
+        img: ingredients.peanut.img,
+      },
+    ],
+    ingredientsList: [
+      ingredients.date,
+      ingredients.almond,
+      ingredients.cranberry,
+      ingredients.peanut,
+    ],
+  },
 };
 
 export const ProductDetailsPage: React.FC = () => {
