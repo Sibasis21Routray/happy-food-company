@@ -174,7 +174,7 @@ const productLibrary: Record<string, ProductData> = {
     ],
   },
   "almond-cranberry": {
-    titleLines: [ "Almond", "Cranberry"],
+    titleLines: ["Almond", "Cranberry"],
     titleColor: "text-[#7a448e]",
     img: "/images/almond-cranberry.png",
     pitchTitle: "Unleash the Awesome!",
@@ -366,35 +366,35 @@ export const ProductDetailsPage: React.FC = () => {
           className="relative z-10 pt-8 sm:pt-12 md:pt-16 lg:pt-20 overflow-hidden mb-12"
         >
           {/* Subtle Background Pattern */}
-         {/* Dynamic Background Elements */}
-<div className="absolute inset-0 overflow-hidden pointer-events-none">
-  {/* Primary Glow */}
-  <motion.div 
-    animate={{ 
-      scale: [1, 1.2, 1],
-      opacity: [0.3, 0.5, 0.3] 
-    }}
-    transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-    className="absolute -top-[10%] -right-[5%] w-[500px] h-[500px] bg-gray-100 rounded-full blur-[120px]" 
-  />
-  
-  {/* Secondary Accent Glow */}
-  <motion.div 
-    animate={{ 
-      x: [0, 30, 0],
-      y: [0, -20, 0] 
-    }}
-    transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-    className="absolute top-[20%] -left-[10%] w-[400px] h-[400px] bg-orange-50/50 rounded-full blur-[100px]" 
-  />
+          {/* Dynamic Background Elements */}
+          <div className="absolute inset-0 overflow-hidden pointer-events-none">
+            {/* Primary Glow */}
+            <motion.div
+              animate={{
+                scale: [1, 1.2, 1],
+                opacity: [0.3, 0.5, 0.3],
+              }}
+              transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+              className="absolute -top-[10%] -right-[5%] w-[500px] h-[500px] bg-gray-100 rounded-full blur-[120px]"
+            />
 
-  {/* Large Background Watermark Text */}
-  <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 select-none opacity-[0.03] whitespace-nowrap">
-    <h1 className="text-[20vw] font-bold tracking-tighter">
-      {isCombo ? "COMBO" : "HEALTHY"}
-    </h1>
-  </div>
-</div>
+            {/* Secondary Accent Glow */}
+            <motion.div
+              animate={{
+                x: [0, 30, 0],
+                y: [0, -20, 0],
+              }}
+              transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
+              className="absolute top-[20%] -left-[10%] w-[400px] h-[400px] bg-orange-50/50 rounded-full blur-[100px]"
+            />
+
+            {/* Large Background Watermark Text */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 select-none opacity-[0.03] whitespace-nowrap">
+              <h1 className="text-[20vw] font-bold tracking-tighter">
+                {isCombo ? "COMBO" : "HEALTHY"}
+              </h1>
+            </div>
+          </div>
 
           <div className="container mx-auto px-4 sm:px-6 relative z-10 ">
             <div className="flex flex-col items-center">
@@ -462,20 +462,24 @@ export const ProductDetailsPage: React.FC = () => {
                 </motion.div>
 
                 {/* Image Section */}
-               {/* In the Image Section */}
-<motion.div
-  animate={{ y: [0, -15, 0] }}
-  transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
-  className="relative"
->
-  {/* Decorative Circle behind image */}
-  <div className="absolute inset-0 bg-gradient-to-br from-gray-200 to-transparent rounded-full blur-3xl scale-125 opacity-60" />
-  <img
-    src={data.img}
-    alt={data.titleLines.join(" ")}
-    className="relative z-10 w-[280px] sm:w-[350px] md:w-[400px] lg:w-[550px] drop-shadow-[0_35px_35px_rgba(0,0,0,0.15)] hover:scale-105 transition-transform duration-700 ease-out"
-  />
-</motion.div>
+                {/* In the Image Section */}
+                <motion.div
+                  animate={{ y: [0, -15, 0] }}
+                  transition={{
+                    duration: 5,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                  }}
+                  className="relative"
+                >
+                  {/* Decorative Circle behind image */}
+                  <div className="absolute inset-0 bg-gradient-to-br from-gray-200 to-transparent rounded-full blur-3xl scale-125 opacity-60" />
+                  <img
+                    src={data.img}
+                    alt={data.titleLines.join(" ")}
+                    className="relative z-10 w-[280px] sm:w-[350px] md:w-[400px] lg:w-[550px] drop-shadow-[0_35px_35px_rgba(0,0,0,0.15)] hover:scale-105 transition-transform duration-700 ease-out"
+                  />
+                </motion.div>
               </div>
 
               {/* Buy Now Button - Only for Combos */}
@@ -601,58 +605,69 @@ export const ProductDetailsPage: React.FC = () => {
       </AnimatePresence>
 
       {/* Mascots Section */}
-      <AnimatePresence mode="wait">
-        <motion.section
-          key={`ingredients-${productKey}`}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.4 }}
-          className="py-16 sm:py-20 md:py-24 bg-gray-50"
-        >
-          <div className="container mx-auto px-4 sm:px-6 ">
-            <div className="text-center mb-12">
-              <h2 className="text-gray-800 text-2xl sm:text-3xl md:text-4xl font-light mb-4">
-                The Goodness of Awesome Ingredients
-              </h2>
-              <div className="w-12 h-px bg-gray-300 mx-auto"></div>
-              <p className="text-gray-400 mt-4 max-w-2xl mx-auto text-md font-light">
-                Pure, natural, and carefully selected ingredients for your
-                happiness
+     <AnimatePresence mode="wait">
+  <motion.section
+    key={`ingredients-${productKey}`}
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    exit={{ opacity: 0 }}
+    transition={{ duration: 0.4 }}
+    className="py-16 sm:py-20 md:py-24 bg-gray-50"
+  >
+    <div className="container mx-auto px-4 sm:px-6">
+      <div className="text-center mb-12">
+        <style>{`
+          @import url('https://fonts.googleapis.com/css2?family=Arvo:wght@400;700&display=swap');
+          .brand-font-slab { font-family: 'Arvo', serif; }
+        `}</style>
+        
+        <h2 className="brand-font-slab text-gray-800 text-2xl sm:text-3xl md:text-4xl  mb-4">
+          The Goodness of Awesome Ingredients
+        </h2>
+        <div className="w-12 h-px bg-gradient-to-r from-orange-300 to-orange-400 rounded-full mx-auto"></div>
+        <p className="text-gray-400 mt-4 max-w-2xl mx-auto text-md font-light">
+          Pure, natural, and carefully selected ingredients for your happiness
+        </p>
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+        {data.mascots.map((mascot, i) => (
+          <motion.div
+            key={mascot.id}
+            // ref={ref}
+            // initial={{ opacity: 0, y: 15 }}
+            // animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 15 }}
+            transition={{ duration: 0.5, delay: i * 0.04 }}
+            whileHover={{ y: -5 }}
+            className="group rounded-2xl p-6 text-center  transition-all duration-300  flex flex-col items-center"
+          >
+            {/* Frame-free Isolated Ingredient Asset Box */}
+            <div className="w-full h-32 flex items-center justify-center mb-6 transition-transform duration-500 group-hover:scale-105">
+              <img
+                src={mascot.img}
+                alt={mascot.name}
+                className="max-w-[90%] max-h-full object-contain"
+              />
+            </div>
+
+            {/* Structured Text Content Block */}
+            <div className="space-y-2 max-w-[240px]">
+              {/* Bold Title Styling */}
+              <h4 className="brand-font-slab font-bold text-neutral-800 text-base sm:text-lg tracking-tight leading-snug">
+                {mascot.name.toLocaleUpperCase()}
+              </h4>
+              
+              {/* Minimal Editorial Copy */}
+              <p className="text-neutral-500 text-xs leading-relaxed font-normal">
+                {mascot.desc.substring(0, 100)}...
               </p>
             </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-              {data.mascots.map((mascot, i) => (
-                <motion.div
-                  key={mascot.id}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: i * 0.1 }}
-                  whileHover={{ y: -5 }}
-                  className="text-center"
-                >
-                  <div className="w-24 h-24 mx-auto mb-4 flex items-center justify-center">
-                    <img
-                      src={mascot.img}
-                      alt={mascot.name}
-                      className="w-20 h-20 object-contain opacity-80"
-                    />
-                  </div>
-                  <h3 className="text-gray-800 font-light text-xl mb-2">
-                    {mascot.name}
-                  </h3>
-                  <p className="text-gray-400 text-md font-light leading-relaxed">
-                    {mascot.desc.substring(0, 100)}...
-                  </p>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </motion.section>
-      </AnimatePresence>
-
+          </motion.div>
+        ))}
+      </div>
+    </div>
+  </motion.section>
+</AnimatePresence>
       {/* Shop Now Section */}
       <ShopNowSection />
     </div>

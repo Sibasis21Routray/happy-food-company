@@ -1,12 +1,28 @@
 import React, { useRef, useState, useEffect } from "react";
-import { motion, Variants,useInView, AnimatePresence } from "framer-motion";
+import { motion, Variants, useInView, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
-import { Quote, Star } from "lucide-react";
+import { ChevronDown, ChevronUp, HelpCircle, Mail, Quote, Star } from "lucide-react";
 
 import { Eye, ShoppingBag, Leaf, Zap, ShieldCheck, ArrowUpRight } from 'lucide-react';
 import { Snowflake, Hand, Package, ArrowRight, Award, Heart, Sparkles } from 'lucide-react';
 
-
+// Global font style - Arvo for all text
+const globalStyles = `
+  @import url('https://fonts.googleapis.com/css2?family=Arvo:wght@400;700&display=swap');
+  
+  * {
+    font-family: 'Arvo', serif;
+  }
+  
+  .brand-section-title {
+    font-family: 'Arvo', serif;
+  }
+  
+  .brand-stamp-title {
+    font-family: 'Arvo', serif;
+    line-height: 1.2;
+  }
+`;
 
 // ========== PREMIUM COMPONENTS ==========
 
@@ -23,11 +39,12 @@ const SectionHeader = ({
 
   return (
     <div ref={ref} className="text-center mb-12 md:mb-16">
+      <style>{globalStyles}</style>
       <motion.h2
         initial={{ opacity: 0, y: 30 }}
         animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
         transition={{ duration: 0.6 }}
-        className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light tracking-tight text-gray-900 mb-4 px-2"
+        className="brand-section-title text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light tracking-tight text-gray-900 mb-4 px-2"
       >
         {title}
       </motion.h2>
@@ -37,7 +54,7 @@ const SectionHeader = ({
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : { opacity: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="text-gray-400 max-w-2xl mx-auto text-md sm:text-md font-light tracking-wide px-4"
+          className="brand-section-title text-gray-400 max-w-2xl mx-auto text-md sm:text-md font-light tracking-wide px-4"
         >
           {subtitle}
         </motion.p>
@@ -54,499 +71,396 @@ const SectionHeader = ({
 };
 
 // ========== HAPPY BAR LANDING COMPONENT WITH ENHANCED ANIMATIONS ==========
+
 const HappyBarLanding: React.FC = () => {
-  const [hoveredFlavor, setHoveredFlavor] = useState<string | null>(null);
   const sectionRef = useRef<HTMLElement>(null);
   const isInView = useInView(sectionRef, { once: true, amount: 0.1 });
 
-  // Text animation variants
+  // Animation variants tailored for crisp presentation
   const containerVariants: Variants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.15,
-      delayChildren: 0.2,
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.1, delayChildren: 0.1 },
     },
-  },
-};
+  };
 
-const itemVariants: Variants = {
-  hidden: { opacity: 0, y: 30 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.6,
-      ease: [0.16, 1, 0.3, 1] as const,
+  const itemVariants: Variants = {
+    hidden: { opacity: 0, y: 20 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.5, ease: [0.215, 0.61, 0.355, 1] },
     },
-  },
-};
+  };
 
-const badgeVariants: Variants = {
-  hidden: { opacity: 0, scale: 0.9, x: -20 },
-  visible: {
-    opacity: 1,
-    scale: 1,
-    x: 0,
-    transition: {
-      duration: 0.5,
-      ease: "easeOut",
+  const imageVariants: Variants = {
+    hidden: { opacity: 0, scale: 0.95, y: 30 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      y: 0,
+      transition: { duration: 0.8, type: 'spring', stiffness: 90, damping: 20 },
     },
-  },
-};
-
-const imageVariants: Variants = {
-  hidden: { opacity: 0, scale: 0.92, y: 40 },
-  visible: {
-    opacity: 1,
-    scale: 1,
-    y: 0,
-    transition: {
-      duration: 0.9,
-      delay: 0.3,
-      type: "spring",
-      stiffness: 100,
-      damping: 20,
-    },
-  },
-};
-
- const statVariants: Variants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    transition: {
-      delay: 0.7 + i * 0.1,
-      duration: 0.5,
-    },
-  }),
-};
-
-
-
-  const flavorTagVariants: Variants = {
-  hidden: { opacity: 0, scale: 0.8 },
-  visible: (i: number) => ({
-    opacity: 1,
-    scale: 1,
-    transition: {
-      delay: 0.5 + i * 0.05,
-      duration: 0.3,
-    },
-  }),
-};
+  };
 
   return (
-    <section 
-      ref={sectionRef}
-      className="relative w-full min-h-screen overflow-hidden bg-gradient-to-br from-[#FFF8F0] via-[#FFF5EB] to-[#FFEFE0] flex items-center"
-    >
-      {/* --- ANIMATED BACKGROUND BLOBS --- */}
-      <motion.div 
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 1.5, ease: "easeOut" }}
-        className="absolute top-[-5%] right-[-10%] w-[70%] h-[130%] bg-gradient-to-br from-orange-100/40 to-amber-100/25 rounded-[40%_60%_40%_60%] z-0"
-      />
+    <div className="w-full min-h-screen bg-white text-[#1A1A1A] font-sans overflow-x-hidden">
+      <style>{globalStyles}</style>
       
-      <motion.div 
-        initial={{ opacity: 0, x: -50 }}
-        animate={{ opacity: 1, x: 0 }}
-        transition={{ delay: 0.5, duration: 1 }}
-        className="absolute bottom-[-10%] left-[-8%] w-[40%] h-[50%] bg-gradient-to-tr from-orange-200/25 to-amber-200/15 rounded-full blur-3xl opacity-60 z-0"
-      />
+      {/* Top Notification Banner */}
+      <div className="w-full bg-black text-white text-center py-2 px-4 text-xs md:text-sm tracking-widest uppercase font-medium flex items-center justify-center gap-2 border-b border-gray-800">
+        <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+        </svg>
+        <span className="brand-section-title">Ireland's Favorite Protein Bars Has Landed — <span className="underline cursor-pointer lowercase font-normal">Try it today</span></span>
+      </div>
 
-      <motion.div 
-        animate={{ 
-          scale: [1, 1.1, 1],
-          opacity: [0.3, 0.5, 0.3]
+      {/* --- SECTION 1: HERO SECTION --- */}
+      <section 
+        ref={sectionRef}
+        className="relative w-full min-h-[65vh] bg-gray-100 flex items-center overflow-hidden py-12 md:py-0"
+        style={{
+          backgroundImage: `linear-gradient(to right, rgba(0,0,0,0.45) 30%, rgba(0,0,0,0.1) 70%), url('https://m.gettywallpapers.com/wp-content/uploads/2023/12/Gym-Exercise-PC-Wallpaper.jpg')`,
+          backgroundSize: 'cover',
+          backgroundRepeat: 'no-repeat',
         }}
-        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute top-[30%] left-[20%] w-[50%] h-[50%] bg-orange-300/10 rounded-full blur-3xl z-0"
-      />
-
-      {/* --- FLOATING DECORATIVE ELEMENTS --- */}
-      <svg className="absolute top-[12%] left-[25%] w-80 opacity-25 z-10 hidden lg:block" viewBox="0 0 200 200" fill="none">
-        <motion.path
-          d="M0 100 C 50 0, 150 200, 200 100"
-          stroke="#F97316"
-          strokeWidth="2"
-          strokeLinecap="round"
-          initial={{ pathLength: 0, opacity: 0 }}
-          animate={{ pathLength: 1, opacity: 1 }}
-          transition={{ duration: 2, ease: "easeInOut", delay: 0.3 }}
-        />
-      </svg>
-
-      {/* Floating Particles with Enhanced Animation */}
-      <motion.div 
-        animate={{ y: [0, -25, 0], opacity: [0.3, 0.8, 0.3] }}
-        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute top-[20%] right-[12%] w-3 h-3 bg-orange-400/50 rounded-full z-10 hidden lg:block"
-      />
-      <motion.div 
-        animate={{ y: [0, 20, 0], x: [0, -15, 0], opacity: [0.2, 0.6, 0.2] }}
-        transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-        className="absolute bottom-[25%] left-[8%] w-2 h-2 bg-amber-500/40 rounded-full z-10 hidden lg:block"
-      />
-      <motion.div 
-        animate={{ scale: [1, 1.5, 1], opacity: [0.2, 0.5, 0.2] }}
-        transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-        className="absolute top-[40%] right-[18%] w-1.5 h-1.5 bg-orange-300/60 rounded-full z-10 hidden lg:block"
-      />
-
-      {/* Main Container */}
-      <div className="relative z-20 w-full mx-auto px-4 sm:px-6 lg:px-10 xl:px-16 py-12 md:py-16 lg:py-20">
-        <div className="grid grid-cols-12 gap-6 md:gap-8 items-center">
-          
-          {/* --- LEFT COLUMN: Secondary Content --- */}
-          <div className="hidden xl:flex xl:col-span-2 flex-col justify-between h-[550px]">
-            <motion.div 
-              className="space-y-4"
-              initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.4, duration: 0.6 }}
-            >
-              <motion.div
-                initial={{  scale: 0 }}
-                 animate={{ scale: [1, 1.1, 1], }}
-                  transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-              >
-                <img src="/ingredients/Cranberry.png" alt="Almond Icon" className="w-34 h-34 opacity-100" />
-              </motion.div>
-              <p className="text-[11px] uppercase tracking-[0.25em] text-orange-600/50 leading-relaxed font-light max-w-[140px]">
-                Pure, simple, <br /> naturally happy
-              </p>
-            </motion.div>
-
-            <motion.div 
-              className="space-y-6"
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6, duration: 0.6 }}
-            >
-              <p className="text-[10px] uppercase tracking-[0.3em] text-gray-400 font-light">Featured</p>
-              <div className="relative group">
-                <motion.img 
-                  src="/images/cashew-raisin.png" 
-                  alt="Cashew Raisin Bar" 
-                  className="w-32 drop-shadow-2xl transition-all duration-500 group-hover:scale-105 group-hover:rotate-3"
-                  whileHover={{ y: -8 }}
-                />
-              </div>
-            </motion.div>
-          </div>
-
-          {/* --- CENTER COLUMN: Main Hero Text --- */}
+      >
+        <div className="max-w-7xl mx-auto w-full px-6 md:px-12 lg:px-16 grid grid-cols-1 lg:grid-cols-12 items-center gap-12 relative z-10">
+          {/* Hero Text Copy */}
           <motion.div 
-            className="col-span-12 lg:col-span-6 xl:col-span-5 relative pt-10 md:pt-0"
+            className="col-span-1 lg:col-span-6 text-white space-y-6 text-center lg:text-left"
             variants={containerVariants}
             initial="hidden"
             animate={isInView ? "visible" : "hidden"}
           >
-            {/* Badge */}
-            <motion.div 
-              variants={badgeVariants}
-              className="inline-flex items-center gap-2 px-4 py-2 bg-white/60 backdrop-blur-sm rounded-full border border-orange-100/80 shadow-sm mb-6 md:mb-8"
-            >
-              <motion.span 
-                className="w-2 h-2 rounded-full bg-orange-500"
-                animate={{ scale: [1, 1.3, 1] }}
-                transition={{ duration: 1.5, repeat: Infinity }}
-              />
-              <span className="text-[10px] md:text-[11px] tracking-[0.25em] text-orange-600 uppercase font-medium">Clean Energy • Real Joy</span>
-            </motion.div>
+            {/* Hero Text Copy */}
+          <motion.div 
+            className="col-span-1 lg:col-span-6 text-white space-y-6 text-center lg:text-left"
+            variants={containerVariants}
+            initial="hidden"
+            animate={isInView ? "visible" : "hidden"}
+          >
+            <motion.div variants={itemVariants} className="space-y-1">
+              <style>{`
+                /* Importing Rock Salt for the dry brush script feel and Arvo for the premium serif header */
+                @import url('https://fonts.googleapis.com/css2?family=Arvo:wght@400;700&family=Rock+Salt&display=swap');
+                
+                .brush-script-text {
+                  font-family: 'Rock Salt', cursive;
+                  color: rgba(255, 255, 255, 0.98);
+                  display: inline-block;
+                  letter-spacing: 0.01em;
+                }
 
-            {/* Main Headline */}
-            <motion.h1 variants={itemVariants} className="text-5xl sm:text-6xl md:text-7xl lg:text-[80px] xl:text-[90px] leading-[1.08] font-light text-gray-900 tracking-[-0.03em]">
-              Make your <br />
-              <span className="relative inline-block mt-2">
-                <motion.span 
-                  className="font-serif italic text-orange-400/30 absolute -left-28 md:-left-36 lg:-left-44 top-1 text-5xl md:text-7xl lg:text-8xl pointer-events-none whitespace-nowrap"
-                  animate={{ x: [-5, 5, -5], opacity: [0.2, 0.4, 0.2] }}
-                  transition={{ duration: 4, repeat: Infinity }}
-                >
-                  happy
-                </motion.span>
-                day with
-              </span> <br />
-              <motion.span 
-                className="bg-gradient-to-r from-orange-600 to-amber-600 bg-clip-text text-transparent mt-2 inline-block"
-                whileHover={{ scale: 1.02 }}
-                transition={{ duration: 0.3 }}
-              >
-                Happy Bar
-              </motion.span>
-            </motion.h1>
+                .brand-serif-headline {
+                  font-family: 'Arvo', serif;
+                  line-height: 1.15;
+                  letter-spacing: -0.01em;
+                }
+              `}</style>
 
-            {/* Description */}
-            <motion.p 
-              variants={itemVariants}
-              className="text-gray-500 text-sm md:text-base max-w-md mt-6 leading-relaxed font-light"
-            >
-              5g protein. 100% natural. Zero guilt. Crafted with real ingredients that
-              nourish your body and delight your taste buds. Every bite, pure happiness.
-            </motion.p>
-
-            {/* CTA Buttons */}
-            <motion.div variants={itemVariants} className="mt-8 flex flex-col sm:flex-row items-start sm:items-center gap-4">
-              <Link to="/happy-shop">
-                <motion.button 
-                  whileHover={{ scale: 1.05, boxShadow: "0 25px 35px -12px rgba(249, 115, 22, 0.4)" }}
-                  whileTap={{ scale: 0.98 }}
-                  className="px-10 md:px-12 py-3.5 md:py-4 bg-gradient-to-r from-orange-500 to-amber-500 text-white rounded-full text-[11px] md:text-xs font-light tracking-[0.25em] uppercase hover:from-orange-600 hover:to-amber-600 transition-all duration-300 shadow-xl"
-                >
-                  Shop Now
-                </motion.button>
-              </Link>
-              
-              {/* Flavor Tags */}
-              <div className="flex flex-wrap gap-2">
-                {["Cashew", "Coconut", "Almond", "Cranberry", "Date"].map((flavor, i) => (
-                  <motion.span 
-                    key={flavor}
-                    custom={i}
-                    variants={flavorTagVariants}
-                    whileHover={{ scale: 1.05, backgroundColor: "#FFF5EB", borderColor: "#F97316" }}
-                    onMouseEnter={() => setHoveredFlavor(flavor)}
-                    onMouseLeave={() => setHoveredFlavor(null)}
-                    className="px-3 py-1.5 text-[10px] md:text-[11px] text-gray-500 border border-orange-100 rounded-full cursor-pointer hover:text-orange-600 transition-all duration-200"
-                  >
-                    {flavor}
-                  </motion.span>
-                ))}
+              {/* Main Headline Stack */}
+              <div className="flex flex-col items-center lg:items-start text-center lg:text-left pt-4">
+                {/* Dry Ink Brush Script Accent */}
+                <h1 className="brush-script-text text-3xl sm:text-4xl md:text-5xl font-normal mb-1 lg:-ml-1 transform -rotate-[1deg]">
+                  Real Food
+                </h1>
+                
+                {/* Premium Slab Serif Headings matching the source layout precisely */}
+                <p className="brand-serif-headline text-4xl sm:text-5xl md:text-6xl  text-white mt-2">
+                  Real People.<br />
+                  Real Impact.
+                </p>
               </div>
             </motion.div>
 
-            {/* Nutritional Stats */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-10 pt-6 border-t border-orange-100/80">
-              {[
-                { value: "5g", label: "PROTEIN" },
-                { value: "100%", label: "NATURAL" },
-                { value: "0g", label: "ADDED SUGAR" },
-                { value: "₹40", label: "PER BAR" },
-              ].map((stat, idx) => (
-                <motion.div 
-                  key={idx}
-                  custom={idx}
-                  variants={statVariants}
-                  initial="hidden"
-                  animate={isInView ? "visible" : "hidden"}
-                  className="text-center sm:text-left"
-                >
-                  <motion.div 
-                    className="text-xl md:text-2xl font-light text-gray-900"
-                    whileHover={{ scale: 1.05, color: "#F97316" }}
-                    transition={{ duration: 0.2 }}
-                  >
-                    {stat.value}
-                  </motion.div>
-                  <div className="text-[8px] md:text-[9px] tracking-[0.2em] text-gray-400 mt-1">{stat.label}</div>
-                </motion.div>
-              ))}
-            </div>
+            {/* CTA Button Link */}
+            <motion.div variants={itemVariants} className="pt-4">
+              <Link to={"/happy-shop"} className="px-10 py-3.5 bg-[#141414] hover:bg-black text-white rounded-full text-xs font-bold tracking-[0.2em] uppercase transition-all duration-300 border border-gray-800 inline-flex items-center gap-3 group shadow-xl">
+                <span>Shop Now</span>
+                <span className="transform group-hover:translate-x-1.5 transition-transform duration-300">→</span>
+              </Link>
+            </motion.div>
+
+            {/* Social Proof Stars */}
+            <motion.div variants={itemVariants} className="flex items-center justify-center lg:justify-start gap-2 pt-4">
+              <div className="flex text-amber-400 text-sm">★★★★★</div>
+              <p className="text-xs md:text-sm text-gray-300 font-medium tracking-wide">
+                Over 2500+ 5 Star Reviews
+              </p>
+            </motion.div>
+
+           {/* Live Floating Testimonial Capsule */}
+            <motion.div 
+              variants={itemVariants}
+              className="inline-flex items-center gap-4 bg-white/95 backdrop-blur-sm p-3.5 rounded-xl shadow-lg border border-white/20 text-left max-w-sm mt-6"
+            >
+              <div className="w-10 h-10 rounded-full overflow-hidden bg-gray-300 flex-shrink-0">
+                <img src="https://www.perfocal.com/blog/content/images/2021/01/Perfocal_17-11-2019_TYWFAQ_100_standard-3.jpg" alt="Marina G." className="w-full h-full object-cover" />
+              </div>
+              <div>
+                <p className="brand-section-title text-xs text-gray-800 font-medium leading-snug">
+                  "The best protein bars on the go! Healthy, tasty and so reliable!"
+                </p>
+                <span className="brand-section-title text-[10px] text-gray-500 font-bold block mt-0.5">Marina G. <span className="text-gray-400 font-normal">• Verified Customer</span></span>
+              </div>
+            </motion.div>
           </motion.div>
 
-         {/* --- RIGHT COLUMN: LARGE HERO IMAGE --- */}
-<div className="col-span-12 lg:col-span-6 xl:col-span-5 relative flex justify-center lg:justify-end mt-8 lg:mt-0">
-  <motion.div 
-    variants={imageVariants}
-    initial="hidden"
-    animate={isInView ? "visible" : "hidden"}
-    className="relative w-full flex justify-center lg:justify-end"
-  >
-    {/* Large Background Glow */}
-    <motion.div 
-      className="absolute inset-0 bg-gradient-to-tr from-orange-200/30 via-amber-200/20 to-transparent rounded-full blur-3xl scale-125"
-      animate={{ scale: [1, 1.1, 1], opacity: [0.5, 0.8, 0.5] }}
-      transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-    />
+           
+
+            
+          </motion.div>
+        </div>
+      </section>
+      
+      <motion.img 
+        src="/images/cashew-raisin.png" 
+        alt="All Real Cashew Cookie Dough Protein Bar" 
+        className="absolute top-80 left-100 w-full h-114 object-contain z-10 filter drop-shadow-[0_20px_35px_rgba(0,0,0,0.3)] -rotate-10"
+        whileHover={{ scale: 1.02, rotate: -1 }}
+        transition={{ duration: 0.3 }}
+      />
+
+      {/* --- SECTION 2: BRAND VALUE PROPOSITION --- */}
+     <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-10 lg:gap-14 py-15">
+  {/* Left Column: Heading and Text Branding */}
+  <div className="space-y-4 max-w-md text-center lg:text-left">
+    <style>{`
+      @import url('https://fonts.googleapis.com/css2?family=Arvo:ital,wght@0,400;0,700;1,400&display=swap');
+      .brand-font-slab { font-family: 'Arvo', serif; }
+      .brand-font-script { font-family: 'Playfair Display', 'Georgia', serif; font-style: italic; }
+    `}</style>
     
-    {/* Shadow Under Product */}
-    <div className="absolute -bottom-10 left-1/2 -translate-x-1/2 w-[90%] h-8 bg-orange-900/10 blur-2xl rounded-full" />
+    <div className="space-y-1">
+      <h2 className="brand-font-slab text-3xl md:text-4xl font-bold tracking-tight text-neutral-900 leading-tight">
+        Why choose <br className="hidden lg:inline" /> All Real Nutrition?
+      </h2>
+      <p className="text-neutral-500 text-base font-normal">
+        Good for you - and the planet.
+      </p>
+    </div>
     
-    {/* Main Product Image - EXTRA LARGE */}
-    <motion.img 
-      src="/choco.png" 
-      alt="Happy Bar Protein Bar - Delicious healthy snack" 
-      className="w-auto h-auto max-w-[105%] sm:max-w-[105%] md:max-w-[100%] lg:max-w-[125%] xl:max-w-[100%] 2xl:max-w-[130%] relative z-10 drop-shadow-2xl"
-      animate={{ 
-        y: [0, -10, 0],
-        rotate: [0, 1, 0]
-      }}
-      transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-      whileHover={{ scale: 1.03 }}
-    />
+    <div className="pt-2 space-y-1">
+      {/* Script font style matching the 'Real Food' section signature */}
+      <h3 className="brand-font-script text-3xl md:text-4xl text-neutral-800 font-medium tracking-wide">
+        Real Food
+      </h3>
+      <p className="text-neutral-400 text-xs md:text-sm font-normal max-w-xs mx-auto lg:mx-0 leading-relaxed">
+        Made in a kitchen, not a lab. Great for the gut and for the taste buds.
+      </p>
+    </div>
+  </div>
 
-    {/* Floating Ingredient Badges with Enhanced Animation - INCREASED SIZES */}
+  {/* Right Column: Central Badges & Global Eco System Compliance Icons */}
+  <div className="flex flex-col sm:flex-row items-center gap-8 md:gap-12 lg:w-auto">
     
-    {/* Almond */}
-    <motion.div 
-      animate={{ y: [0, -15, 0], rotate: [0, 8, 0] }}
-      transition={{ duration: 4.5, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
-      className="absolute -top-5 -right-3 md:top-1 md:-right-4  p-2.5 md:p-3 z-20 hidden md:flex"
-      whileHover={{ scale: 1.1 }}
-    >
-      <img src="/ingredients/almond.png" alt="Premium Almonds" className="w-12 h-12 md:w-24 md:h-24" />
-    </motion.div>
-    
-    {/* Cranberry */}
-    {/* <motion.div 
-      animate={{ y: [0, 12, 0], rotate: [0, -8, 0] }}
-      transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1.2 }}
-      className="absolute -bottom-4 -left-3 md:-bottom-0 md:-left-5  p-2.5 md:p-3 z-20"
-      whileHover={{ scale: 1.1 }}
-    >
-      <img src="/ingredients/Cranberry.png" alt="Organic Cranberries" className="w-12 h-12 md:w-24 md:h-24" />
-    </motion.div> */}
+    {/* Circular Badges Section */}
+    <div className="flex items-center gap-4 sm:gap-5 justify-center">
+      {/* Proudly Irish Made Badge */}
+      <div className="w-20 h-20 sm:w-22 sm:h-22 rounded-full border border-[#BCE1BC] bg-[#E3F4E3] flex flex-col items-center justify-center p-1.5 text-center select-none shadow-[0_2px_8px_rgba(0,0,0,0.01)] transition-transform hover:scale-105 duration-300">
+        <span className="text-[9px] uppercase font-bold tracking-widest text-[#4A7A4A]">Proudly</span>
+        <span className="brand-font-slab text-sm sm:text-base font-bold tracking-tight text-[#2B542B] my-0.5">IRISH</span>
+        <span className="text-[8px] uppercase font-bold text-[#4A7A4A] tracking-wider">Made</span>
+      </div>
+      
+      {/* Protein 16g Per Bar Badge */}
+      <div className="w-20 h-20 sm:w-22 sm:h-22 rounded-full border border-[#F5C2CB] bg-[#FCECEF] flex flex-col items-center justify-center p-1.5 text-center select-none shadow-[0_2px_8px_rgba(0,0,0,0.01)] transition-transform hover:scale-105 duration-300">
+        <span className="text-[9px] uppercase font-bold tracking-widest text-[#A34757]">Protein</span>
+        <span className="brand-font-slab text-xl sm:text-2xl font-bold text-[#6B2431] leading-none my-0.5">16g</span>
+        <span className="text-[8px] uppercase font-bold text-[#A34757] tracking-wider">Per Bar</span>
+      </div>
+      
+      {/* Less Than 12 Ingredients Badge */}
+      <div className="w-20 h-20 sm:w-22 sm:h-22 rounded-full border border-[#B4D6EB] bg-[#E3F2FC] flex flex-col items-center justify-center p-1.5 text-center select-none shadow-[0_2px_8px_rgba(0,0,0,0.01)] transition-transform hover:scale-105 duration-300">
+        <span className="text-[9px] uppercase font-bold tracking-widest text-[#31698A]">Less Than</span>
+        <span className="brand-font-slab text-xl sm:text-2xl font-bold text-[#1E4359] leading-none my-0.5">12</span>
+        <span className="text-[8px] uppercase font-bold text-[#31698A] tracking-wider">Ingredients</span>
+      </div>
+    </div>
 
-    {/* Cashew */}
-    <motion.div 
-      animate={{ y: [0, -10, 0], x: [0, 8, 0] }}
-      transition={{ duration: 3.8, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-      className="absolute top-1/4 -right-2 md:-right-10 p-1.5 md:p-2 z-20"
-      whileHover={{ scale: 1.1 }}
-    >
-      <img src="/ingredients/cashew.png" alt="Premium Cashews" className="w-18 h-18 md:w-34 md:h-34" />
-    </motion.div>
-
-    {/* Coconut Craze */}
-    <motion.div 
-      animate={{ y: [0, -8, 0], x: [0, -6, 0], rotate: [0, -5, 0] }}
-      transition={{ duration: 4.2, repeat: Infinity, ease: "easeInOut", delay: 1.5 }}
-      className="absolute top-1/4 -left-0 md:-left-6  lg:-left-46  p-2 md:p-2.5 z-20"
-      whileHover={{ scale: 1.1 }}
-    >
-      <img src="/ingredients/Coconut Craze.png" alt="Coconut Craze" className="w-21 h-21 md:w-32 md:h-32" />
-    </motion.div>
-
-    {/* Date */}
-    <motion.div 
-      animate={{ y: [0, 10, 0], x: [0, 5, 0], rotate: [0, 6, 0] }}
-      transition={{ duration: 5.5, repeat: Infinity, ease: "easeInOut", delay: 0.8 }}
-      className="absolute bottom-1 md:bottom-1/3 -right-3 md:-right-5  p-2 md:p-2.5 z-20"
-      whileHover={{ scale: 1.1 }}
-    >
-      <img src="/ingredients/Date.png" alt="Dates" className="w-21 h-21 md:w-32 md:h-32" />
-    </motion.div>
-
-    {/* Jaggery */}
-    <motion.div 
-      animate={{ y: [0, -12, 0], x: [0, -4, 0], rotate: [0, -10, 0] }}
-      transition={{ duration: 4.8, repeat: Infinity, ease: "easeInOut", delay: 2.5 }}
-      className="absolute bottom-1 md:bottom-1/4 -left-3 md:-left-6  lg:-left-25  p-2 md:p-2.5 z-20 "
-      whileHover={{ scale: 1.1 }}
-    >
-      <img src="/ingredients/Jaggery.png" alt="Jaggery" className="w-20 h-20 md:w-30 md:h-30" />
-    </motion.div>
-
-    {/* Peanut */}
-    <motion.div 
-      animate={{ y: [0, 8, 0], rotate: [0, -8, 0] }}
-      transition={{ duration: 3.5, repeat: Infinity, ease: "easeInOut", delay: 3 }}
-      className="absolute -top-10 md:-top-2 left-1/3 p-2 md:p-2.5 z-20"
-      whileHover={{ scale: 1.1 }}
-    >
-      <img src="/ingredients/Peanut.png" alt="Peanuts" className="w-21 h-21 md:w-32 md:h-32" />
-    </motion.div>
-
-    {/* Raisin */}
-    <motion.div 
-      animate={{ y: [0, -6, 0], x: [0, 7, 0], rotate: [0, 5, 0] }}
-      transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 1.8 }}
-      className="absolute top-3/4 -right-4 md:-right-0  p-2 md:p-2.5 z-20 hidden md:flex"
-      whileHover={{ scale: 1.1 }}
-    >
-      <img src="/ingredients/raisin.png" alt="Raisins" className="w-10 h-10 md:w-30 md:h-30" />
-    </motion.div>
-  </motion.div>
-</div>
-
+    {/* Eco Certifications List Block */}
+    <div className="flex items-center gap-6 sm:gap-8 border-t sm:border-t-0 sm:border-l border-neutral-200 pt-6 sm:pt-0 sm:pl-8 justify-center">
+      {/* Plastic Free Item */}
+      <div className="flex items-center gap-3 group">
+        <div className="w-11 h-11 sm:w-12 sm:h-12 flex-shrink-0">
+          <div className="w-full h-full rounded-full border border-neutral-900 flex flex-col items-center justify-center p-1 text-center font-bold text-[8px] font-mono font-black leading-none uppercase tracking-tighter text-neutral-900 transition-colors group-hover:bg-neutral-900 group-hover:text-white duration-300">
+            <span>Plastic</span>
+            <span className="text-[10px] font-black mt-0.5 border-t border-neutral-900 group-hover:border-white pt-0.5">Free</span>
+          </div>
+        </div>
+        <div className="leading-none">
+          <h4 className="brand-font-slab text-xs font-bold text-neutral-900">Plastic-free</h4>
+          <p className="text-neutral-500 text-[11px] font-normal mt-0.5">Packaging</p>
         </div>
       </div>
 
-      {/* --- BOTTOM SCROLL INDICATOR --- */}
-      <motion.div 
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.2 }}
-        className="absolute bottom-6 md:bottom-8 left-1/2 -translate-x-1/2 hidden md:flex flex-col items-center gap-2 z-30"
-      >
-        <span className="text-[8px] md:text-[9px] tracking-[0.3em] text-gray-400 font-light">SCROLL</span>
-        <motion.div 
-          animate={{ y: [0, 8, 0] }}
-          transition={{ duration: 1.5, repeat: Infinity }}
-        >
-          <svg className="w-3.5 h-3.5 md:w-4 md:h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 14l-7 7m0 0l-7-7m7 7V3" />
-          </svg>
-        </motion.div>
-      </motion.div>
-    </section>
+      {/* Home Compostable Item */}
+      <div className="flex items-center gap-3 group">
+        <div className="w-11 h-11 sm:w-12 sm:h-12 flex-shrink-0">
+          <div className="w-full h-full rounded-full border border-neutral-900 flex items-center justify-center text-lg text-neutral-900 transition-colors group-hover:bg-neutral-900 group-hover:text-white duration-300">
+            🌱
+          </div>
+        </div>
+        <div className="leading-none">
+          <h4 className="brand-font-slab text-xs font-bold text-neutral-900">Home</h4>
+          <p className="text-neutral-500 text-[11px] font-normal mt-0.5">Compostable</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+    </div>
   );
 };
 
-// Feature Card (ENLARGED)
+// Feature Card
 const FeatureCard = ({ feature, index }: { feature: any; index: number }) => {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-50px" });
+  const isInView = useInView(ref, { once: true, margin: "-20px" });
 
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 30 }}
-      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
-      whileHover={{ y: -5 }}
-      className="group"
+      initial={{ opacity: 0, y: 15 }}
+      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 15 }}
+      transition={{ duration: 0.5, delay: index * 0.08, ease: [0.16, 1, 0.3, 1] }}
+      whileHover={{ scale: 1.05 }}
+      className="flex items-center gap-3 text-left py-2 cursor-pointer"
     >
-      <div className="text-center hover:scale-105 transition-transform duration-300 p-4 sm:p-6 md:p-8 rounded-lg">
-        <div className="w-20 h-20 sm:w-24 sm:h-24 md:w-28 md:h-28 mx-auto mb-4 sm:mb-6 flex items-center justify-center bg-gradient-to-br from-orange-50 to-amber-50 rounded-full">
-          <img
-            src={feature.img}
-            alt={feature.title}
-            className="w-14 h-14 sm:w-16 sm:h-16 md:w-20 md:h-20 object-contain opacity-60 group-hover:opacity-100 transition-opacity duration-300"
-          />
-        </div>
-        <h3 className="font-light text-gray-800 text-base sm:text-lg md:text-xl mb-2 sm:mb-3 tracking-wide">
+      {/* Minimalist Black Vector Stamp Graphic */}
+      <div className="w-12 h-12 sm:w-14 sm:h-14 flex-shrink-0 flex items-center justify-center">
+        <img
+          src={feature.img}
+          alt={feature.title}
+          className="w-full h-full object-contain text-neutral-900" 
+        />
+      </div>
+
+      {/* Horizontal Text Breakdown Stack */}
+      <div className="flex flex-col justify-center max-w-[160px]">
+        {/* Bold Slab Title */}
+        <h3 className="brand-stamp-title font-bold text-neutral-800 text-sm sm:text-base tracking-tight">
           {feature.title}
         </h3>
-        <p className="text-gray-400 text-sm sm:text-md md:text-base leading-relaxed font-light max-w-xs mx-auto">
-          {feature.desc}
+        
+        {/* Subdued Meta Description Text if available */}
+        {feature.desc && (
+          <p className="brand-stamp-title text-neutral-400 text-[11px] sm:text-xs font-normal mt-0.5 leading-tight">
+            {feature.desc}
+          </p>
+        )}
+      </div>
+    </motion.div>
+  );
+};
+
+
+
+
+// --- INGREDIENT CARD COMPONENT ---
+const IngredientCard = ({ ingredient, index }: { ingredient: any; index: number }) => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-30px" });
+
+  // Custom Allergen Box variant matching the image exactly
+  if (ingredient.isAllergenCard) {
+    return (
+      <motion.div
+        ref={ref}
+        initial={{ opacity: 0, y: 15 }}
+        animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 15 }}
+        transition={{ duration: 0.5, delay: index * 0.04 }}
+        className="w-full bg-[#DCE7F4] rounded-lg px-6 py-8 flex flex-col items-center text-center justify-between min-h-[300px]"
+      >
+        <style>{`
+          @import url('https://fonts.googleapis.com/css2?family=Arvo:wght@400;700&display=swap');
+          .brand-font-slab { font-family: 'Arvo', serif; }
+        `}</style>
+
+        {/* Flat Line-Art Document Graphic Symbol */}
+        <div className="text-neutral-700 mt-2">
+          <svg 
+            className="w-12 h-12 stroke-[1.2]" 
+            fill="none" 
+            stroke="currentColor" 
+            viewBox="0 0 24 24"
+          >
+            <path 
+              strokeLinecap="round" 
+              strokeLinejoin="round" 
+              d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" 
+            />
+          </svg>
+        </div>
+
+        {/* Text Details Area */}
+        <div className="space-y-2.5 max-w-[200px] my-auto">
+          <h4 className="brand-font-slab font-bold text-neutral-800 text-base tracking-tight">
+            Allergen Information
+          </h4>
+          <p className="text-neutral-600 text-xs font-normal leading-relaxed">
+            All our products contain the following allergens: Milk, Legumes and Tree Nuts.
+          </p>
+        </div>
+
+        {/* Lower Call-To-Action Link */}
+        <div className="mb-2">
+          <a 
+            href="#product-info" 
+            className="text-xs font-normal text-neutral-700 underline underline-offset-4 hover:text-neutral-900 transition-colors"
+          >
+            Open Product Information
+          </a>
+        </div>
+      </motion.div>
+    );
+  }
+
+  // Pure Minimalist Product Ingredient variant layout
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 15 }}
+      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 15 }}
+      transition={{ duration: 0.5, delay: index * 0.04 }}
+      className="flex flex-col items-center text-center w-full group"
+    >
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Arvo:wght@400;700&display=swap');
+        .brand-font-slab { font-family: 'Arvo', serif; }
+      `}</style>
+
+      {/* Frame-free Isolated Ingredient Asset Box */}
+      <div className="w-full h-32 flex items-center justify-center mb-6 transition-transform duration-500 group-hover:scale-103">
+        <img
+          src={ingredient.img}
+          alt={ingredient.title}
+          className="max-w-[90%] max-h-full object-contain"
+        />
+      </div>
+
+      {/* Structured Text Content Block */}
+      <div className="space-y-2 max-w-[240px]">
+        {/* Bold Title Styling */}
+        <h4 className="brand-font-slab font-bold text-neutral-800 text-base sm:text-lg tracking-tight leading-snug">
+          {ingredient.title}
+        </h4>
+        
+        {/* Minimal Editorial Copy */}
+        <p className="text-neutral-500 text-xs leading-relaxed font-normal">
+          {ingredient.desc}
         </p>
       </div>
     </motion.div>
   );
 };
 
-// Ingredient Card (ENLARGED)
-const IngredientCard = ({ ingredient, index }: { ingredient: any; index: number }) => {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-50px" });
 
-  return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, scale: 0.95 }}
-      animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.95 }}
-      transition={{ delay: index * 0.02 }}
-      className="text-center hover:scale-105 transition-transform duration-300 p-2 sm:p-4 md:p-8 rounded-lg"
-    >
-      <div className="w-20 h-20 sm:w-24 sm:h-24 md:w-32 md:h-32 mx-auto mb-3 sm:mb-6 flex items-center justify-center bg-white rounded-full shadow-sm">
-        <img
-          src={ingredient.img}
-          alt={ingredient.title}
-          className="w-16 h-16 sm:w-20 sm:h-20 md:w-28 md:h-28 object-contain opacity-70 hover:opacity-100 transition-opacity duration-300"
-        />
-      </div>
-      <p className="font-light text-gray-600 text-sm sm:text-md md:text-lg tracking-wide">
-        {ingredient.title}
-      </p>
-    </motion.div>
-  );
-};
+
+
 
 // Combo Card
 const ComboCard = ({ combo, index }: { combo: any; index: number }) => {
@@ -571,18 +485,18 @@ const ComboCard = ({ combo, index }: { combo: any; index: number }) => {
           />
         </div>
 
-        <h3 className="text-base sm:text-lg font-light text-gray-900 mb-1 tracking-wide">
+        <h3 className="brand-section-title text-base sm:text-lg font-light text-gray-900 mb-1 tracking-wide">
           {combo.title}
         </h3>
-        <p className="text-sm sm:text-md text-orange-400 mb-3 tracking-wide">
+        <p className="brand-section-title text-sm sm:text-md text-orange-400 mb-3 tracking-wide">
           {combo.flavors}
         </p>
-        <p className="text-gray-500 text-sm sm:text-md leading-relaxed mb-4 font-light">
+        <p className="brand-section-title text-gray-500 text-sm sm:text-md leading-relaxed mb-4 font-light">
           {combo.desc}
         </p>
 
         <div className="mb-4">
-          <span className="text-xl sm:text-2xl font-light text-gray-900">
+          <span className="brand-section-title text-xl sm:text-2xl font-light text-gray-900">
             ₹{combo.price}
           </span>
         </div>
@@ -591,7 +505,7 @@ const ComboCard = ({ combo, index }: { combo: any; index: number }) => {
           <motion.button
             whileHover={{ scale: 1.02, borderColor: "#f97316", color: "#f97316" }}
             whileTap={{ scale: 0.98 }}
-            className="w-full py-2 sm:py-2.5 border border-gray-200 text-gray-700 text-sm sm:text-md font-light tracking-wider hover:border-orange-400 transition-all duration-300"
+            className="brand-section-title w-full py-2 sm:py-2.5 border border-gray-200 text-gray-700 text-sm sm:text-md font-light tracking-wider hover:border-orange-400 transition-all duration-300"
           >
             SHOP NOW
           </motion.button>
@@ -631,7 +545,7 @@ const TestimonialSection: React.FC = () => {
     }
   };
 
-  const cardVariants:Variants = {
+  const cardVariants: Variants = {
     hidden: { opacity: 0, y: 30 },
     visible: { 
       opacity: 1, 
@@ -644,7 +558,7 @@ const TestimonialSection: React.FC = () => {
     <section className="py-24 md:py-32 bg-gradient-to-br from-[#FFF8F0] to-[#FFF5EB] overflow-hidden">
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="text-center mb-16">
-           <SectionHeader
+          <SectionHeader
             title="Loved by the mindful ones"
             subtitle="Join thousands who've made the switch to clean snacking"
           />
@@ -675,20 +589,20 @@ const TestimonialSection: React.FC = () => {
               </div>
 
               <blockquote className="relative mb-8">
-                <p className="text-gray-700 text-lg leading-relaxed font-medium tracking-tight">
+                <p className="brand-section-title text-gray-700 text-lg leading-relaxed font-medium tracking-tight">
                   "{testimonial.quote}"
                 </p>
               </blockquote>
 
               <div className="flex items-center gap-4 border-t border-orange-50 pt-6">
                 <div className="h-10 w-10 rounded-full bg-gradient-to-br from-orange-100 to-amber-100 flex items-center justify-center text-orange-600 font-bold text-xs">
-                  {testimonial.author.charAt(0)}
+                  <span className="brand-section-title">{testimonial.author.charAt(0)}</span>
                 </div>
                 <div>
-                  <p className="text-gray-900 text-sm font-bold tracking-tight">
+                  <p className="brand-section-title text-gray-900 text-sm font-bold tracking-tight">
                     {testimonial.author}
                   </p>
-                  <p className="text-orange-500/80 text-[11px] uppercase font-semibold tracking-widest">
+                  <p className="brand-section-title text-orange-500/80 text-[11px] uppercase font-semibold tracking-widest">
                     {testimonial.role}
                   </p>
                 </div>
@@ -701,9 +615,7 @@ const TestimonialSection: React.FC = () => {
   );
 };
 
-// Craftsmanship Section - Add before Testimonials
-
-
+// Craftsmanship Section
 const CraftsmanshipSection: React.FC = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
@@ -762,20 +674,20 @@ const CraftsmanshipSection: React.FC = () => {
                 >
                   <div className="flex-1 text-center md:text-left">
                     <motion.span 
-                      className="text-6xl md:text-7xl font-black text-orange-100"
+                      className="brand-section-title text-6xl md:text-7xl font-black text-orange-100"
                       whileHover={{ scale: 1.05, color: "#FED7AA" }}
                       transition={{ duration: 0.3 }}
                     >
                       {step.step}
                     </motion.span>
                     <motion.h3 
-                      className="text-2xl md:text-3xl font-light text-gray-900 mt-2 tracking-tight"
+                      className="brand-section-title text-2xl md:text-3xl font-light text-gray-900 mt-2 tracking-tight"
                       whileHover={{ x: 5, color: "#F97316" }}
                       transition={{ duration: 0.3 }}
                     >
                       {step.title}
                     </motion.h3>
-                    <p className="text-gray-400 mt-2 leading-relaxed max-w-md mx-auto md:mx-0">
+                    <p className="brand-section-title text-gray-400 mt-2 leading-relaxed max-w-md mx-auto md:mx-0">
                       {step.desc}
                     </p>
                   </div>
@@ -793,13 +705,6 @@ const CraftsmanshipSection: React.FC = () => {
                       </div>
                     </div>
                     
-                    {/* Pulsing ring animation */}
-                    {/* <motion.div 
-                      className="absolute inset-0 rounded-full border-2 border-orange-400/40"
-                      animate={{ scale: [1, 1.4, 1], opacity: [0.6, 0, 0.6] }}
-                      transition={{ duration: 2.5, repeat: Infinity, delay: idx * 0.4 }}
-                    />
-                     */}
                     {/* Glow effect */}
                     <motion.div 
                       className="absolute inset-0 rounded-full bg-orange-400/20 blur-xl -z-10"
@@ -825,7 +730,7 @@ const CraftsmanshipSection: React.FC = () => {
           <motion.button 
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.98 }}
-            className="inline-flex items-center gap-3 px-8 py-3.5 bg-gradient-to-r from-orange-500 to-amber-500 text-white text-xs tracking-[0.2em] font-light rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
+            className="brand-section-title inline-flex items-center gap-3 px-8 py-3.5 bg-gradient-to-r from-orange-500 to-amber-500 text-white text-xs tracking-[0.2em] font-light rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
           >
             DISCOVER OUR STORY
             <motion.div
@@ -841,233 +746,150 @@ const CraftsmanshipSection: React.FC = () => {
   );
 };
 
-// ============================================================================
-// ALL PRODUCTS SECTION - FIXED: Centered like other headings
-// ============================================================================
+// ========== FAQ ACCORDION ITEM COMPONENT ==========
+const FAQItem = ({ question, answer, isOpen, onToggle, index }) => {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-50px" });
 
+  return (
+    <motion.div
+      ref={ref}
+      initial={{ opacity: 0, y: 20 }}
+      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+      transition={{ duration: 0.4, delay: index * 0.05 }}
+      className="group"
+    >
+      <button
+        onClick={onToggle}
+        className="w-full py-5 flex items-center justify-between text-left hover:text-orange-600 transition-colors duration-300"
+      >
+        <span className="brand-section-title font-bold text-sm md:text-base tracking-wide text-gray-900 group-hover:text-orange-600 transition-colors">
+          {question}
+        </span>
+        <motion.span
+          animate={{ rotate: isOpen ? 180 : 0 }}
+          transition={{ duration: 0.3, ease: "easeInOut" }}
+          className="text-gray-400 group-hover:text-orange-600 transition-colors"
+        >
+          {isOpen ? (
+            <ChevronUp size={18} />
+          ) : (
+            <ChevronDown size={18} />
+          )}
+        </motion.span>
+      </button>
 
+      <AnimatePresence initial={false}>
+        {isOpen && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.3, ease: "easeInOut" }}
+            className="overflow-hidden"
+          >
+            <p className="brand-section-title text-xs md:text-sm text-gray-600 leading-relaxed pb-5 max-w-2xl">
+              {answer}
+            </p>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </motion.div>
+  );
+};
 
-const AllProductsSection: React.FC<{ products: any[] }> = ({ products }) => {
-  const [hoveredId, setHoveredId] = useState<string | null>(null);
+// ========== MAIN FAQ COMPONENT ==========
+const FAQ = ({ faqs, contactEmail = "support@allrealnutrition.com" }) => {
+  const [openIndex, setOpenIndex] = useState(0);
+  const sectionRef = useRef(null);
+  const isInView = useInView(sectionRef, { once: true, amount: 0.2 });
 
-  const containerVariants: Variants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { 
-        staggerChildren: 0.15,
-        delayChildren: 0.2,
-      },
-    },
-  };
-
-  const cardVariants: Variants = {
-    hidden: { opacity: 0, y: 50, scale: 0.95 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      scale: 1,
-      transition: { 
-        duration: 0.7, 
-        ease: [0.16, 1, 0.3, 1],
-      },
-    },
+  const toggleFAQ = (index) => {
+    setOpenIndex(openIndex === index ? null : index);
   };
 
   const headerVariants: Variants = {
-    hidden: { opacity: 0 },
+    hidden: { opacity: 0, x: -30 },
     visible: {
       opacity: 1,
-      transition: {
-        staggerChildren: 0.15,
-      },
-    },
-  };
-
-  const headerItemVariants: Variants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: {
-      opacity: 1,
-      y: 0,
+      x: 0,
       transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] },
     },
   };
 
-  const lineVariants: Variants = {
-    hidden: { width: 0, opacity: 0 },
+  const rightPanelVariants: Variants = {
+    hidden: { opacity: 0, x: 30 },
     visible: {
-      width: 40,
       opacity: 1,
-      transition: { delay: 0.4, duration: 0.8, ease: [0.16, 1, 0.3, 1] },
+      x: 0,
+      transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.2 },
     },
   };
 
   return (
-    <section className="py-14 md:py-20 overflow-hidden">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+    <section className="w-full bg-gray-50 py-20 px-6 md:px-12 overflow-hidden">
+      <style>{globalStyles}</style>
+      <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16">
         
-        {/* Section Header with Enhanced Animation */}
-        <motion.div 
-          className="text-center mb-16"
+        {/* FAQ Left Header Deck */}
+        <motion.div
+          ref={sectionRef}
           variants={headerVariants}
           initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.3 }}
+          animate={isInView ? "visible" : "hidden"}
+          className="lg:col-span-5 space-y-6"
         >
-          <motion.h2
-            variants={headerItemVariants}
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-light tracking-tight text-gray-900 mb-4 px-2"
-          >
-            All Happy Bars
-          </motion.h2>
+          <div className="space-y-2">
+            <h2 className="brand-section-title text-4xl md:text-5xl lg:text-6xl font-black tracking-tight text-gray-900 leading-tight">
+              Frequently Asked
+              <br />
+              <span className="text-orange-500">Questions</span>
+            </h2>
+          </div>
           
-          <motion.p
-            variants={headerItemVariants}
-            className="text-gray-400 max-w-2xl mx-auto text-md sm:text-md font-light tracking-wide px-4"
+          <motion.div 
+            className="space-y-1 text-sm pt-4"
+            initial={{ opacity: 0 }}
+            animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+            transition={{ delay: 0.3, duration: 0.5 }}
           >
-            Experience our complete range of clean energy. No fillers, no secrets, just real food.
-          </motion.p>
-
-          <motion.div
-            variants={lineVariants}
-            className="h-px bg-gradient-to-r from-orange-300 to-orange-400 rounded-full mx-auto mt-6"
-          />
+            <p className="brand-section-title text-gray-600 font-medium">Still have a query?</p>
+            <motion.p 
+              whileHover={{ x: 5 }}
+              className="brand-section-title text-gray-900 font-bold underline cursor-pointer hover:text-orange-600 transition-colors inline-block"
+            >
+              Get in touch with us
+            </motion.p><br/>
+            <a 
+              href={`mailto:${contactEmail}`} 
+              className="brand-section-title text-orange-600 font-semibold block pt-1 hover:underline inline-flex items-center gap-2 group"
+            >
+              <Mail size={14} className="group-hover:scale-110 transition-transform" />
+              {contactEmail}
+            </a>
+          </motion.div>
         </motion.div>
 
-        {/* Products Grid with Stagger Animation */}
+        {/* FAQ Accordions Framework Component */}
         <motion.div
-          variants={containerVariants}
+          variants={rightPanelVariants}
           initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.1 }}
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-16"
+          animate={isInView ? "visible" : "hidden"}
+          className="lg:col-span-7 divide-y divide-gray-200 border-t border-b border-gray-200 bg-white rounded-2xl shadow-sm overflow-hidden"
         >
-          {products.map((product) => (
-            <motion.div
-              key={product.slug}
-              variants={cardVariants}
-              onMouseEnter={() => setHoveredId(product.slug)}
-              onMouseLeave={() => setHoveredId(null)}
-              className="relative group"
-              whileHover={{ y: -8 }}
-              transition={{ type: "spring", stiffness: 300, damping: 20 }}
-            >
-              {/* Animated Border Glow on Hover */}
-              <motion.div 
-                className="absolute -inset-0.5 bg-gradient-to-r from-orange-400 to-amber-400 rounded-[2.6rem] opacity-0 group-hover:opacity-20 transition-opacity duration-500 blur-sm"
-              />
-              
-              {/* Product Visual Container */}
-              <Link 
-                to={`/product/${product.slug}`} 
-                className="relative aspect-[4/5] bg-white rounded-[2.5rem] p-8 flex flex-col items-center justify-center overflow-hidden transition-all duration-500 border border-gray-100/50 group-hover:border-orange-100 group-hover:shadow-[0_30px_60px_-15px_rgba(255,185,116,0.15)] block"
-              >
-                {/* Animated Background Decor */}
-                <motion.div 
-                  className="absolute inset-0 bg-gradient-to-b from-orange-50/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                  initial={{ scale: 0.8, opacity: 0 }}
-                  whileHover={{ scale: 1, opacity: 1 }}
-                  transition={{ duration: 0.5 }}
+          <div className="divide-y divide-gray-200">
+            {faqs.map((faq, index) => (
+              <div key={index} className="px-6">
+                <FAQItem
+                  question={faq.q}
+                  answer={faq.a}
+                  isOpen={openIndex === index}
+                  onToggle={() => toggleFAQ(index)}
+                  index={index}
                 />
-                
-                {/* Floating Particles on Hover */}
-                {hoveredId === product.slug && (
-                  <>
-                    <motion.div 
-                      className="absolute top-1/4 left-1/4 w-1 h-1 bg-orange-300 rounded-full"
-                      animate={{ 
-                        scale: [0, 10, 0],
-                        opacity: [0, 0.3, 0],
-                        x: [0, 30, 60],
-                        y: [0, -20, -40],
-                      }}
-                      transition={{ duration: 1, repeat: Infinity, delay: 0 }}
-                    />
-                    <motion.div 
-                      className="absolute bottom-1/3 right-1/4 w-1 h-1 bg-amber-300 rounded-full"
-                      animate={{ 
-                        scale: [0, 8, 0],
-                        opacity: [0, 0.25, 0],
-                        x: [0, -25, -50],
-                        y: [0, 15, 30],
-                      }}
-                      transition={{ duration: 1.2, repeat: Infinity, delay: 0.3 }}
-                    />
-                  </>
-                )}
-                
-                {/* Image Component with Enhanced Animation */}
-                <motion.div
-                  animate={hoveredId === product.slug ? { y: -12, scale: 1.06, rotate: 2 } : { y: 0, scale: 1, rotate: 0 }}
-                  transition={{ type: "spring", stiffness: 400, damping: 25 }}
-                  className="relative z-10 w-full h-full flex items-center justify-center"
-                >
-                  <motion.img
-                    src={product.img}
-                    alt={product.name}
-                    className="w-auto h-[85%] object-contain drop-shadow-[0_20px_30px_rgba(0,0,0,0.08)] group-hover:drop-shadow-[0_30px_40px_rgba(0,0,0,0.12)] transition-all duration-500"
-                    whileHover={{ scale: 1.02 }}
-                  />
-                </motion.div>
-
-                {/* Quick View Button that appears on hover */}
-                <motion.div 
-                  className="absolute bottom-6 left-1/2 -translate-x-1/2"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={hoveredId === product.slug ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-                  transition={{ duration: 0.3 }}
-                >
-                  <span className="text-[10px] tracking-[0.2em] text-orange-500 bg-white/80 backdrop-blur-sm px-4 py-2 rounded-full shadow-md">
-                    QUICK VIEW
-                  </span>
-                </motion.div>
-              </Link>
-
-              {/* Product Info with Slide Animation */}
-              <motion.div 
-                className="mt-8 px-2 space-y-3"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.2 }}
-              >
-                <div className="flex justify-between items-start">
-                  <div>
-                    <motion.h3 
-                      className="text-2xl font-light text-gray-900 tracking-tight group-hover:text-orange-600 transition-colors"
-                      whileHover={{ x: 3 }}
-                    >
-                      {product.name}
-                    </motion.h3>
-                  </div>
-                  <motion.div 
-                    className="text-right"
-                    whileHover={{ scale: 1.05 }}
-                    transition={{ type: "spring", stiffness: 400 }}
-                  >
-                    <p className="text-2xl font-light text-gray-900">₹{product.price}</p>
-                    <p className="text-[10px] font-bold text-gray-300 uppercase tracking-tighter">Per Bar</p>
-                  </motion.div>
-                </div>
-                
-                <motion.p 
-                  className="text-sm text-gray-400 font-light line-clamp-2 leading-relaxed"
-                  whileHover={{ color: "#6B7280" }}
-                >
-                  {product.desc}
-                </motion.p>
-
-                {/* Animated Add to Cart Button */}
-                <motion.button
-                  className="w-full mt-4 py-2.5 border border-gray-200 text-gray-500 text-xs tracking-[0.15em] font-light rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 hover:border-orange-400 hover:text-orange-500 hover:bg-orange-50"
-                  initial={{ opacity: 0, y: 10 }}
-                  whileHover={{ scale: 1.02, backgroundColor: "#FFF5EB" }}
-                  whileTap={{ scale: 0.98 }}
-                >
-                  ADD TO CART
-                </motion.button>
-              </motion.div>
-            </motion.div>
-          ))}
+              </div>
+            ))}
+          </div>
         </motion.div>
       </div>
     </section>
@@ -1075,6 +897,131 @@ const AllProductsSection: React.FC<{ products: any[] }> = ({ products }) => {
 };
 
 
+
+const AllProductsSection: React.FC<{ products: any[] }> = ({ products }) => {
+  const [hoveredId, setHoveredId] = useState<string | null>(null);
+
+  // Layout color rotation mapping based on the circle backdrops from your files
+  const circleColors = [
+    'bg-[#7BC6E8]', // Sky Blue backdrop
+    'bg-[#FFCD43]', // Warm Yellow backdrop
+    'bg-[#AECB75]', // Sage Green backdrop
+    'bg-[#DCA4E6]'  // Soft Purple backdrop
+  ];
+
+  const containerVariants: Variants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { 
+        staggerChildren: 0.1,
+      },
+    },
+  };
+
+  const cardVariants: Variants = {
+    hidden: { opacity: 0, y: 30 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { 
+        duration: 0.6, 
+        ease: [0.16, 1, 0.3, 1],
+      },
+    },
+  };
+
+  return (
+    <section className="py-16 md:py-24 bg-white overflow-hidden">
+      <style>{globalStyles}</style>
+      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+        
+        {/* --- BRANDED HEADER DECK --- */}
+        <div className="text-center mb-20 space-y-3">
+          <h2 className="brand-section-title text-4xl sm:text-5xl lg:text-6xl  tracking-tight text-neutral-900">
+            All Products
+          </h2>
+          <p className="brand-section-title text-neutral-500 max-w-xl mx-auto text-sm sm:text-base font-normal tracking-wide">
+            Experience our complete range of clean energy. No fillers, no secrets, just real food.
+          </p>
+        </div>
+
+        {/* --- AUTHENTIC GRID WITH STAGGER ANIMATION --- */}
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.05 }}
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-12"
+        >
+          {products.map((product, idx) => {
+            const isHovered = hoveredId === product.slug;
+            const currentBg = circleColors[idx % circleColors.length];
+
+            return (
+              <motion.div
+                key={product.slug}
+                variants={cardVariants}
+                onMouseEnter={() => setHoveredId(product.slug)}
+                onMouseLeave={() => setHoveredId(null)}
+                className="flex flex-col items-center text-center group h-full"
+              >
+                {/* Product Box Frame Wrapper */}
+                <Link 
+                  to={`/product/${product.slug}`} 
+                  className="relative w-full aspect-square flex items-center justify-center mb-6 block"
+                >
+                  {/* Clean Geometric Backdrop Circle */}
+                  <div className={`absolute w-[82%] h-[82%] rounded-full ${currentBg} transition-transform duration-500 ease-out ${isHovered ? 'scale-105' : 'scale-100'}`} />
+                  
+                  {/* Tilted Floating Product Packaging Assembly */}
+                  <div className="relative z-10 w-full h-full flex items-center justify-center p-4">
+                    <motion.img
+                      src={product.img}
+                      alt={product.name}
+                      className="w-[88%] h-auto object-contain filter drop-shadow-[0_12px_20px_rgba(0,0,0,0.18)]"
+                      animate={isHovered ? { 
+                        scale: 1.05, 
+                        rotate: -12,
+                        y: -6 
+                      } : { 
+                        scale: 1, 
+                        rotate: -8,
+                        y: 0 
+                      }}
+                      transition={{ type: "spring", stiffness: 260, damping: 22 }}
+                    />
+                  </div>
+                </Link>
+
+                {/* Product Typography Block */}
+                <div className="space-y-3 w-full px-2 flex flex-col items-center flex-1">
+                  <h3 className="brand-section-title text-2xl sm:text-3xl font-bold text-neutral-900 tracking-tight leading-tight">
+                    {product.name}
+                  </h3>
+                  
+                  <p className="brand-section-title text-sm text-neutral-600 font-normal leading-relaxed max-w-[260px] mx-auto min-h-[60px]">
+                    {product.desc || "Find your favourite flavour"}
+                  </p>
+
+                  <div className="pt-3 w-full max-w-[200px] mt-auto">
+                    <Link
+                      to={`/product/${product.slug}`}
+                      className="brand-section-title w-full py-3 bg-[#141414] hover:bg-black text-white text-xs font-bold tracking-[0.2em] uppercase rounded-full flex items-center justify-center gap-2 transition-all duration-300 shadow-md hover:shadow-lg active:scale-95"
+                    >
+                      <span>SHOP NOW</span>
+                      <span className="text-xs font-normal text-neutral-400 group-hover:translate-x-1 transition-transform duration-200">→</span>
+                    </Link>
+                  </div>
+                </div>
+              </motion.div>
+            );
+          })}
+        </motion.div>
+      </div>
+    </section>
+  );
+};
 
 // Main Component
 export const HomePage: React.FC = () => {
@@ -1143,15 +1090,47 @@ export const HomePage: React.FC = () => {
   ];
 
   const ingredients = [
-    { title: "ALMONDS", img: "/ingredients/almond.png" },
-    { title: "CRANBERRIES", img: "/ingredients/Cranberry.png" },
-    { title: "CASHEWS", img: "/ingredients/cashew.png" },
-    { title: "RAISINS", img: "/ingredients/raisin.png" },
-    { title: "COCONUT", img: "/ingredients/Coconut Craze.png" },
-    { title: "PEANUTS", img: "/ingredients/Peanut.png" },
-    { title: "JAGGERY", img: "/ingredients/Jaggery.png" },
-    { title: "DATES", img: "/ingredients/Date.png" },
-  ];
+  { 
+    title: "ALMONDS", 
+    img: "/ingredients/almond.png",
+    desc: "Rich in vitamin E and healthy fats for heart health"
+  },
+  { 
+    title: "CRANBERRIES", 
+    img: "/ingredients/Cranberry.png",
+    desc: "Packed with antioxidants and natural sweetness"
+  },
+  { 
+    title: "CASHEWS", 
+    img: "/ingredients/cashew.png",
+    desc: "Creamy texture with essential minerals and protein"
+  },
+  { 
+    title: "RAISINS", 
+    img: "/ingredients/raisin.png",
+    desc: "Natural energy boost with iron and fiber"
+  },
+  { 
+    title: "COCONUT", 
+    img: "/ingredients/Coconut Craze.png",
+    desc: "Healthy MCTs for sustained energy release"
+  },
+  { 
+    title: "PEANUTS", 
+    img: "/ingredients/Peanut.png",
+    desc: "Plant-based protein and heart-healthy fats"
+  },
+  { 
+    title: "JAGGERY", 
+    img: "/ingredients/Jaggery.png",
+    desc: "Unrefined sweetener rich in minerals"
+  },
+  { 
+    title: "DATES", 
+    img: "/ingredients/Date.png",
+    desc: "Naturally sweet with fiber and essential nutrients"
+  },
+];
 
   const combos = [
     {
@@ -1177,24 +1156,53 @@ export const HomePage: React.FC = () => {
     },
   ];
 
+  const faqsToUse = [
+    {
+      q: "What are the ingredients?",
+      a: "Our bars are made with 12 or fewer real food ingredients, nothing artificial. We use grass-fed milk protein from family farms in Ireland's County Kerry, plus mineral-rich Irish Atlantic sea salt. Each product page shows the full ingredient list for that flavor.",
+    },
+    {
+      q: "Are All Real products suitable for vegans?",
+      a: "We offer dedicated plant-based recipe lines on our shop matching identical eco metrics. Our vegan range uses premium plant proteins from peas and rice, delivering the same great taste and nutrition profile.",
+    },
+    {
+      q: "Where do you ship to?",
+      a: "We ship nationwide across Ireland, the UK, and international European sectors seamlessly. Standard shipping takes 3-5 business days, with express options available at checkout.",
+    },
+    {
+      q: "How long will my order take?",
+      a: "Standard dispatch arrivals settle within 2-4 business fulfillment loops cleanly. You'll receive tracking information via email once your order ships.",
+    },
+    {
+      q: "How does the subscription service work?",
+      a: "Save 10% on recurring automated monthly replenishment cycles cancelable anytime. Choose your favorite bars, set delivery frequency, and we'll handle the rest. No commitment, pause or cancel whenever you like.",
+    },
+    {
+      q: "Can I return my order if there's a problem?",
+      a: "Yes, we uphold 30-day claims protection support pipelines actively. If you're not satisfied with your purchase, contact our support team for a full refund or replacement.",
+    },
+    {
+      q: "Do you sell to wholesale customers?",
+      a: "Yes, connect distribution networks directly through our corporate merchant interface forms. We offer bulk pricing for gyms, cafes, retail stores, and corporate wellness programs.",
+    },
+  ];
+
+  const contactEmail = "support@allrealnutrition.com";
+
+
+
   return (
     <div className="w-full bg-white overflow-x-hidden">
+      <style>{globalStyles}</style>
+      
       {/* Hero Section */}
       <section className="relative">
         <HappyBarLanding />
       </section>
       
-      {/* All Products Section - Now Center Aligned */}
-      <AllProductsSection products={products} />
-
       {/* Features Section */}
-      <section className="py-12 sm:py-16 md:py-20 bg-white">
+      <section className="py-12 bg-white">
         <div className="container mx-auto px-4 sm:px-6">
-          <SectionHeader
-            title="Why Choose Us"
-            subtitle="Crafted with precision and care"
-          />
-
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6 sm:gap-8 mx-auto">
             {features.map((feature, i) => (
               <FeatureCard key={i} feature={feature} index={i} />
@@ -1202,22 +1210,27 @@ export const HomePage: React.FC = () => {
           </div>
         </div>
       </section>
+      
+      {/* All Products Section */}
+      <div id="all-products">
+        <AllProductsSection products={products} />
+      </div>
 
-      {/* Ingredients Section */}
-      <section className="py-12 sm:py-16 md:py-20 bg-gray-50">
-        <div className="container mx-auto px-4 sm:px-6">
-          <SectionHeader
-            title="Pure Ingredients"
-            subtitle="Simple. Natural. Honest."
-          />
+     {/* Ingredients Section */}
+<section className="py-12 sm:py-16 md:py-20 ">
+  <div className="container mx-auto px-4 sm:px-6">
+    <SectionHeader
+      title="Pure Ingredients"
+      subtitle="Simple. Natural. Honest."
+    />
 
-          <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-8 gap-4 sm:gap-6 md:gap-8 mx-auto">
-            {ingredients.map((ingredient, i) => (
-              <IngredientCard key={i} ingredient={ingredient} index={i} />
-            ))}
-          </div>
-        </div>
-      </section>
+    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8 mx-auto max-w-6xl">
+      {ingredients.map((ingredient, i) => (
+        <IngredientCard key={i} ingredient={ingredient} index={i} />
+      ))}
+    </div>
+  </div>
+</section>
 
       {/* Combo Offers Section */}
       <section className="py-12 sm:py-16 md:py-20 bg-white">
@@ -1234,6 +1247,12 @@ export const HomePage: React.FC = () => {
       
       <CraftsmanshipSection/>
       <TestimonialSection/>
+      
+      {/* FAQ Section */}
+      <FAQ faqs={faqsToUse} contactEmail={contactEmail} />
+      
+      {/* Brand Footer */}
+      {/* <BrandFooter onShopClick={handleShopClick} /> */}
     </div>
   );
 };
