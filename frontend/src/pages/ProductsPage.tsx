@@ -131,10 +131,10 @@ export const ProductsPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white pt-24 pb-20 font-light">
+    <div className="min-h-screen bg-white pt-24 pb-20 font-sans">
       <div className="container mx-auto px-6 max-w-7xl">
         
-        {/* Header */}
+        {/* Header - Using global typography classes */}
         <header className="text-center mb-16">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -142,13 +142,13 @@ export const ProductsPage: React.FC = () => {
             transition={{ duration: 0.6 }}
           >
             <div className="inline-block mb-4">
-              <span className="text-sm tracking-[0.2em] text-gray-400">COLLECTION</span>
+              <span className="text-body text-sm tracking-[0.2em] text-gray-700">COLLECTION</span>
             </div>
-            <h1 className="text-4xl sm:text-5xl md:text-6xl font-light tracking-tight text-gray-900 mb-4">
+            <h1 className="heading-1 text-4xl sm:text-5xl md:text-6xl tracking-tight text-gray-900 mb-4">
               Shop
             </h1>
             <div className="w-12 h-px bg-gray-300 mx-auto" />
-            <p className="text-gray-400 text-md font-light mt-6 max-w-md mx-auto">
+            <p className="text-body text-gray-700 text-md mt-6 max-w-md mx-auto">
               Premium protein bars crafted for your everyday adventures
             </p>
           </motion.div>
@@ -174,7 +174,7 @@ export const ProductsPage: React.FC = () => {
                   {/* Badge */}
                   {p.badge && (
                     <div className="absolute top-3 left-3 z-10">
-                      <span className="text-[10px] tracking-wider text-gray-500 border-b border-gray-300 pb-1">
+                      <span className="text-body text-[10px] tracking-wider text-gray-500 border-b border-gray-300 pb-1">
                         {p.badge}
                       </span>
                     </div>
@@ -200,57 +200,57 @@ export const ProductsPage: React.FC = () => {
                       <Heart
                         size={16}
                         strokeWidth={1.5}
-                        className={`${wishlist.includes(p._id) ? 'fill-gray-800 text-gray-800' : 'text-gray-400 hover:text-gray-600'}`}
+                        className={`${wishlist.includes(p._id) ? 'fill-gray-800 text-gray-800' : 'text-gray-700 hover:text-gray-600'}`}
                       />
                     </button>
                   </div>
 
-                  {/* Product Info */}
+                  {/* Product Info - Using global text classes */}
                   <div className="p-6 text-center">
-                    {/* Category */}
+                    {/* Category - Using text-body */}
                     {p.category && (
-                      <p className="text-gray-400 text-[10px] font-light tracking-wider mb-2 uppercase">
+                      <p className="text-body text-gray-700 text-[10px] tracking-wider mb-2 uppercase">
                         {p.category}
                       </p>
                     )}
                     
-                    {/* Description/Serving info */}
+                    {/* Description/Serving info - Using text-body */}
                     {p.description && (
-                      <p className="text-gray-400 text-sm font-light tracking-wide mb-2">
+                      <p className="text-body text-gray-700 text-sm tracking-wide mb-2">
                         {p.description}
                       </p>
                     )}
                     
-                    {/* Title */}
-                    <h3 className="text-gray-800 font-light text-base tracking-wide mb-3 leading-relaxed">
+                    {/* Title - Using heading-3 class */}
+                    <h3 className="heading-3 text-gray-800 text-base tracking-wide mb-3 leading-relaxed">
                       {p.title}
                     </h3>
                     
                     {/* Divider */}
                     <div className="w-8 h-px bg-gray-200 mx-auto my-3" />
                     
-                    {/* Price */}
-                    <p className="text-gray-900 text-xl font-light">
+                    {/* Price - Using heading-3 for emphasis */}
+                    <p className="heading-3 text-gray-900 text-xl">
                       ₹{p.price}
                     </p>
                     
-                    {/* Features Tags */}
+                    {/* Features Tags - Using text-body */}
                     {p.features && p.features.length > 0 && (
                       <div className="flex flex-wrap gap-2 justify-center mt-3 mb-4">
                         {p.features.slice(0, 3).map((feature: string, i: number) => (
-                          <span key={i} className="text-[10px] text-gray-400">
+                          <span key={i} className="text-body text-[10px] text-gray-700">
                             {feature}
                           </span>
                         ))}
                       </div>
                     )}
                     
-                    {/* Action Button */}
+                    {/* Action Button - Using text-body */}
                     <motion.button
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                       onClick={() => handleAddToCart(p._id)}
-                      className="mt-5 w-full py-3 border border-gray-200 text-gray-700 text-sm font-light tracking-wider hover:border-gray-400 hover:text-gray-900 transition-all duration-300"
+                      className="text-body mt-5 w-full py-3 border border-gray-200 text-gray-700 text-sm tracking-wider hover:border-gray-400 hover:text-gray-900 transition-all duration-300"
                     >
                       ADD TO CART
                     </motion.button>

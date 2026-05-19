@@ -294,12 +294,12 @@ export const ProductDetailsPage: React.FC = () => {
 
             {/* RIGHT COLUMN: Interactive Ordering Matrix & Specifications */}
             <div className="lg:col-span-6 flex flex-col space-y-6">
-              {/* Product Header Text Grouping */}
+              {/* Product Header Text Grouping - Using heading-1 class */}
               <div>
-                <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-gray-900 leading-tight mb-2">
+                <h1 className="heading-1 text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-gray-900 leading-tight mb-2">
                   {data.titleLines.join(" ")}
                 </h1>
-                <p className="text-xl font-medium text-gray-500 tracking-wide">
+                <p className="sub-heading text-xl font-medium text-gray-500 tracking-wide">
                   {isCombo ? "Premium Variety Combo Pack" : "Protein Bar 34g"}
                 </p>
               </div>
@@ -311,14 +311,14 @@ export const ProductDetailsPage: React.FC = () => {
                     <Star key={i} size={15} className="fill-current" />
                   ))}
                 </div>
-                <span className="text-xs text-gray-500 font-medium tracking-wide">
+                <span className="text-body text-xs font-medium tracking-wide">
                   Based on 2500+ happy customers
                 </span>
               </div>
 
               {/* Dynamic Variant Switcher Grid matching screenshot circles */}
               <div className="pt-2">
-                <h3 className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-3">
+                <h3 className="heading-4 text-xs font-bold uppercase tracking-widest text-gray-400 mb-3">
                   Select Flavor Flavor Pack
                 </h3>
                 <div className="grid grid-cols-4 sm:grid-cols-5 gap-3">
@@ -346,7 +346,7 @@ export const ProductDetailsPage: React.FC = () => {
                             className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-300"
                           />
                         </div>
-                        <span className="text-[10px] mt-1.5 font-medium text-gray-600 text-center line-clamp-1 w-full tracking-tight">
+                        <span className="text-body text-[10px] mt-1.5 font-medium text-gray-600 text-center line-clamp-1 w-full tracking-tight">
                           {item.title}
                         </span>
                       </button>
@@ -360,12 +360,12 @@ export const ProductDetailsPage: React.FC = () => {
               {/* Product Pitch Descriptive Context */}
               <div className="space-y-2">
                 <h4
-                  className={`text-md font-semibold tracking-wide ${data.pitchTitleColor}`}
+                  className={`heading-4 text-md font-semibold tracking-wide ${data.pitchTitleColor}`}
                 >
                   {data.pitchTitle}
                 </h4>
                 <p
-                  className={`text-sm text-gray-600 leading-relaxed max-w-xl font-light ${data.pitchDescColor}`}
+                  className={`text-body text-sm text-gray-600 leading-relaxed max-w-xl font-light ${data.pitchDescColor}`}
                 >
                   {data.pitchDesc}
                 </p>
@@ -381,7 +381,7 @@ export const ProductDetailsPage: React.FC = () => {
                 ].map((tag) => (
                   <span
                     key={tag}
-                    className="text-[11px] bg-gray-50 text-gray-500 px-2.5 py-1 font-medium tracking-wide rounded-sm border border-gray-100"
+                    className="text-body text-[11px] bg-gray-50 text-gray-500 px-2.5 py-1 font-medium tracking-wide rounded-sm border border-gray-100"
                   >
                     {tag}
                   </span>
@@ -389,41 +389,6 @@ export const ProductDetailsPage: React.FC = () => {
               </div>
 
               {/* Checkout Cart/Wishlist Control Row */}
-              {/* <div className="flex items-center gap-3 pt-4">
-                {dbProduct ? (
-                  <motion.button
-                    whileHover={{ scale: 1.01 }}
-                    whileTap={{ scale: 0.99 }}
-                    onClick={handleAddToCart}
-                    className="flex-1 bg-gray-950 text-white font-medium py-3 px-6 tracking-wider text-sm hover:bg-gray-800 flex items-center justify-center gap-2 transition-all duration-300 shadow-sm"
-                  >
-                    <ShoppingCart size={16} />
-                    ADD TO CART — ₹{dbProduct.price}
-                  </motion.button>
-                ) : (
-                  <button
-                    onClick={() => navigate("/happy-shop")}
-                    className="flex-1 bg-gray-950 text-white font-medium py-3 px-6 tracking-wider text-sm hover:bg-gray-800 flex items-center justify-center gap-2 transition-all duration-300 shadow-sm"
-                  >
-                    SHOP COLLECTION
-                  </button>
-                )}
-
-                {dbProduct && (
-                  <motion.button
-                    whileHover={{ scale: 1.03 }}
-                    whileTap={{ scale: 0.97 }}
-                    onClick={handleAddToWishlist}
-                    className="w-12 h-12 border border-gray-200 bg-white flex items-center justify-center hover:border-gray-400 transition-all duration-300 shadow-sm"
-                  >
-                    <Heart
-                      size={18}
-                      className={`${wishlist.includes(dbProduct._id) ? "fill-red-500 text-red-500" : "text-gray-400"}`}
-                    />
-                  </motion.button>
-                )}
-              </div> */}
-
               <motion.button
                 whileHover={{ scale: 1.01 }}
                 whileTap={{ scale: 0.99 }}
@@ -440,13 +405,12 @@ export const ProductDetailsPage: React.FC = () => {
         </motion.section>
       </AnimatePresence>
 
-       {/* ingredient Section*/}
+      {/* ingredient Section*/}
       <section className="py-20 bg-[#fafafa] border-t border-neutral-100 overflow-hidden">
         <div className="max-w-7xl mx-auto px-4">
           
           <div className="text-center mb-12">
-           
-            <h2 className=" text-neutral-900 text-2xl sm:text-3xl md:text-4xl tracking-tight">
+            <h2 className="heading-1 text-neutral-900 text-2xl sm:text-3xl md:text-4xl lg:text-5xl tracking-tight">
               The real ingredients in our {data.titleLines.join(" ")} bar
             </h2>
           </div>
@@ -456,24 +420,24 @@ export const ProductDetailsPage: React.FC = () => {
             <div className="bg-[#e4d5b7] p-4 rounded-xl flex items-start space-x-3 shadow-2xs">
               <ShieldCheck className="text-neutral-800 shrink-0 mt-0.5" size={20} />
               <div>
-                <h4 className="font-bold text-neutral-950 text-sm">Gluten-free</h4>
-                <p className="text-neutral-800 text-xs mt-0.5 font-light">Made cleanly without gluten additions.</p>
+                <h4 className="heading-4 font-bold text-neutral-950 text-sm">Gluten-free</h4>
+                <p className="text-body text-neutral-800 text-xs mt-0.5 font-light">Made cleanly without gluten additions.</p>
               </div>
             </div>
 
             <div className="bg-[#cbdca3] p-4 rounded-xl flex items-start space-x-3 shadow-2xs">
               <Leaf className="text-neutral-800 shrink-0 mt-0.5" size={20} />
               <div>
-                <h4 className="font-bold text-neutral-950 text-sm">Vegetarian</h4>
-                <p className="text-neutral-800 text-xs mt-0.5 font-light">Perfectly suitable for modern vegetarians.</p>
+                <h4 className="heading-4 font-bold text-neutral-950 text-sm">Vegetarian</h4>
+                <p className="text-body text-neutral-800 text-xs mt-0.5 font-light">Perfectly suitable for modern vegetarians.</p>
               </div>
             </div>
 
             <div className="bg-[#e26d65] p-4 rounded-xl flex items-start space-x-3 shadow-2xs">
               <AlertTriangle className="text-white shrink-0 mt-0.5" size={20} />
               <div>
-                <h4 className="font-bold text-white text-sm">Allergen info</h4>
-                <p className="text-red-50 text-xs mt-0.5 font-light">
+                <h4 className="heading-4 font-bold text-white text-sm">Allergen info</h4>
+                <p className="text-body text-red-50 text-xs mt-0.5 font-light">
                   Contains premium premium nuts. Made in a trace-free natural space.
                 </p>
               </div>
@@ -513,12 +477,12 @@ export const ProductDetailsPage: React.FC = () => {
                     {/* Hover Tooltip Overlay Descriptor box matching style specs */}
                     <div className="absolute bottom-full mb-2 hidden group-hover:flex flex-col items-center w-40 bg-neutral-900 text-white p-2 rounded-lg shadow-xl text-center z-50">
                       <span className="text-[11px] font-bold">{item.name}</span>
-                      <span className="text-[9px] text-neutral-300 font-light mt-0.5 leading-tight">{item.desc}</span>
+                      <span className="text-body text-[9px] text-neutral-300 font-light mt-0.5 leading-tight">{item.desc}</span>
                       <div className="w-2 h-2 bg-neutral-900 rotate-45 absolute -bottom-1" />
                     </div>
                   </motion.div>
                   
-                  <span className="text-[10px] font-extrabold tracking-wider text-neutral-700 mt-2 uppercase bg-white px-2.5 py-0.5 rounded-full border border-neutral-100 shadow-3xs">
+                  <span className="text-body text-[10px] font-extrabold tracking-wider text-neutral-700 mt-2 uppercase bg-white px-2.5 py-0.5 rounded-full border border-neutral-100 shadow-3xs">
                     {item.name}
                   </span>
                 </div>
@@ -531,8 +495,8 @@ export const ProductDetailsPage: React.FC = () => {
             {data.mascots.map((item: any) => (
               <div key={item.id} className="bg-white p-4 rounded-xl border border-neutral-100 text-center flex flex-col items-center">
                 <img src={item.img} alt={item.name} className="w-14 h-14 object-contain mb-2" />
-                <h5 className="text-xs font-bold text-neutral-900">{item.name}</h5>
-                <p className="text-[10px] text-neutral-500 mt-1">{item.desc}</p>
+                <h5 className="heading-4 text-xs font-bold text-neutral-900">{item.name}</h5>
+                <p className="text-body text-[10px] text-neutral-500 mt-1">{item.desc}</p>
               </div>
             ))}
           </div>
@@ -550,10 +514,10 @@ export const ProductDetailsPage: React.FC = () => {
           transition={{ duration: 0.4 }}
           className={`${data.featuresBg} py-16 sm:py-20 md:py-24 relative z-0`}
         >
-          <div className="container mx-auto px-4 sm:px-6 ">
+          <div className="container mx-auto px-4 sm:px-6  max-w-7xl">
             <div className="text-center mb-12">
               <h2
-                className={`${data.featuresTitleColor} text-2xl sm:text-3xl md:text-4xl font-light mb-4`}
+                className={`heading-1 ${data.featuresTitleColor} text-2xl sm:text-3xl md:text-4xl lg:text-5xl `}
               >
                 Why Choose Us
               </h2>
@@ -568,7 +532,7 @@ export const ProductDetailsPage: React.FC = () => {
               ></div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 ">
               {features.map((f, i) => (
                 <motion.div
                   key={i}
@@ -587,11 +551,11 @@ export const ProductDetailsPage: React.FC = () => {
                     />
                   </div>
                   <h3
-                    className={`${data.featuresTitleColor} font-light text-lg mb-2`}
+                    className={`heading-3 ${data.featuresTitleColor} font-light text-lg mb-2`}
                   >
                     {f.title}
                   </h3>
-                  <p className="text-white/70 text-md font-light leading-relaxed">
+                  <p className="text-body text-white text-md font-light leading-relaxed">
                     {f.desc}
                   </p>
                 </motion.div>
