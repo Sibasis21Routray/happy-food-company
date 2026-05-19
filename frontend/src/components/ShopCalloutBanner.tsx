@@ -11,7 +11,7 @@ interface ShopCalloutBannerProps {
   
   /**
    * Alt text for the product image
-   * @default "All Real Nutrition Protein Bar Package"
+   * @default "Happy Bar Protein Bar Package"
    */
   productImageAlt?: string;
   
@@ -77,7 +77,7 @@ interface ShopCalloutBannerProps {
 
 export const ShopCalloutBanner: React.FC<ShopCalloutBannerProps> = ({
   productImage = "/images/cashew-raisin.png",
-  productImageAlt = "All Real Nutrition Protein Bar Package",
+  productImageAlt = "Happy Bar Protein Bar Package",
   scriptHeading = "Real Food",
   mainHeading = "Real People.<br />Real Impact.",
   buttonText = "Shop Now",

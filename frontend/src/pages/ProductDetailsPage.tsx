@@ -417,7 +417,7 @@ export const ProductDetailsPage: React.FC = () => {
 
           {/* Quick-Info Ingredient Metric Badges */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto mb-20">
-            <div className="bg-[#e4d5b7] p-4 rounded-xl flex items-start space-x-3 shadow-2xs">
+            <div className="bg-[#e4d5b7] p-4 rounded-xl flex items-start space-x-3 shadow-2xs hover:scale-105 transition-all">
               <ShieldCheck className="text-neutral-800 shrink-0 mt-0.5" size={20} />
               <div>
                 <h4 className="heading-4 font-bold text-neutral-950 text-sm">Gluten-free</h4>
@@ -425,7 +425,7 @@ export const ProductDetailsPage: React.FC = () => {
               </div>
             </div>
 
-            <div className="bg-[#cbdca3] p-4 rounded-xl flex items-start space-x-3 shadow-2xs">
+            <div className="bg-[#cbdca3] p-4 rounded-xl flex items-start space-x-3 shadow-2xs hover:scale-105 transition-all">
               <Leaf className="text-neutral-800 shrink-0 mt-0.5" size={20} />
               <div>
                 <h4 className="heading-4 font-bold text-neutral-950 text-sm">Vegetarian</h4>
@@ -433,7 +433,7 @@ export const ProductDetailsPage: React.FC = () => {
               </div>
             </div>
 
-            <div className="bg-[#e26d65] p-4 rounded-xl flex items-start space-x-3 shadow-2xs">
+            <div className="bg-[#e26d65] p-4 rounded-xl flex items-start space-x-3 shadow-2xs hover:scale-105 transition-all">
               <AlertTriangle className="text-white shrink-0 mt-0.5" size={20} />
               <div>
                 <h4 className="heading-4 font-bold text-white text-sm">Allergen info</h4>

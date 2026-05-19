@@ -170,8 +170,8 @@ const HappyBarLanding: React.FC = () => {
       
       <motion.img 
         src="/images/cashew-raisin.png" 
-        alt="All Real Cashew Cookie Dough Protein Bar" 
-        className="absolute top-80 left-100 w-full h-114 object-contain z-10 filter drop-shadow-[0_20px_35px_rgba(0,0,0,0.3)] -rotate-10"
+        alt="Happy Bar Cashew Cookie Dough Protein Bar" 
+        className="absolute top-80 left-100 w-full h-114 md:h-94 lg:h-134 xl:h-100 object-contain z-10 filter drop-shadow-[0_20px_35px_rgba(0,0,0,0.3)] -rotate-10"
         whileHover={{ scale: 1.02, rotate: -1 }}
         transition={{ duration: 0.3 }}
       />
@@ -183,7 +183,7 @@ const HappyBarLanding: React.FC = () => {
           
           <div className="space-y-1">
             <h2 className="heading-1 text-3xl md:text-4xl font-bold tracking-tight text-neutral-900 leading-tight">
-              Why choose <br className="hidden lg:inline" /> All Real Nutrition?
+              Why choose <br className="hidden lg:inline" /> Happy Bar?
             </h2>
             <p className="text-body text-neutral-500 text-base">
               Good for you - and the planet.
@@ -717,7 +717,7 @@ const FAQItem = ({ question, answer, isOpen, onToggle, index }) => {
 };
 
 // ========== MAIN FAQ COMPONENT ==========
-const FAQ = ({ faqs, contactEmail = "support@allrealnutrition.com" }) => {
+const FAQ = ({ faqs, contactEmail = "woohoo@thehappyfoodcompany.com" }) => {
   const [openIndex, setOpenIndex] = useState(0);
   const sectionRef = useRef(null);
   const isInView = useInView(sectionRef, { once: true, amount: 0.2 });
@@ -1078,7 +1078,7 @@ export const HomePage: React.FC = () => {
       a: "Our bars are made with 12 or fewer real food ingredients, nothing artificial. We use grass-fed milk protein from family farms in Ireland's County Kerry, plus mineral-rich Irish Atlantic sea salt. Each product page shows the full ingredient list for that flavor.",
     },
     {
-      q: "Are All Real products suitable for vegans?",
+      q: "Are Happy Bar products suitable for vegans?",
       a: "We offer dedicated plant-based recipe lines on our shop matching identical eco metrics. Our vegan range uses premium plant proteins from peas and rice, delivering the same great taste and nutrition profile.",
     },
     {
@@ -1103,7 +1103,7 @@ export const HomePage: React.FC = () => {
     },
   ];
 
-  const contactEmail = "support@allrealnutrition.com";
+  const contactEmail = "woohoo@thehappyfoodcompany.com";
 
 
 
