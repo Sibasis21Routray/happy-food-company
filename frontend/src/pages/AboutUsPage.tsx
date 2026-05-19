@@ -17,7 +17,7 @@ export const AboutUsPage: React.FC = () => {
         >
           {/* Heading 1 - Bold serif headline */}
           <h1 className="heading-1 text-4xl sm:text-5xl md:text-6xl text-gray-800 mt-2">
-            The Happy Bar Story
+            The All Real Story
           </h1>
           
           {/* Heading 2 - Brush script style accent (using heading-2 class) */}
@@ -84,7 +84,7 @@ export const AboutUsPage: React.FC = () => {
             <p className="text-body text-[#333333] text-sm md:text-base leading-relaxed max-w-2xl">
               We decided to create a brand that could make a real difference. We wanted to create 
               a brand with a strong social mission, one that made an impact on the world around 
-              us. That was the moment Happy Bar was born!
+              us. That was the moment All Real Nutrition was born!
             </p>
           </motion.div>
           
@@ -169,7 +169,7 @@ export const AboutUsPage: React.FC = () => {
                 className="w-full h-48 object-cover filter blur-[1px]"
               />
               <div className="bg-[#1a1a1a]/90 p-4 text-center">
-                <span className="text-muted text-[9px] text-gray-400 block">Happy Bar Community</span>
+                <span className="text-muted text-[9px] text-gray-400 block">All Real Community</span>
               </div>
             </div>
             
@@ -183,12 +183,12 @@ export const AboutUsPage: React.FC = () => {
             >
               <img 
                 src="https://thehappyfoodcompany.com/wp-content/uploads/2024/06/kids-approved.webp" 
-                alt="Cyclist sharing an Happy Bar protein bar" 
+                alt="Cyclist sharing an All Real protein bar" 
                 className="w-full h-56 object-cover"
               />
               <div className="bg-[#171717] text-white py-4 px-3 text-center">
                 <span className="text-muted text-[11px] tracking-widest text-[#a3a3a3] block font-sans font-semibold mb-0.5">FREE LIVE WORKOUTS</span>
-                <h4 className="heading-4 font-serif text-base font-medium tracking-wide text-gray-150">Happy Bar Community Group</h4>
+                <h4 className="heading-4 font-serif text-base font-medium tracking-wide text-gray-150">All Real Community Group</h4>
               </div>
             </motion.div>
           </div>
@@ -209,9 +209,9 @@ export const AboutUsPage: React.FC = () => {
             </p>
             <div className="text-body text-xs md:text-sm text-gray-700 space-y-4 leading-relaxed max-w-xl">
               <p>
-                We have put a major focus on building our Happy Bar community. Through 
+                We have put a major focus on building our All Real community. Through 
                 our events and online community we are striving to make our world 
-                cleaner though the Happy Bar Clean Planet Project where we are supporting 
+                cleaner though the All Real Clean Planet Project where we are supporting 
                 charities who clean oceans from plastic pollution and plant trees.
               </p>
               <p>
