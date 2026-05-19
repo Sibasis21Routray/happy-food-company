@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { Heart, ShoppingCart } from "lucide-react";
+import { AlertTriangle, Heart, Leaf, ShieldCheck, ShoppingCart, Star } from "lucide-react";
 import { api } from "../services/api";
 import { ShopNowSection } from "../components/ShopNowSection";
 
@@ -20,6 +20,13 @@ type ProductData = {
   mascots: { id: string; name: string; desc: string; img: string }[];
   ingredientsList: { title: string; img: string }[];
 };
+
+const happyBarsMenu = [
+  { title: 'Cashew Raisin', subtitle: 'Energize your Enjoyment', color: '#4A3E8E', img: '/images/cashew-raisin.png', link: '/product/cashew-raisin', slug: 'cashew-raisin' },
+  { title: 'Coconut Almond', subtitle: 'Spark your snacking', color: '#E86E24', img: '/images/coconut-almond.png', link: '/product/coconut-almond', slug: 'coconut-almond' },
+  { title: 'Date Almond Cranberry', subtitle: 'Fuel your Fun', color: '#C92C3A', img: '/images/date-almond-cranberry.png', link: '/product/date-almond-cranberry', slug: 'date-almond-cranberry' },
+  { title: 'Almond Cranberry', subtitle: 'Unleash the Awesome', color: '#902A78', img: '/images/almond-cranberry.png', link: '/product/almond-cranberry', slug: 'almond-cranberry' }
+];
 
 const ingredients = {
   almond: { title: "ALMONDS", img: "/ingredients/almond.png" },
@@ -47,39 +54,13 @@ const productLibrary: Record<string, ProductData> = {
     featuresBg: "bg-[#3c3c72]",
     featuresTitleColor: "text-[#fb8a3b]",
     mascots: [
-      {
-        id: "cashew",
-        name: "Cashew Carnival",
-        desc: "Join the cashew carnival for a nutty joyride, as cashews bring a crunch of happiness, healthy fats, and protein, supporting a cheerful mood and a satisfied tummy.",
-        img: ingredients.cashew.img,
-      },
-      {
-        id: "raisin",
-        name: "Raisin Radiance",
-        desc: "Embark on a sweet rendezvous with raisins, delivering a chewy burst of natural sweetness and antioxidants, adding a bounce of energy to your day.",
-        img: ingredients.raisin.img,
-      },
-      {
-        id: "peanut",
-        name: "Peanut Party",
-        desc: "Be part of the peanut party, where peanuts pack a protein punch, coupled with healthy fats and a satisfying crunch, ensuring a snacking adventure that fuels your energy levels.",
-        img: ingredients.peanut.img,
-      },
-      {
-        id: "jaggery",
-        name: "Jaggery Jive",
-        desc: "Sweeten the scene with the jaggery jive, as this natural sweetener not only satisfies your sweet tooth but also brings antioxidants and iron to the dance floor, boosting your energy levels with a touch of sweetness.",
-        img: ingredients.jaggery.img,
-      },
+      { id: "cashew", name: "Cashew Carnival", desc: "Join the cashew carnival for a nutty joyride, as cashews bring a crunch of happiness, healthy fats, and protein, supporting a cheerful mood and a satisfied tummy.", img: ingredients.cashew.img },
+      { id: "raisin", name: "Raisin Radiance", desc: "Embark on a sweet rendezvous with raisins, delivering a chewy burst of natural sweetness and antioxidants, adding a bounce of energy to your day.", img: ingredients.raisin.img },
+      { id: "peanut", name: "Peanut Party", desc: "Be part of the peanut party, where peanuts pack a protein punch, coupled with healthy fats and a satisfying crunch, ensuring a snacking adventure that fuels your energy levels.", img: ingredients.peanut.img },
+      { id: "jaggery", name: "Jaggery Jive", desc: "Sweeten the scene with the jaggery jive, as this natural sweetener not only satisfies your sweet tooth but also brings antioxidants and iron to the dance floor, boosting your energy levels with a touch of sweetness.", img: ingredients.jaggery.img },
     ],
-    ingredientsList: [
-      ingredients.cashew,
-      ingredients.raisin,
-      ingredients.peanut,
-      ingredients.jaggery,
-    ],
+    ingredientsList: [ingredients.cashew, ingredients.raisin, ingredients.peanut, ingredients.jaggery],
   },
-
   "coconut-almond": {
     titleLines: ["Coconut", "Almond"],
     titleColor: "text-[#d65f4c]",
@@ -94,39 +75,13 @@ const productLibrary: Record<string, ProductData> = {
     featuresBg: "bg-[#cc4b34]",
     featuresTitleColor: "text-[#4c2415]",
     mascots: [
-      {
-        id: "coconut",
-        name: "Coconut Craze",
-        desc: "Ride the wave of coconut craze, as coconuts add an exotic twist with their creamy texture and tropical flavor, making your snacking escapade a delightful and refreshing experience.",
-        img: ingredients.coconut.img,
-      },
-      {
-        id: "almond",
-        name: "Almond Adventure",
-        desc: "Embark on an almond adventure, as almonds offer a nutty crunch filled with healthy fats and vitamin E, promoting heart health and adding a dose of excitement to your snacking journey.",
-        img: ingredients.almond.img,
-      },
-      {
-        id: "peanut",
-        name: "Peanut Party",
-        desc: "Be part of the peanut party, where peanuts pack a protein punch, coupled with healthy fats and a satisfying crunch, ensuring a snacking adventure that fuels your energy levels.",
-        img: ingredients.peanut.img,
-      },
-      {
-        id: "jaggery",
-        name: "Jaggery Jive",
-        desc: "Sweeten the scene with the jaggery jive, as this natural sweetener not only satisfies your sweet tooth but also brings antioxidants and iron to the dance floor, boosting your energy levels with a touch of sweetness.",
-        img: ingredients.jaggery.img,
-      },
+      { id: "coconut", name: "Coconut Craze", desc: "Ride the wave of coconut craze, as coconuts add an exotic twist with their creamy texture and tropical flavor, making your snacking escapade a delightful and refreshing experience.", img: ingredients.coconut.img },
+      { id: "almond", name: "Almond Adventure", desc: "Embark on an almond adventure, as almonds offer a nutty crunch filled with healthy fats and vitamin E, promoting heart health and adding a dose of excitement to your snacking journey.", img: ingredients.almond.img },
+      { id: "peanut", name: "Peanut Party", desc: "Be part of the peanut party, where peanuts pack a protein punch, coupled with healthy fats and a satisfying crunch, ensuring a snacking adventure that fuels your energy levels.", img: ingredients.peanut.img },
+      { id: "jaggery", name: "Jaggery Jive", desc: "Sweeten the scene with the jaggery jive, as this natural sweetener not only satisfies your sweet tooth but also brings antioxidants and iron to the dance floor, boosting your energy levels with a touch of sweetness.", img: ingredients.jaggery.img },
     ],
-    ingredientsList: [
-      ingredients.coconut,
-      ingredients.almond,
-      ingredients.peanut,
-      ingredients.jaggery,
-    ],
+    ingredientsList: [ingredients.coconut, ingredients.almond, ingredients.peanut, ingredients.jaggery],
   },
-
   "date-almond-cranberry": {
     titleLines: ["Date", "Almond", "Cranberry"],
     titleColor: "text-[#9b1d20]",
@@ -141,37 +96,12 @@ const productLibrary: Record<string, ProductData> = {
     featuresBg: "bg-[#7a181b]",
     featuresTitleColor: "text-[#fb8a3b]",
     mascots: [
-      {
-        id: "date",
-        name: "Date Delight",
-        desc: "Indulge in a date delight, as the sweet and chewy dates bring fiber, iron, and essential minerals to the table, ensuring a delightful snacking experience that's as nutritious as it is tasty.",
-        img: ingredients.date.img,
-      },
-      {
-        id: "almond",
-        name: "Almond Adventure",
-        desc: "Embark on an almond adventure, as almonds offer a nutty crunch filled with healthy fats and vitamin E, promoting heart health and adding a dose of excitement to your snacking journey.",
-        img: ingredients.almond.img,
-      },
-      {
-        id: "cranberry",
-        name: "Cranberry Carnival",
-        desc: "Join the cranberry carnival, savoring the zesty sweetness and antioxidants that cranberries bring, providing a burst of flavor and immune-boosting benefits to your snacking fiesta.",
-        img: ingredients.cranberry.img,
-      },
-      {
-        id: "peanut",
-        name: "Peanut Party",
-        desc: "Be part of the peanut party, where peanuts pack a protein punch, coupled with healthy fats and a satisfying crunch, ensuring a snacking adventure that fuels your energy levels.",
-        img: ingredients.peanut.img,
-      },
+      { id: "date", name: "Date Delight", desc: "Indulge in a date delight, as the sweet and chewy dates bring fiber, iron, and essential minerals to the table, ensuring a delightful snacking experience that's as nutritious as it is tasty.", img: ingredients.date.img },
+      { id: "almond", name: "Almond Adventure", desc: "Embark on an almond adventure, as almonds offer a nutty crunch filled with healthy fats and vitamin E, promoting heart health and adding a dose of excitement to your snacking journey.", img: ingredients.almond.img },
+      { id: "cranberry", name: "Cranberry Carnival", desc: "Join the cranberry carnival, savoring the zesty sweetness and antioxidants that cranberries bring, providing a burst of flavor and immune-boosting benefits to your snacking fiesta.", img: ingredients.cranberry.img },
+      { id: "peanut", name: "Peanut Party", desc: "Be part of the peanut party, where peanuts pack a protein punch, coupled with healthy fats and a satisfying crunch, ensuring a snacking adventure that fuels your energy levels.", img: ingredients.peanut.img },
     ],
-    ingredientsList: [
-      ingredients.date,
-      ingredients.almond,
-      ingredients.cranberry,
-      ingredients.peanut,
-    ],
+    ingredientsList: [ingredients.date, ingredients.almond, ingredients.cranberry, ingredients.peanut],
   },
   "almond-cranberry": {
     titleLines: ["Almond", "Cranberry"],
@@ -187,37 +117,12 @@ const productLibrary: Record<string, ProductData> = {
     featuresBg: "bg-[#7a448e]",
     featuresTitleColor: "text-[#fb8a3b]",
     mascots: [
-      {
-        id: "date",
-        name: "Date Delight",
-        desc: "Indulge in a date delight, as the sweet and chewy dates bring fiber, iron, and essential minerals to the table, ensuring a delightful snacking experience that's as nutritious as it is tasty.",
-        img: ingredients.date.img,
-      },
-      {
-        id: "almond",
-        name: "Almond Adventure",
-        desc: "Embark on an almond adventure, as almonds offer a nutty crunch filled with healthy fats and vitamin E, promoting heart health and adding a dose of excitement to your snacking journey.",
-        img: ingredients.almond.img,
-      },
-      {
-        id: "cranberry",
-        name: "Cranberry Carnival",
-        desc: "Join the cranberry carnival, savoring the zesty sweetness and antioxidants that cranberries bring, providing a burst of flavor and immune-boosting benefits to your snacking fiesta.",
-        img: ingredients.cranberry.img,
-      },
-      {
-        id: "peanut",
-        name: "Peanut Party",
-        desc: "Be part of the peanut party, where peanuts pack a protein punch, coupled with healthy fats and a satisfying crunch, ensuring a snacking adventure that fuels your energy levels.",
-        img: ingredients.peanut.img,
-      },
+      { id: "date", name: "Date Delight", desc: "Indulge in a date delight, as the sweet and chewy dates bring fiber, iron, and essential minerals to the table, ensuring a delightful snacking experience that's as nutritious as it is tasty.", img: ingredients.date.img },
+      { id: "almond", name: "Almond Adventure", desc: "Embark on an almond adventure, as almonds offer a nutty crunch filled with healthy fats and vitamin E, promoting heart health and adding a dose of excitement to your snacking journey.", img: ingredients.almond.img },
+      { id: "cranberry", name: "Cranberry Carnival", desc: "Join the cranberry carnival, savoring the zesty sweetness and antioxidants that cranberries bring, providing a burst of flavor and immune-boosting benefits to your snacking fiesta.", img: ingredients.cranberry.img },
+      { id: "peanut", name: "Peanut Party", desc: "Be part of the peanut party, where peanuts pack a protein punch, coupled with healthy fats and a satisfying crunch, ensuring a snacking adventure that fuels your energy levels.", img: ingredients.peanut.img },
     ],
-    ingredientsList: [
-      ingredients.date,
-      ingredients.almond,
-      ingredients.cranberry,
-      ingredients.peanut,
-    ],
+    ingredientsList: [ingredients.date, ingredients.almond, ingredients.cranberry, ingredients.peanut],
   },
 };
 
@@ -226,6 +131,9 @@ export const ProductDetailsPage: React.FC = () => {
   const navigate = useNavigate();
   const [dbProduct, setDbProduct] = useState<any>(null);
   const [wishlist, setWishlist] = useState<string[]>([]);
+
+
+  
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -314,10 +222,7 @@ export const ProductDetailsPage: React.FC = () => {
     }
   };
 
-  const productKey = id && productLibrary[id] ? id : "cashew-raisin";
-  const data = productLibrary[productKey];
-
-  // YOUR ORIGINAL FEATURES WITH SAME ICONS - COMPLETELY UNCHANGED
+   // YOUR ORIGINAL FEATURES WITH SAME ICONS - COMPLETELY UNCHANGED
   const features = [
     {
       title: "Protein Packed Punch",
@@ -351,11 +256,19 @@ export const ProductDetailsPage: React.FC = () => {
     },
   ];
 
+
+  const productKey = id && productLibrary[id] ? id : "cashew-raisin";
+  const data = productLibrary[productKey];
   const isCombo = id && id.startsWith("combo");
 
+  // Mathematical configuration for standard placement distribution
+  const totalItems = data.mascots.length;
+  // Radius determines the width/spread of our component wheel wrapper layout
+  const radius = 340;
+
   return (
-    <div className="w-full font-sans bg-white overflow-hidden pt-20 sm:pt-24">
-      {/* Hero Section */}
+    <div className="w-full font-sans bg-white overflow-hidden pt-12 sm:pt-16">
+      {/* Split Screen Hero Layout */}
       <AnimatePresence mode="wait">
         <motion.section
           key={`hero-${productKey}`}
@@ -363,187 +276,271 @@ export const ProductDetailsPage: React.FC = () => {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.4 }}
-          className="relative z-10 pt-8 sm:pt-12 md:pt-16 lg:pt-20 overflow-hidden mb-12"
+          className="relative z-10 py-8 md:py-16 max-w-7xl mx-auto px-4 sm:px-6"
         >
-          {/* Subtle Background Pattern */}
-          {/* Dynamic Background Elements */}
-          <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            {/* Primary Glow */}
-            <motion.div
-              animate={{
-                scale: [1, 1.2, 1],
-                opacity: [0.3, 0.5, 0.3],
-              }}
-              transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute -top-[10%] -right-[5%] w-[500px] h-[500px] bg-gray-100 rounded-full blur-[120px]"
-            />
-
-            {/* Secondary Accent Glow */}
-            <motion.div
-              animate={{
-                x: [0, 30, 0],
-                y: [0, -20, 0],
-              }}
-              transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-              className="absolute top-[20%] -left-[10%] w-[400px] h-[400px] bg-orange-50/50 rounded-full blur-[100px]"
-            />
-
-            {/* Large Background Watermark Text */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 select-none opacity-[0.03] whitespace-nowrap">
-              <h1 className="text-[20vw] font-bold tracking-tighter">
-                {isCombo ? "COMBO" : "HEALTHY"}
-              </h1>
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-center">
+            {/* LEFT COLUMN: Product Display Box & Wrap Packaging */}
+            <div className="lg:col-span-6 flex justify-center items-center relative">
+              <div className="absolute w-[85%] h-[85%] bg-gray-50/70 rounded-full blur-2xl -z-10" />
+              <motion.img
+                initial={{ scale: 0.95, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ type: "spring", stiffness: 80, damping: 20 }}
+                src={data.img}
+                alt={data.titleLines.join(" ")}
+                className="max-h-[380px] sm:max-h-[460px] md:max-h-[520px] object-contain drop-shadow-[0_20px_30px_rgba(0,0,0,0.08)]"
+              />
             </div>
-          </div>
 
-          <div className="container mx-auto px-4 sm:px-6 relative z-10 ">
-            <div className="flex flex-col items-center">
-              {/* Image and Title */}
-              <div className="flex flex-col-reverse lg:flex-row items-center justify-center gap-8 md:gap-12 lg:gap-16 mb-12 md:mb-16 w-full">
-                {/* Title Section */}
-                <motion.div
-                  initial={{ opacity: 0, x: -50 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{
-                    type: "spring",
-                    stiffness: 70,
-                    damping: 15,
-                    delay: 0.1,
-                  }}
-                  className="w-full lg:w-1/2 flex flex-col justify-center text-center lg:text-left"
-                >
-                  <div className="mb-2">
-                    <span className="text-sm tracking-[0.2em] text-gray-400 uppercase">
-                      {isCombo ? "COMBO PACK" : "PREMIUM PROTEIN BAR"}
-                    </span>
-                  </div>
-
-                  <h1
-                    className={`text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-light tracking-tight mb-3 ${data.titleColor}`}
-                  >
-                    Happy Bar
-                  </h1>
-
-                  {data.titleLines.map((line, idx) => (
-                    <h2
-                      key={idx}
-                      className={`text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-light ${data.titleColor}`}
-                    >
-                      {line}
-                    </h2>
-                  ))}
-
-                  <div className="w-12 h-px bg-gray-200 my-8 mx-auto lg:mx-0" />
-
-                  {/* Quick Info Tags */}
-                  <div className="flex flex-wrap gap-3 justify-center lg:justify-start">
-                    <span className="px-3 py-1 bg-gray-100 text-gray-600 text-sm font-light tracking-wide">
-                      All Natural
-                    </span>
-                    <span className="px-3 py-1 bg-gray-100 text-gray-600 text-sm font-light tracking-wide">
-                      No Preservatives
-                    </span>
-                    <span className="px-3 py-1 bg-gray-100 text-gray-600 text-sm font-light tracking-wide">
-                      Vegetarian
-                    </span>
-                    <span className="px-3 py-1 bg-gray-100 text-gray-600 text-sm font-light tracking-wide">
-                      No Added Sugar
-                    </span>
-                  </div>
-
-                  <button
-                    onClick={() => {
-                      navigate("/happy-shop");
-                    }}
-                    className="mt-7 w-fit bg-gray-900 text-white font-light py-3 px-8 tracking-wider text-md hover:bg-gray-800 flex items-center gap-2 transition-all duration-300 "
-                  >
-                    Shop now
-                  </button>
-                </motion.div>
-
-                {/* Image Section */}
-                {/* In the Image Section */}
-                <motion.div
-                  animate={{ y: [0, -15, 0] }}
-                  transition={{
-                    duration: 5,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                  }}
-                  className="relative"
-                >
-                  {/* Decorative Circle behind image */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-gray-200 to-transparent rounded-full blur-3xl scale-125 opacity-60" />
-                  <img
-                    src={data.img}
-                    alt={data.titleLines.join(" ")}
-                    className="relative z-10 w-[280px] sm:w-[350px] md:w-[400px] lg:w-[550px] drop-shadow-[0_35px_35px_rgba(0,0,0,0.15)] hover:scale-105 transition-transform duration-700 ease-out"
-                  />
-                </motion.div>
+            {/* RIGHT COLUMN: Interactive Ordering Matrix & Specifications */}
+            <div className="lg:col-span-6 flex flex-col space-y-6">
+              {/* Product Header Text Grouping */}
+              <div>
+                <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-gray-900 leading-tight mb-2">
+                  {data.titleLines.join(" ")}
+                </h1>
+                <p className="text-xl font-medium text-gray-500 tracking-wide">
+                  {isCombo ? "Premium Variety Combo Pack" : "Protein Bar 34g"}
+                </p>
               </div>
 
-              {/* Buy Now Button - Only for Combos */}
-              {isCombo && dbProduct && (
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.2 }}
-                  className="flex items-center gap-4 mb-8"
+              {/* Verified Product Ratings Row */}
+              <div className="flex items-center space-x-2">
+                <div className="flex space-x-0.5 text-amber-500">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} size={15} className="fill-current" />
+                  ))}
+                </div>
+                <span className="text-xs text-gray-500 font-medium tracking-wide">
+                  Based on 2500+ happy customers
+                </span>
+              </div>
+
+              {/* Dynamic Variant Switcher Grid matching screenshot circles */}
+              <div className="pt-2">
+                <h3 className="text-xs font-bold uppercase tracking-widest text-gray-400 mb-3">
+                  Select Flavor Flavor Pack
+                </h3>
+                <div className="grid grid-cols-4 sm:grid-cols-5 gap-3">
+                  {happyBarsMenu.map((item) => {
+                    const isSelected = item.slug === productKey;
+                    return (
+                      <button
+                        key={item.slug}
+                        onClick={() => navigate(item.link)}
+                        className="flex flex-col items-center group focus:outline-none"
+                      >
+                        <div
+                          className="w-14 h-14 rounded-full bg-gray-50 border flex items-center justify-center overflow-hidden p-1 transition-all duration-300"
+                          style={{
+                            borderColor: isSelected ? item.color : "#e5e7eb",
+                            boxShadow: isSelected
+                              ? `0 0 0 2px ${item.color}20`
+                              : "none",
+                            transform: isSelected ? "scale(1.05)" : "none",
+                          }}
+                        >
+                          <img
+                            src={item.img}
+                            alt={item.title}
+                            className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-300"
+                          />
+                        </div>
+                        <span className="text-[10px] mt-1.5 font-medium text-gray-600 text-center line-clamp-1 w-full tracking-tight">
+                          {item.title}
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              <hr className="border-gray-100" />
+
+              {/* Product Pitch Descriptive Context */}
+              <div className="space-y-2">
+                <h4
+                  className={`text-md font-semibold tracking-wide ${data.pitchTitleColor}`}
                 >
+                  {data.pitchTitle}
+                </h4>
+                <p
+                  className={`text-sm text-gray-600 leading-relaxed max-w-xl font-light ${data.pitchDescColor}`}
+                >
+                  {data.pitchDesc}
+                </p>
+              </div>
+
+              {/* Dynamic Badges Block */}
+              <div className="flex flex-wrap gap-1.5 pt-1">
+                {[
+                  "All Natural",
+                  "No Preservatives",
+                  "Vegetarian",
+                  "Zero Nonsense",
+                ].map((tag) => (
+                  <span
+                    key={tag}
+                    className="text-[11px] bg-gray-50 text-gray-500 px-2.5 py-1 font-medium tracking-wide rounded-sm border border-gray-100"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+
+              {/* Checkout Cart/Wishlist Control Row */}
+              {/* <div className="flex items-center gap-3 pt-4">
+                {dbProduct ? (
                   <motion.button
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
+                    whileHover={{ scale: 1.01 }}
+                    whileTap={{ scale: 0.99 }}
                     onClick={handleAddToCart}
-                    className="bg-gray-900 text-white font-light py-3 px-8 tracking-wider text-md hover:bg-gray-800 flex items-center gap-2 transition-all duration-300"
+                    className="flex-1 bg-gray-950 text-white font-medium py-3 px-6 tracking-wider text-sm hover:bg-gray-800 flex items-center justify-center gap-2 transition-all duration-300 shadow-sm"
                   >
                     <ShoppingCart size={16} />
-                    BUY NOW — ₹{dbProduct.price}
+                    ADD TO CART — ₹{dbProduct.price}
                   </motion.button>
+                ) : (
+                  <button
+                    onClick={() => navigate("/happy-shop")}
+                    className="flex-1 bg-gray-950 text-white font-medium py-3 px-6 tracking-wider text-sm hover:bg-gray-800 flex items-center justify-center gap-2 transition-all duration-300 shadow-sm"
+                  >
+                    SHOP COLLECTION
+                  </button>
+                )}
 
+                {dbProduct && (
                   <motion.button
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
+                    whileHover={{ scale: 1.03 }}
+                    whileTap={{ scale: 0.97 }}
                     onClick={handleAddToWishlist}
-                    className="w-10 h-10 border border-gray-200 flex items-center justify-center hover:border-gray-400 transition-all duration-300"
+                    className="w-12 h-12 border border-gray-200 bg-white flex items-center justify-center hover:border-gray-400 transition-all duration-300 shadow-sm"
                   >
                     <Heart
-                      size={16}
-                      className={`${dbProduct && wishlist.includes(dbProduct._id) ? "fill-gray-900 text-gray-900" : "text-gray-400"}`}
+                      size={18}
+                      className={`${wishlist.includes(dbProduct._id) ? "fill-red-500 text-red-500" : "text-gray-400"}`}
                     />
                   </motion.button>
-                </motion.div>
-              )}
+                )}
+              </div> */}
 
-              {/* Descriptive Pitch */}
-              <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.35 }}
-                className="text-center max-w-3xl mx-auto px-4"
+              <motion.button
+                whileHover={{ scale: 1.01 }}
+                whileTap={{ scale: 0.99 }}
+                onClick={() => {
+                  navigate("/happy-shop");
+                }}
+                className="flex-1 bg-gray-950 text-white font-medium py-3 px-6 tracking-wider text-sm hover:bg-gray-800 flex items-center justify-center gap-2 transition-all duration-300 shadow-sm"
               >
-                <div className="relative">
-                  {/* Decorative quotes */}
-                  <div className="absolute -top-6 left-1/2 transform -translate-x-1/2 text-gray-200 text-4xl font-serif">
-                    "
-                  </div>
-                  <h3
-                    className={`text-xl sm:text-2xl md:text-3xl font-light mb-4 pt-4 ${data.pitchTitleColor}`}
-                  >
-                    {data.pitchTitle}
-                  </h3>
-                  <div className="w-8 h-px bg-gray-200 mx-auto my-4" />
-                  <p
-                    className={`text-gray-500 text-base leading-relaxed font-light max-w-2xl mx-auto ${data.pitchDescColor}`}
-                  >
-                    {data.pitchDesc}
-                  </p>
-                </div>
-              </motion.div>
+                <ShoppingCart size={16} />
+                Shop Now
+              </motion.button>
             </div>
           </div>
         </motion.section>
       </AnimatePresence>
-      {/* Features Section - YOUR ORIGINAL ICONS PRESERVED */}
+
+       {/* ingredient Section*/}
+      <section className="py-20 bg-[#fafafa] border-t border-neutral-100 overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4">
+          
+          <div className="text-center mb-12">
+           
+            <h2 className=" text-neutral-900 text-2xl sm:text-3xl md:text-4xl tracking-tight">
+              The real ingredients in our {data.titleLines.join(" ")} bar
+            </h2>
+          </div>
+
+          {/* Quick-Info Ingredient Metric Badges */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 max-w-4xl mx-auto mb-20">
+            <div className="bg-[#e4d5b7] p-4 rounded-xl flex items-start space-x-3 shadow-2xs">
+              <ShieldCheck className="text-neutral-800 shrink-0 mt-0.5" size={20} />
+              <div>
+                <h4 className="font-bold text-neutral-950 text-sm">Gluten-free</h4>
+                <p className="text-neutral-800 text-xs mt-0.5 font-light">Made cleanly without gluten additions.</p>
+              </div>
+            </div>
+
+            <div className="bg-[#cbdca3] p-4 rounded-xl flex items-start space-x-3 shadow-2xs">
+              <Leaf className="text-neutral-800 shrink-0 mt-0.5" size={20} />
+              <div>
+                <h4 className="font-bold text-neutral-950 text-sm">Vegetarian</h4>
+                <p className="text-neutral-800 text-xs mt-0.5 font-light">Perfectly suitable for modern vegetarians.</p>
+              </div>
+            </div>
+
+            <div className="bg-[#e26d65] p-4 rounded-xl flex items-start space-x-3 shadow-2xs">
+              <AlertTriangle className="text-white shrink-0 mt-0.5" size={20} />
+              <div>
+                <h4 className="font-bold text-white text-sm">Allergen info</h4>
+                <p className="text-red-50 text-xs mt-0.5 font-light">
+                  Contains premium premium nuts. Made in a trace-free natural space.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* RADIAL SATELLITE SYSTEM FRAMEWORK */}
+          <div className="relative w-full h-[750px] hidden md:flex items-center justify-center">
+            
+            {/* Center Focal Point (Horizontal Candy Bar Foil Package) */}
+            <div className="absolute z-20 w-[490px] p-2 ">
+              <img
+                src={data.img}
+                alt="Center Bar Pack"
+                className="w-full h-auto object-contain rotate-0 drop-shadow-[0_10px_20px_rgba(0,0,0,0.08)]"
+              />
+            </div>
+
+            {/* Mathematically Structured Circle Nodes Loop */}
+            {data.mascots.map((item: any, idx: number) => {
+              const angle = (idx * 2 * Math.PI) / data.mascots.length - Math.PI / 2;
+              const x = Math.cos(angle) * radius;
+              const y = Math.sin(angle) * radius;
+
+              return (
+                <div
+                  key={item.id}
+                  className="absolute z-30 flex flex-col items-center"
+                  style={{ transform: `translate(${x}px, ${y}px)` }}
+                >
+                  <motion.div
+                    whileHover={{ scale: 1.08 }}
+                    className="w-30 h-30 rounded-full bg-white shadow-[0_8px_20px_rgba(0,0,0,0.05)] border border-neutral-100 flex items-center justify-center p-3.5 relative group"
+                  >
+                    <img src={item.img} alt={item.name} className="max-w-full max-h-full object-contain" />
+                    
+                    {/* Hover Tooltip Overlay Descriptor box matching style specs */}
+                    <div className="absolute bottom-full mb-2 hidden group-hover:flex flex-col items-center w-40 bg-neutral-900 text-white p-2 rounded-lg shadow-xl text-center z-50">
+                      <span className="text-[11px] font-bold">{item.name}</span>
+                      <span className="text-[9px] text-neutral-300 font-light mt-0.5 leading-tight">{item.desc}</span>
+                      <div className="w-2 h-2 bg-neutral-900 rotate-45 absolute -bottom-1" />
+                    </div>
+                  </motion.div>
+                  
+                  <span className="text-[10px] font-extrabold tracking-wider text-neutral-700 mt-2 uppercase bg-white px-2.5 py-0.5 rounded-full border border-neutral-100 shadow-3xs">
+                    {item.name}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Simple Grid Adaptive Mobile Viewport View */}
+          <div className="grid grid-cols-2 gap-4 md:hidden">
+            {data.mascots.map((item: any) => (
+              <div key={item.id} className="bg-white p-4 rounded-xl border border-neutral-100 text-center flex flex-col items-center">
+                <img src={item.img} alt={item.name} className="w-14 h-14 object-contain mb-2" />
+                <h5 className="text-xs font-bold text-neutral-900">{item.name}</h5>
+                <p className="text-[10px] text-neutral-500 mt-1">{item.desc}</p>
+              </div>
+            ))}
+          </div>
+
+        </div>
+      </section>
+
+      {/* Features Section */}
       <AnimatePresence mode="wait">
         <motion.section
           key={`features-${productKey}`}
@@ -604,70 +601,8 @@ export const ProductDetailsPage: React.FC = () => {
         </motion.section>
       </AnimatePresence>
 
-      {/* Mascots Section */}
-     <AnimatePresence mode="wait">
-  <motion.section
-    key={`ingredients-${productKey}`}
-    initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
-    exit={{ opacity: 0 }}
-    transition={{ duration: 0.4 }}
-    className="py-16 sm:py-20 md:py-24 bg-gray-50"
-  >
-    <div className="container mx-auto px-4 sm:px-6">
-      <div className="text-center mb-12">
-        <style>{`
-          @import url('https://fonts.googleapis.com/css2?family=Arvo:wght@400;700&display=swap');
-          .brand-font-slab { font-family: 'Arvo', serif; }
-        `}</style>
-        
-        <h2 className="brand-font-slab text-gray-800 text-2xl sm:text-3xl md:text-4xl  mb-4">
-          The Goodness of Awesome Ingredients
-        </h2>
-        <div className="w-12 h-px bg-gradient-to-r from-orange-300 to-orange-400 rounded-full mx-auto"></div>
-        <p className="text-gray-400 mt-4 max-w-2xl mx-auto text-md font-light">
-          Pure, natural, and carefully selected ingredients for your happiness
-        </p>
-      </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
-        {data.mascots.map((mascot, i) => (
-          <motion.div
-            key={mascot.id}
-            // ref={ref}
-            // initial={{ opacity: 0, y: 15 }}
-            // animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 15 }}
-            transition={{ duration: 0.5, delay: i * 0.04 }}
-            whileHover={{ y: -5 }}
-            className="group rounded-2xl p-6 text-center  transition-all duration-300  flex flex-col items-center"
-          >
-            {/* Frame-free Isolated Ingredient Asset Box */}
-            <div className="w-full h-32 flex items-center justify-center mb-6 transition-transform duration-500 group-hover:scale-105">
-              <img
-                src={mascot.img}
-                alt={mascot.name}
-                className="max-w-[90%] max-h-full object-contain"
-              />
-            </div>
-
-            {/* Structured Text Content Block */}
-            <div className="space-y-2 max-w-[240px]">
-              {/* Bold Title Styling */}
-              <h4 className="brand-font-slab font-bold text-neutral-800 text-base sm:text-lg tracking-tight leading-snug">
-                {mascot.name.toLocaleUpperCase()}
-              </h4>
-              
-              {/* Minimal Editorial Copy */}
-              <p className="text-neutral-500 text-xs leading-relaxed font-normal">
-                {mascot.desc.substring(0, 100)}...
-              </p>
-            </div>
-          </motion.div>
-        ))}
-      </div>
-    </div>
-  </motion.section>
-</AnimatePresence>
+ 
       {/* Shop Now Section */}
       <ShopNowSection />
     </div>
