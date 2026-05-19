@@ -73,7 +73,7 @@ const productLibrary: Record<string, ProductData> = {
     waveColor1: "#e2ac97",
     waveColor2: "#cc4b34",
     featuresBg: "bg-[#cc4b34]",
-    featuresTitleColor: "text-[#4c2415]",
+    featuresTitleColor: "text-[#fb8a3b]",
     mascots: [
       { id: "coconut", name: "Coconut Craze", desc: "Ride the wave of coconut craze, as coconuts add an exotic twist with their creamy texture and tropical flavor, making your snacking escapade a delightful and refreshing experience.", img: ingredients.coconut.img },
       { id: "almond", name: "Almond Adventure", desc: "Embark on an almond adventure, as almonds offer a nutty crunch filled with healthy fats and vitamin E, promoting heart health and adding a dose of excitement to your snacking journey.", img: ingredients.almond.img },
