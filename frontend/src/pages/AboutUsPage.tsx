@@ -16,13 +16,13 @@ export const AboutUsPage: React.FC = () => {
           className="max-w-4xl mx-auto space-y-2"
         >
           {/* Heading 1 - Bold serif headline */}
-          <h1 className="heading-1 text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-gray-800 mt-2">
+          <h1 className="heading-1 text-4xl sm:text-3xl md:text-4xl lg:text-5xl text-gray-800 mt-2">
             The Happy Bar Story
           </h1>
           
           {/* Heading 2 - Brush script style accent (using heading-2 class) */}
           <h2 
-            className="heading-2  text-2xl sm:text-3xl md:text-4xl lg:text-5xl mb-1 lg:-ml-1 transform -rotate-[1deg] text-gray-700"
+            className="heading-2  text-4xl sm:text-3xl md:text-4xl lg:text-5xl mb-1 lg:-ml-1 transform -rotate-[1deg] text-gray-700"
           >
             All natural. Plastic-free. 100% Compostable.
           </h2>

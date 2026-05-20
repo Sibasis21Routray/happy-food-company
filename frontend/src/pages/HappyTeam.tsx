@@ -86,7 +86,7 @@ export default function HappyTeam() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.2, duration: 0.5 }}
-        className="heading-1 text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-white mb-3"
+        className="heading-1 text-4xl sm:text-3xl md:text-4xl lg:text-5xl text-white mb-3"
       >
         The Happy Crew
       </motion.h1>
@@ -109,7 +109,7 @@ export default function HappyTeam() {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
-        className="pb-24"
+        className="pb-4"
       >
         <div className="container mx-auto px-6 max-w-5xl">
           <motion.div 

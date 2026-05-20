@@ -170,7 +170,7 @@ export const Navbar: React.FC = () => {
 
         {/* Mobile Menu - Includes Avatar, Login/Logout, and Cart */}
         {mobileMenuOpen && (
-          <div className="md:hidden fixed top-[64px] left-0 right-0 bg-white border-b border-gray-200 shadow-lg z-50 max-h-[calc(100vh-64px)] overflow-y-auto">
+          <div className="md:hidden h-screen fixed  left-0 right-0 bg-white border-b border-gray-200 shadow-lg z-50 max-h-[calc(100vh-64px)] overflow-y-auto">
             <div className="flex flex-col py-4">
               
               {/* User Avatar Section - Only show when user is logged in */}
