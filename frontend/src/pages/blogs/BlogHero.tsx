@@ -59,7 +59,7 @@ export const BlogHero: React.FC<BlogHeroProps> = ({
           initial={{ opacity: 0, y: 4 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.05 }}
-          className="blog-title-slab text-4xl sm:text-3xl md:text-4xl lg:text-5xl max-w-3xl leading-snug sm:leading-tight mb-3"
+          className="blog-title-slab text-2xl sm:text-3xl md:text-4xl lg:text-5xl max-w-3xl leading-snug sm:leading-tight mb-3"
         >
           {title}
         </motion.h1>

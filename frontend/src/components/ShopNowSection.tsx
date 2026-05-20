@@ -55,7 +55,7 @@ export const ShopNowSection: React.FC = () => {
           <div className="mb-3">
             <span className="text-body text-md tracking-[0.2em] text-gray-700">COMBO PACKS</span>
           </div>
-          <h2 className="heading-1 text-4xl sm:text-3xl md:text-4xl lg:text-5xl text-gray-900 mb-3">
+          <h2 className="heading-1 text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-gray-900 mb-3">
             Better Together
           </h2>
           {/* <div className="w-12 h-px bg-gray-300 mx-auto" /> */}

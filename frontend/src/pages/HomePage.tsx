@@ -48,7 +48,7 @@ const SectionHeader = ({
         initial={{ opacity: 0, y: 30 }}
         animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
         transition={{ duration: 0.6 }}
-        className="heading-1 text-4xl sm:text-3xl md:text-4xl lg:text-5xl mb-4 px-2"
+        className="heading-1 text-2xl sm:text-3xl md:text-4xl lg:text-5xl mb-4 px-2"
       >
         {title}
       </motion.h2>
@@ -806,10 +806,10 @@ const FAQ = ({ faqs, contactEmail = "woohoo@thehappyfoodcompany.com" }) => {
           className="lg:col-span-5 space-y-6"
         >
           <div className="space-y-2">
-            <h2 className="heading-1 text-4xl sm:text-3xl md:text-4xl lg:text-5xl font-black tracking-tight text-gray-900 leading-tight">
+            <h2 className="heading-1 text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black tracking-tight text-gray-900 leading-tight">
               Frequently Asked              
             </h2>
-            <h2 className="heading-2 text-4xl sm:text-3xl md:text-4xl lg:text-5xl">
+            <h2 className="heading-2 text-2xl sm:text-3xl md:text-4xl lg:text-5xl">
               Questions
             </h2>
           </div>
@@ -907,7 +907,7 @@ const AllProductsSection: React.FC<{ products: any[] }> = ({ products }) => {
       <div className="max-w-7xl mx-auto ">
         {/* --- BRANDED HEADER DECK --- */}
         <div className="text-center mb-20 space-y-3">
-          <h2 className="heading-1 text-4xl sm:text-3xl md:text-4xl lg:text-5xl  tracking-tight text-neutral-900">
+          <h2 className="heading-1 text-2xl sm:text-3xl md:text-4xl lg:text-5xl  tracking-tight text-neutral-900">
             All Products
           </h2>
           <p className="text-body sub-heading text-neutral-500 max-w-xl mx-auto text-sm sm:text-base tracking-wide">

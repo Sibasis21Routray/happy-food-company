@@ -134,7 +134,7 @@ export default function Careers() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.5 }}
-              className="heading-1 text-4xl sm:text-3xl md:text-4xl lg:text-5xl text-white mb-3"
+              className="heading-1 text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-white mb-3"
             >
               READY TO MAKE AN IMPACT?
             </motion.h1>
@@ -217,7 +217,7 @@ export default function Careers() {
       >
         <div className="container mx-auto px-6 max-w-7xl">
           <div className="text-center mb-12">
-            <h2 className="heading-1 text-4xl sm:text-3xl md:text-4xl lg:text-5xl text-gray-800 mb-3">PERKS & BENEFITS</h2>
+            <h2 className="heading-1 text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-gray-800 mb-3">PERKS & BENEFITS</h2>
             <div className="w-12 h-px bg-gray-300 mx-auto" />
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -248,7 +248,7 @@ export default function Careers() {
       >
         <div className="container mx-auto px-6 max-w-7xl">
           <div className="text-center mb-12">
-            <h2 className="heading-1 text-4xl sm:text-3xl md:text-4xl lg:text-5xl text-gray-800 mb-3">OUR TEAM</h2>
+            <h2 className="heading-1 text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-gray-800 mb-3">OUR TEAM</h2>
             <div className="w-12 h-px bg-gray-300 mx-auto" />
             <p className="sub-heading text-gray-400 text-md mt-4 max-w-2xl mx-auto">
               "Meet our team of bold and whimsical innovators - the visionaries with audacious dreams, 
@@ -290,7 +290,7 @@ export default function Careers() {
       >
         <div className="container mx-auto px-6 max-w-7xl">
           <div className="text-center mb-12">
-            <h2 className="heading-1 text-4xl sm:text-3xl md:text-4xl lg:text-5xl text-gray-800 mb-3">OPEN POSITIONS</h2>
+            <h2 className="heading-1 text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-gray-800 mb-3">OPEN POSITIONS</h2>
             <div className="w-12 h-px bg-gray-300 mx-auto" />
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
