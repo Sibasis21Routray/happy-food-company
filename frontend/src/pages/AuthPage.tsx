@@ -24,22 +24,8 @@ export const AuthPage: React.FC = () => {
   
   const [showOtpStep, setShowOtpStep] = useState(false);
   const [otpInput, setOtpInput] = useState('');
-  
-  const [captcha, setCaptcha] = useState({ q: '', a: 0 });
-  const [captchaInput, setCaptchaInput] = useState('');
 
   const navigate = useNavigate();
-
-  useEffect(() => {
-    generateCaptcha();
-  }, [isLogin]);
-
-  const generateCaptcha = () => {
-    const n1 = Math.floor(Math.random() * 10);
-    const n2 = Math.floor(Math.random() * 10);
-    setCaptcha({ q: `${n1} + ${n2}`, a: n1 + n2 });
-    setCaptchaInput('');
-  };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setFormData({
@@ -96,12 +82,6 @@ export const AuthPage: React.FC = () => {
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    if (parseInt(captchaInput) !== captcha.a) {
-      showToast('Wrong captcha answer!', 'error');
-      generateCaptcha();
-      return;
-    }
 
     setLoading(true);
     try {
@@ -122,7 +102,6 @@ export const AuthPage: React.FC = () => {
       showToast('Welcome back!', 'success');
     } catch (err: any) {
       showToast(err.message || 'Login failed', 'error');
-      generateCaptcha();
     } finally {
       setLoading(false);
     }
@@ -162,73 +141,24 @@ export const AuthPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen pt-32 pb-20 flex justify-center items-center px-4 bg-white">
+    <div className=" pt-20 lg:pt-32 pb-20 flex justify-center items-center px-4 bg-white">
       
-      {/* Animated Background Gradient */}
-      <motion.div 
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.8 }}
-        className="absolute inset-0 bg-gradient-to-br from-gray-100 via-white to-gray-100"
-      />
-      
-      {/* Animated Decorative Elements */}
-      <motion.div 
-        initial={{ scale: 0, opacity: 0 }}
-        animate={{ scale: 1, opacity: 0.3 }}
-        transition={{ duration: 0.8, delay: 0.2 }}
-        className="absolute top-20 right-20 w-64 h-64 bg-gray-200 rounded-full blur-3xl"
-      />
-      <motion.div 
-        initial={{ scale: 0, opacity: 0 }}
-        animate={{ scale: 1, opacity: 0.3 }}
-        transition={{ duration: 0.8, delay: 0.4 }}
-        className="absolute bottom-20 left-20 w-64 h-64 bg-gray-300 rounded-full blur-3xl"
-      />
+    
 
       <motion.div 
-        
         variants={containerVariants}
         initial="hidden"
         animate="visible"
-        className="bg-white border border-gray-300 p-8 md:p-10 w-full max-w-md relative z-10 shadow-sm hover:shadow-md transition-shadow duration-500"
+        className=" p-8 md:p-10 w-full max-w-md relative z-10   duration-500"
       >
-        {/* Tabs with Animation */}
-        <div className="flex justify-center gap-8 mb-8">
-          <motion.button 
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            onClick={() => { setIsLogin(true); setShowOtpStep(false); }}
-            className={`relative text-md font-light tracking-wider pb-2 transition-all duration-300 ${
-              isLogin ? 'text-gray-900' : 'text-gray-400 hover:text-gray-600'
-            }`}
-          >
-            LOGIN
-            {isLogin && (
-              <motion.div 
-                layoutId="activeTab"
-                className="absolute bottom-0 left-0 right-0 h-px bg-gray-900"
-                transition={{ duration: 0.3 }}
-              />
-            )}
-          </motion.button>
-          <motion.button 
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            onClick={() => { setIsLogin(false); setShowOtpStep(false); }}
-            className={`relative text-md font-light tracking-wider pb-2 transition-all duration-300 ${
-              !isLogin ? 'text-gray-900' : 'text-gray-400 hover:text-gray-600'
-            }`}
-          >
-            SIGN UP
-            {!isLogin && (
-              <motion.div 
-                layoutId="activeTab"
-                className="absolute bottom-0 left-0 right-0 h-px bg-gray-900"
-                transition={{ duration: 0.3 }}
-              />
-            )}
-          </motion.button>
+        {/* Left-aligned Header */}
+        <div className="mb-8">
+          <h1 className="heading-1 text-2xl md:text-3xl text-gray-900 mb-1">
+            {isLogin ? 'Login' : 'Create Account'}
+          </h1>
+          {/* <p className="text-body text-gray-500 text-sm">
+            {isLogin ? 'Sign in to continue' : 'Sign up to get started'}
+          </p> */}
         </div>
 
         <AnimatePresence mode="wait">
@@ -243,58 +173,27 @@ export const AuthPage: React.FC = () => {
               className="space-y-5"
             >
               <motion.div variants={fieldVariants}>
-                <label className="block text-sm text-gray-500 mb-1.5 tracking-wide">EMAIL OR MOBILE</label>
+                <label className="block text-md text-gray-900 mb-1.5">Email or Mobile</label>
                 <input 
                   name="identifier"
                   type="text" 
-                  placeholder="Enter your email or mobile" 
                   value={formData.identifier}
                   onChange={handleInputChange}
                   required
-                  className="w-full px-4 py-3 border border-gray-300 text-md focus:border-gray-600 focus:outline-none transition-all duration-300 hover:border-gray-400"
+                  className="w-full px-4 py-3 border border-gray-700 focus:border-gray-800 focus:outline-none transition-all duration-300"
                 />
               </motion.div>
 
               <motion.div variants={fieldVariants}>
-                <label className="block text-sm text-gray-500 mb-1.5 tracking-wide">PASSWORD</label>
+                <label className="block text-md text-gray-900 mb-1.5">Password</label>
                 <input 
                   name="password"
                   type="password" 
-                  placeholder="Enter your password" 
                   value={formData.password}
                   onChange={handleInputChange}
                   required
-                  className="w-full px-4 py-3 border border-gray-300 text-md focus:border-gray-600 focus:outline-none transition-all duration-300 hover:border-gray-400"
+                  className="w-full px-4 py-3 border border-gray-700 focus:border-gray-800 focus:outline-none transition-all duration-300"
                 />
-              </motion.div>
-
-              {/* Captcha Section */}
-              <motion.div variants={fieldVariants} className="border border-gray-200 p-5 space-y-4">
-                <div className="flex items-center justify-between">
-                  <span className="text-[10px] text-gray-500 tracking-wider">SECURITY CHECK</span>
-                  <motion.button 
-                    type="button" 
-                    onClick={generateCaptcha}
-                    whileHover={{ rotate: 180 }}
-                    transition={{ duration: 0.5 }}
-                    className="text-gray-400 hover:text-gray-600 transition-all"
-                  >
-                    <RefreshCw size={14} strokeWidth={1.5} />
-                  </motion.button>
-                </div>
-                <div className="flex items-center gap-4">
-                  <div className="flex-1 bg-gray-50 p-3 text-center text-gray-700 text-lg font-light tracking-wide border border-gray-200">
-                    {captcha.q} = ?
-                  </div>
-                  <input 
-                    type="number"
-                    placeholder="Answer"
-                    value={captchaInput}
-                    onChange={(e) => setCaptchaInput(e.target.value)}
-                    required
-                    className="w-24 px-3 py-3 border border-gray-300 text-center text-md focus:border-gray-600 focus:outline-none transition-all duration-300"
-                  />
-                </div>
               </motion.div>
 
               <motion.button 
@@ -303,11 +202,25 @@ export const AuthPage: React.FC = () => {
                 whileTap={{ scale: 0.98 }}
                 disabled={loading}
                 type="submit" 
-                className="w-full bg-gray-900 text-white py-3 text-md font-light tracking-wider hover:bg-gray-800 transition-all duration-300 disabled:opacity-50 flex items-center justify-center gap-2 group"
+                className="w-full bg-gray-900 text-white py-3 text-sm font-medium tracking-wider hover:bg-gray-800 transition-all duration-300 disabled:opacity-50 flex items-center justify-center gap-2 group"
               >
-                {loading ? <RefreshCw size={16} className="animate-spin" strokeWidth={1.5} /> : 'LOGIN'}
-                <ChevronRight size={14} strokeWidth={1.5} className="group-hover:translate-x-1 transition-transform duration-300" />
+                {loading ? <RefreshCw size={16} className="animate-spin" /> : 'Sign In'}
+                <ChevronRight size={14} className="group-hover:translate-x-1 transition-transform duration-300" />
               </motion.button>
+
+              {/* Switch to Sign Up */}
+              <motion.div variants={fieldVariants} className="text-left pt-4">
+                <p className="text-gray-500 text-sm">
+                  {/* Don't have an account?{' '} */}
+                  <button
+                    type="button"
+                    onClick={() => { setIsLogin(false); setShowOtpStep(false); }}
+                    className="text-gray-900  font-medium"
+                  >
+                    Create account
+                  </button>
+                </p>
+              </motion.div>
             </motion.form>
           ) : (
             <motion.div 
@@ -320,39 +233,37 @@ export const AuthPage: React.FC = () => {
               {!showOtpStep ? (
                 <form onSubmit={handleRegisterStart} className="space-y-4">
                   <motion.div variants={fieldVariants}>
-                    <label className="block text-sm text-gray-500 mb-1.5 tracking-wide">FULL NAME</label>
+                    <label className="block text-md text-gray-900 mb-1.5">Full Name</label>
                     <input 
                       name="fullName"
                       type="text" 
-                      placeholder="Your full name" 
                       value={formData.fullName}
                       onChange={handleInputChange}
                       required
-                      className="w-full px-4 py-3 border border-gray-300 text-md focus:border-gray-600 focus:outline-none transition-all duration-300 hover:border-gray-400"
+                      className="w-full px-4 py-3 border border-gray-700 focus:border-gray-800 focus:outline-none transition-all duration-300"
                     />
                   </motion.div>
                   
                   <div className="grid grid-cols-2 gap-4">
                     <motion.div variants={fieldVariants}>
-                      <label className="block text-sm text-gray-500 mb-1.5 tracking-wide">EMAIL</label>
+                      <label className="block text-md text-gray-900 mb-1.5">Email</label>
                       <input 
                         name="email"
                         type="email" 
-                        placeholder="Your email" 
                         value={formData.email}
                         onChange={handleInputChange}
                         required
-                        className="w-full px-4 py-3 border border-gray-300 text-md focus:border-gray-600 focus:outline-none transition-all duration-300 hover:border-gray-400"
+                        className="w-full px-4 py-3 border border-gray-700 focus:border-gray-800 focus:outline-none transition-all duration-300"
                       />
                     </motion.div>
                     <motion.div variants={fieldVariants}>
-                      <label className="block text-sm text-gray-500 mb-1.5 tracking-wide">GENDER</label>
+                      <label className="block text-md text-gray-900 mb-1.5">Gender</label>
                       <select 
                         name="gender"
                         value={formData.gender}
                         onChange={handleInputChange}
                         required
-                        className="w-full px-4 py-3 border border-gray-300 text-md focus:border-gray-600 focus:outline-none transition-all duration-300 bg-white text-gray-600 hover:border-gray-400"
+                        className="w-full px-4 py-3 border border-gray-700 focus:border-gray-800 focus:outline-none transition-all duration-300 bg-white text-gray-700"
                       >
                         <option value="">Select</option>
                         <option value="Male">Male</option>
@@ -362,28 +273,37 @@ export const AuthPage: React.FC = () => {
                     </motion.div>
                   </div>
 
-                  <motion.div variants={fieldVariants}>
-                    <label className="block text-sm text-gray-500 mb-1.5 tracking-wide">MOBILE NUMBER</label>
-                    <PhoneInput 
-                      country={'in'}
-                      value={formData.mobileNumber}
-                      onChange={(phone: string) => setFormData({ ...formData, mobileNumber: phone })}
-                      inputClass="!w-full !px-4 !py-3 !border !border-gray-300 !text-md focus:!border-gray-600 focus:!outline-none !h-auto hover:!border-gray-400 transition-all duration-300"
-                      buttonClass="!bg-transparent !border-0"
-                      containerClass="!w-full"
-                    />
-                  </motion.div>
+                 <motion.div variants={fieldVariants}>
+  <label className="block text-md text-gray-900 mb-1.5">
+    Mobile Number
+  </label>
+
+  <PhoneInput
+    country={"in"}
+    value={formData.mobileNumber}
+    onChange={(phone: string) =>
+      setFormData({ ...formData, mobileNumber: phone })
+    }
+
+    inputClass="!w-full !pl-14 !pr-4 !py-3 !border !border-gray-700 focus:!border-gray-800 focus:!outline-none !h-auto transition-all duration-300"
+
+    buttonClass="!bg-transparent !border-0 !w-12"
+
+    containerClass="!w-full"
+
+    dropdownClass="!text-black"
+  />
+</motion.div>
 
                   <motion.div variants={fieldVariants}>
-                    <label className="block text-sm text-gray-500 mb-1.5 tracking-wide">PASSWORD</label>
+                    <label className="block text-md text-gray-900 mb-1.5">Password</label>
                     <input 
                       name="password"
                       type="password" 
-                      placeholder="Create a password" 
                       value={formData.password}
                       onChange={handleInputChange}
                       required
-                      className="w-full px-4 py-3 border border-gray-300 text-md focus:border-gray-600 focus:outline-none transition-all duration-300 hover:border-gray-400"
+                      className="w-full px-4 py-3 border border-gray-700 focus:border-gray-800 focus:outline-none transition-all duration-300"
                     />
                   </motion.div>
 
@@ -392,11 +312,25 @@ export const AuthPage: React.FC = () => {
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
                     type="submit" 
-                    className="w-full bg-gray-900 text-white py-3 text-md font-light tracking-wider hover:bg-gray-800 transition-all duration-300 flex items-center justify-center gap-2 group"
+                    className="w-full bg-gray-900 text-white py-3 text-md font-medium tracking-wider hover:bg-gray-800 transition-all duration-300 flex items-center justify-center gap-2 group"
                   >
-                    CONTINUE
-                    <ChevronRight size={14} strokeWidth={1.5} className="group-hover:translate-x-1 transition-transform duration-300" />
+                    Create
+                    <ChevronRight size={14} className="group-hover:translate-x-1 transition-transform duration-300" />
                   </motion.button>
+
+                  {/* Switch to Sign In */}
+                  <motion.div variants={fieldVariants} className="text-left pt-4">
+                    <p className="text-gray-500 text-sm">
+                      Already have an account?{' '}
+                      <button
+                        type="button"
+                        onClick={() => { setIsLogin(true); setShowOtpStep(false); }}
+                        className="text-gray-900 hover: font-medium"
+                      >
+                        Sign In
+                      </button>
+                    </p>
+                  </motion.div>
                 </form>
               ) : (
                 <motion.div 
@@ -411,20 +345,19 @@ export const AuthPage: React.FC = () => {
                     animate={{ opacity: 1, y: 0 }}
                     className="text-center"
                   >
-                    <p className="text-gray-500 text-md font-light mb-1">We've sent a 6-digit code to</p>
-                    <p className="text-gray-900 text-base font-light">{formData.mobileNumber}</p>
+                    <p className="text-gray-500 text-sm mb-1">We've sent a 6-digit code to</p>
+                    <p className="text-gray-900 font-medium">{formData.mobileNumber}</p>
                   </motion.div>
                   
                   <motion.div variants={fieldVariants}>
-                    <label className="block text-sm text-gray-500 mb-1.5 tracking-wide text-center">ENTER OTP</label>
+                    <label className="block text-sm text-gray-800 mb-1.5 text-center">Enter OTP</label>
                     <motion.input 
                       type="text" 
                       maxLength={6}
-                      placeholder="123456"
                       value={otpInput}
                       onChange={(e) => setOtpInput(e.target.value)}
                       whileFocus={{ scale: 1.02 }}
-                      className="w-full text-center px-4 py-3 text-lg font-light tracking-[8px] border border-gray-300 focus:border-gray-600 focus:outline-none transition-all duration-300"
+                      className="w-full text-center px-4 py-3 text-lg font-light tracking-[8px] border border-gray-300 focus:border-gray-800 focus:outline-none transition-all duration-300"
                     />
                   </motion.div>
 
@@ -435,17 +368,17 @@ export const AuthPage: React.FC = () => {
                       whileTap={{ scale: 0.98 }}
                       onClick={handleRegisterComplete}
                       disabled={loading || otpInput.length < 6}
-                      className="w-full bg-gray-900 text-white py-3 text-md font-light tracking-wider hover:bg-gray-800 transition-all duration-300 disabled:opacity-50 flex items-center justify-center gap-2 group"
+                      className="w-full bg-gray-900 text-white py-3 text-sm font-medium tracking-wider hover:bg-gray-800 transition-all duration-300 disabled:opacity-50 flex items-center justify-center gap-2 group"
                     >
-                      {loading ? <RefreshCw size={16} className="animate-spin" strokeWidth={1.5} /> : 'VERIFY & REGISTER'}
-                      <CheckCircle size={14} strokeWidth={1.5} className="group-hover:scale-110 transition-transform duration-300" />
+                      {loading ? <RefreshCw size={16} className="animate-spin" /> : 'Verify & Register'}
+                      <CheckCircle size={14} className="group-hover:scale-110 transition-transform duration-300" />
                     </motion.button>
                     <motion.button 
                       variants={fieldVariants}
                       whileHover={{ scale: 1.02 }}
                       whileTap={{ scale: 0.98 }}
                       onClick={() => setShowOtpStep(false)}
-                      className="w-full text-gray-400 text-sm font-light tracking-wider hover:text-gray-600 transition-colors duration-300"
+                      className="w-full text-gray-400 text-sm hover:text-gray-800 transition-colors duration-300"
                     >
                       Change Mobile Number
                     </motion.button>

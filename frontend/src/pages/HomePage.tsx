@@ -151,7 +151,7 @@ const HappyBarLanding: React.FC = () => {
             </motion.div>
             <motion.img
               src="/images/cashew-raisin.png"
-              alt="All Real Cashew Cookie Dough Protein Bar"
+              alt="Happy Bar Cashew Cookie Dough Protein Bar"
               className="block lg:hidden mx-auto h-fit sm:h-64 object-contain z-10 filter drop-shadow-[0_20px_35px_rgba(0,0,0,0.3)] -rotate-10"
               whileHover={{ scale: 1.02, rotate: -1 }}
               transition={{ duration: 0.3 }}
@@ -212,7 +212,7 @@ const HappyBarLanding: React.FC = () => {
 
       <motion.img
         src="/images/cashew-raisin.png"
-        alt="All Real Cashew Cookie Dough Protein Bar"
+        alt="Happy Bar Cashew Cookie Dough Protein Bar"
         className="absolute lg:block hidden  md:top-90 left-100 w-full h-114 md:h-94 lg:h-134 xl:h-110 object-contain z-10 filter drop-shadow-[0_20px_35px_rgba(0,0,0,0.3)] -rotate-10"
         whileHover={{ scale: 1.02, rotate: -1 }}
         transition={{ duration: 0.3 }}
@@ -224,7 +224,7 @@ const HappyBarLanding: React.FC = () => {
         <div className="space-y-4 max-w-md text-center lg:text-left">
           <div className="space-y-1">
             <h2 className="heading-1 text-3xl md:text-4xl font-bold tracking-tight text-neutral-900 leading-tight">
-              Why choose <br className="hidden lg:inline" /> All Real Nutrition?
+              Why choose <br className="hidden lg:inline" /> Happy Bar Nutrition?
             </h2>
             <p className="text-body text-neutral-500 text-base">
               Good for you - and the planet.
@@ -821,7 +821,7 @@ const FAQ = ({ faqs, contactEmail = "woohoo@thehappyfoodcompany.com" }) => {
           className="lg:col-span-5 space-y-6"
         >
           <div className="space-y-2">
-            <h2 className="heading-1 text-4xl md:text-5xl lg:text-6xl font-black tracking-tight text-gray-900 leading-tight">
+            <h2 className="heading-1 text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black tracking-tight text-gray-900 leading-tight">
               Frequently Asked
               <br />
               <span className="text-orange-500">Questions</span>
@@ -918,7 +918,7 @@ const AllProductsSection: React.FC<{ products: any[] }> = ({ products }) => {
         
         {/* --- BRANDED HEADER DECK --- */}
         <div className="text-center mb-20 space-y-3">
-          <h2 className="heading-1 text-4xl sm:text-5xl lg:text-6xl tracking-tight text-neutral-900">
+          <h2 className="heading-1 text-2xl sm:text-3xl md:text-4xl lg:text-5xl  tracking-tight text-neutral-900">
             All Products
           </h2>
           <p className="text-body text-neutral-500 max-w-xl mx-auto text-sm sm:text-base tracking-wide">
@@ -1142,7 +1142,7 @@ export const HomePage: React.FC = () => {
       a: "Our bars are made with 12 or fewer real food ingredients, nothing artificial. We use grass-fed milk protein from family farms in Ireland's County Kerry, plus mineral-rich Irish Atlantic sea salt. Each product page shows the full ingredient list for that flavor.",
     },
     {
-      q: "Are All Real products suitable for vegans?",
+      q: "Are Happy Bar products suitable for vegans?",
       a: "We offer dedicated plant-based recipe lines on our shop matching identical eco metrics. Our vegan range uses premium plant proteins from peas and rice, delivering the same great taste and nutrition profile.",
     },
     {
