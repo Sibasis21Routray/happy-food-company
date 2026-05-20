@@ -1,15 +1,23 @@
 import React from 'react';
-import { motion, easeInOut } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { ShopNowSection } from '../components/ShopNowSection';
 
 const Term = () => {
-  // Animation variants
+  // Animation variants aligned with PrivacyPolicyUI
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { duration: 0.5, staggerChildren: 0.08 }
+    }
+  };
+
   const headerVariants = {
     hidden: { opacity: 0, y: -30 },
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.6, ease: easeInOut }
+      transition: { duration: 0.6 }
     }
   };
 
@@ -18,7 +26,7 @@ const Term = () => {
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.5 }
+      transition: { duration: 0.5, delay: 0.2 }
     }
   };
 
@@ -37,100 +45,76 @@ const Term = () => {
       opacity: 1,
       x: 0,
       transition: { duration: 0.3 }
-    },
-    hover: {
-      x: 5,
-      transition: { duration: 0.2 }
-    }
-  };
-
-  const contactVariants = {
-    hidden: { opacity: 0, scale: 0.98 },
-    visible: {
-      opacity: 1,
-      scale: 1,
-      transition: { duration: 0.4, delay: 0.3 }
-    },
-    hover: {
-      scale: 1.01,
-      transition: { duration: 0.2 }
     }
   };
 
   return (
-    <div className="min-h-screen bg-white pt-24">
+    <div className="min-h-screen bg-white">
       
-      {/* Header Section */}
-      <motion.section
-                   variants={headerVariants}
-                   initial="hidden"
-                   animate="visible"
-                   className="py-16 mb-12 relative overflow-hidden "
-                     style={{
-               backgroundImage: "url('https://img.freepik.com/premium-vector/blue-background-with-line-that-says-blue-vector-illustration-autumn-leaves_1007350-15391.jpg')",
-               backgroundSize: "fill",
-               backgroundPosition: "center",
-               // backgroundRepeat: "no-repeat"
-             }}
-                 >
-        <motion.div 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8 }}
-          className="absolute inset-0 "
-        />
-        
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-0 left-0 w-64 h-64 bg-white rounded-full blur-3xl" />
-          <div className="absolute bottom-0 right-0 w-96 h-96 bg-white rounded-full blur-3xl" />
+      {/* 1. NAVIGATION BAR */}
+      <nav className="fixed top-0 left-0 right-0 bg-white z-50 border-b border-gray-100 px-6 py-4">
+        <div className="max-w-7xl mx-auto flex justify-between items-center">
+          {/* Logo */}
+          <div className="flex items-center gap-1">
+            <span className="text-2xl font-bold text-orange-500 font-sans tracking-tight">Happy</span>
+            <span className="text-2xl font-bold text-gray-800 font-sans tracking-tight">Bar</span>
+          </div>
+
+          {/* Navigation Links */}
+          <div className="hidden md:flex items-center space-x-8 text-sm font-medium text-gray-600">
+            <a href="#" className="hover:text-gray-900 transition-colors">Home</a>
+            <a href="#" className="hover:text-gray-900 transition-colors">Product</a>
+            <a href="#" className="hover:text-gray-900 transition-colors">Journal</a>
+            <a href="#" className="hover:text-gray-900 transition-colors">Shop</a>
+          </div>
+
+          {/* Icons Placeholders */}
+          <div className="flex items-center space-x-4 text-gray-600">
+            <span className="cursor-pointer hover:text-gray-900">👤 siba</span>
+            <span className="cursor-pointer hover:text-gray-900 relative">
+              🛒 <span className="absolute -top-2 -right-2 bg-black text-white text-xs w-4 h-4 rounded-full flex items-center justify-center">2</span>
+            </span>
+          </div>
         </div>
-        
+      </nav>
+
+      {/* 2. HERO HEADER */}
+      <motion.div
+        variants={headerVariants}
+        className="pt-36 pb-12 relative overflow-hidden bg-white"
+      >
         <div className="container mx-auto px-6 max-w-4xl relative z-10">
-          <div className="text-center">
+          <div className="text-left">
             <motion.h1 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.5 }}
-              className="text-3xl md:text-4xl font-light text-white mb-3"
+              className="text-3xl md:text-5xl font-normal text-black tracking-wide"
             >
               Terms of Service
             </motion.h1>
-            <motion.div 
-              initial={{ width: 0 }}
-              animate={{ width: 48 }}
-              transition={{ delay: 0.4, duration: 0.6 }}
-              className="h-px bg-white/30 mx-auto"
-            />
-            <motion.p 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.5, duration: 0.5 }}
-              className="text-white/70 text-md font-light mt-4"
-            >
-              Effective as of January 11, 2024
-            </motion.p>
           </div>
         </div>
-      </motion.section>
+      </motion.div>
 
-      {/* Policy Document Container */}
-      <motion.section
-        variants={contentVariants}
+      {/* 3. TERMS DOCUMENT CONTAINER */}
+      <motion.section 
+        variants={containerVariants}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true }}
-        className="py-16"
+        viewport={{ once: true, margin: "-100px" }}
+        className="pb-24 bg-white"
       >
         <div className="container mx-auto px-6 max-w-4xl">
-          <div className="bg-white border border-gray-100 p-8 md:p-12 hover:border-gray-200 transition-all duration-300">
-            
-            <motion.div 
-              variants={contentVariants}
-              className="space-y-6 text-gray-600 text-md leading-relaxed"
-            >
+          <motion.div 
+            variants={contentVariants}
+            className="px-0 py-4 transition-all duration-300"
+          >
+            <div className="space-y-6 text-gray-600 text-base text-left leading-relaxed">
+              
               <motion.p variants={sectionVariants}>
-                Welcome to <strong className="text-gray-800">thehappyfoodcompany.com</strong>, a website owned and operated by Angstrohm Foods Pvt Ltd 
-                ("Angstrohm" or "we"), a registered company in India.
+                Welcome to <strong className="text-gray-800">thehappyfoodcompany.com</strong>, a website owned and 
+                operated by Angstrohm Foods Pvt Ltd ("Angstrohm" or "we"), a registered company in India.
               </motion.p>
               
               <motion.p variants={sectionVariants}>
@@ -169,8 +153,10 @@ const Term = () => {
               </motion.p>
 
               {/* SECTION 1 */}
-              <motion.h2 variants={sectionVariants} className="text-xl font-light text-gray-800 pt-4">SECTION 1 – ONLINE STORE TERMS</motion.h2>
-              <motion.ul className="list-none space-y-2 mt-2">
+              <motion.h2 variants={sectionVariants} className="text-xl font-medium text-gray-800 pt-8 pb-2">
+                SECTION 1 – ONLINE STORE TERMS
+              </motion.h2>
+              <motion.ul variants={containerVariants} className="list-none space-y-3 pl-0">
                 {[
                   "By agreeing to these Terms of Service, you represent that you are at least 18 years old.",
                   "You may not use our products for any illegal or unauthorized purpose nor may you, in the use of the Service, violate any laws in your jurisdiction (including but not limited to copyright laws).",
@@ -180,18 +166,20 @@ const Term = () => {
                   <motion.li 
                     key={idx} 
                     variants={listItemVariants}
-                    whileHover="hover"
-                    className="flex gap-3"
+                    whileHover={{ x: 3 }}
+                    className="flex items-start gap-3"
                   >
-                    <span className="text-gray-400 mt-0.5">•</span> 
-                    <span className="text-gray-500 text-md">{item}</span>
+                    <span className="text-orange-400 mt-1.5">•</span> 
+                    <span className="text-gray-600 text-base">{item}</span>
                   </motion.li>
                 ))}
               </motion.ul>
 
               {/* SECTION 2 */}
-              <motion.h2 variants={sectionVariants} className="text-xl font-light text-gray-800 pt-4">SECTION 2 – GENERAL CONDITIONS</motion.h2>
-              <motion.ul className="list-none space-y-2 mt-2">
+              <motion.h2 variants={sectionVariants} className="text-xl font-medium text-gray-800 pt-8 pb-2">
+                SECTION 2 – GENERAL CONDITIONS
+              </motion.h2>
+              <motion.ul variants={containerVariants} className="list-none space-y-3 pl-0">
                 {[
                   "We reserve the right to refuse service to anyone for any reason at any time.",
                   "You understand that your content (not including credit card information), may be transferred unencrypted and involve (a) transmissions over various networks; and (b) changes to conform and adapt to technical requirements of connecting networks or devices. Credit card information is always encrypted during transfer over networks.",
@@ -201,18 +189,20 @@ const Term = () => {
                   <motion.li 
                     key={idx} 
                     variants={listItemVariants}
-                    whileHover="hover"
-                    className="flex gap-3"
+                    whileHover={{ x: 3 }}
+                    className="flex items-start gap-3"
                   >
-                    <span className="text-gray-400 mt-0.5">•</span> 
-                    <span className="text-gray-500 text-md">{item}</span>
+                    <span className="text-orange-400 mt-1.5">•</span> 
+                    <span className="text-gray-600 text-base">{item}</span>
                   </motion.li>
                 ))}
               </motion.ul>
 
               {/* SECTION 3 */}
-              <motion.h2 variants={sectionVariants} className="text-xl font-light text-gray-800 pt-4">SECTION 3 – ACCURACY, COMPLETENESS AND TIMELINESS OF INFORMATION</motion.h2>
-              <motion.ul className="list-none space-y-2 mt-2">
+              <motion.h2 variants={sectionVariants} className="text-xl font-medium text-gray-800 pt-8 pb-2">
+                SECTION 3 – ACCURACY, COMPLETENESS AND TIMELINESS OF INFORMATION
+              </motion.h2>
+              <motion.ul variants={containerVariants} className="list-none space-y-3 pl-0">
                 {[
                   "We are not responsible if information made available on this site is not accurate, complete or current. The material on this site is provided for general information only and should not be relied upon or used as the sole basis for making decisions without consulting primary, more accurate, more complete or more timely sources of information. Any reliance on the material on this site is at your own risk.",
                   "This site may contain certain historical information. Historical information, necessarily, is not current and is provided for your reference only. We reserve the right to modify the contents of this site at any time, but we have no obligation to update any information on our site. You agree that it is your responsibility to monitor changes to our site."
@@ -220,18 +210,20 @@ const Term = () => {
                   <motion.li 
                     key={idx} 
                     variants={listItemVariants}
-                    whileHover="hover"
-                    className="flex gap-3"
+                    whileHover={{ x: 3 }}
+                    className="flex items-start gap-3"
                   >
-                    <span className="text-gray-400 mt-0.5">•</span> 
-                    <span className="text-gray-500 text-md">{item}</span>
+                    <span className="text-orange-400 mt-1.5">•</span> 
+                    <span className="text-gray-600 text-base">{item}</span>
                   </motion.li>
                 ))}
               </motion.ul>
 
               {/* SECTION 4 */}
-              <motion.h2 variants={sectionVariants} className="text-xl font-light text-gray-800 pt-4">SECTION 4 – MODIFICATIONS TO THE SERVICE AND PRICES</motion.h2>
-              <motion.ul className="list-none space-y-2 mt-2">
+              <motion.h2 variants={sectionVariants} className="text-xl font-medium text-gray-800 pt-8 pb-2">
+                SECTION 4 – MODIFICATIONS TO THE SERVICE AND PRICES
+              </motion.h2>
+              <motion.ul variants={containerVariants} className="list-none space-y-3 pl-0">
                 {[
                   "Prices for our products are subject to change without notice.",
                   "We reserve the right at any time to modify or discontinue the Service (or any part or content thereof) without notice at any time.",
@@ -240,18 +232,20 @@ const Term = () => {
                   <motion.li 
                     key={idx} 
                     variants={listItemVariants}
-                    whileHover="hover"
-                    className="flex gap-3"
+                    whileHover={{ x: 3 }}
+                    className="flex items-start gap-3"
                   >
-                    <span className="text-gray-400 mt-0.5">•</span> 
-                    <span className="text-gray-500 text-md">{item}</span>
+                    <span className="text-orange-400 mt-1.5">•</span> 
+                    <span className="text-gray-600 text-base">{item}</span>
                   </motion.li>
                 ))}
               </motion.ul>
 
               {/* SECTION 5 */}
-              <motion.h2 variants={sectionVariants} className="text-xl font-light text-gray-800 pt-4">SECTION 5 – PRODUCTS OR SERVICES</motion.h2>
-              <motion.ul className="list-none space-y-2 mt-2">
+              <motion.h2 variants={sectionVariants} className="text-xl font-medium text-gray-800 pt-8 pb-2">
+                SECTION 5 – PRODUCTS OR SERVICES
+              </motion.h2>
+              <motion.ul variants={containerVariants} className="list-none space-y-3 pl-0">
                 {[
                   "Certain products or services may be available exclusively online through the website or partner websites. These products or services may have limited quantities and are subject to return or exchange only according to our Return Policy.",
                   "We have made every effort to display as accurately as possible the colors and images of our products that appear at the store. We cannot guarantee that your computer monitor's display of any color will be accurate.",
@@ -261,16 +255,16 @@ const Term = () => {
                   <motion.li 
                     key={idx} 
                     variants={listItemVariants}
-                    whileHover="hover"
-                    className="flex gap-3"
+                    whileHover={{ x: 3 }}
+                    className="flex items-start gap-3"
                   >
-                    <span className="text-gray-400 mt-0.5">•</span> 
-                    <span className="text-gray-500 text-md">{item}</span>
+                    <span className="text-orange-400 mt-1.5">•</span> 
+                    <span className="text-gray-600 text-base">{item}</span>
                   </motion.li>
                 ))}
               </motion.ul>
 
-              {/* SECTION 6 - REFUND POLICIES */}
+               {/* SECTION 6 - REFUND POLICIES */}
               <motion.h2 variants={sectionVariants} className="text-xl font-light text-gray-800 pt-4">SECTION 6 – REFUND POLICIES</motion.h2>
               <motion.div variants={sectionVariants} className="mt-2 space-y-3">
                 <p><strong className="text-gray-700">Our policy lasts 7 days.</strong> If 7 days have gone by since your purchase, unfortunately we can't offer you a refund or exchange.</p>
@@ -378,30 +372,8 @@ const Term = () => {
               <motion.h2 variants={sectionVariants} className="text-xl font-light text-gray-800 pt-4">SECTION 21 – CONTACT INFORMATION</motion.h2>
               <motion.p variants={sectionVariants} className="mt-2">Questions about the Terms of Service should be sent to us at <a href="mailto:woohoo@thehappyfoodcompany.com" className="text-gray-500 hover:text-gray-700 transition-colors">woohoo@thehappyfoodcompany.com</a></motion.p>
 
-              {/* Contact Section */}
-              <motion.div 
-                variants={contactVariants}
-                whileHover="hover"
-                className="border border-gray-100 p-6 mt-6 hover:border-gray-200 transition-all duration-300"
-              >
-                <p className="font-light text-gray-800 text-base mb-2">Angstrohm Foods Pvt Ltd</p>
-                <p className="text-gray-500 text-md">3rd Floor, Krishna Arcade,</p>
-                <p className="text-gray-500 text-md">No. 17, S K NAGAR, KODIGEHALLI,</p>
-                <p className="text-gray-500 text-md">Bengaluru, Karnataka, 560092</p>
-                <p className="mt-3 text-md">
-                  <span className="font-light text-gray-600">Email:</span>{' '}
-                  <a href="mailto:woohoo@thehappyfoodcompany.com" className="text-gray-500 hover:text-gray-700 transition-colors">
-                    woohoo@thehappyfoodcompany.com
-                  </a>
-                </p>
-              </motion.div>
-
-              {/* Effective Date */}
-              <motion.p className="text-[10px] mt-6 text-gray-400 tracking-wider text-center pt-4">
-                Effective as of January 11, 2024
-              </motion.p>
-            </motion.div>
-          </div>
+            </div>
+          </motion.div>
         </div>
       </motion.section>
 

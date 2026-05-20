@@ -19,7 +19,7 @@ const allBlogPosts: BlogPost[] = [
     slug: "satisfy-your-sugar-cravings-naturally",
     date: "Jun 1, 2024",
     excerpt: "Satisfying your Sugar Cravings Naturally In the vibrant landscape of modern nutrition, the quest for energy bars low...",
-    image: "https://thehappyfoodcompany.com/wp-content/uploads/2024/06/craving-control-400x250.webp",
+    image: "/blog/craving-control-400x250.webp",
   },
   {
     id: 2,
