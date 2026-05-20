@@ -89,60 +89,92 @@ const HappyBarLanding: React.FC = () => {
 
   return (
     <div className="w-full min-h-screen bg-white text-[#1A1A1A] font-sans overflow-x-hidden">
-      
       {/* Top Notification Banner */}
       <div className="w-full mt-20 bg-black text-white text-center py-2 px-4 text-xs md:text-sm tracking-widest uppercase font-medium flex items-center justify-center gap-2 border-b border-gray-800">
-        <svg className="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+        <svg
+          className="w-4 h-4 text-white"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+          />
         </svg>
-        <span className="text-body">Indias's Favorite Protein Bars Has Landed — <Link to={"/happy-shop"} className="underline cursor-pointer lowercase font-normal">Try it today</Link></span>
+        <span className="text-body">
+          Indias's Favorite Protein Bars Has Landed —{" "}
+          <Link
+            to={"/happy-shop"}
+            className="underline cursor-pointer lowercase font-normal"
+          >
+            Try it today
+          </Link>
+        </span>
       </div>
 
       {/* --- SECTION 1: HERO SECTION --- */}
-      <section 
+      <section
         ref={sectionRef}
         className="relative w-full min-h-[65vh] bg-gray-100 flex items-center overflow-hidden py-12 md:py-0"
         style={{
           backgroundImage: `linear-gradient(to right, rgba(0,0,0,0.45) 30%, rgba(0,0,0,0.1) 70%), url('https://m.gettywallpapers.com/wp-content/uploads/2023/12/Gym-Exercise-PC-Wallpaper.jpg')`,
-          backgroundSize: 'cover',
-          backgroundRepeat: 'no-repeat',
+          backgroundSize: "cover",
+          backgroundRepeat: "no-repeat",
         }}
       >
         <div className="max-w-7xl mx-auto w-full px-6 md:px-12 lg:px-16 grid grid-cols-1 lg:grid-cols-12 items-center gap-12 relative z-10">
           {/* Hero Text Copy */}
-          <motion.div 
+          <motion.div
             className="col-span-1 lg:col-span-6 text-white space-y-6 text-center lg:text-left"
             variants={containerVariants}
             initial="hidden"
             animate={isInView ? "visible" : "hidden"}
           >
             <motion.div variants={itemVariants} className="space-y-1">
-              
               {/* Main Headline Stack - Using global typography classes */}
-              <div className="flex flex-col items-center lg:items-start text-center lg:text-left pt-4">
+              <div className="flex flex-col items-center lg:items-start text-center lg:text-left pt-0 lg:pt-4">
                 {/* Dry Ink Brush Script Accent - Using heading-2 class */}
                 <h2 className="heading-2 text-3xl sm:text-4xl md:text-5xl mb-1 lg:-ml-1 transform -rotate-[1deg]">
                   Real Food
                 </h2>
-                
+
                 {/* Premium Slab Serif Headings - Using heading-1 class */}
                 <h1 className="heading-1 text-4xl sm:text-5xl md:text-6xl text-white mt-2">
-                  Real People.<br />
+                  Real People.
+                  <br />
                   Real Impact.
                 </h1>
               </div>
             </motion.div>
+            <motion.img
+              src="/images/cashew-raisin.png"
+              alt="All Real Cashew Cookie Dough Protein Bar"
+              className="block lg:hidden mx-auto h-fit sm:h-64 object-contain z-10 filter drop-shadow-[0_20px_35px_rgba(0,0,0,0.3)] -rotate-10"
+              whileHover={{ scale: 1.02, rotate: -1 }}
+              transition={{ duration: 0.3 }}
+            />
 
             {/* CTA Button Link */}
-            <motion.div variants={itemVariants} className="pt-4">
-              <Link to={"/happy-shop"} className="px-10 py-3.5 bg-[#141414] hover:bg-black text-white rounded-full text-xs font-bold tracking-[0.2em] uppercase transition-all duration-300 border border-gray-800 inline-flex items-center gap-3 group shadow-xl">
+            <motion.div variants={itemVariants} className="pt-0 lg:pt-4">
+              <Link
+                to={"/happy-shop"}
+                className="px-10 py-3.5 bg-[#141414] hover:bg-black text-white rounded-full text-xs font-bold tracking-[0.2em] uppercase transition-all duration-300 border border-gray-800 inline-flex items-center gap-3 group shadow-xl"
+              >
                 <span>Shop Now</span>
-                <span className="transform group-hover:translate-x-1.5 transition-transform duration-300">→</span>
+                <span className="transform group-hover:translate-x-1.5 transition-transform duration-300">
+                  →
+                </span>
               </Link>
             </motion.div>
 
             {/* Social Proof Stars */}
-            <motion.div variants={itemVariants} className="flex items-center justify-center lg:justify-start gap-2 pt-4">
+            <motion.div
+              variants={itemVariants}
+              className="flex items-center justify-center lg:justify-start gap-2 pt-4"
+            >
               <div className="flex text-amber-400 text-sm">★★★★★</div>
               <p className="text-body text-xs md:text-sm text-gray-300 font-medium tracking-wide">
                 Over 2500+ 5 Star Reviews
@@ -150,28 +182,38 @@ const HappyBarLanding: React.FC = () => {
             </motion.div>
 
             {/* Live Floating Testimonial Capsule */}
-            <motion.div 
+            <motion.div
               variants={itemVariants}
               className="inline-flex items-center gap-4 bg-white/95 backdrop-blur-sm p-3.5 rounded-xl shadow-lg border border-white/20 text-left max-w-sm mt-6"
             >
               <div className="w-10 h-10 rounded-full overflow-hidden bg-gray-300 flex-shrink-0">
-                <img src="https://www.perfocal.com/blog/content/images/2021/01/Perfocal_17-11-2019_TYWFAQ_100_standard-3.jpg" alt="Marina G." className="w-full h-full object-cover" />
+                <img
+                  src="https://www.perfocal.com/blog/content/images/2021/01/Perfocal_17-11-2019_TYWFAQ_100_standard-3.jpg"
+                  alt="Marina G."
+                  className="w-full h-full object-cover"
+                />
               </div>
               <div>
                 <p className="text-body text-xs text-gray-800 font-medium leading-snug">
-                  "The best protein bars on the go! Healthy, tasty and so reliable!"
+                  "The best protein bars on the go! Healthy, tasty and so
+                  reliable!"
                 </p>
-                <span className="text-muted text-[10px] font-bold block mt-0.5">Marina G. <span className="text-gray-400 font-normal">• Verified Customer</span></span>
+                <span className="text-muted text-[10px] font-bold block mt-0.5">
+                  Marina G.{" "}
+                  <span className="text-gray-400 font-normal">
+                    • Verified Customer
+                  </span>
+                </span>
               </div>
             </motion.div>
           </motion.div>
         </div>
       </section>
-      
-      <motion.img 
-        src="/images/cashew-raisin.png" 
-        alt="All Real Cashew Cookie Dough Protein Bar" 
-        className="absolute top-80 left-100 w-full h-114 md:h-94 lg:h-134 xl:h-100 object-contain z-10 filter drop-shadow-[0_20px_35px_rgba(0,0,0,0.3)] -rotate-10"
+
+      <motion.img
+        src="/images/cashew-raisin.png"
+        alt="All Real Cashew Cookie Dough Protein Bar"
+        className="absolute lg:block hidden  md:top-90 left-100 w-full h-114 md:h-94 lg:h-134 xl:h-110 object-contain z-10 filter drop-shadow-[0_20px_35px_rgba(0,0,0,0.3)] -rotate-10"
         whileHover={{ scale: 1.02, rotate: -1 }}
         transition={{ duration: 0.3 }}
       />
@@ -180,7 +222,6 @@ const HappyBarLanding: React.FC = () => {
       <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-10 lg:gap-14 py-15">
         {/* Left Column: Heading and Text Branding */}
         <div className="space-y-4 max-w-md text-center lg:text-left">
-          
           <div className="space-y-1">
             <h2 className="heading-1 text-3xl md:text-4xl font-bold tracking-tight text-neutral-900 leading-tight">
               Why choose <br className="hidden lg:inline" /> All Real Nutrition?
@@ -189,42 +230,60 @@ const HappyBarLanding: React.FC = () => {
               Good for you - and the planet.
             </p>
           </div>
-          
+
           <div className="pt-2 space-y-1">
             {/* Using heading-2 class for brush script style */}
             <h2 className="heading-2 text-3xl md:text-4xl text-neutral-800 font-medium tracking-wide">
               Real Food
             </h2>
             <p className="text-body text-neutral-700 text-xs md:text-sm max-w-xs mx-auto lg:mx-0 leading-relaxed">
-              Made in a kitchen, not a lab. Great for the gut and for the taste buds.
+              Made in a kitchen, not a lab. Great for the gut and for the taste
+              buds.
             </p>
           </div>
         </div>
 
         {/* Right Column: Central Badges & Global Eco System Compliance Icons */}
         <div className="flex flex-col sm:flex-row items-center gap-8 md:gap-12 lg:w-auto">
-          
           {/* Circular Badges Section */}
           <div className="flex items-center gap-4 sm:gap-5 justify-center">
             {/* Proudly Irish Made Badge */}
             <div className="w-20 h-20 sm:w-22 sm:h-22 rounded-full border border-[#BCE1BC] bg-[#E3F4E3] flex flex-col items-center justify-center p-1.5 text-center select-none shadow-[0_2px_8px_rgba(0,0,0,0.01)] transition-transform hover:scale-105 duration-300">
-              <span className="text-[9px] uppercase font-bold tracking-widest text-[#4A7A4A]">Proudly</span>
-              <span className="brand-serif-headline text-sm sm:text-base font-bold tracking-tight text-[#2B542B] my-0.5">IRISH</span>
-              <span className="text-[8px] uppercase font-bold text-[#4A7A4A] tracking-wider">Made</span>
+              <span className="text-[9px] uppercase font-bold tracking-widest text-[#4A7A4A]">
+                Proudly
+              </span>
+              <span className="brand-serif-headline text-sm sm:text-base font-bold tracking-tight text-[#2B542B] my-0.5">
+                IRISH
+              </span>
+              <span className="text-[8px] uppercase font-bold text-[#4A7A4A] tracking-wider">
+                Made
+              </span>
             </div>
-            
+
             {/* Protein 16g Per Bar Badge */}
             <div className="w-20 h-20 sm:w-22 sm:h-22 rounded-full border border-[#F5C2CB] bg-[#FCECEF] flex flex-col items-center justify-center p-1.5 text-center select-none shadow-[0_2px_8px_rgba(0,0,0,0.01)] transition-transform hover:scale-105 duration-300">
-              <span className="text-[9px] uppercase font-bold tracking-widest text-[#A34757]">Protein</span>
-              <span className="brand-serif-headline text-xl sm:text-2xl font-bold text-[#6B2431] leading-none my-0.5">16g</span>
-              <span className="text-[8px] uppercase font-bold text-[#A34757] tracking-wider">Per Bar</span>
+              <span className="text-[9px] uppercase font-bold tracking-widest text-[#A34757]">
+                Protein
+              </span>
+              <span className="brand-serif-headline text-xl sm:text-2xl font-bold text-[#6B2431] leading-none my-0.5">
+                16g
+              </span>
+              <span className="text-[8px] uppercase font-bold text-[#A34757] tracking-wider">
+                Per Bar
+              </span>
             </div>
-            
+
             {/* Less Than 12 Ingredients Badge */}
             <div className="w-20 h-20 sm:w-22 sm:h-22 rounded-full border border-[#B4D6EB] bg-[#E3F2FC] flex flex-col items-center justify-center p-1.5 text-center select-none shadow-[0_2px_8px_rgba(0,0,0,0.01)] transition-transform hover:scale-105 duration-300">
-              <span className="text-[9px] uppercase font-bold tracking-widest text-[#31698A]">Less Than</span>
-              <span className="brand-serif-headline text-xl sm:text-2xl font-bold text-[#1E4359] leading-none my-0.5">12</span>
-              <span className="text-[8px] uppercase font-bold text-[#31698A] tracking-wider">Ingredients</span>
+              <span className="text-[9px] uppercase font-bold tracking-widest text-[#31698A]">
+                Less Than
+              </span>
+              <span className="brand-serif-headline text-xl sm:text-2xl font-bold text-[#1E4359] leading-none my-0.5">
+                12
+              </span>
+              <span className="text-[8px] uppercase font-bold text-[#31698A] tracking-wider">
+                Ingredients
+              </span>
             </div>
           </div>
 
@@ -235,11 +294,15 @@ const HappyBarLanding: React.FC = () => {
               <div className="w-11 h-11 sm:w-12 sm:h-12 flex-shrink-0">
                 <div className="w-full h-full rounded-full border border-neutral-900 flex flex-col items-center justify-center p-1 text-center font-bold text-[8px] font-mono font-black leading-none uppercase tracking-tighter text-neutral-900 transition-colors group-hover:bg-neutral-900 group-hover:text-white duration-300">
                   <span>Plastic</span>
-                  <span className="text-[10px] font-black mt-0.5 border-t border-neutral-900 group-hover:border-white pt-0.5">Free</span>
+                  <span className="text-[10px] font-black mt-0.5 border-t border-neutral-900 group-hover:border-white pt-0.5">
+                    Free
+                  </span>
                 </div>
               </div>
               <div className="leading-none">
-                <h4 className="heading-4 text-xs font-bold text-neutral-900">Plastic-free</h4>
+                <h4 className="heading-4 text-xs font-bold text-neutral-900">
+                  Plastic-free
+                </h4>
                 <p className="text-muted text-[11px] mt-0.5">Packaging</p>
               </div>
             </div>
@@ -252,12 +315,13 @@ const HappyBarLanding: React.FC = () => {
                 </div>
               </div>
               <div className="leading-none">
-                <h4 className="heading-4 text-xs font-bold text-neutral-900">Home</h4>
+                <h4 className="heading-4 text-xs font-bold text-neutral-900">
+                  Home
+                </h4>
                 <p className="text-muted text-[11px] mt-0.5">Compostable</p>
               </div>
             </div>
           </div>
-
         </div>
       </div>
     </div>
