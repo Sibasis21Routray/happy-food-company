@@ -70,7 +70,7 @@ const ContactPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white pt-24 pb-16">
+    <div className="min-h-screen bg-white pt-24 pb-16 font-sans">
       
       {/* Animated Background */}
       <motion.div 
@@ -89,11 +89,11 @@ const ContactPage = () => {
           animate="visible"
           className="text-center mb-12"
         >
-          <h1 className="text-3xl md:text-4xl font-light text-gray-800 mb-3">
+          <h1 className="heading-1 text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-gray-800 mb-3">
             Contact Us
           </h1>
-          <div className="w-12 h-px bg-gray-300 mx-auto mb-4" />
-          <p className="text-gray-400 text-md font-light max-w-2xl mx-auto">
+          {/* <div className="w-12 h-px bg-gray-300 mx-auto mb-4" /> */}
+          <p className="sub-heading text-md font-light max-w-2xl mx-auto">
             We'd love to hear from you! Reach out with any questions, feedback, or just to say hello.
           </p>
         </motion.div>

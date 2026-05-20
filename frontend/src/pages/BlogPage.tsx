@@ -131,7 +131,7 @@ export const BlogPage: React.FC = () => {
       />
 
       {/* Blog Grid Section */}
-      <div className="container mx-auto px-6 max-w-7xl">
+      <div className="container mx-auto px-6 max-w-7xl mb-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {blogPosts.map((post, index) => (
             <motion.article
@@ -157,11 +157,11 @@ export const BlogPage: React.FC = () => {
               <div className="p-6 flex flex-col flex-grow">
                 {/* Meta Info - Using text-muted equivalent */}
                 <div className="flex items-center gap-4 text-sm text-gray-400 mb-3">
-                  <span className="text-body flex items-center gap-1 text-[11px] font-medium">
+                  <span className="text-gray-800 flex items-center gap-1 text-[11px] font-medium">
                     <User size={12} strokeWidth={1.5} />
                     {post.author.split(" ")[0]}
                   </span>
-                  <span className="text-body flex items-center gap-1 text-[11px] font-medium">
+                  <span className="text-gray-800 flex items-center gap-1 text-[11px] font-medium">
                     <Calendar size={12} strokeWidth={1.5} />
                     {post.date}
                   </span>
@@ -178,19 +178,19 @@ export const BlogPage: React.FC = () => {
                 </h2>
 
                 {/* Excerpt - Using text-body class */}
-                <p className="text-body text-gray-400 text-sm leading-relaxed mb-4 line-clamp-3">
+                <p className="text-body text-gray-700 text-sm leading-relaxed mb-4 line-clamp-3">
                   {post.excerpt}
                 </p>
 
                 {/* Read More Link - Using text-body */}
                 <Link
                   to={post.path}
-                  className="text-body mt-auto text-gray-500 text-xs font-medium tracking-wider hover:text-gray-700 transition-colors inline-flex items-center gap-1 group/link uppercase"
+                  className="sub-heading mt-auto text-gray-500 text-xs font-medium tracking-wider hover:text-gray-700 transition-colors inline-flex items-center gap-1 group/link uppercase"
                 >
                   READ MORE
                   <ArrowRight
                     size={12}
-                    className="group-hover/link:translate-x-1 transition-transform"
+                    className="group-hover/link:translate-x-1 transition-transform "
                     strokeWidth={1.5}
                   />
                 </Link>

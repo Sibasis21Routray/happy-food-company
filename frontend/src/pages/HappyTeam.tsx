@@ -43,63 +43,65 @@ export default function HappyTeam() {
   };
 
   return (
-    <div className="bg-white min-h-screen pt-24">
+    <div className="bg-white min-h-screen pt-14 font-sans">
       
-      {/* Hero Section - Fixed Background */}
-      <motion.section
-             variants={headerVariants}
-             initial="hidden"
-             animate="visible"
-             className="py-16 mb-12 relative overflow-hidden "
-               style={{
-         backgroundImage: "url('https://img.freepik.com/premium-vector/blue-background-with-line-that-says-blue-vector-illustration-autumn-leaves_1007350-15391.jpg')",
-         backgroundSize: "fill",
-         backgroundPosition: "center",
-         // backgroundRepeat: "no-repeat"
-       }}
-           >
-        {/* Animated Overlay Gradient */}
-        <motion.div 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8 }}
-          className="absolute inset-0 "
-        />
-        
-        {/* Decorative Pattern */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-0 left-0 w-64 h-64 bg-white rounded-full blur-3xl" />
-          <div className="absolute bottom-0 right-0 w-96 h-96 bg-white rounded-full blur-3xl" />
-          <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-white rounded-full blur-3xl" />
-        </div>
-        
-        <div className="container mx-auto px-6 max-w-7xl relative z-10">
-          <div className="text-center">
-            <motion.h1 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2, duration: 0.5 }}
-              className="text-3xl md:text-4xl font-light text-white mb-3"
-            >
-              The Happy Crew
-            </motion.h1>
-            <motion.div 
-              initial={{ width: 0 }}
-              animate={{ width: 48 }}
-              transition={{ delay: 0.4, duration: 0.6 }}
-              className="h-px bg-white/30 mx-auto"
-            />
-            <motion.p 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.5, duration: 0.5 }}
-              className="text-white/70 text-md font-light mt-4 max-w-md mx-auto"
-            >
-              Meet the passionate people behind Happy Bar
-            </motion.p>
-          </div>
-        </div>
-      </motion.section>
+      {/* Hero Section - Simplified Background */}
+     <motion.section
+  variants={headerVariants}
+  initial="hidden"
+  animate="visible"
+  className="py-16 mb-12 relative overflow-hidden bg-gray-900"
+>
+  {/* Left Decorative Image */}
+  <motion.div 
+    initial={{ opacity: 0, x: -50 }}
+    animate={{ opacity: 1, x: 0 }}
+    transition={{ delay: 0.3, duration: 0.6 }}
+    className="absolute left-0 top-1/2 -translate-y-1/2 z-0 w-32 sm:w-48 md:w-64 opacity-40 md:opacity-60 pointer-events-none"
+  >
+    <img 
+      src="/ingredients/cashew.png" 
+      alt="Decorative left"
+      className="w-full h-auto object-contain -rotate-12"
+    />
+  </motion.div>
+
+  {/* Right Decorative Image */}
+  <motion.div 
+    initial={{ opacity: 0, x: 50 }}
+    animate={{ opacity: 1, x: 0 }}
+    transition={{ delay: 0.4, duration: 0.6 }}
+    className="absolute right-0 top-1/2 -translate-y-1/2 z-0 w-32 sm:w-48 md:w-64 opacity-40 md:opacity-60 pointer-events-none"
+  >
+    <img 
+      src="/ingredients/Cranberry.png" 
+      alt="Decorative right"
+      className="w-full h-auto object-contain rotate-12"
+    />
+  </motion.div>
+
+  <div className="container mx-auto px-6 max-w-7xl relative z-10">
+    <div className="text-center">
+      <motion.h1 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.2, duration: 0.5 }}
+        className="heading-1 text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-white mb-3"
+      >
+        The Happy Crew
+      </motion.h1>
+      
+      <motion.p 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.5, duration: 0.5 }}
+        className="text-body text-white text-md mt-4 max-w-md mx-auto"
+      >
+        Meet the passionate people behind Happy Bar
+      </motion.p>
+    </div>
+  </div>
+</motion.section>
 
       {/* Team Grid */}
       <motion.section
@@ -132,12 +134,12 @@ export default function HappyTeam() {
                     />
                   </div>
 
-                  {/* Content */}
+                  {/* Content - Using typography classes */}
                   <div className="p-5 text-center">
-                    <h3 className="font-light text-gray-800 text-base mb-1 tracking-wide">
+                    <h3 className="sub-heading text-gray-800 text-base mb-1 tracking-wide">
                       {member.name}
                     </h3>
-                    <p className="text-[10px] text-gray-400 uppercase tracking-wider">
+                    <p className="text-body text-[20px] sub-heading uppercase tracking-wider">
                       {member.role}
                     </p>
                     <div className="mt-3 w-8 h-px bg-gray-200 mx-auto group-hover:w-12 transition-all duration-300" />

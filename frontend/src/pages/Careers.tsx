@@ -91,58 +91,61 @@ export default function Careers() {
   };
 
   return (
-    <div className="min-h-screen bg-white pt-24 overflow-x-hidden">
+    <div className="min-h-screen bg-white pt-14 overflow-x-hidden font-sans">
       
-      {/* Hero Section - Fixed Background */}
+      {/* Hero Section */}
       <motion.section
         variants={headerVariants}
         initial="hidden"
         animate="visible"
-        className="py-16 mb-12 relative overflow-hidden "
-          style={{
-    backgroundImage: "url('https://img.freepik.com/premium-vector/blue-background-with-line-that-says-blue-vector-illustration-autumn-leaves_1007350-15391.jpg')",
-    backgroundSize: "fill",
-    backgroundPosition: "center",
-    // backgroundRepeat: "no-repeat"
-  }}
+        className="py-16 mb-12 relative overflow-hidden bg-gray-900"
       >
-        {/* Animated Overlay Gradient */}
+        {/* Left Decorative Image */}
         <motion.div 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8 }}
-          className="absolute inset-0 "
-        />
-        
-        {/* Decorative Pattern */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-0 left-0 w-64 h-64 bg-white rounded-full blur-3xl" />
-          <div className="absolute bottom-0 right-0 w-96 h-96 bg-white rounded-full blur-3xl" />
-        </div>
-        
+          initial={{ opacity: 0, x: -50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.3, duration: 0.6 }}
+          className="absolute left-0 top-1/2 -translate-y-1/2 z-0 w-32 sm:w-48 md:w-64 opacity-40 md:opacity-60 pointer-events-none"
+        >
+          <img 
+            src="/ingredients/cashew.png" 
+            alt="Decorative left"
+            className="w-full h-auto object-contain -rotate-12"
+          />
+        </motion.div>
+      
+        {/* Right Decorative Image */}
+        <motion.div 
+          initial={{ opacity: 0, x: 50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.4, duration: 0.6 }}
+          className="absolute right-0 top-1/2 -translate-y-1/2 z-0 w-32 sm:w-48 md:w-64 opacity-40 md:opacity-60 pointer-events-none"
+        >
+          <img 
+            src="/ingredients/Cranberry.png" 
+            alt="Decorative right"
+            className="w-full h-auto object-contain rotate-12"
+          />
+        </motion.div>
+      
         <div className="container mx-auto px-6 max-w-7xl relative z-10">
           <div className="text-center">
             <motion.h1 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.5 }}
-              className="text-3xl md:text-4xl font-light text-white mb-3"
+              className="heading-1 text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-white mb-3"
             >
               READY TO MAKE AN IMPACT?
             </motion.h1>
-            <motion.div 
-              initial={{ width: 0 }}
-              animate={{ width: 48 }}
-              transition={{ delay: 0.4, duration: 0.6 }}
-              className="h-px bg-white/30 mx-auto"
-            />
+            
             <motion.p 
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.5, duration: 0.5 }}
-              className="text-white/70 text-md font-light mt-4 max-w-md mx-auto"
+              className="text-body text-white/80 text-md mt-4 max-w-md mx-auto"
             >
-              Join the Happy Team, Energise your career!
+              Join the Happy Team, Energise your career
             </motion.p>
           </div>
         </div>
@@ -164,8 +167,8 @@ export default function Careers() {
                 whileHover="hover"
                 className="border border-gray-100 p-8 hover:border-gray-200 transition-all duration-300"
               >
-                <h3 className="text-lg font-light text-gray-800 mb-4">Our Mission</h3>
-                <p className="text-gray-500 text-md font-light leading-relaxed">
+                <h3 className="sub-heading text-lg text-gray-800 mb-4">Our Mission</h3>
+                <p className="text-body text-gray-500 text-md leading-relaxed">
                   To boldly go where few have gone before — crafting healthy, nutritious snacks that are junk-free, chemical-free, and bursting with real goodness.
                 </p>
               </motion.div>
@@ -174,8 +177,8 @@ export default function Careers() {
                 whileHover="hover"
                 className="border border-gray-100 p-8 hover:border-gray-200 transition-all duration-300"
               >
-                <h3 className="text-lg font-light text-gray-800 mb-4">Company Culture</h3>
-                <p className="text-gray-500 text-md font-light leading-relaxed">
+                <h3 className="sub-heading text-lg text-gray-800 mb-4">Company Culture</h3>
+                <p className="text-body text-gray-500 text-md leading-relaxed">
                   At <span className="text-gray-700">The Happy Food Company</span>, we're obsessed with quality and safety. We're on a mission to make every moment with us fun and exciting for both our customers and our awesome team!
                 </p>
               </motion.div>
@@ -205,7 +208,7 @@ export default function Careers() {
       </motion.section>
 
       {/* Perks Section */}
-      <motion.section
+      {/* <motion.section
         variants={sectionVariants}
         initial="hidden"
         whileInView="visible"
@@ -214,7 +217,7 @@ export default function Careers() {
       >
         <div className="container mx-auto px-6 max-w-7xl">
           <div className="text-center mb-12">
-            <h2 className="text-2xl md:text-3xl font-light text-gray-800 mb-3">PERKS & BENEFITS</h2>
+            <h2 className="heading-1 text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-gray-800 mb-3">PERKS & BENEFITS</h2>
             <div className="w-12 h-px bg-gray-300 mx-auto" />
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -228,12 +231,12 @@ export default function Careers() {
                 <div className="p-2">
                   <perk.icon className={`w-5 h-5 ${perk.color}`} strokeWidth={1.5} />
                 </div>
-                <span className="text-md font-light text-gray-600">{perk.label}</span>
+                <span className="text-body text-md text-gray-600">{perk.label}</span>
               </motion.div>
             ))}
           </div>
         </div>
-      </motion.section>
+      </motion.section> */}
 
       {/* Team Section */}
       <motion.section
@@ -245,9 +248,9 @@ export default function Careers() {
       >
         <div className="container mx-auto px-6 max-w-7xl">
           <div className="text-center mb-12">
-            <h2 className="text-2xl md:text-3xl font-light text-gray-800 mb-3">OUR TEAM</h2>
+            <h2 className="heading-1 text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-gray-800 mb-3">OUR TEAM</h2>
             <div className="w-12 h-px bg-gray-300 mx-auto" />
-            <p className="text-gray-400 text-md font-light mt-4 max-w-2xl mx-auto">
+            <p className="sub-heading text-gray-400 text-md mt-4 max-w-2xl mx-auto">
               "Meet our team of bold and whimsical innovators - the visionaries with audacious dreams, 
               unconventional thinking, and enough madness to shake up the world."
             </p>
@@ -268,8 +271,8 @@ export default function Careers() {
                   />
                 </div>
                 <div className="p-4 text-center">
-                  <p className="font-light text-gray-800 text-md">{member.name}</p>
-                  <p className="text-[10px] text-gray-400 uppercase tracking-wider mt-1">{member.role}</p>
+                  <p className="sub-heading text-gray-800 text-md">{member.name}</p>
+                  <p className="text-body text-[10px] text-gray-400 uppercase tracking-wider mt-1">{member.role}</p>
                 </div>
               </motion.div>
             ))}
@@ -287,7 +290,7 @@ export default function Careers() {
       >
         <div className="container mx-auto px-6 max-w-7xl">
           <div className="text-center mb-12">
-            <h2 className="text-2xl md:text-3xl font-light text-gray-800 mb-3">OPEN POSITIONS</h2>
+            <h2 className="heading-1 text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-gray-800 mb-3">OPEN POSITIONS</h2>
             <div className="w-12 h-px bg-gray-300 mx-auto" />
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -301,14 +304,14 @@ export default function Careers() {
                 <div className={`w-12 h-12 ${pos.bgColor} rounded-full flex items-center justify-center mb-5`}>
                   <pos.icon className={`w-6 h-6 ${pos.iconColor}`} strokeWidth={1.5} />
                 </div>
-                <h3 className="text-lg font-light text-gray-800 mb-3">{pos.title}</h3>
-                <p className="text-gray-500 text-md font-light leading-relaxed mb-6">
+                <h3 className="sub-heading text-lg text-gray-800 mb-3">{pos.title}</h3>
+                <p className="text-body text-gray-500 text-md leading-relaxed mb-6">
                   {pos.description}
                 </p>
-                <button className="inline-flex items-center gap-2 text-gray-600 text-sm font-light tracking-wider hover:text-gray-800 transition-colors group">
+                {/* <button className="text-body inline-flex items-center gap-2 text-gray-600 text-sm tracking-wider hover:text-gray-800 transition-colors group">
                   APPLY NOW
                   <ChevronRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" strokeWidth={1.5} />
-                </button>
+                </button> */}
               </motion.div>
             ))}
           </div>

@@ -62,77 +62,66 @@ const PrivacyPolicyUI = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white pt-24">
+    <div className="min-h-screen bg-white">
       
-      {/* Header Section with Solid Color Background - Removed problematic image */}
+      {/* 1. NAVIGATION BAR */}
+      <nav className="fixed top-0 left-0 right-0 bg-white z-50 border-b border-gray-100 px-6 py-4">
+        <div className="max-w-7xl mx-auto flex justify-between items-center">
+          {/* Logo */}
+          <div className="flex items-center gap-1">
+            <span className="text-2xl font-bold text-orange-500 font-sans tracking-tight">Happy</span>
+            <span className="text-2xl font-bold text-gray-800 font-sans tracking-tight">Bar</span>
+          </div>
+
+          {/* Navigation Links */}
+          <div className="hidden md:flex items-center space-x-8 text-sm font-medium text-gray-600">
+            <a href="#" className="hover:text-gray-900 transition-colors">Home</a>
+            <a href="#" className="hover:text-gray-900 transition-colors">Product</a>
+            <a href="#" className="hover:text-gray-900 transition-colors">Journal</a>
+            <a href="#" className="hover:text-gray-900 transition-colors">Shop</a>
+          </div>
+
+          {/* Icons Placeholders */}
+          <div className="flex items-center space-x-4 text-gray-600">
+            <span className="cursor-pointer hover:text-gray-900">👤 siba</span>
+            <span className="cursor-pointer hover:text-gray-900 relative">
+              🛒 <span className="absolute -top-2 -right-2 bg-black text-white text-xs w-4 h-4 rounded-full flex items-center justify-center">2</span>
+            </span>
+          </div>
+        </div>
+      </nav>
+
+      {/* 2. HERO HEADER */}
       <motion.div
         variants={headerVariants}
-        initial="hidden"
-        animate="visible"
-        className="py-16 mb-12 relative overflow-hidden "
-        style={{
-    backgroundImage: "url('https://img.freepik.com/premium-vector/blue-background-with-line-that-says-blue-vector-illustration-autumn-leaves_1007350-15391.jpg')",
-    backgroundSize: "fill",
-    backgroundPosition: "center",
-    // backgroundRepeat: "no-repeat"
-  }}
+        className="pt-36 pb-6 bg-white"
       >
-        {/* Animated Overlay Gradient */}
-        <motion.div 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8 }}
-          className="absolute inset-0 "
-        />
-        
-        {/* Decorative Pattern */}
-        <div className="absolute inset-0 opacity-5">
-          <div className="absolute top-0 left-0 w-64 h-64 bg-white rounded-full blur-3xl" />
-          <div className="absolute bottom-0 right-0 w-96 h-96 bg-white rounded-full blur-3xl" />
-        </div>
-        
-        <div className="container mx-auto px-6 max-w-4xl relative z-10">
-          <div className="text-center">
-            <motion.h1 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2, duration: 0.5 }}
-              className="text-3xl md:text-4xl font-light text-white mb-3"
-            >
-              Privacy Policy
-            </motion.h1>
-            <motion.div 
-              initial={{ width: 0 }}
-              animate={{ width: 48 }}
-              transition={{ delay: 0.4, duration: 0.6 }}
-              className="h-px bg-white/50 mx-auto"
-            />
-            <motion.p 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.5, duration: 0.5 }}
-              className="text-white/70 text-md font-light mt-4"
-            >
-              Effective as of January 11, 2024
-            </motion.p>
-          </div>
+        <div className="max-w-4xl mx-auto px-6 md:px-14">
+          <motion.h1 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.2, duration: 0.5 }}
+            className="text-3xl md:text-5xl font-normal text-black tracking-wide"
+          >
+            Privacy Policy
+          </motion.h1>
         </div>
       </motion.div>
 
-      {/* Privacy Policy Document Container */}
+      {/* 3. PRIVACY POLICY DOCUMENT CONTAINER */}
       <motion.section 
         variants={containerVariants}
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: "-100px" }}
-        className="py-16"
+        className="pb-16 bg-white"
       >
-        <div className="container mx-auto px-6 max-w-4xl">
+        <div className="max-w-4xl mx-auto px-6 md:px-14">
           <motion.div 
             variants={contentVariants}
-            className="bg-white border border-gray-100 p-8 md:p-12 hover:border-gray-200 transition-all duration-300"
+            className="transition-all duration-300"
           >
-            <div className="space-y-6 text-gray-600 text-md leading-relaxed">
+            <div className="space-y-6 text-gray-600 text-base text-left leading-relaxed">
               
               <motion.p variants={sectionVariants}>
                 Welcome to <strong className="text-gray-800">thehappyfoodcompany.com</strong>, a website owned and 
@@ -147,10 +136,12 @@ const PrivacyPolicyUI = () => {
                 address, mailing address, phone number, date of birth and gender (Personal Information).
               </motion.p>
 
-              <motion.h2 variants={sectionVariants} className="text-xl font-light text-gray-800 pt-4">
+              {/* Enhanced heading spacing with pt-8 pb-2 */}
+              <motion.h2 variants={sectionVariants} className="text-xl font-medium text-gray-800 pt-8 pb-2">
                 We will only use Personal Information we collect from you for lawful purposes which may include:
               </motion.h2>
-              <motion.ul variants={containerVariants} className="list-none space-y-3">
+              
+              <motion.ul variants={containerVariants} className="list-none space-y-3 pl-2">
                 {[
                   "to personalize any future communications to you;",
                   "to manage and develop our promotions and to contact you in relation to our promotions, including if you are a winner of a particular promotion;",
@@ -165,16 +156,16 @@ const PrivacyPolicyUI = () => {
                   <motion.li 
                     key={idx} 
                     variants={listItemVariants}
-                    whileHover={{ x: 5 }}
+                    whileHover={{ x: 3 }}
                     className="flex items-start gap-3"
                   >
-                    <span className="text-gray-400 mt-1.5">•</span> 
-                    <span className="text-gray-500 text-md">{item}</span>
+                    <span className="text-orange-400 mt-1.5">•</span> 
+                    <span className="text-gray-600 text-base">{item}</span>
                   </motion.li>
                 ))}
               </motion.ul>
 
-              <motion.p variants={sectionVariants}>
+              <motion.p variants={sectionVariants} className="pt-4">
                 Prior to sending you marketing communications relating to our brands, products, promotions or services 
                 or those of our related companies or strategic partners, on the first occasion you provide Personal 
                 Information to us, you will be asked if you wish to opt in to these marketing communications.
@@ -193,10 +184,12 @@ const PrivacyPolicyUI = () => {
                 use, access, and disclosure by those third parties.
               </motion.p>
 
-              <motion.h2 variants={sectionVariants} className="text-xl font-light text-gray-800 pt-4">
+              {/* Enhanced heading spacing with pt-8 pb-2 */}
+              <motion.h2 variants={sectionVariants} className="text-xl font-medium text-gray-800 pt-8 pb-2">
                 We will not share your Personal Information with third parties except:
               </motion.h2>
-              <motion.ul variants={containerVariants} className="list-none space-y-3">
+              
+              <motion.ul variants={containerVariants} className="list-none space-y-3 pl-2">
                 {[
                   "we may publish your name in connection with a promotion if you are a winner;",
                   "where necessary and only to the extent necessary for the third parties to provide services to us in connection with our promotions;",
@@ -207,16 +200,16 @@ const PrivacyPolicyUI = () => {
                   <motion.li 
                     key={idx} 
                     variants={listItemVariants}
-                    whileHover={{ x: 5 }}
+                    whileHover={{ x: 3 }}
                     className="flex items-start gap-3"
                   >
-                    <span className="text-gray-400 mt-1.5">•</span> 
-                    <span className="text-gray-500 text-md">{item}</span>
+                    <span className="text-orange-400 mt-1.5">•</span> 
+                    <span className="text-gray-600 text-base">{item}</span>
                   </motion.li>
                 ))}
               </motion.ul>
 
-              <motion.p variants={sectionVariants}>
+              <motion.p variants={sectionVariants} className="pt-4">
                 Except as described in this Privacy Policy, we will not disclose or use your Personal Information without 
                 your permission unless required or permitted by law.
               </motion.p>
@@ -230,7 +223,7 @@ const PrivacyPolicyUI = () => {
               <motion.p variants={sectionVariants}>
                 We take reasonable precautions to make sure that we keep your Personal Information secure and comply with 
                 our obligations in relation to the security of your Personal Information that is held by us to address 
-                risks such as loss, misuse, unauthorized access, disclosure, alteration, and destruction.
+                ris such as loss, misuse, unauthorized access, disclosure, alteration, and destruction.
               </motion.p>
 
               <motion.p variants={sectionVariants}>
@@ -266,16 +259,17 @@ const PrivacyPolicyUI = () => {
                 services or information you require.
               </motion.p>
 
+              {/* Cookie Box */}
               <motion.div 
                 variants={contactVariants}
                 whileHover="hover"
-                className="bg-gray-50 p-6 my-6 border border-gray-100 hover:border-gray-200 transition-all duration-300"
+                className="bg-gray-50 p-6 my-8 border border-gray-100 rounded-lg transition-all duration-300"
               >
                 <motion.p 
                   initial={{ opacity: 0 }}
                   whileInView={{ opacity: 1 }}
                   transition={{ delay: 0.2 }}
-                  className="text-gray-500 text-md font-light italic leading-relaxed"
+                  className="text-gray-500 text-sm font-light italic leading-relaxed"
                 >
                   "Cookie" technology enables the Websites or service provider's system to recognize your browser and 
                   capture and remember certain information. We use cookies to understand and save your preferences for 
@@ -285,22 +279,25 @@ const PrivacyPolicyUI = () => {
                 </motion.p>
               </motion.div>
 
-              <motion.h2 variants={sectionVariants} className="text-xl font-light text-gray-800 pt-4">Contact Us</motion.h2>
+              {/* Enhanced heading spacing with pt-8 pb-2 */}
+              <motion.h2 variants={sectionVariants} className="text-xl font-medium text-gray-800 pt-8 pb-2">Contact Us</motion.h2>
+              
               <motion.p variants={sectionVariants}>
                 If there are any questions regarding this Privacy Policy or you would like to request correction to your 
                 Personal Information that we hold, you may contact us using the information below:
               </motion.p>
               
+              {/* Contact Address Block */}
               <motion.div 
                 variants={contactVariants}
                 whileHover="hover"
-                className="border border-gray-100 p-6 mt-4 hover:border-gray-200 transition-all duration-300"
+                className="border border-gray-100 rounded-lg p-6 mt-4 hover:shadow-sm transition-all duration-300"
               >
                 <motion.p 
                   initial={{ opacity: 0, y: 10 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.1 }}
-                  className="font-light text-gray-800 text-base mb-2"
+                  className="font-medium text-gray-800 text-base mb-2"
                 >
                   Angstrohm Foods Pvt Ltd
                 </motion.p>
@@ -308,7 +305,7 @@ const PrivacyPolicyUI = () => {
                   initial={{ opacity: 0, y: 10 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.15 }}
-                  className="text-gray-500 text-md"
+                  className="text-gray-500 text-sm"
                 >
                   3rd Floor, Krishna Arcade,
                 </motion.p>
@@ -316,7 +313,7 @@ const PrivacyPolicyUI = () => {
                   initial={{ opacity: 0, y: 10 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.2 }}
-                  className="text-gray-500 text-md"
+                  className="text-gray-500 text-sm"
                 >
                   No. 17, S K NAGAR, KODIGEHALLI,
                 </motion.p>
@@ -324,7 +321,7 @@ const PrivacyPolicyUI = () => {
                   initial={{ opacity: 0, y: 10 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.25 }}
-                  className="text-gray-500 text-md"
+                  className="text-gray-500 text-sm"
                 >
                   Bengaluru, Karnataka, 560092
                 </motion.p>
@@ -332,12 +329,12 @@ const PrivacyPolicyUI = () => {
                   initial={{ opacity: 0, y: 10 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.3 }}
-                  className="mt-3 text-md"
+                  className="mt-3 text-sm"
                 >
-                  <span className="font-light text-gray-600">Email:</span>{' '}
+                  <span className="font-medium text-gray-600">Email:</span>{' '}
                   <a 
                     href="mailto:woohoo@thehappyfoodcompany.com" 
-                    className="text-gray-500 hover:text-gray-700 transition-colors duration-300"
+                    className="text-orange-500 hover:text-orange-600 underline transition-colors duration-300"
                   >
                     woohoo@thehappyfoodcompany.com
                   </a>

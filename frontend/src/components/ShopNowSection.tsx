@@ -47,19 +47,19 @@ export const ShopNowSection: React.FC = () => {
   };
 
   return (
-    <section className="py-5 bg-gray-50">
-      <div className="container mx-auto px-6 max-w-7xl">
+    <section className="py-5  font-sans">
+      <div className="container mx-auto px-6 max-w-7xl my-20">
         
-        {/* Section Header */}
+        {/* Section Header - Using global typography classes */}
         <div className="text-center mb-12">
           <div className="mb-3">
-            <span className="text-md tracking-[0.2em] text-gray-400">COMBO PACKS</span>
+            <span className="text-body text-md tracking-[0.2em] text-gray-700">COMBO PACKS</span>
           </div>
-          <h2 className="text-3xl md:text-4xl font-light text-gray-900 mb-3">
+          <h2 className="heading-1 text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-gray-900 mb-3">
             Better Together
           </h2>
-          <div className="w-12 h-px bg-gray-300 mx-auto" />
-          <p className="text-gray-400 text-md font-light mt-4 max-w-md mx-auto">
+          {/* <div className="w-12 h-px bg-gray-300 mx-auto" /> */}
+          <p className="sub-heading text-body text-gray-500 text-md mt-4 max-w-md mx-auto ">
             Perfect for sharing or stocking up
           </p>
         </div>
@@ -77,7 +77,7 @@ export const ShopNowSection: React.FC = () => {
             {/* Popular Badge */}
             {combos[currentComboIndex].popular && (
               <div className="text-center mb-4">
-                <span className="text-md tracking-wide text-gray-500 border-b border-gray-300 pb-1">
+                <span className="text-body text-md tracking-wide text-gray-500 border-b border-gray-300 pb-1">
                   MOST POPULAR
                 </span>
               </div>
@@ -92,30 +92,30 @@ export const ShopNowSection: React.FC = () => {
               />
             </div>
             
-            {/* Info */}
+            {/* Info - Using typography classes */}
             <div className="text-center">
-              <h3 className="text-lg font-light text-gray-800 mb-1">
+              <h3 className="sub-heading text-lg text-gray-800 mb-1">
                 {combos[currentComboIndex].title}
               </h3>
-              <p className="text-md text-gray-400 mb-2">
+              <p className="text-body text-md text-gray-500 mb-2">
                 {combos[currentComboIndex].subtitle}
               </p>
-              <p className="text-md text-gray-500 mb-3">
+              <p className="text-body text-md text-gray-500 mb-3">
                 {combos[currentComboIndex].size}
               </p>
-              <p className="text-gray-500 text-md font-light leading-relaxed mb-4">
+              <p className="text-body text-gray-500 text-md leading-relaxed mb-4">
                 {combos[currentComboIndex].desc}
               </p>
               <div className="mb-4">
-                <span className="text-xl font-light text-gray-900">
+                <span className="sub-heading text-xl text-gray-900">
                   ₹{combos[currentComboIndex].price}
                 </span>
               </div>
               <button
-                onClick={() => navigate(combos[currentComboIndex].link)}
-                className="w-full py-2.5 border border-gray-300 text-gray-700 text-md font-light tracking-wider hover:border-gray-500 transition-all duration-300"
+                onClick={() => navigate("/happy-shop")}
+                className="text-body w-full py-2.5 border border-gray-300 text-gray-700 text-md tracking-wider hover:border-gray-500 transition-all duration-300"
               >
-                VIEW DETAILS
+                Shop Now
               </button>
             </div>
           </motion.div>
@@ -165,13 +165,31 @@ export const ShopNowSection: React.FC = () => {
               className="bg-white border border-gray-100 hover:border-gray-200 transition-all duration-300 p-6 relative"
             >
               {/* Popular Badge */}
-              {combo.popular && (
-                <div className="absolute top-4 left-1/2 -translate-x-1/2">
-                  <span className="text-[10px] tracking-wider text-gray-500 border-b border-gray-300 pb-1">
-                    MOST POPULAR
-                  </span>
-                </div>
-              )}
+             {/* Popular Badge */}
+{combo.popular && (
+  <div className="absolute top-4 left-1/4 -translate-x-1/2 z-20">
+    
+    <div className="
+      px-5 py-2
+      rounded-full
+      bg-white/90
+      backdrop-blur-xl
+      border border-orange-200
+      shadow-[0_8px_30px_rgba(0,0,0,0.08)]
+    ">
+      <span className="
+        text-[11px]
+        font-semibold
+        tracking-[0.18em]
+        uppercase
+        text-orange-500
+      ">
+        ✦ Most Popular
+      </span>
+    </div>
+
+  </div>
+)}
               
               {/* Image */}
               <div className={`w-full h-48 flex justify-center mb-6 ${combo.popular ? 'mt-6' : ''}`}>
@@ -182,30 +200,30 @@ export const ShopNowSection: React.FC = () => {
                 />
               </div>
               
-              {/* Info */}
+              {/* Info - Using typography classes */}
               <div className="text-center">
-                <h3 className="text-lg font-light text-gray-800 mb-1">
+                <h3 className="sub-heading text-lg text-gray-800 mb-1">
                   {combo.title}
                 </h3>
-                <p className="text-md text-gray-400 mb-2">
+                <p className="text-body text-md text-gray-500 mb-2">
                   {combo.subtitle}
                 </p>
-                <p className="text-md text-gray-500 mb-3">
+                <p className="text-body text-md text-gray-500 mb-3">
                   {combo.size}
                 </p>
-                <p className="text-gray-500 text-md font-light leading-relaxed mb-4">
+                <p className="text-body text-gray-500 text-md leading-relaxed mb-4">
                   {combo.desc}
                 </p>
                 <div className="mb-5">
-                  <span className="text-xl font-light text-gray-900">
+                  <span className="sub-heading text-xl text-gray-900">
                     ₹{combo.price}
                   </span>
                 </div>
                 <button
-                  onClick={() => navigate(combo.link)}
-                  className="w-full py-2.5 border border-gray-300 text-gray-700 text-md font-light tracking-wider hover:border-gray-500 transition-all duration-300"
+                  onClick={() => navigate("/happy-shop")}
+                  className="text-body w-full py-2.5 border border-gray-300 text-gray-700 text-md tracking-wider hover:border-gray-500 transition-all duration-300"
                 >
-                  VIEW DETAILS
+                  Shop Now
                 </button>
               </div>
             </motion.div>

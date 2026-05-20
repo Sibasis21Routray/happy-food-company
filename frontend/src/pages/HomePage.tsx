@@ -1,14 +1,35 @@
 import React, { useRef, useState, useEffect } from "react";
 import { motion, Variants, useInView, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
-import { ChevronDown, ChevronUp, HelpCircle, Mail, Quote, Star } from "lucide-react";
+import {
+  ChevronDown,
+  ChevronUp,
+  HelpCircle,
+  Mail,
+  Quote,
+  Star,
+} from "lucide-react";
 
-import { Eye, ShoppingBag, Leaf, Zap, ShieldCheck, ArrowUpRight } from 'lucide-react';
-import { Snowflake, Hand, Package, ArrowRight, Award, Heart, Sparkles } from 'lucide-react';
+import {
+  Eye,
+  ShoppingBag,
+  Leaf,
+  Zap,
+  ShieldCheck,
+  ArrowUpRight,
+} from "lucide-react";
+import {
+  Snowflake,
+  Hand,
+  Package,
+  ArrowRight,
+  Award,
+  Heart,
+  Sparkles,
+} from "lucide-react";
+import { ShopNowSection } from "../components/ShopNowSection";
 
-// Global CSS is now handled by the imported CSS file, no need for inline styles
 
-// ========== PREMIUM COMPONENTS ==========
 
 // Premium Section Header
 const SectionHeader = ({
@@ -37,18 +58,18 @@ const SectionHeader = ({
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : { opacity: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="sub-heading text-gray-400 max-w-2xl mx-auto text-md sm:text-md px-4"
+          className="sub-heading text-gray-700 max-w-2xl mx-auto text-md sm:text-md px-4"
         >
           {subtitle}
         </motion.p>
       )}
 
-      <motion.div
+      {/* <motion.div
         initial={{ width: 0 }}
         animate={isInView ? { width: 40 } : { width: 0 }}
         transition={{ delay: 0.4, duration: 0.6 }}
         className="h-px bg-gradient-to-r from-orange-300 to-orange-400 rounded-full mx-auto mt-6"
-      />
+      /> */}
     </div>
   );
 };
@@ -83,7 +104,7 @@ const HappyBarLanding: React.FC = () => {
       opacity: 1,
       scale: 1,
       y: 0,
-      transition: { duration: 0.8, type: 'spring', stiffness: 90, damping: 20 },
+      transition: { duration: 0.8, type: "spring", stiffness: 90, damping: 20 },
     },
   };
 
@@ -224,7 +245,8 @@ const HappyBarLanding: React.FC = () => {
         <div className="space-y-4 max-w-md text-center lg:text-left">
           <div className="space-y-1">
             <h2 className="heading-1 text-3xl md:text-4xl font-bold tracking-tight text-neutral-900 leading-tight">
-              Why choose <br className="hidden lg:inline" /> Happy Bar Nutrition?
+              Why choose <br className="hidden lg:inline" /> Happy Bar
+              Nutrition?
             </h2>
             <p className="text-body text-neutral-500 text-base">
               Good for you - and the planet.
@@ -329,6 +351,7 @@ const HappyBarLanding: React.FC = () => {
 };
 
 // Feature Card
+
 const FeatureCard = ({ feature, index }: { feature: any; index: number }) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-20px" });
@@ -338,7 +361,11 @@ const FeatureCard = ({ feature, index }: { feature: any; index: number }) => {
       ref={ref}
       initial={{ opacity: 0, y: 15 }}
       animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 15 }}
-      transition={{ duration: 0.5, delay: index * 0.08, ease: [0.16, 1, 0.3, 1] }}
+      transition={{
+        duration: 0.5,
+        delay: index * 0.08,
+        ease: [0.16, 1, 0.3, 1],
+      }}
       whileHover={{ scale: 1.05 }}
       className="flex items-center gap-3 text-left py-2 cursor-pointer"
     >
@@ -347,7 +374,7 @@ const FeatureCard = ({ feature, index }: { feature: any; index: number }) => {
         <img
           src={feature.img}
           alt={feature.title}
-          className="w-full h-full object-contain text-neutral-900" 
+          className="w-full h-full object-contain text-neutral-900"
         />
       </div>
 
@@ -357,7 +384,7 @@ const FeatureCard = ({ feature, index }: { feature: any; index: number }) => {
         <h4 className="heading-4 font-bold text-neutral-800 text-sm sm:text-base tracking-tight">
           {feature.title}
         </h4>
-        
+
         {/* Subdued Meta Description Text if available */}
         {feature.desc && (
           <p className="text-muted text-[11px] sm:text-xs mt-0.5 leading-tight">
@@ -369,11 +396,14 @@ const FeatureCard = ({ feature, index }: { feature: any; index: number }) => {
   );
 };
 
-
-
-
 // --- INGREDIENT CARD COMPONENT ---
-const IngredientCard = ({ ingredient, index }: { ingredient: any; index: number }) => {
+const IngredientCard = ({
+  ingredient,
+  index,
+}: {
+  ingredient: any;
+  index: number;
+}) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-30px" });
 
@@ -389,16 +419,16 @@ const IngredientCard = ({ ingredient, index }: { ingredient: any; index: number 
       >
         {/* Flat Line-Art Document Graphic Symbol */}
         <div className="text-neutral-700 mt-2">
-          <svg 
-            className="w-12 h-12 stroke-[1.2]" 
-            fill="none" 
-            stroke="currentColor" 
+          <svg
+            className="w-12 h-12 stroke-[1.2]"
+            fill="none"
+            stroke="currentColor"
             viewBox="0 0 24 24"
           >
-            <path 
-              strokeLinecap="round" 
-              strokeLinejoin="round" 
-              d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" 
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"
             />
           </svg>
         </div>
@@ -409,14 +439,15 @@ const IngredientCard = ({ ingredient, index }: { ingredient: any; index: number 
             Allergen Information
           </h4>
           <p className="text-muted text-xs leading-relaxed">
-            All our products contain the following allergens: Milk, Legumes and Tree Nuts.
+            All our products contain the following allergens: Milk, Legumes and
+            Tree Nuts.
           </p>
         </div>
 
         {/* Lower Call-To-Action Link */}
         <div className="mb-2">
-          <a 
-            href="#product-info" 
+          <a
+            href="#product-info"
             className="text-xs font-normal text-neutral-700 underline underline-offset-4 hover:text-neutral-900 transition-colors"
           >
             Open Product Information
@@ -450,68 +481,9 @@ const IngredientCard = ({ ingredient, index }: { ingredient: any; index: number 
         <h4 className="heading-4 font-bold text-neutral-800 text-base sm:text-lg tracking-tight leading-snug">
           {ingredient.title}
         </h4>
-        
+
         {/* Minimal Editorial Copy */}
-        <p className="text-muted text-xs leading-relaxed">
-          {ingredient.desc}
-        </p>
-      </div>
-    </motion.div>
-  );
-};
-
-
-
-
-
-// Combo Card
-const ComboCard = ({ combo, index }: { combo: any; index: number }) => {
-  const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-50px" });
-
-  return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 30 }}
-      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-      transition={{ duration: 0.5, delay: index * 0.1 }}
-      whileHover={{ y: -5 }}
-      className="group"
-    >
-      <div className="bg-white p-6 sm:p-8 text-center border border-gray-100 hover:border-orange-200 transition-all duration-300 rounded-2xl shadow-sm hover:shadow-md">
-        <div className="w-32 h-32 sm:w-36 sm:h-36 md:w-40 md:h-40 mx-auto mb-6">
-          <img
-            src={combo.img}
-            alt={combo.title}
-            className="w-full h-full object-contain"
-          />
-        </div>
-
-        <h3 className="heading-3 text-base sm:text-lg text-gray-900 mb-1 tracking-wide">
-          {combo.title}
-        </h3>
-        <p className="sub-heading text-sm sm:text-md text-orange-400 mb-3 tracking-wide">
-          {combo.flavors}
-        </p>
-        <p className="text-muted text-sm sm:text-md leading-relaxed mb-4">
-          {combo.desc}
-        </p>
-
-        <div className="mb-4">
-          <span className="heading-3 text-xl sm:text-2xl text-gray-900">
-            ₹{combo.price}
-          </span>
-        </div>
-
-        <Link to="/happy-shop">
-          <motion.button
-            whileHover={{ scale: 1.02, borderColor: "#f97316", color: "#f97316" }}
-            whileTap={{ scale: 0.98 }}
-            className="text-body w-full py-2 sm:py-2.5 border border-gray-200 text-gray-700 text-sm sm:text-md tracking-wider hover:border-orange-400 transition-all duration-300"
-          >
-            SHOP NOW
-          </motion.button>
-        </Link>
+        <p className="text-muted text-xs leading-relaxed">{ingredient.desc}</p>
       </div>
     </motion.div>
   );
@@ -519,17 +491,20 @@ const ComboCard = ({ combo, index }: { combo: any; index: number }) => {
 
 const testimonials = [
   {
-    quote: "The cleanest protein bar I've ever tasted. No artificial aftertaste, just real ingredients.",
+    quote:
+      "The cleanest protein bar I've ever tasted. No artificial aftertaste, just real ingredients.",
     author: "Priya M.",
     role: "Wellness Coach",
   },
   {
-    quote: "Finally a healthy snack that doesn't compromise on taste. The Cashew Raisin is my daily go-to.",
+    quote:
+      "Finally a healthy snack that doesn't compromise on taste. The Cashew Raisin is my daily go-to.",
     author: "Arjun K.",
     role: "Verified Buyer",
   },
   {
-    quote: "My kids love them, and I love that they're getting real nutrition. Win-win!",
+    quote:
+      "My kids love them, and I love that they're getting real nutrition. Win-win!",
     author: "Neha S.",
     role: "Mom of Two",
   },
@@ -543,17 +518,17 @@ const TestimonialSection: React.FC = () => {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: { staggerChildren: 0.15 }
-    }
+      transition: { staggerChildren: 0.15 },
+    },
   };
 
   const cardVariants: Variants = {
     hidden: { opacity: 0, y: 30 },
-    visible: { 
-      opacity: 1, 
-      y: 0, 
-      transition: { duration: 0.6, ease: "easeOut" } 
-    }
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.6, ease: "easeOut" },
+    },
   };
 
   return (
@@ -566,7 +541,7 @@ const TestimonialSection: React.FC = () => {
           />
         </div>
 
-        <motion.div 
+        <motion.div
           ref={ref}
           variants={containerVariants}
           initial="hidden"
@@ -586,7 +561,11 @@ const TestimonialSection: React.FC = () => {
 
               <div className="flex gap-0.5 mb-6 relative">
                 {[...Array(5)].map((_, i) => (
-                  <Star key={i} size={16} className="text-orange-400 fill-orange-400" />
+                  <Star
+                    key={i}
+                    size={16}
+                    className="text-orange-400 fill-orange-400"
+                  />
                 ))}
               </div>
 
@@ -598,7 +577,9 @@ const TestimonialSection: React.FC = () => {
 
               <div className="flex items-center gap-4 border-t border-orange-50 pt-6">
                 <div className="h-10 w-10 rounded-full bg-gradient-to-br from-orange-100 to-amber-100 flex items-center justify-center text-orange-600 font-bold text-xs">
-                  <span className="text-body">{testimonial.author.charAt(0)}</span>
+                  <span className="text-body">
+                    {testimonial.author.charAt(0)}
+                  </span>
                 </div>
                 <div>
                   <p className="heading-4 text-gray-900 text-sm font-bold tracking-tight">
@@ -623,44 +604,44 @@ const CraftsmanshipSection: React.FC = () => {
   const isInView = useInView(ref, { once: true, margin: "-100px" });
 
   const steps = [
-    { 
-      step: "01", 
-      title: "Sourced", 
-      desc: "Premium nuts & fruits from ethical farms", 
+    {
+      step: "01",
+      title: "Sourced",
+      desc: "Premium nuts & fruits from ethical farms",
       icon: Leaf,
     },
-    { 
-      step: "02", 
-      title: "Cold-Pressed", 
-      desc: "Preserving nutrients at low temperatures", 
+    {
+      step: "02",
+      title: "Cold-Pressed",
+      desc: "Preserving nutrients at low temperatures",
       icon: Snowflake,
     },
-    { 
-      step: "03", 
-      title: "Handcrafted", 
-      desc: "Small batches with artisanal care", 
+    {
+      step: "03",
+      title: "Handcrafted",
+      desc: "Small batches with artisanal care",
       icon: Hand,
     },
-    { 
-      step: "04", 
-      title: "Packed Fresh", 
-      desc: "Sealed for purity and taste", 
+    {
+      step: "04",
+      title: "Packed Fresh",
+      desc: "Sealed for purity and taste",
       icon: Package,
     },
   ];
 
   return (
-    <section className="py-14 md:py-22 bg-white overflow-hidden">
+    <section className="mb-14 md:mb-22 bg-white overflow-hidden">
       <div className="max-w-7xl mx-auto lg:px-8">
         <SectionHeader
           title="Crafted with intention"
           subtitle="From farm to bar — pure, simple, honest"
         />
-        
+
         <div ref={ref} className="relative mt-16">
           {/* Timeline connector line */}
           <div className="absolute left-8 md:left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-orange-200 via-orange-300/50 to-transparent md:translate-x-[-0.5px]" />
-          
+
           <div className="space-y-16">
             {steps.map((step, idx) => {
               const IconComponent = step.icon;
@@ -669,20 +650,24 @@ const CraftsmanshipSection: React.FC = () => {
                   key={idx}
                   initial={{ opacity: 0, x: idx % 2 === 0 ? -40 : 40 }}
                   animate={isInView ? { opacity: 1, x: 0 } : {}}
-                  transition={{ delay: idx * 0.15, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                  transition={{
+                    delay: idx * 0.15,
+                    duration: 0.6,
+                    ease: [0.16, 1, 0.3, 1],
+                  }}
                   className={`flex flex-col md:flex-row items-center gap-6 ${
                     idx % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
                   }`}
                 >
                   <div className="flex-1 text-center md:text-left">
-                    <motion.span 
+                    <motion.span
                       className="heading-1 text-6xl md:text-7xl font-black text-orange-100"
                       whileHover={{ scale: 1.05, color: "#FED7AA" }}
                       transition={{ duration: 0.3 }}
                     >
                       {step.step}
                     </motion.span>
-                    <motion.h3 
+                    <motion.h3
                       className="heading-3 text-2xl md:text-3xl text-gray-900 mt-2 tracking-tight"
                       whileHover={{ x: 5, color: "#F97316" }}
                       transition={{ duration: 0.3 }}
@@ -693,8 +678,8 @@ const CraftsmanshipSection: React.FC = () => {
                       {step.desc}
                     </p>
                   </div>
-                  
-                  <motion.div 
+
+                  <motion.div
                     className="relative z-10"
                     whileHover={{ scale: 1.15, rotate: 8 }}
                     transition={{ type: "spring", stiffness: 300, damping: 20 }}
@@ -703,26 +688,31 @@ const CraftsmanshipSection: React.FC = () => {
                     <div className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-gradient-to-br from-orange-100 to-amber-100 flex items-center justify-center shadow-md">
                       {/* Inner circle */}
                       <div className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-gradient-to-br from-orange-500 to-amber-500 flex items-center justify-center shadow-inner">
-                        <IconComponent className="w-7 h-7 md:w-8 md:h-8 text-white" strokeWidth={1.5} />
+                        <IconComponent
+                          className="w-7 h-7 md:w-8 md:h-8 text-white"
+                          strokeWidth={1.5}
+                        />
                       </div>
                     </div>
-                    
+
                     {/* Glow effect */}
-                    <motion.div 
+                    <motion.div
                       className="absolute inset-0 rounded-full bg-orange-400/20 blur-xl -z-10"
                       animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.6, 0.3] }}
-                      transition={{ duration: 2, repeat: Infinity, delay: idx * 0.3 }}
+                      transition={{
+                        duration: 2,
+                        repeat: Infinity,
+                        delay: idx * 0.3,
+                      }}
                     />
                   </motion.div>
-                  
+
                   <div className="flex-1 hidden md:block" />
                 </motion.div>
               );
             })}
           </div>
         </div>
-
-       
       </div>
     </section>
   );
@@ -753,11 +743,7 @@ const FAQItem = ({ question, answer, isOpen, onToggle, index }) => {
           transition={{ duration: 0.3, ease: "easeInOut" }}
           className="text-gray-400 group-hover:text-orange-600 transition-colors"
         >
-          {isOpen ? (
-            <ChevronUp size={18} />
-          ) : (
-            <ChevronDown size={18} />
-          )}
+          {isOpen ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
         </motion.span>
       </button>
 
@@ -811,7 +797,6 @@ const FAQ = ({ faqs, contactEmail = "woohoo@thehappyfoodcompany.com" }) => {
   return (
     <section className="w-full bg-gray-50 py-20 px-6 md:px-12 overflow-hidden">
       <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16">
-        
         {/* FAQ Left Header Deck */}
         <motion.div
           ref={sectionRef}
@@ -822,30 +807,37 @@ const FAQ = ({ faqs, contactEmail = "woohoo@thehappyfoodcompany.com" }) => {
         >
           <div className="space-y-2">
             <h2 className="heading-1 text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black tracking-tight text-gray-900 leading-tight">
-              Frequently Asked
-              <br />
-              <span className="text-orange-500">Questions</span>
+              Frequently Asked              
+            </h2>
+            <h2 className="heading-2 text-2xl sm:text-3xl md:text-4xl lg:text-5xl">
+              Questions
             </h2>
           </div>
-          
-          <motion.div 
+
+          <motion.div
             className="space-y-1 text-sm pt-4"
             initial={{ opacity: 0 }}
             animate={isInView ? { opacity: 1 } : { opacity: 0 }}
             transition={{ delay: 0.3, duration: 0.5 }}
           >
-            <p className="text-body text-gray-600 font-medium">Still have a query?</p>
-            <motion.p 
+            <p className="text-body text-gray-600 font-medium">
+              Still have a query?
+            </p>
+            <motion.p
               whileHover={{ x: 5 }}
               className="text-body text-gray-900 font-bold underline cursor-pointer hover:text-orange-600 transition-colors inline-block"
             >
               Get in touch with us
-            </motion.p><br/>
-            <a 
-              href={`mailto:${contactEmail}`} 
+            </motion.p>
+            <br />
+            <a
+              href={`mailto:${contactEmail}`}
               className="text-body text-orange-600 font-semibold block pt-1 hover:underline inline-flex items-center gap-2 group"
             >
-              <Mail size={14} className="group-hover:scale-110 transition-transform" />
+              <Mail
+                size={14}
+                className="group-hover:scale-110 transition-transform"
+              />
               {contactEmail}
             </a>
           </motion.div>
@@ -877,24 +869,22 @@ const FAQ = ({ faqs, contactEmail = "woohoo@thehappyfoodcompany.com" }) => {
   );
 };
 
-
-
 const AllProductsSection: React.FC<{ products: any[] }> = ({ products }) => {
   const [hoveredId, setHoveredId] = useState<string | null>(null);
 
   // Layout color rotation mapping based on the circle backdrops from your files
   const circleColors = [
-    'bg-[#7BC6E8]', // Sky Blue backdrop
-    'bg-[#FFCD43]', // Warm Yellow backdrop
-    'bg-[#AECB75]', // Sage Green backdrop
-    'bg-[#DCA4E6]'  // Soft Purple backdrop
+    "bg-[#7BC6E8]", // Sky Blue backdrop
+    "bg-[#FFCD43]", // Warm Yellow backdrop
+    "bg-[#AECB75]", // Sage Green backdrop
+    "bg-[#DCA4E6]", // Soft Purple backdrop
   ];
 
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
       opacity: 1,
-      transition: { 
+      transition: {
         staggerChildren: 0.1,
       },
     },
@@ -905,8 +895,8 @@ const AllProductsSection: React.FC<{ products: any[] }> = ({ products }) => {
     visible: {
       opacity: 1,
       y: 0,
-      transition: { 
-        duration: 0.6, 
+      transition: {
+        duration: 0.6,
         ease: [0.16, 1, 0.3, 1],
       },
     },
@@ -915,15 +905,16 @@ const AllProductsSection: React.FC<{ products: any[] }> = ({ products }) => {
   return (
     <section className="py-16 md:py-24 bg-white overflow-hidden">
       <div className="max-w-7xl mx-auto ">
-        
         {/* --- BRANDED HEADER DECK --- */}
         <div className="text-center mb-20 space-y-3">
           <h2 className="heading-1 text-2xl sm:text-3xl md:text-4xl lg:text-5xl  tracking-tight text-neutral-900">
             All Products
           </h2>
-          <p className="text-body text-neutral-500 max-w-xl mx-auto text-sm sm:text-base tracking-wide">
-            Experience our complete range of clean energy. No fillers, no secrets, just real food.
+          <p className="text-body sub-heading text-neutral-500 max-w-xl mx-auto text-sm sm:text-base tracking-wide">
+            Experience our complete range of clean energy. No fillers, no
+            secrets, just real food.
           </p>
+          
         </div>
 
         {/* --- AUTHENTIC GRID WITH STAGGER ANIMATION --- */}
@@ -947,29 +938,39 @@ const AllProductsSection: React.FC<{ products: any[] }> = ({ products }) => {
                 className="flex flex-col items-center text-center group h-full"
               >
                 {/* Product Box Frame Wrapper */}
-                <Link 
-                  to={`/product/${product.slug}`} 
+                <Link
+                  to={`/product/${product.slug}`}
                   className="relative w-full aspect-square flex items-center justify-center mb-6 block"
                 >
                   {/* Clean Geometric Backdrop Circle */}
-                  <div className={`absolute w-[82%] h-[82%] rounded-full ${currentBg} transition-transform duration-500 ease-out ${isHovered ? 'scale-105' : 'scale-100'}`} />
-                  
+                  <div
+                    className={`absolute w-[82%] h-[82%] rounded-full ${currentBg} transition-transform duration-500 ease-out ${isHovered ? "scale-105" : "scale-100"}`}
+                  />
+
                   {/* Tilted Floating Product Packaging Assembly */}
                   <div className="relative z-10 w-full h-full flex items-center justify-center p-4">
                     <motion.img
                       src={product.img}
                       alt={product.name}
                       className="w-[88%] h-auto object-contain filter drop-shadow-[0_12px_20px_rgba(0,0,0,0.18)]"
-                      animate={isHovered ? { 
-                        scale: 1.05, 
-                        rotate: -12,
-                        y: -6 
-                      } : { 
-                        scale: 1, 
-                        rotate: -8,
-                        y: 0 
+                      animate={
+                        isHovered
+                          ? {
+                              scale: 1.05,
+                              rotate: -12,
+                              y: -6,
+                            }
+                          : {
+                              scale: 1,
+                              rotate: -8,
+                              y: 0,
+                            }
+                      }
+                      transition={{
+                        type: "spring",
+                        stiffness: 260,
+                        damping: 22,
                       }}
-                      transition={{ type: "spring", stiffness: 260, damping: 22 }}
                     />
                   </div>
                 </Link>
@@ -979,7 +980,7 @@ const AllProductsSection: React.FC<{ products: any[] }> = ({ products }) => {
                   <h3 className="heading-3 text-2xl sm:text-3xl font-bold text-neutral-900 tracking-tight leading-tight">
                     {product.name}
                   </h3>
-                  
+
                   <p className="text-body text-sm text-neutral-600 leading-relaxed max-w-[260px] mx-auto min-h-[60px]">
                     {product.desc || "Find your favourite flavour"}
                   </p>
@@ -990,7 +991,9 @@ const AllProductsSection: React.FC<{ products: any[] }> = ({ products }) => {
                       className=" w-full py-3 bg-[#141414] hover:bg-black text-white text-xs font-bold tracking-[0.2em] uppercase rounded-full flex items-center justify-center gap-2 transition-all duration-300 shadow-md hover:shadow-lg active:scale-95"
                     >
                       <span>SHOP NOW</span>
-                      <span className="text-xs font-normal  group-hover:translate-x-1 transition-transform duration-200">→</span>
+                      <span className="text-xs font-normal  group-hover:translate-x-1 transition-transform duration-200">
+                        →
+                      </span>
                     </Link>
                   </div>
                 </div>
@@ -1070,69 +1073,45 @@ export const HomePage: React.FC = () => {
   ];
 
   const ingredients = [
-  { 
-    title: "ALMONDS", 
-    img: "/ingredients/almond.png",
-    desc: "Rich in vitamin E and healthy fats for heart health"
-  },
-  { 
-    title: "CRANBERRIES", 
-    img: "/ingredients/Cranberry.png",
-    desc: "Packed with antioxidants and natural sweetness"
-  },
-  { 
-    title: "CASHEWS", 
-    img: "/ingredients/cashew.png",
-    desc: "Creamy texture with essential minerals and protein"
-  },
-  { 
-    title: "RAISINS", 
-    img: "/ingredients/raisin.png",
-    desc: "Natural energy boost with iron and fiber"
-  },
-  { 
-    title: "COCONUT", 
-    img: "/ingredients/Coconut Craze.png",
-    desc: "Healthy MCTs for sustained energy release"
-  },
-  { 
-    title: "PEANUTS", 
-    img: "/ingredients/Peanut.png",
-    desc: "Plant-based protein and heart-healthy fats"
-  },
-  { 
-    title: "JAGGERY", 
-    img: "/ingredients/Jaggery.png",
-    desc: "Unrefined sweetener rich in minerals"
-  },
-  { 
-    title: "DATES", 
-    img: "/ingredients/Date.png",
-    desc: "Naturally sweet with fiber and essential nutrients"
-  },
-];
-
-  const combos = [
     {
-      title: "STARTER",
-      flavors: "2 Flavors • 6 Bars",
-      desc: "Perfect introduction to our protein bars",
-      img: "/images/combo-6-1.png",
-      price: "240",
+      title: "ALMONDS",
+      img: "/ingredients/almond.png",
+      desc: "Rich in vitamin E and healthy fats for heart health",
     },
     {
-      title: "FAMILY",
-      flavors: "4 Flavors • 12 Bars",
-      desc: "Complete variety pack for the whole family",
-      img: "/images/combo-12.png",
-      price: "480",
+      title: "CRANBERRIES",
+      img: "/ingredients/Cranberry.png",
+      desc: "Packed with antioxidants and natural sweetness",
     },
     {
-      title: "TROPICAL",
-      flavors: "2 Flavors • 6 Bars",
-      desc: "Exotic tropical fusion of flavors",
-      img: "/images/combo-6-2.png",
-      price: "240",
+      title: "CASHEWS",
+      img: "/ingredients/cashew.png",
+      desc: "Creamy texture with essential minerals and protein",
+    },
+    {
+      title: "RAISINS",
+      img: "/ingredients/raisin.png",
+      desc: "Natural energy boost with iron and fiber",
+    },
+    {
+      title: "COCONUT",
+      img: "/ingredients/Coconut Craze.png",
+      desc: "Healthy MCTs for sustained energy release",
+    },
+    {
+      title: "PEANUTS",
+      img: "/ingredients/Peanut.png",
+      desc: "Plant-based protein and heart-healthy fats",
+    },
+    {
+      title: "JAGGERY",
+      img: "/ingredients/Jaggery.png",
+      desc: "Unrefined sweetener rich in minerals",
+    },
+    {
+      title: "DATES",
+      img: "/ingredients/Date.png",
+      desc: "Naturally sweet with fiber and essential nutrients",
     },
   ];
 
@@ -1169,16 +1148,13 @@ export const HomePage: React.FC = () => {
 
   const contactEmail = "woohoo@thehappyfoodcompany.com";
 
-
-
   return (
     <div className="w-full bg-white overflow-x-hidden">
-      
       {/* Hero Section */}
       <section className="relative">
         <HappyBarLanding />
       </section>
-      
+
       {/* Features Section */}
       <section className="py-12 bg-white">
         <div className=" flex justify-center mx-auto px-4 lg:px-0 max-w-7xl">
@@ -1189,49 +1165,39 @@ export const HomePage: React.FC = () => {
           </div>
         </div>
       </section>
-      
+
       {/* All Products Section */}
       <div id="all-products">
         <AllProductsSection products={products} />
       </div>
 
-     {/* Ingredients Section */}
-<section className="py-12 sm:py-16 md:py-20 ">
-  <div className="container mx-auto px-4 sm:px-6">
-    <SectionHeader
-      title="Pure Ingredients"
-      subtitle="Simple. Natural. Honest."
-    />
-
-    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8 mx-auto max-w-7xl">
-      {ingredients.map((ingredient, i) => (
-        <IngredientCard key={i} ingredient={ingredient} index={i} />
-      ))}
-    </div>
-  </div>
-</section>
-
-      {/* Combo Offers Section */}
-      <section className="py-12 sm:py-16 md:py-20 bg-white">
+      {/* Ingredients Section */}
+      <section className="mt-15 sm:mt-15 md:mt-15 ">
         <div className="container mx-auto px-4 sm:px-6">
-          <SectionHeader title="Combo Packs" subtitle="Better together" />
+          <SectionHeader
+            title="Pure Ingredients"
+            subtitle="Simple. Natural. Honest."
+          />
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 max-w-6xl mx-auto">
-            {combos.map((combo, i) => (
-              <ComboCard key={i} combo={combo} index={i} />
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6 md:gap-8 mx-auto max-w-7xl">
+            {ingredients.map((ingredient, i) => (
+              <IngredientCard key={i} ingredient={ingredient} index={i} />
             ))}
           </div>
         </div>
       </section>
-      
-      <CraftsmanshipSection/>
-      <TestimonialSection/>
-      
+
+      {/* Combo Offers Section */}
+      <section className="py-12 sm:py-16 md:py-20 bg-white">
+        <ShopNowSection />
+      </section>
+
+      <CraftsmanshipSection />
+      <TestimonialSection />
+
       {/* FAQ Section */}
       <FAQ faqs={faqsToUse} contactEmail={contactEmail} />
-      
-      {/* Brand Footer */}
-      {/* <BrandFooter onShopClick={handleShopClick} /> */}
+
     </div>
   );
 };

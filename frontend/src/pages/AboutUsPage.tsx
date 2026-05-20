@@ -16,13 +16,13 @@ export const AboutUsPage: React.FC = () => {
           className="max-w-4xl mx-auto space-y-2"
         >
           {/* Heading 1 - Bold serif headline */}
-          <h1 className="heading-1 text-4xl sm:text-5xl md:text-6xl text-gray-800 mt-2">
+          <h1 className="heading-1 text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-gray-800 mt-2">
             The Happy Bar Story
           </h1>
           
           {/* Heading 2 - Brush script style accent (using heading-2 class) */}
           <h2 
-            className="heading-2 text-3xl sm:text-4xl md:text-5xl mb-1 lg:-ml-1 transform -rotate-[1deg] text-gray-700"
+            className="heading-2  text-2xl sm:text-3xl md:text-4xl lg:text-5xl mb-1 lg:-ml-1 transform -rotate-[1deg] text-gray-700"
           >
             All natural. Plastic-free. 100% Compostable.
           </h2>
@@ -73,7 +73,7 @@ export const AboutUsPage: React.FC = () => {
             </h3>
             
             {/* Body text - Using text-body class */}
-            <p className="text-body text-[#333333] text-sm md:text-base leading-relaxed mb-6 max-w-2xl">
+            <p className="text-body text-[#333333] text-md md:text-base leading-relaxed mb-6 max-w-2xl">
               We made them in our kitchens and sold them in farmers markets until we moved into 
               our factory in Kerry and Origin was nation-wide. After many long conversation about 
               single use plastic and our passion for sustainability, we knew there was more to us 
@@ -81,7 +81,7 @@ export const AboutUsPage: React.FC = () => {
             </p>
             
             {/* Body text continuation */}
-            <p className="text-body text-[#333333] text-sm md:text-base leading-relaxed max-w-2xl">
+            <p className="text-body text-[#333333] text-md md:text-base leading-relaxed max-w-2xl">
               We decided to create a brand that could make a real difference. We wanted to create 
               a brand with a strong social mission, one that made an impact on the world around 
               us. That was the moment Happy Bar Nutrition was born!
@@ -123,7 +123,7 @@ export const AboutUsPage: React.FC = () => {
             </p>
             
           {/* Muted text for fine print */}
-            <p className="text-body  text-xs md:text-sm leading-relaxed max-w-lg">
+            <p className="text-body  text-md md:text-md leading-relaxed max-w-lg">
               From day one we have been absolutely obsessed with our product. We have spent 5 years 
               perfecting the recipe, and gone through hundreds of recipes to get it just right. We have 
               spent all that time, sourcing the finest ingredients the world has to offer while keeping true 
@@ -207,7 +207,7 @@ export const AboutUsPage: React.FC = () => {
             <p className="sub-heading text-base md:text-lg font-normal text-gray-800 tracking-wide">
               and we believe a community with a common mission can solve anything.
             </p>
-            <div className="text-body text-xs md:text-sm text-gray-700 space-y-4 leading-relaxed max-w-xl">
+            <div className="text-body text-md md:text-md text-gray-700 space-y-4 leading-relaxed max-w-xl">
               <p>
                 We have put a major focus on building our Happy Bar community. Through 
                 our events and online community we are striving to make our world 

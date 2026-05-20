@@ -1,15 +1,23 @@
 import React from 'react';
-import { motion, easeInOut } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { ShopNowSection } from '../components/ShopNowSection';
 
 const ReturnsPolicyPage = () => {
-  // Animation variants
+  // Animation variants aligned with the uniform design specs
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { duration: 0.5, staggerChildren: 0.08 }
+    }
+  };
+
   const headerVariants = {
     hidden: { opacity: 0, y: -30 },
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.6, ease: easeInOut }
+      transition: { duration: 0.6 }
     }
   };
 
@@ -18,7 +26,7 @@ const ReturnsPolicyPage = () => {
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.5 }
+      transition: { duration: 0.5, delay: 0.2 }
     }
   };
 
@@ -37,10 +45,6 @@ const ReturnsPolicyPage = () => {
       opacity: 1,
       x: 0,
       transition: { duration: 0.3 }
-    },
-    hover: {
-      x: 5,
-      transition: { duration: 0.2 }
     }
   };
 
@@ -58,84 +62,79 @@ const ReturnsPolicyPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white pt-24">
+    <div className="min-h-screen bg-white">
       
-      {/* Header Section */}
-      <motion.section
-                         variants={headerVariants}
-                         initial="hidden"
-                         animate="visible"
-                         className="py-16 mb-12 relative overflow-hidden "
-                           style={{
-                     backgroundImage: "url('https://img.freepik.com/premium-vector/blue-background-with-line-that-says-blue-vector-illustration-autumn-leaves_1007350-15391.jpg')",
-                     backgroundSize: "fill",
-                     backgroundPosition: "center",
-                     // backgroundRepeat: "no-repeat"
-                   }}
-                       >
-        <motion.div 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.8 }}
-          className="absolute inset-0 "
-        />
-        
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-0 left-0 w-64 h-64 bg-white rounded-full blur-3xl" />
-          <div className="absolute bottom-0 right-0 w-96 h-96 bg-white rounded-full blur-3xl" />
+      {/* 1. FIXED NAVIGATION BAR */}
+      <nav className="fixed top-0 left-0 right-0 bg-white z-50 border-b border-gray-100 px-6 py-4">
+        <div className="max-w-7xl mx-auto flex justify-between items-center">
+          {/* Brand Logo */}
+          <div className="flex items-center gap-1">
+            <span className="text-2xl font-bold text-orange-500 font-sans tracking-tight">Happy</span>
+            <span className="text-2xl font-bold text-gray-800 font-sans tracking-tight">Bar</span>
+          </div>
+
+          {/* Navigation Links */}
+          <div className="hidden md:flex items-center space-x-8 text-sm font-medium text-gray-600">
+            <a href="#" className="hover:text-gray-900 transition-colors">Home</a>
+            <a href="#" className="hover:text-gray-900 transition-colors">Product</a>
+            <a href="#" className="hover:text-gray-900 transition-colors">Journal</a>
+            <a href="#" className="hover:text-gray-900 transition-colors">Shop</a>
+          </div>
+
+          {/* User Meta Links */}
+          <div className="flex items-center space-x-4 text-gray-600">
+            <span className="cursor-pointer hover:text-gray-900">👤 siba</span>
+            <span className="cursor-pointer hover:text-gray-900 relative">
+              🛒 <span className="absolute -top-2 -right-2 bg-black text-white text-xs w-4 h-4 rounded-full flex items-center justify-center">2</span>
+            </span>
+          </div>
         </div>
-        
+      </nav>
+
+      {/* 2. PURE WHITE HERO HEADER */}
+      <motion.div
+        variants={headerVariants}
+        className="pt-36 pb-12 relative overflow-hidden bg-white"
+      >
         <div className="container mx-auto px-6 max-w-4xl relative z-10">
-          <div className="text-center">
+          <div className="text-left">
             <motion.h1 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.5 }}
-              className="text-3xl md:text-4xl font-light text-white mb-3"
+              className="text-3xl md:text-5xl font-normal text-black tracking-wide"
             >
               Returns and Refunds
             </motion.h1>
-            <motion.div 
-              initial={{ width: 0 }}
-              animate={{ width: 48 }}
-              transition={{ delay: 0.4, duration: 0.6 }}
-              className="h-px bg-white/30 mx-auto"
-            />
-            <motion.p 
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.5, duration: 0.5 }}
-              className="text-white/70 text-md font-light mt-4"
-            >
-              Effective as of January 11, 2024
-            </motion.p>
           </div>
         </div>
-      </motion.section>
+      </motion.div>
 
-      {/* Policy Document Container */}
+      {/* 3. DOCUMENT CONTENT CONTAINER */}
       <motion.section
-        variants={contentVariants}
+        variants={containerVariants}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true }}
-        className="py-16"
+        viewport={{ once: true, margin: "-100px" }}
+        className="pb-24 bg-white"
       >
         <div className="container mx-auto px-6 max-w-4xl">
-          <div className="bg-white border border-gray-100 p-8 md:p-12 hover:border-gray-200 transition-all duration-300">
-            
-            <motion.div 
-              variants={contentVariants}
-              className="space-y-6 text-gray-600 text-md leading-relaxed"
-            >
+          <motion.div 
+            variants={contentVariants}
+            className="px-0 py-4 transition-all duration-300"
+          >
+            {/* Structured Paragraph & List Layout */}
+            <div className="space-y-6 text-gray-600 text-base text-left leading-relaxed">
+              
               <motion.p variants={sectionVariants}>
                 Welcome to <strong className="text-gray-800">thehappyfoodcompany.com</strong>, a website owned and operated 
                 by Angstrohm Foods Pvt Ltd ("Angstrohm" or "we"), a registered company in India.
               </motion.p>
 
-              <motion.h2 variants={sectionVariants} className="text-xl font-light text-gray-800 pt-4">
+              <motion.h2 variants={sectionVariants} className="text-xl font-medium text-gray-800 pt-4">
                 Terms and Conditions
               </motion.h2>
+              
               <motion.p variants={sectionVariants}>
                 The following provisions constitute the thehappyfoodcompany.com Returns and Refunds Policy. These provisions 
                 aim to safeguard the interests of you (the buyers), Angstrohm, our delivery service partners, and Angstrohm's 
@@ -151,23 +150,27 @@ const ReturnsPolicyPage = () => {
                 Please note that this Returns and Refunds Policy is subject to change.
               </motion.p>
 
-              <motion.h2 variants={sectionVariants} className="text-xl font-light text-gray-800 pt-4">
+              <motion.h2 variants={sectionVariants} className="text-xl font-medium text-gray-800 pt-4">
                 Order Acceptance
               </motion.h2>
+              
               <motion.p variants={sectionVariants}>
                 All orders received are subject to approval by Angstrohm. Our personnel reserve the right, at our absolute 
                 discretion, to reject any order without providing reasons. In the event of a rejected order, we will refund 
                 any payments received.
               </motion.p>
 
-              <motion.h2 variants={sectionVariants} className="text-xl font-light text-gray-800 pt-4">
+              <motion.h2 variants={sectionVariants} className="text-xl font-medium text-gray-800 pt-4">
                 Order Fulfillment and Returns/Refunds
               </motion.h2>
+              
               <motion.p variants={sectionVariants}>
                 We strive to fulfill all orders accurately. Returns, exchanges, or refunds can be arranged only under the 
                 following circumstances:
               </motion.p>
-              <motion.ul className="list-none space-y-2 mt-2">
+              
+              {/* Bullets configured to sit clean flush relative to standard structural grid layout */}
+              <motion.ul variants={containerVariants} className="list-none space-y-3 pl-0">
                 {[
                   "If the item(s) delivered are damaged or defective;",
                   "If the item(s) have exceeded the expiry date;",
@@ -176,85 +179,92 @@ const ReturnsPolicyPage = () => {
                   <motion.li 
                     key={idx} 
                     variants={listItemVariants}
-                    whileHover="hover"
-                    className="flex gap-3"
+                    whileHover={{ x: 3 }}
+                    className="flex items-start gap-3"
                   >
-                    <span className="text-gray-400 mt-0.5">–</span> 
-                    <span className="text-gray-500 text-md">{item}</span>
+                    <span className="text-orange-400 mt-1.5">•</span> 
+                    <span className="text-gray-600 text-base">{item}</span>
                   </motion.li>
                 ))}
               </motion.ul>
 
-              <motion.h2 variants={sectionVariants} className="text-xl font-light text-gray-800 pt-4">
+              <motion.h2 variants={sectionVariants} className="text-xl font-medium text-gray-800 pt-4">
                 Notification and Remediation
               </motion.h2>
+              
               <motion.p variants={sectionVariants}>
                 If any of the aforementioned situations occur, please contact us at{' '}
-                <a href="mailto:woohoo@thehappyfoodcompany.com" className="text-gray-600 hover:text-gray-800 transition-colors">
+                <a href="mailto:woohoo@thehappyfoodcompany.com" className="text-orange-500 hover:text-orange-600 underline transition-colors">
                   woohoo@thehappyfoodcompany.com
                 </a>{' '}
-                within <strong className="text-gray-700">seven (7) days</strong> of receiving the item(s). We will promptly 
+                within <strong className="text-gray-800">seven (7) days</strong> of receiving the item(s). We will promptly 
                 address the issue. If an exchange is required and the item(s) are unavailable, a full refund will be issued.
               </motion.p>
 
-              <motion.h2 variants={sectionVariants} className="text-xl font-light text-gray-800 pt-4">
+              <motion.h2 variants={sectionVariants} className="text-xl font-medium text-gray-800 pt-4">
                 Processing Time
               </motion.h2>
+              
               <motion.p variants={sectionVariants}>
-                Please allow up to <strong className="text-gray-700">14 working days</strong> for your inquiry to be processed.
+                Please allow up to <strong className="text-gray-800">14 working days</strong> for your inquiry to be processed.
               </motion.p>
 
-              <motion.h2 variants={sectionVariants} className="text-xl font-light text-gray-800 pt-4">
+              <motion.h2 variants={sectionVariants} className="text-xl font-medium text-gray-800 pt-4">
                 Return Procedure
               </motion.h2>
+              
               <motion.p variants={sectionVariants}>
                 We will coordinate with you and our delivery service provider to schedule the pick-up of the item(s) (where 
                 applicable). The returned item(s) should be unused and in the original condition, quantity, and packaging as 
                 initially delivered, accompanied by proof of order, payment, and delivery.
               </motion.p>
 
-              <motion.h2 variants={sectionVariants} className="text-xl font-light text-gray-800 pt-4">
+              <motion.h2 variants={sectionVariants} className="text-xl font-medium text-gray-800 pt-4">
                 Refund Process
               </motion.h2>
+              
               <motion.p variants={sectionVariants}>
                 Refund payments will be debited to the customer's credit card or debit card within{' '}
-                <strong className="text-gray-700">14 to 30 working days</strong>, depending on the bank's refund policy. 
+                <strong className="text-gray-800">14 to 30 working days</strong>, depending on the bank's refund policy. 
                 We are not liable for any loss, damage, cost, or expense resulting from any delay in your bank/financial 
                 institution processing the refund.
               </motion.p>
 
-              <motion.h2 variants={sectionVariants} className="text-xl font-light text-gray-800 pt-4">
+              <motion.h2 variants={sectionVariants} className="text-xl font-medium text-gray-800 pt-4">
                 Order Cancellation
               </motion.h2>
+              
               <motion.p variants={sectionVariants}>
                 If you choose to cancel any order after making payment, refunds may be made via your credit card or directly 
                 to your bank account at our discretion. Please be aware that we will deduct any fees levied by the payment 
                 gateway provider for processing the payment and/or refund.
               </motion.p>
 
-              {/* Contact Section */}
+              {/* 4. BRAND ADDRESS ACCENT HIGHLIGHT BOX */}
               <motion.div 
                 variants={contactVariants}
                 whileHover="hover"
-                className="border border-gray-100 p-6 mt-6 hover:border-gray-200 transition-all duration-300"
+                className="bg-gray-50 p-6 mt-8 border border-gray-100 rounded-lg transition-all duration-300"
               >
-                <p className="font-light text-gray-800 text-base mb-2">Angstrohm Foods Pvt Ltd</p>
-                <p className="text-gray-500 text-md">3rd Floor, Krishna Arcade,</p>
-                <p className="text-gray-500 text-md">No. 17, S K NAGAR, KODIGEHALLI,</p>
-                <p className="text-gray-500 text-md">Bengaluru, Karnataka, 560092</p>
-                <p className="mt-3 text-md">
-                  <span className="font-light text-gray-600">Email:</span>{' '}
-                  <a href="mailto:woohoo@thehappyfoodcompany.com" className="text-gray-500 hover:text-gray-700 transition-colors">
+                <h3 className="text-base font-medium text-gray-800 mb-2">Angstrohm Foods Pvt Ltd</h3>
+                <p className="text-gray-600 text-base mb-1">3rd Floor, Krishna Arcade,</p>
+                <p className="text-gray-600 text-base mb-1">No. 17, S K NAGAR, KODIGEHALLI,</p>
+                <p className="text-gray-600 text-base mb-4">Bengaluru, Karnataka, 560092</p>
+                
+                <p className="text-base">
+                  <span className="font-normal text-gray-700">Email:</span>{' '}
+                  <a href="mailto:woohoo@thehappyfoodcompany.com" className="text-orange-500 hover:text-orange-600 underline transition-colors">
                     woohoo@thehappyfoodcompany.com
                   </a>
                 </p>
               </motion.div>
-            </motion.div>
-          </div>
+
+            </div>
+          </motion.div>
         </div>
       </motion.section>
 
-      {/* Shop Now Section */}
+      {/* 5. FOOTER SHOP SEPARATOR SECTION */}
       <motion.div
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}

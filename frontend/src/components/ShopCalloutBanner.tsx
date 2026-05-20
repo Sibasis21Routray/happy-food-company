@@ -96,7 +96,7 @@ export const ShopCalloutBanner: React.FC<ShopCalloutBannerProps> = ({
   };
 
   return (
-    <section className={`relative w-full pt-22 pb-20 bg-gray-100 overflow-visible ${className}`}>
+    <section className={`relative w-full pt-12 pb-20 bg-gray-100 overflow-visible ${className}`}>
       {/* Exact Sloped Angle Background Canvas */}
       <div 
         className="absolute inset-0 z-0"

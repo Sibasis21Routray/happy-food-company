@@ -410,7 +410,7 @@ export const ProductDetailsPage: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4">
           
           <div className="text-center mb-12">
-            <h2 className="heading-1 text-neutral-900 text-2xl sm:text-3xl md:text-4xl lg:text-5xl tracking-tight">
+            <h2 className="heading-1 text-2xl sm:text-3xl md:text-4xl lg:text-5xl tracking-tight">
               The real ingredients in our {data.titleLines.join(" ")} bar
             </h2>
           </div>
@@ -517,11 +517,11 @@ export const ProductDetailsPage: React.FC = () => {
           <div className="container mx-auto px-4 sm:px-6  max-w-7xl">
             <div className="text-center mb-12">
               <h2
-                className={`heading-1 ${data.featuresTitleColor} text-2xl sm:text-3xl md:text-4xl lg:text-5xl `}
+                className={`${data.featuresTitleColor} heading-1 text-2xl sm:text-3xl md:text-4xl lg:text-5xl `}
               >
                 Why Choose Us
               </h2>
-              <div
+              {/* <div
                 className="w-12 h-px mx-auto rounded-full"
                 style={{
                   backgroundColor:
@@ -529,7 +529,7 @@ export const ProductDetailsPage: React.FC = () => {
                       ? "rgba(255,255,255,0.3)"
                       : "#d1d5db",
                 }}
-              ></div>
+              ></div> */}
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 ">
