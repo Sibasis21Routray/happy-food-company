@@ -67,7 +67,7 @@ const NourishEnergizeThrivePage: React.FC = () => {
         title="Nourish, Energize, Thrive: The Happy Bar Way"
         author="Boing the Blogger"
         description="Fuel your body with wholesome nutrition designed to support energy, wellness, and everyday happiness."
-        backgroundImage="https://thehappyfoodcompany.com/wp-content/uploads/2024/06/nourish-energize-thrive.webp"
+        backgroundImage="/nourish/nourish-energize-thrive.webp"
       />
       
       {/* Main Content */}

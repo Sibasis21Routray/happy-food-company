@@ -3,11 +3,11 @@ import { motion, easeInOut } from 'framer-motion';
 import { ShopNowSection } from '../components/ShopNowSection';
 
 const teamMembers = [
-  { name: "Joanne (Jo) Seaton", role: "CMO", image: "https://thehappyfoodcompany.com/wp-content/uploads/2024/06/jo-seaton.png" },
-  { name: "Arun (AA) Augustine", role: "CEO", image: "https://thehappyfoodcompany.com/wp-content/uploads/2024/06/aa-augustine.png" },
-  { name: "Giridhar (Giri) Singh", role: "CTO", image: "https://thehappyfoodcompany.com/wp-content/uploads/2024/06/giri-singh.png" },
-  { name: "Helmar Ten Winkel", role: "Advisor", image: "https://thehappyfoodcompany.com/wp-content/uploads/2024/06/helmarten.png" },
-  { name: "Job Van Hasselt", role: "Advisor", image: "https://thehappyfoodcompany.com/wp-content/uploads/2024/06/job.png" },
+  { name: "Joanne (Jo) Seaton", role: "CMO", image: "/careers/jo-seaton.png" },
+  { name: "Arun (AA) Augustine", role: "CEO", image: "/careers/aa-augustine.png" },
+  { name: "Giridhar (Giri) Singh", role: "CTO", image: "/careers/giri-singh.png" },
+  { name: "Helmar Ten Winkel", role: "Advisor", image: "/careers/helmarten.png" },
+  { name: "Job Van Hasselt", role: "Advisor", image: "/careers/job.png" },
 ];
 
 export default function HappyTeam() {

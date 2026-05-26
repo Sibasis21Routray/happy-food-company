@@ -26,7 +26,7 @@ const blogPosts: BlogPost[] = [
     excerpt:
       "Satisfying your Sugar Cravings Naturally In the vibrant landscape of modern nutrition, the quest for energy bars low...",
     image:
-      "https://thehappyfoodcompany.com/wp-content/uploads/2024/06/craving-control-400x250.webp",
+      "/blog/craving-control-400x250.webp",
     imageAlt: "Dark chocolate bars satisfying sugar cravings",
   },
   {
@@ -39,7 +39,7 @@ const blogPosts: BlogPost[] = [
     excerpt:
       "Unwrapping Happiness: A Closer Look at the Wholesome Ingredients of Happy Bars At the Happy Food Company, we're...",
     image:
-      "https://thehappyfoodcompany.com/wp-content/uploads/2024/06/health-flavour-natural-happy-bar-400x250.webp",
+      "/blog/health-flavour-natural-happy-bar-400x250.webp",
     imageAlt: "Natural ingredients like nuts, seeds and oats",
   },
   {
@@ -51,7 +51,7 @@ const blogPosts: BlogPost[] = [
     excerpt:
       "Nourish, Energize, Thrive: The Happy Bar Way In the tapestry of modern life, where every thread intertwines with the...",
     image:
-      "https://thehappyfoodcompany.com/wp-content/uploads/2024/06/nourish-energize-thrive-400x250.webp",
+      "/blog/nourish-energize-thrive-400x250.webp",
     imageAlt: "Wellness and mindfulness with healthy snacks",
   },
   {
@@ -63,7 +63,7 @@ const blogPosts: BlogPost[] = [
     excerpt:
       "Fueling Your Day with Happy Bars: A Nutrient Powerhouse When it comes to nourishing our bodies, the right balance of...",
     image:
-      "https://thehappyfoodcompany.com/wp-content/uploads/2024/06/my-daily-fix-400x250.webp",
+      "/blog/my-daily-fix-400x250.webp",
     imageAlt: "Protein bars and nuts for energy",
   },
   {
@@ -76,7 +76,7 @@ const blogPosts: BlogPost[] = [
     excerpt:
       "Fuel Your Well-being with Happy Bars: A Natural Protein Energy Solution In today's health-conscious world, finding...",
     image:
-      "https://thehappyfoodcompany.com/wp-content/uploads/2024/06/fuel-your-wellbeing-400x250.webp",
+      "/blog/fuel-your-wellbeing-400x250.webp",
     imageAlt: "Healthy lifestyle with natural protein bars",
   },
   {
@@ -88,7 +88,7 @@ const blogPosts: BlogPost[] = [
     excerpt:
       "Happy Bars: The Perfect Snack for Busy Parents and Kids On-The-Go In the whirlwind of modern family life, finding...",
     image:
-      "https://thehappyfoodcompany.com/wp-content/uploads/2024/06/whats-in-the-bag-400x250.webp",
+      "/blog/whats-in-the-bag-400x250.webp",
     imageAlt: "Family enjoying healthy snacks together",
   },
   {
@@ -100,7 +100,7 @@ const blogPosts: BlogPost[] = [
     excerpt:
       "Fueling Your Workouts with Happy Bars Introduction As fitness enthusiasts, we understand the importance of nourishing...",
     image:
-      "https://thehappyfoodcompany.com/wp-content/uploads/2024/06/fuel-workout-protein-pro-400x250.webp",
+      "/blog/fuel-workout-protein-pro-400x250.webp",
     imageAlt: "Person working out with protein bar",
   },
   {
@@ -113,7 +113,7 @@ const blogPosts: BlogPost[] = [
     excerpt:
       "Craving Control: How Protein Bars Can Support Your Weight Loss Journey Introduction In our fast-paced lives, finding...",
     image:
-      "https://thehappyfoodcompany.com/wp-content/uploads/2024/06/craving-for-chocolate-400x250.webp",
+      "/blog/craving-for-chocolate-400x250.webp",
     imageAlt: "Healthy food choices for weight management",
   },
 ];
@@ -127,7 +127,7 @@ export const BlogPage: React.FC = () => {
         title="The Happy Blog"
         author="Happy Bar Team"
         description="Stories, tips, and inspiration for a healthier, happier life"
-        backgroundImage="https://pbwebdev.co.uk/wp-content/uploads/2018/12/blogs.jpg"
+        backgroundImage="/blog/blogs.jpg"
       />
 
       {/* Blog Grid Section */}
@@ -210,7 +210,7 @@ export const BlogPage: React.FC = () => {
         buttonLink="/products"
         testimonialAuthor="Priya M."
         testimonialLabel="Verified Buyer"
-        testimonialAvatar="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=100"
+        testimonialAvatar="/aboutus/photo-1494790108377-be9c29b29330.avif"
         backgroundColor="#7a448e"
       />
     </div>

@@ -27,7 +27,7 @@ const allBlogPosts: BlogPost[] = [
     slug: "fueling-your-day-with-happy-bars",
     date: "May 11, 2024",
     excerpt: "Fueling Your Day with Happy Bars: A Nutrient Powerhouse When it comes to nourishing our bodies, the right balance of...",
-    image: "https://thehappyfoodcompany.com/wp-content/uploads/2024/06/health-flavour-natural-happy-bar-400x250.webp",
+    image: "/blog/health-flavour-natural-happy-bar-400x250.webp",
   },
   {
     id: 3,
@@ -35,7 +35,7 @@ const allBlogPosts: BlogPost[] = [
     slug: "fueling-your-workouts-with-happy-bars",
     date: "Apr 20, 2024",
     excerpt: "Fueling Your Workouts with Happy Bars Introduction As fitness enthusiasts, we understand the importance of nourishing...",
-    image: "https://thehappyfoodcompany.com/wp-content/uploads/2024/06/nourish-energize-thrive-400x250.webp",
+    image: "/blog/nourish-energize-thrive-400x250.webp",
   },
   {
     id: 4,
@@ -43,7 +43,7 @@ const allBlogPosts: BlogPost[] = [
     slug: "unwrapping-happiness-ingredients",
     date: "May 25, 2024",
     excerpt: "Unwrapping Happiness: A Closer Look at the Wholesome Ingredients of Happy Bars At the Happy Food Company, we're...",
-    image: "https://thehappyfoodcompany.com/wp-content/uploads/2024/06/my-daily-fix-400x250.webp",
+    image: "/blog/my-daily-fix-400x250.webp",
   },
   {
     id: 5,
@@ -51,7 +51,7 @@ const allBlogPosts: BlogPost[] = [
     slug: "fuel-wellbeing-happy-bars",
     date: "May 4, 2024",
     excerpt: "Fuel Your Well-being with Happy Bars: A Natural Protein Energy Solution In today's health-conscious world, finding...",
-    image: "https://thehappyfoodcompany.com/wp-content/uploads/2024/06/fuel-your-wellbeing-400x250.webp",
+    image: "/blog/fuel-your-wellbeing-400x250.webp",
   },
   {
     id: 6,
@@ -59,7 +59,7 @@ const allBlogPosts: BlogPost[] = [
     slug: "craving-control-weight-loss",
     date: "Apr 13, 2024",
     excerpt: "Craving Control: How Protein Bars Can Support Your Weight Loss Journey Introduction In our fast-paced lives, finding...",
-    image: "https://thehappyfoodcompany.com/wp-content/uploads/2024/06/whats-in-the-bag-400x250.webp",
+    image: "blog/whats-in-the-bag-400x250.webp",
   },
   {
     id: 7,
@@ -67,7 +67,7 @@ const allBlogPosts: BlogPost[] = [
     slug: "nourish-energize-thrive",
     date: "May 18, 2024",
     excerpt: "Nourish, Energize, Thrive: The Happy Bar Way In the tapestry of modern life, where every thread intertwines with the...",
-    image: "https://thehappyfoodcompany.com/wp-content/uploads/2024/06/fuel-workout-protein-pro-400x250.webp",
+    image: "/blog/fuel-workout-protein-pro-400x250.webp",
   },
   {
     id: 8,
@@ -75,7 +75,7 @@ const allBlogPosts: BlogPost[] = [
     slug: "happy-bars-parents-kids",
     date: "Apr 27, 2024",
     excerpt: "Happy Bars: The Perfect Snack for Busy Parents and Kids On-The-Go In the whirlwind of modern family life, finding...",
-    image: "https://thehappyfoodcompany.com/wp-content/uploads/2024/06/craving-for-chocolate-400x250.webp",
+    image: "/blog/craving-for-chocolate-400x250.webp",
   }
 ];
 

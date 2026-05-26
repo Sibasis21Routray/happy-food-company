@@ -227,32 +227,32 @@ export const ProductDetailsPage: React.FC = () => {
     {
       title: "Protein Packed Punch",
       desc: "5.x grams of protein per serving (30g) – the secret sauce for muscle magic and all-day energy!",
-      img: "https://angstrohmfoods.com/wp-content/uploads/2025/07/energy-bar_7634814.png",
+      img: "/productdetails/energy-bar_7634814.png",
     },
     {
       title: "All-Natural Awesomeness",
       desc: "Crafted with love with the best ingredients. No funny business – just natural goodness!",
-      img: "https://angstrohmfoods.com/wp-content/uploads/2025/07/lotus_2610118.png",
+      img: "/productdetails/lotus_2610118.png",
     },
     {
       title: "Price Tag Happiness",
       desc: "All this awesomeness for just ₹ 40! That's right – a pocket-friendly protein party for everyone!",
-      img: "https://angstrohmfoods.com/wp-content/uploads/2025/07/rupee-symbol.png",
+      img: "/productdetails/rupee-symbol.png",
     },
     {
       title: "No Artificial Shenanigans",
       desc: "Wave goodbye to artificial preservatives, flavors, or colorings. Our bar keeps it real – just like your snacking standards!",
-      img: "https://angstrohmfoods.com/wp-content/uploads/2025/07/no-preservatives_4411195.png",
+      img: "/productdetails/no-preservatives_4411195.png",
     },
     {
       title: "Veggie Vibes Only",
       desc: "Vegetarian? We got you covered! No eggs, just pure plant power for your snacking pleasure.",
-      img: "https://angstrohmfoods.com/wp-content/uploads/2025/07/leaf.png",
+      img: "/productdetails/leaf.png",
     },
     {
       title: "Say No to Sneaky Sugars",
       desc: "Zero glucose, emulsifiers, fructooligosaccharides (FOS) & other funny sounding chemicals. Nothing Sneaky & Zero Nonsense!",
-      img: "https://angstrohmfoods.com/wp-content/uploads/2025/07/sugar-free.png",
+      img: "/productdetails/sugar-free.png",
     },
   ];
 
@@ -312,7 +312,7 @@ export const ProductDetailsPage: React.FC = () => {
                   ))}
                 </div>
                 <span className="text-body text-xs font-medium tracking-wide">
-                  Based on 2500+ happy customers
+                  Highly rated by satisfied customers
                 </span>
               </div>
 

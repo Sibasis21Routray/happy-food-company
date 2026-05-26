@@ -66,7 +66,7 @@ const UnwrappingHappinessPage: React.FC = () => {
         title="Unwrapping Happiness: A Closer Look at the Wholesome Ingredients"
         author="Boing the Blogger"
         description="Discover the real ingredients behind every bite — crafted for taste, nutrition, and happiness."
-        backgroundImage="https://thehappyfoodcompany.com/wp-content/uploads/2024/06/health-flavour-natural-happy-bar.webp"
+        backgroundImage="/unwrappinghappiness/health-flavour-natural-happy-bar.webp"
       />
 
       {/* Main Content */}

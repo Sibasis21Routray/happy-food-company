@@ -61,7 +61,7 @@ export const SatisfySugarCravingsPage: React.FC = () => {
         title="Satisfy your Sugar Cravings Naturally"
         author="Boing the Blogger"
         description="Learn how natural ingredients can help you beat sugar cravings while staying healthy and energized."
-        backgroundImage="https://thehappyfoodcompany.com/wp-content/uploads/2024/06/craving-control-400x250.webp"
+        backgroundImage="/satisfysugar/craving-control-400x250.webp"
       />
 
       {/* Main Content */}

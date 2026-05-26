@@ -59,7 +59,7 @@ interface ShopCalloutBannerProps {
   
   /**
    * Testimonial author avatar image URL
-   * @default "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=100"
+   * @default "/shopcalloutbanner/photo-1534528741775-53994a69daeb.avif"
    */
   testimonialAvatar?: string;
   
@@ -85,7 +85,7 @@ export const ShopCalloutBanner: React.FC<ShopCalloutBannerProps> = ({
   testimonialQuote = "\"The best protein bars on the go! Healthy, tasty and so reliable!\"",
   testimonialAuthor = "Marina G.",
   testimonialLabel = "Verified Customer",
-  testimonialAvatar = "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=100",
+  testimonialAvatar = "/shopcalloutbanner/photo-1534528741775-53994a69daeb.avif",
   backgroundColor = "#ff7341",
   className = "",
 }) => {

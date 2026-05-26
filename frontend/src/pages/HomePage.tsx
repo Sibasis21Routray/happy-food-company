@@ -141,7 +141,7 @@ const HappyBarLanding: React.FC = () => {
         ref={sectionRef}
         className="relative w-full min-h-[65vh] bg-gray-100 flex items-center overflow-hidden py-12 md:py-0"
         style={{
-          backgroundImage: `linear-gradient(to right, rgba(0,0,0,0.45) 30%, rgba(0,0,0,0.1) 70%), url('https://m.gettywallpapers.com/wp-content/uploads/2023/12/Gym-Exercise-PC-Wallpaper.jpg')`,
+          backgroundImage: `linear-gradient(to right, rgba(0,0,0,0.45) 30%, rgba(0,0,0,0.1) 70%), url('/homepage/Gym-Exercise-PC-Wallpaper.jpg')`,
           backgroundSize: "cover",
           backgroundRepeat: "no-repeat",
         }}
@@ -158,15 +158,15 @@ const HappyBarLanding: React.FC = () => {
               {/* Main Headline Stack - Using global typography classes */}
               <div className="flex flex-col items-center lg:items-start text-center lg:text-left pt-0 lg:pt-4">
                 {/* Dry Ink Brush Script Accent - Using heading-2 class */}
-                <h2 className="heading-2 text-3xl sm:text-4xl md:text-5xl mb-1 lg:-ml-1 transform -rotate-[1deg]">
+                {/* <h2 className="heading-2 text-3xl sm:text-4xl md:text-5xl mb-1 lg:-ml-1 transform -rotate-[1deg]">
                   Real Food
-                </h2>
+                </h2> */}
 
                 {/* Premium Slab Serif Headings - Using heading-1 class */}
                 <h1 className="heading-1 text-4xl sm:text-5xl md:text-6xl text-white mt-2">
-                  Real People.
+                  All natural ingredients.
                   <br />
-                  Real Impact.
+                  Nothing Artificial.
                 </h1>
               </div>
             </motion.div>
@@ -198,153 +198,28 @@ const HappyBarLanding: React.FC = () => {
             >
               <div className="flex text-amber-400 text-sm">★★★★★</div>
               <p className="text-body text-xs md:text-sm text-gray-300 font-medium tracking-wide">
-                Over 2500+ 5 Star Reviews
+                Highly rated by satisfied customers
               </p>
             </motion.div>
 
-            {/* Live Floating Testimonial Capsule */}
-            <motion.div
-              variants={itemVariants}
-              className="inline-flex items-center gap-4 bg-white/95 backdrop-blur-sm p-3.5 rounded-xl shadow-lg border border-white/20 text-left max-w-sm mt-6"
-            >
-              <div className="w-10 h-10 rounded-full overflow-hidden bg-gray-300 flex-shrink-0">
-                <img
-                  src="https://www.perfocal.com/blog/content/images/2021/01/Perfocal_17-11-2019_TYWFAQ_100_standard-3.jpg"
-                  alt="Marina G."
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div>
-                <p className="text-body text-xs text-gray-800 font-medium leading-snug">
-                  "The best protein bars on the go! Healthy, tasty and so
-                  reliable!"
-                </p>
-                <span className="text-muted text-[10px] font-bold block mt-0.5">
-                  Marina G.{" "}
-                  <span className="text-gray-400 font-normal">
-                    • Verified Customer
-                  </span>
-                </span>
-              </div>
-            </motion.div>
+            
           </motion.div>
         </div>
       </section>
 
-      <motion.img
+   <motion.img
         src="/images/cashew-raisin.png"
         alt="Happy Bar Cashew Cookie Dough Protein Bar"
-        className="absolute lg:block hidden  md:top-90 left-100 w-full h-114 md:h-94 lg:h-134 xl:h-110 object-contain z-10 filter drop-shadow-[0_20px_35px_rgba(0,0,0,0.3)] -rotate-10"
+        className="absolute lg:block hidden  md:top-90 left-110 w-full h-114 md:h-94 lg:h-134 xl:h-80 object-contain z-10 filter drop-shadow-[0_20px_35px_rgba(0,0,0,0.3)] -rotate-10"
         whileHover={{ scale: 1.02, rotate: -1 }}
         transition={{ duration: 0.3 }}
       />
 
       {/* --- SECTION 2: BRAND VALUE PROPOSITION --- */}
-      <div className="max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-10 lg:gap-14 py-15">
-        {/* Left Column: Heading and Text Branding */}
-        <div className="space-y-4 max-w-md text-center lg:text-left">
-          <div className="space-y-1">
-            <h2 className="heading-1 text-3xl md:text-4xl font-bold tracking-tight text-neutral-900 leading-tight">
-              Why choose <br className="hidden lg:inline" /> Happy Bar
-              Nutrition?
+      <div className="flex justify-center mx-auto flex flex-col lg:flex-row items-center  gap-10 lg:gap-14 py-15">
+       <h2 className="heading-1 text-2xl sm:text-3xl md:text-4xl lg:text-5xl  tracking-tight text-neutral-900 px-1 ">
+              Why choose Happy Bar Nutrition?
             </h2>
-            <p className="text-body text-neutral-500 text-base">
-              Good for you - and the planet.
-            </p>
-          </div>
-
-          <div className="pt-2 space-y-1">
-            {/* Using heading-2 class for brush script style */}
-            <h2 className="heading-2 text-3xl md:text-4xl text-neutral-800 font-medium tracking-wide">
-              Real Food
-            </h2>
-            <p className="text-body text-neutral-700 text-xs md:text-sm max-w-xs mx-auto lg:mx-0 leading-relaxed">
-              Made in a kitchen, not a lab. Great for the gut and for the taste
-              buds.
-            </p>
-          </div>
-        </div>
-
-        {/* Right Column: Central Badges & Global Eco System Compliance Icons */}
-        <div className="flex flex-col sm:flex-row items-center gap-8 md:gap-12 lg:w-auto">
-          {/* Circular Badges Section */}
-          <div className="flex items-center gap-4 sm:gap-5 justify-center">
-            {/* Proudly Irish Made Badge */}
-            <div className="w-20 h-20 sm:w-22 sm:h-22 rounded-full border border-[#BCE1BC] bg-[#E3F4E3] flex flex-col items-center justify-center p-1.5 text-center select-none shadow-[0_2px_8px_rgba(0,0,0,0.01)] transition-transform hover:scale-105 duration-300">
-              <span className="text-[9px] uppercase font-bold tracking-widest text-[#4A7A4A]">
-                Proudly
-              </span>
-              <span className="brand-serif-headline text-sm sm:text-base font-bold tracking-tight text-[#2B542B] my-0.5">
-                IRISH
-              </span>
-              <span className="text-[8px] uppercase font-bold text-[#4A7A4A] tracking-wider">
-                Made
-              </span>
-            </div>
-
-            {/* Protein 16g Per Bar Badge */}
-            <div className="w-20 h-20 sm:w-22 sm:h-22 rounded-full border border-[#F5C2CB] bg-[#FCECEF] flex flex-col items-center justify-center p-1.5 text-center select-none shadow-[0_2px_8px_rgba(0,0,0,0.01)] transition-transform hover:scale-105 duration-300">
-              <span className="text-[9px] uppercase font-bold tracking-widest text-[#A34757]">
-                Protein
-              </span>
-              <span className="brand-serif-headline text-xl sm:text-2xl font-bold text-[#6B2431] leading-none my-0.5">
-                16g
-              </span>
-              <span className="text-[8px] uppercase font-bold text-[#A34757] tracking-wider">
-                Per Bar
-              </span>
-            </div>
-
-            {/* Less Than 12 Ingredients Badge */}
-            <div className="w-20 h-20 sm:w-22 sm:h-22 rounded-full border border-[#B4D6EB] bg-[#E3F2FC] flex flex-col items-center justify-center p-1.5 text-center select-none shadow-[0_2px_8px_rgba(0,0,0,0.01)] transition-transform hover:scale-105 duration-300">
-              <span className="text-[9px] uppercase font-bold tracking-widest text-[#31698A]">
-                Less Than
-              </span>
-              <span className="brand-serif-headline text-xl sm:text-2xl font-bold text-[#1E4359] leading-none my-0.5">
-                12
-              </span>
-              <span className="text-[8px] uppercase font-bold text-[#31698A] tracking-wider">
-                Ingredients
-              </span>
-            </div>
-          </div>
-
-          {/* Eco Certifications List Block */}
-          <div className="flex items-center gap-6 sm:gap-8 border-t sm:border-t-0 sm:border-l border-neutral-200 pt-6 sm:pt-0 sm:pl-8 justify-center">
-            {/* Plastic Free Item */}
-            <div className="flex items-center gap-3 group">
-              <div className="w-11 h-11 sm:w-12 sm:h-12 flex-shrink-0">
-                <div className="w-full h-full rounded-full border border-neutral-900 flex flex-col items-center justify-center p-1 text-center font-bold text-[8px] font-mono font-black leading-none uppercase tracking-tighter text-neutral-900 transition-colors group-hover:bg-neutral-900 group-hover:text-white duration-300">
-                  <span>Plastic</span>
-                  <span className="text-[10px] font-black mt-0.5 border-t border-neutral-900 group-hover:border-white pt-0.5">
-                    Free
-                  </span>
-                </div>
-              </div>
-              <div className="leading-none">
-                <h4 className="heading-4 text-xs font-bold text-neutral-900">
-                  Plastic-free
-                </h4>
-                <p className="text-muted text-[11px] mt-0.5">Packaging</p>
-              </div>
-            </div>
-
-            {/* Home Compostable Item */}
-            <div className="flex items-center gap-3 group">
-              <div className="w-11 h-11 sm:w-12 sm:h-12 flex-shrink-0">
-                <div className="w-full h-full rounded-full border border-neutral-900 flex items-center justify-center text-lg text-neutral-900 transition-colors group-hover:bg-neutral-900 group-hover:text-white duration-300">
-                  🌱
-                </div>
-              </div>
-              <div className="leading-none">
-                <h4 className="heading-4 text-xs font-bold text-neutral-900">
-                  Home
-                </h4>
-                <p className="text-muted text-[11px] mt-0.5">Compostable</p>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   );
@@ -381,7 +256,7 @@ const FeatureCard = ({ feature, index }: { feature: any; index: number }) => {
       {/* Horizontal Text Breakdown Stack */}
       <div className="flex flex-col justify-center max-w-[160px]">
         {/* Bold Slab Title - Using heading-4 */}
-        <h4 className="heading-4 font-bold text-neutral-800 text-sm sm:text-base tracking-tight">
+        <h4 className="heading-4 font-bold text-[#F05E26] text-sm sm:text-base tracking-tight">
           {feature.title}
         </h4>
 
@@ -598,7 +473,7 @@ const TestimonialSection: React.FC = () => {
   );
 };
 
-// Craftsmanship Section
+// Craftsmanship Section - Fully Responsive for Mobile, Tablet, and Desktop
 const CraftsmanshipSection: React.FC = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
@@ -631,82 +506,91 @@ const CraftsmanshipSection: React.FC = () => {
   ];
 
   return (
-    <section className="mb-14 md:mb-22 bg-white overflow-hidden">
-      <div className="max-w-7xl mx-auto lg:px-8">
+    <section className="pt-0 -mt-16 md:-mt-24 pb-12 md:pb-22 bg-white overflow-hidden">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeader
           title="Crafted with intention"
           subtitle="From farm to bar — pure, simple, honest"
         />
 
-        <div ref={ref} className="relative mt-16">
-          {/* Timeline connector line */}
-          <div className="absolute left-8 md:left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-orange-200 via-orange-300/50 to-transparent md:translate-x-[-0.5px]" />
+        <div ref={ref} className="relative mt-12 md:mt-16">
+          {/* Timeline connector line - dynamically adjusts positions cleanly between mobile and desktop styles */}
+          <div className="absolute left-10 md:left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-orange-200 via-orange-300/50 to-transparent transform md:-translate-x-1/2" />
 
-          <div className="space-y-16">
+          <div className="space-y-12 md:space-y-16">
             {steps.map((step, idx) => {
               const IconComponent = step.icon;
               return (
                 <motion.div
                   key={idx}
-                  initial={{ opacity: 0, x: idx % 2 === 0 ? -40 : 40 }}
+                  initial={{ opacity: 0, x: idx % 2 === 0 ? -30 : 30 }}
                   animate={isInView ? { opacity: 1, x: 0 } : {}}
                   transition={{
-                    delay: idx * 0.15,
+                    delay: idx * 0.12,
                     duration: 0.6,
                     ease: [0.16, 1, 0.3, 1],
                   }}
-                  className={`flex flex-col md:flex-row items-center gap-6 ${
+                  /* Fallback to simple left alignment layout on mobile, alternate positions on desktop elements */
+                  className={`flex flex-row md:items-center gap-6 md:gap-12 w-full ${
                     idx % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
                   }`}
                 >
-                  <div className="flex-1 text-center md:text-left">
-                    <motion.span
-                      className="heading-1 text-6xl md:text-7xl font-black text-orange-100"
-                      whileHover={{ scale: 1.05, color: "#FED7AA" }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      {step.step}
-                    </motion.span>
-                    <motion.h3
-                      className="heading-3 text-2xl md:text-3xl text-gray-900 mt-2 tracking-tight"
-                      whileHover={{ x: 5, color: "#F97316" }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      {step.title}
-                    </motion.h3>
-                    <p className="text-muted mt-2 leading-relaxed max-w-md mx-auto md:mx-0">
-                      {step.desc}
-                    </p>
+                  {/* Left content block wrapper */}
+                  <div className={`flex-1 text-left ${
+                    idx % 2 === 0 ? "md:items-end" : "md:text-left"
+                  } pl-16 md:pl-0`}>
+                    <div className="flex flex-col">
+                      <motion.span
+                        className="heading-1 text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-orange-100/90 leading-none select-none"
+                        whileHover={{ scale: 1.05, color: "#FED7AA" }}
+                        transition={{ duration: 0.3 }}
+                      >
+                        {step.step}
+                      </motion.span>
+                      <motion.h3
+                        className="heading-3 text-xl sm:text-2xl md:text-3xl text-gray-900 mt-1 tracking-tight font-bold"
+                        whileHover={{ x: idx % 2 === 0 ? -5 : 5, color: "#F97316" }}
+                        transition={{ duration: 0.3 }}
+                      >
+                        {step.title}
+                      </motion.h3>
+                      <p className="text-sm text-gray-600 mt-2 leading-relaxed max-w-sm ml-0 mr-auto md:mx-auto lg:mx-0">
+                        {step.desc}
+                      </p>
+                    </div>
                   </div>
 
-                  <motion.div
-                    className="relative z-10"
-                    whileHover={{ scale: 1.15, rotate: 8 }}
-                    transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                  >
-                    {/* Outer ring */}
-                    <div className="w-20 h-20 md:w-24 md:h-24 rounded-full bg-gradient-to-br from-orange-100 to-amber-100 flex items-center justify-center shadow-md">
-                      {/* Inner circle */}
-                      <div className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-gradient-to-br from-orange-500 to-amber-500 flex items-center justify-center shadow-inner">
-                        <IconComponent
-                          className="w-7 h-7 md:w-8 md:h-8 text-white"
-                          strokeWidth={1.5}
-                        />
-                      </div>
-                    </div>
-
-                    {/* Glow effect */}
+                  {/* Central Icon Node Indicator Segment */}
+                  <div className="absolute left-0 md:relative md:left-auto flex justify-center items-center z-10 w-20 md:w-auto">
                     <motion.div
-                      className="absolute inset-0 rounded-full bg-orange-400/20 blur-xl -z-10"
-                      animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.6, 0.3] }}
-                      transition={{
-                        duration: 2,
-                        repeat: Infinity,
-                        delay: idx * 0.3,
-                      }}
-                    />
-                  </motion.div>
+                      whileHover={{ scale: 1.12, rotate: 6 }}
+                      transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                    >
+                      {/* Outer ring */}
+                      <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-gradient-to-br from-orange-100 to-amber-100 flex items-center justify-center shadow-md">
+                        {/* Inner circle */}
+                        <div className="w-11 h-11 md:w-14 md:h-14 rounded-full bg-gradient-to-br from-orange-500 to-amber-500 flex items-center justify-center shadow-inner">
+                          <IconComponent
+                            className="w-5 h-5 md:w-6 md:h-6 text-white"
+                            strokeWidth={2}
+                          />
+                        </div>
+                      </div>
 
+                      {/* Animated Glow effect ring structure */}
+                      <motion.div
+                        className="absolute inset-0 rounded-full bg-orange-400/20 blur-lg -z-10"
+                        animate={{ scale: [1, 1.15, 1], opacity: [0.3, 0.5, 0.3] }}
+                        transition={{
+                          duration: 2,
+                          repeat: Infinity,
+                          delay: idx * 0.3,
+                        }}
+                      />
+                    </motion.div>
+                  </div>
+
+                  {/* Balanced Spacer node for mirroring grid symmetry cleanly on wide device sizes */}
                   <div className="flex-1 hidden md:block" />
                 </motion.div>
               );
@@ -874,10 +758,10 @@ const AllProductsSection: React.FC<{ products: any[] }> = ({ products }) => {
 
   // Layout color rotation mapping based on the circle backdrops from your files
   const circleColors = [
-    "bg-[#7BC6E8]", // Sky Blue backdrop
-    "bg-[#FFCD43]", // Warm Yellow backdrop
-    "bg-[#AECB75]", // Sage Green backdrop
-    "bg-[#DCA4E6]", // Soft Purple backdrop
+    "bg-[#6F6CA2]", // Sky Blue backdrop
+    "bg-[#E68B32]", // Warm Yellow backdrop
+    "bg-[#C65B5F]", // Sage Green backdrop
+    "bg-[#B6629F]", // Soft Purple backdrop
   ];
 
   const containerVariants: Variants = {
@@ -977,7 +861,7 @@ const AllProductsSection: React.FC<{ products: any[] }> = ({ products }) => {
 
                 {/* Product Typography Block */}
                 <div className="space-y-3 w-full px-2 flex flex-col items-center flex-1">
-                  <h3 className="heading-3 text-2xl sm:text-3xl font-bold text-neutral-900 tracking-tight leading-tight">
+                  <h3 className="heading-3 text-lg sm:text-xl font-bold text-neutral-900 tracking-tight leading-tight">
                     {product.name}
                   </h3>
 
@@ -1043,32 +927,32 @@ export const HomePage: React.FC = () => {
     {
       title: "PROTEIN RICH",
       desc: "5 grams of protein per serving for sustained energy",
-      img: "https://angstrohmfoods.com/wp-content/uploads/2025/07/energy-bar_7634814.png",
+      img: "/homepage/energy-bar_7634814.png",
     },
     {
       title: "ALL NATURAL",
       desc: "Crafted with premium ingredients, nothing artificial",
-      img: "https://angstrohmfoods.com/wp-content/uploads/2025/07/lotus_2610118.png",
+      img: "/homepage/lotus_2610118.png",
     },
     {
       title: "VEGETARIAN",
       desc: "100% plant-based goodness for everyone",
-      img: "https://angstrohmfoods.com/wp-content/uploads/2025/07/leaf.png",
+      img: "/homepage/leaf.png",
     },
     {
       title: "NO PRESERVATIVES",
       desc: "Pure and clean ingredients you can trust",
-      img: "https://angstrohmfoods.com/wp-content/uploads/2025/07/no-preservatives_4411195.png",
+      img: "/homepage/no-preservatives_4411195.png",
     },
     {
       title: "NO ADDED SUGAR",
       desc: "Naturally sweetened with fruits and nuts",
-      img: "https://angstrohmfoods.com/wp-content/uploads/2025/07/sugar-free.png",
+      img: "/homepage/sugar-free.png",
     },
     {
       title: "AFFORDABLE",
       desc: "Premium quality at just ₹40 per bar",
-      img: "https://angstrohmfoods.com/wp-content/uploads/2025/07/rupee-symbol.png",
+      img: "/homepage/rupee-symbol.png",
     },
   ];
 
@@ -1118,7 +1002,7 @@ export const HomePage: React.FC = () => {
   const faqsToUse = [
     {
       q: "What are the ingredients?",
-      a: "Our bars are made with 12 or fewer real food ingredients, nothing artificial. We use grass-fed milk protein from family farms in Ireland's County Kerry, plus mineral-rich Irish Atlantic sea salt. Each product page shows the full ingredient list for that flavor.",
+      a: "Our bars are made with 12 or fewer real food ingredients, nothing artificial. We use grass-fed milk protein from family farms in India's County Kerry, plus mineral-rich India Atlantic sea salt. Each product page shows the full ingredient list for that flavor.",
     },
     {
       q: "Are Happy Bar products suitable for vegans?",
@@ -1156,11 +1040,13 @@ export const HomePage: React.FC = () => {
       </section>
 
       {/* Features Section */}
-      <section className="py-12 bg-white">
-        <div className=" flex justify-center mx-auto px-4 lg:px-0 max-w-7xl">
+      <section className="py-2 bg-white px-2">
+        <div className=" flex justify-center mx-auto px-1 lg:px-0 max-w-7xl ">
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6 sm:gap-8 mx-auto">
             {features.map((feature, i) => (
-              <FeatureCard key={i} feature={feature} index={i} />
+              <FeatureCard key={i} feature={feature} index={i} 
+              
+              />
             ))}
           </div>
         </div>

@@ -80,7 +80,7 @@ const FuelingYourDayPage: React.FC = () => {
         title="Fueling Your Day with Happy Bars: A Nutrient Powerhouse"
         author="Boing the Blogger"
         description="Packed with wholesome ingredients, protein, and natural energy to keep you fueled throughout your busiest days."
-        backgroundImage="https://thehappyfoodcompany.com/wp-content/uploads/2024/06/my-daily-fix.webp"
+        backgroundImage="/fuelingyourday/my-daily-fix.webp"
       />
 
       {/* Main Content */}

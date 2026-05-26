@@ -48,11 +48,11 @@ export const AboutUsPage: React.FC = () => {
               }}
             >
               <img 
-                src="https://thehappyfoodcompany.com/wp-content/uploads/2024/06/fuel-your-day-happy-bar.webp" 
+                src="/aboutus/fuel-your-day-happy-bar.webp" 
                 alt="Founders working at desk" 
                 className="w-full h-auto object-cover"
                 onError={(e) => {
-                  e.currentTarget.src = "https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&q=80&w=600";
+                  e.currentTarget.src = "/aboutus/photo-1517245386807-bb43f82c33c4.avif";
                 }}
               />
             </div>
@@ -142,11 +142,11 @@ export const AboutUsPage: React.FC = () => {
           >
             <div className="w-full max-w-[360px] md:max-w-full aspect-[4/5] overflow-hidden shadow-xl rounded-sm border-4 border-white bg-white">
               <img 
-                src="https://thehappyfoodcompany.com/wp-content/uploads/2024/06/kids-approved.webp" 
+                src="/aboutus/kids-approved.webp" 
                 alt="Engineers working on recipes in protective gear" 
                 className="w-full h-full object-cover grayscale-[10%] contrast-[105%]"
                 onError={(e) => {
-                  e.currentTarget.src = "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&q=80&w=600";
+                  e.currentTarget.src = "/aboutus/photo-1556742049-0cfed4f6a45d.avif";
                 }}
               />
             </div>
@@ -164,7 +164,7 @@ export const AboutUsPage: React.FC = () => {
             {/* Background Peek Card */}
             <div className="absolute left-4 sm:left-12 w-56 h-72 bg-white border border-gray-100 shadow-sm rounded-sm overflow-hidden opacity-40 transform -translate-x-12 scale-95 pointer-events-none hidden sm:block">
               <img 
-                src="https://thehappyfoodcompany.com/wp-content/uploads/2024/06/kids-approved.webp" 
+                src="/aboutus/kids-approved.webp" 
                 alt="Community background" 
                 className="w-full h-48 object-cover filter blur-[1px]"
               />
@@ -182,7 +182,7 @@ export const AboutUsPage: React.FC = () => {
               className="w-64 bg-white shadow-xl rounded-sm overflow-hidden z-10 border border-gray-100"
             >
               <img 
-                src="https://thehappyfoodcompany.com/wp-content/uploads/2024/06/kids-approved.webp" 
+                src="/aboutus/kids-approved.webp" 
                 alt="Cyclist sharing an Happy Bar protein bar" 
                 className="w-full h-56 object-cover"
               />
@@ -234,7 +234,7 @@ export const AboutUsPage: React.FC = () => {
   buttonLink="/products"
   testimonialAuthor="Priya M."
   testimonialLabel="Verified Buyer"
-  testimonialAvatar="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&q=80&w=100"
+  testimonialAvatar="/aboutus/photo-1494790108377-be9c29b29330.avif"
   backgroundColor="#4A3E8E"
 />
 

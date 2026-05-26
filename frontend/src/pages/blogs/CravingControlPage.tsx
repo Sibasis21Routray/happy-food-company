@@ -67,7 +67,7 @@ const CravingControlPage: React.FC = () => {
         author="Boing the Blogger"
         description="Manage cravings naturally with protein-packed snacks that help keep you fuller, energized, and focused on your wellness goals."
         date="April 13, 2024"
-        backgroundImage="https://thehappyfoodcompany.com/wp-content/uploads/2024/06/craving-for-chocolate.webp"
+        backgroundImage="/carvingcontrol/craving-for-chocolate.webp"
       />
 
       {/* Main Content */}

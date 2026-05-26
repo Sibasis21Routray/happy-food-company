@@ -77,7 +77,7 @@ const FuelWellbeingPage: React.FC = () => {
         author="Boing the Blogger"
         description="Support your active lifestyle with clean, natural protein bars crafted to energize your body and nourish your well-being."
         date="May 4, 2024"
-        backgroundImage="https://thehappyfoodcompany.com/wp-content/uploads/2024/06/fuel-your-wellbeing.webp"
+        backgroundImage="/fuelwellbeing/fuel-your-wellbeing.webp"
       />
       {/* Main Content */}
       <div className="container mx-auto px-6 max-w-3xl pb-20">

@@ -67,7 +67,7 @@ const FuelingWorkoutsPage: React.FC = () => {
         author="Boing the Blogger"
         description="Power every workout with clean protein, sustained energy, and wholesome ingredients designed for active lifestyles."
         date="April 20, 2024"
-        backgroundImage="https://thehappyfoodcompany.com/wp-content/uploads/2024/06/fuel-workout-protein-pro.webp"
+        backgroundImage="/fuelingworkouts/fuel-workout-protein-pro.webp"
       />
 
       {/* Main Content */}
