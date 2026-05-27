@@ -43,7 +43,7 @@ export const addOrderId = async (userId: string, orderId: string): Promise<IUser
   return await User.findByIdAndUpdate(
     userId,
     { $push: { orderIds: orderId } },
-    { new: true }
+    { returnDocument: 'after' }
   );
 };
 
@@ -52,7 +52,7 @@ export const addCartId = async (userId: string, cartId: string): Promise<IUser |
   return await User.findByIdAndUpdate(
     userId,
     { $push: { cartIds: cartId } },
-    { new: true }
+    { returnDocument: 'after' }
   );
 };
 
@@ -61,7 +61,7 @@ export const removeOrderId = async (userId: string, orderId: string): Promise<IU
   return await User.findByIdAndUpdate(
     userId,
     { $pull: { orderIds: orderId } },
-    { new: true }
+    { returnDocument: 'after' }
   );
 };
 
@@ -70,11 +70,31 @@ export const removeCartId = async (userId: string, cartId: string): Promise<IUse
   return await User.findByIdAndUpdate(
     userId,
     { $pull: { cartIds: cartId } },
-    { new: true }
+    { returnDocument: 'after' }
   );
 };
 
 // ─── Update user details ─────────────────────────────────────
 export const updateUser = async (userId: string, data: Partial<IUser>): Promise<IUser | null> => {
-  return await User.findByIdAndUpdate(userId, data, { new: true }).select("-password");
+  return await User.findByIdAndUpdate(userId, data, { returnDocument: 'after' }).select("-password");
+};
+// ─── Find user by reset token ─────────────────────────────────
+export const findUserByResetToken = async (token: string): Promise<IUser | null> => {
+  return await User.findOne({
+    resetPasswordToken: token,
+    resetPasswordExpires: { $gt: new Date() },
+  });
+};
+
+// ─── Reset user password ──────────────────────────────────────
+export const resetUserPassword = async (userId: string, hashedPassword: string): Promise<IUser | null> => {
+  return await User.findByIdAndUpdate(
+    userId,
+    {
+      password: hashedPassword,
+      resetPasswordToken: undefined,
+      resetPasswordExpires: undefined,
+    },
+    { returnDocument: 'after' }
+  );
 };

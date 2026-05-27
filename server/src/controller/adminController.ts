@@ -219,7 +219,7 @@ export const reassignVendor = async (req: Request, res: Response): Promise<void>
       res.status(404).json({ message: "Vendor not found" });
       return;
     }
-    const order = await Order.findByIdAndUpdate(id, { vendorId }, { new: true })
+    const order = await Order.findByIdAndUpdate(id, { vendorId }, { returnDocument: 'after' })
       .populate('vendorId', 'fullName email')
       .populate('userId', 'fullName email');
     if (!order) {

@@ -33,13 +33,13 @@ export const updateProduct = async (
   id: string,
   data: Partial<CreateProductInput & { isActive: boolean }>
 ): Promise<IProduct | null> => {
-  return await Product.findByIdAndUpdate(id, data, { new: true });
+  return await Product.findByIdAndUpdate(id, data, { returnDocument: 'after' });
 };
 
 export const deleteProduct = async (id: string): Promise<IProduct | null> => {
-  return await Product.findByIdAndUpdate(id, { isActive: false }, { new: true });
+  return await Product.findByIdAndUpdate(id, { isActive: false }, { returnDocument: 'after' });
 };
 
 export const activateProduct = async (id: string): Promise<IProduct | null> => {
-  return await Product.findByIdAndUpdate(id, { isActive: true }, { new: true });
+  return await Product.findByIdAndUpdate(id, { isActive: true }, { returnDocument: 'after' });
 };

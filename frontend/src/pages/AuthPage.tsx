@@ -22,8 +22,7 @@ export const AuthPage: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const { showToast } = useToast();
   
-  const [showOtpStep, setShowOtpStep] = useState(false);
-  const [otpInput, setOtpInput] = useState('');
+
 
   const navigate = useNavigate();
 
@@ -34,7 +33,7 @@ export const AuthPage: React.FC = () => {
     });
   };
 
-  const handleRegisterStart = (e: React.FormEvent) => {
+  const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.fullName || !formData.email || !formData.mobileNumber || !formData.gender || !formData.password) {
       showToast('Please fill all fields', 'error');
@@ -42,14 +41,6 @@ export const AuthPage: React.FC = () => {
     }
     if (formData.mobileNumber.length < 10) {
       showToast('Please enter a valid mobile number', 'error');
-      return;
-    }
-    setShowOtpStep(true);
-  };
-
-  const handleRegisterComplete = async () => {
-    if (otpInput !== '123456') {
-      showToast('Invalid OTP. Use 123456', 'error');
       return;
     }
     
@@ -74,7 +65,6 @@ export const AuthPage: React.FC = () => {
       }
     } catch (err: any) {
       showToast(err.message || 'Registration failed', 'error');
-      setShowOtpStep(false);
     } finally {
       setLoading(false);
     }
@@ -194,6 +184,15 @@ export const AuthPage: React.FC = () => {
                   required
                   className="w-full px-4 py-3 border border-gray-700 focus:border-gray-800 focus:outline-none transition-all duration-300"
                 />
+                <div className="text-right mt-1">
+                  <button
+                    type="button"
+                    onClick={() => navigate('/forgot-password')}
+                    className="text-gray-500 hover:text-gray-900 text-sm"
+                  >
+                    Forgot password?
+                  </button>
+                </div>
               </motion.div>
 
               <motion.button 
@@ -214,7 +213,7 @@ export const AuthPage: React.FC = () => {
                   {/* Don't have an account?{' '} */}
                   <button
                     type="button"
-                    onClick={() => { setIsLogin(false); setShowOtpStep(false); }}
+                    onClick={() => { setIsLogin(false); }}
                     className="text-gray-900  font-medium"
                   >
                     Create account
@@ -230,9 +229,8 @@ export const AuthPage: React.FC = () => {
               animate="visible"
               exit="exit"
             >
-              {!showOtpStep ? (
-                <form onSubmit={handleRegisterStart} className="space-y-4">
-                  <motion.div variants={fieldVariants}>
+              <form onSubmit={handleRegister} className="space-y-4">
+                <motion.div variants={fieldVariants}>
                     <label className="block text-md text-gray-900 mb-1.5">Full Name</label>
                     <input 
                       name="fullName"
@@ -324,7 +322,7 @@ export const AuthPage: React.FC = () => {
                       Already have an account?{' '}
                       <button
                         type="button"
-                        onClick={() => { setIsLogin(true); setShowOtpStep(false); }}
+                        onClick={() => { setIsLogin(true); }}
                         className="text-gray-900 hover: font-medium"
                       >
                         Sign In
@@ -332,59 +330,6 @@ export const AuthPage: React.FC = () => {
                     </p>
                   </motion.div>
                 </form>
-              ) : (
-                <motion.div 
-                  variants={formVariants}
-                  initial="hidden"
-                  animate="visible"
-                  exit="exit"
-                  className="space-y-6"
-                >
-                  <motion.div 
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="text-center"
-                  >
-                    <p className="text-gray-500 text-sm mb-1">We've sent a 6-digit code to</p>
-                    <p className="text-gray-900 font-medium">{formData.mobileNumber}</p>
-                  </motion.div>
-                  
-                  <motion.div variants={fieldVariants}>
-                    <label className="block text-sm text-gray-800 mb-1.5 text-center">Enter OTP</label>
-                    <motion.input 
-                      type="text" 
-                      maxLength={6}
-                      value={otpInput}
-                      onChange={(e) => setOtpInput(e.target.value)}
-                      whileFocus={{ scale: 1.02 }}
-                      className="w-full text-center px-4 py-3 text-lg font-light tracking-[8px] border border-gray-300 focus:border-gray-800 focus:outline-none transition-all duration-300"
-                    />
-                  </motion.div>
-
-                  <div className="space-y-3">
-                    <motion.button 
-                      variants={fieldVariants}
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                      onClick={handleRegisterComplete}
-                      disabled={loading || otpInput.length < 6}
-                      className="w-full bg-gray-900 text-white py-3 text-sm font-medium tracking-wider hover:bg-gray-800 transition-all duration-300 disabled:opacity-50 flex items-center justify-center gap-2 group"
-                    >
-                      {loading ? <RefreshCw size={16} className="animate-spin" /> : 'Verify & Register'}
-                      <CheckCircle size={14} className="group-hover:scale-110 transition-transform duration-300" />
-                    </motion.button>
-                    <motion.button 
-                      variants={fieldVariants}
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                      onClick={() => setShowOtpStep(false)}
-                      className="w-full text-gray-400 text-sm hover:text-gray-800 transition-colors duration-300"
-                    >
-                      Change Mobile Number
-                    </motion.button>
-                  </div>
-                </motion.div>
-              )}
             </motion.div>
           )}
         </AnimatePresence>

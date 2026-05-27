@@ -3,6 +3,8 @@ import * as authService from "../services/authService";
 import * as userDao from "../dao/userDao";
 import { AuthRequest } from "../middleware/authMiddleware";
 import bcrypt from "bcryptjs";
+import crypto from "crypto";
+import { sendResetPasswordEmail } from "../services/mailService";
 
 // ─── REGISTER ─────────────────────────────────────────────────
 export const register = async (req: Request, res: Response): Promise<void> => {
@@ -117,5 +119,56 @@ export const updateProfile = async (req: AuthRequest, res: Response): Promise<vo
     });
   } catch (error) {
     res.status(500).json({ message: "Server error", error });
+  }
+};
+// ─── FORGOT PASSWORD ──────────────────────────────────────────
+export const forgotPassword = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { email } = req.body;
+    const user = await userDao.findUserByEmail(email);
+
+    if (!user) {
+      res.status(404).json({ message: "User not found" });
+      return;
+    }
+
+    // Generate reset token
+    const resetToken = crypto.randomBytes(20).toString("hex");
+    const resetPasswordExpires = new Date(Date.now() + 3600000); // 1 hour
+
+    await userDao.updateUser(user._id.toString(), {
+      resetPasswordToken: resetToken,
+      resetPasswordExpires,
+    } as any);
+
+    // Send email
+    await sendResetPasswordEmail(email, resetToken);
+
+    res.status(200).json({ message: "Password reset link sent to email" });
+  } catch (error: any) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// ─── RESET PASSWORD ───────────────────────────────────────────
+export const resetPassword = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { token, password } = req.body;
+
+    const user = await userDao.findUserByResetToken(token);
+    if (!user) {
+      res.status(400).json({ message: "Invalid or expired reset token" });
+      return;
+    }
+
+    // Update password
+    const hashedPassword = await bcrypt.hash(password, 10);
+    
+    // Clear reset token and set new password using DAO
+    await userDao.resetUserPassword(user._id.toString(), hashedPassword);
+
+    res.status(200).json({ message: "Password reset successful" });
+  } catch (error: any) {
+    res.status(500).json({ message: error.message });
   }
 };

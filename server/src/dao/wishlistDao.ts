@@ -12,7 +12,7 @@ export const addProductToWishlist = async (userId: string, productId: string): P
   return await Wishlist.findOneAndUpdate(
     { userId },
     { $addToSet: { productIds: productId } },
-    { new: true, upsert: true }
+    { returnDocument: 'after', upsert: true }
   ).populate("productIds");
 };
 
@@ -20,6 +20,6 @@ export const removeProductFromWishlist = async (userId: string, productId: strin
   return await Wishlist.findOneAndUpdate(
     { userId },
     { $pull: { productIds: productId } },
-    { new: true }
+    { returnDocument: 'after' }
   ).populate("productIds");
 };

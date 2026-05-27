@@ -131,7 +131,7 @@ export const updateOrderStatus = async (req: AuthRequest, res: Response): Promis
     const order = await Order.findOneAndUpdate(
       { _id: id, vendorId },
       { status },
-      { new: true }
+      { returnDocument: 'after' }
     );
 
     if (!order) {

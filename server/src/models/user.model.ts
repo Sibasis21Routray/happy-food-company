@@ -13,6 +13,8 @@ export interface IUser extends Document {
   addresses: any[];
   role: 'user' | 'vendor' | 'admin';
   isBlocked: boolean;
+  resetPasswordToken?: string;
+  resetPasswordExpires?: Date;
 }
 
 const UserSchema: Schema = new Schema(
@@ -29,6 +31,8 @@ const UserSchema: Schema = new Schema(
     addresses:    { type: [Schema.Types.Mixed], default: [] },
     role:         { type: String, enum: ['user', 'vendor', 'admin'], default: 'user' },
     isBlocked:    { type: Boolean, default: false },
+    resetPasswordToken: { type: String },
+    resetPasswordExpires: { type: Date },
   },
   { timestamps: true }
 );

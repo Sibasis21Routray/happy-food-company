@@ -69,6 +69,40 @@ export const api = {
         console.error('API Error:', error);
         throw error;
       }
+    },
+    forgotPassword: async (email: string) => {
+      try {
+        const response = await fetch(`${API_URL}/auth/forgot-password`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email })
+        });
+        if (!response.ok) {
+          const error = await response.json();
+          throw new Error(error.message || 'Forgot password request failed');
+        }
+        return await response.json();
+      } catch (error) {
+        console.error('API Error:', error);
+        throw error;
+      }
+    },
+    resetPassword: async (data: any) => {
+      try {
+        const response = await fetch(`${API_URL}/auth/reset-password`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+        if (!response.ok) {
+          const error = await response.json();
+          throw new Error(error.message || 'Password reset failed');
+        }
+        return await response.json();
+      } catch (error) {
+        console.error('API Error:', error);
+        throw error;
+      }
     }
   },
   cart: {

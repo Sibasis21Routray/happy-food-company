@@ -9,7 +9,7 @@ export const upsertCart = async (userId: string, cart: Partial<ICart>): Promise<
   return await Cart.findOneAndUpdate(
     { userId },
     cart,
-    { new: true, upsert: true }
+    { returnDocument: 'after', upsert: true }
   );
 };
 

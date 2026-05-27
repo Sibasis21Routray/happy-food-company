@@ -1,8 +1,8 @@
+import dotenv from "dotenv";
+dotenv.config();
 import express from "express";
 import cors from "cors";
-import dotenv from "dotenv";
 import connectDB from "./config/db.config";
-
 import authRoutes    from "./routes/authRoutes";
 import productRoutes from "./routes/productRoutes";
 import cartRoutes    from "./routes/cartRoutes";
@@ -10,13 +10,10 @@ import couponRoutes  from "./routes/couponRoutes";
 import orderRoutes   from "./routes/orderRoutes";
 import addressRoutes from "./routes/addressRoutes";
 import wishlistRoutes from "./routes/wishlistRoutes";
-// import adminRoutes from "./routes/adminRoutes";
-// import vendorRoutes from "./routes/vendorRoutes";
 import { seedAdmin } from "./seeds/adminSeed";
 import adminRoutes from "./routes/adminRoutes";
 import vendorRoutes from "./routes/vendorRoutes";
 
-dotenv.config();
 connectDB().then(() => {
   seedAdmin();
 });

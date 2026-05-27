@@ -19,6 +19,8 @@ import { ProtectedRoute } from './components/Auth/ProtectedRoute';
 import { RoleBasedRedirect } from './components/Auth/RoleBasedRedirect';
 import { NotFound } from './pages/NotFound';
 import { AboutUsPage } from './pages/AboutUsPage';
+import { ForgotPasswordPage } from './pages/ForgotPasswordPage';
+import { ResetPasswordPage } from './pages/ResetPasswordPage';
 
 // Import individual blog post pages
 import { SatisfySugarCravingsPage } from './pages/blogs/SatisfySugarCravingsPage';
@@ -101,6 +103,9 @@ function App() {
           <Route path="/gift-cards" element={<RoleBasedRedirect><GiftCardsPage /></RoleBasedRedirect>} />
           <Route path="/login" element={<AuthPage />} />
           <Route path="/signup" element={<AuthPage />} />
+          <Route path="/auth" element={<AuthPage />} />
+          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+          <Route path="/reset-password" element={<ResetPasswordPage />} />
           
           {/* Admin Routes */}
           <Route path="/admin/dashboard" element={
