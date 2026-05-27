@@ -5,16 +5,15 @@ if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
   console.error('ERROR: EMAIL_USER or EMAIL_PASS not found in environment variables. Email services will fail.');
 }
 
+
 const transporter = nodemailer.createTransport({
-  service: 'gmail',
-
+  service: "gmail",
   auth: {
-    user: process.env.EMAIL_USER!,
-    pass: process.env.EMAIL_PASS!,
+    user: process.env.EMAIL,
+    pass: process.env.EMAIL_PASS,
   },
+});
 
-  family: 4,
-} as SMTPTransport.Options);
 
 export const sendResetPasswordEmail = async (email: string, resetToken: string) => {
   const resetUrl = `${process.env.FRONTEND_URL}/reset-password?token=${resetToken}`;
