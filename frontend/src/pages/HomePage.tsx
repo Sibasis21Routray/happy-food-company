@@ -210,7 +210,7 @@ const HappyBarLanding: React.FC = () => {
    <motion.img
         src="/images/cashew-raisin.png"
         alt="Happy Bar Cashew Cookie Dough Protein Bar"
-        className="absolute lg:block hidden  md:top-90 left-110 w-full h-114 md:h-94 lg:h-134 xl:h-80 object-contain z-10 filter drop-shadow-[0_20px_35px_rgba(0,0,0,0.3)] -rotate-10"
+        className="absolute lg:block hidden  md:top-90 lg:top-80 left-110 w-full h-114 md:h-94 lg:h-134 xl:h-[42vh] object-contain z-10 filter drop-shadow-[0_20px_35px_rgba(0,0,0,0.3)] -rotate-10"
         whileHover={{ scale: 1.02, rotate: -1 }}
         transition={{ duration: 0.3 }}
       />
@@ -756,13 +756,12 @@ const FAQ = ({ faqs, contactEmail = "woohoo@thehappyfoodcompany.com" }) => {
 const AllProductsSection: React.FC<{ products: any[] }> = ({ products }) => {
   const [hoveredId, setHoveredId] = useState<string | null>(null);
 
-  // Layout color rotation mapping based on the circle backdrops from your files
   const circleColors = [
-    "bg-[#6F6CA2]", // Sky Blue backdrop
-    "bg-[#E68B32]", // Warm Yellow backdrop
-    "bg-[#C65B5F]", // Sage Green backdrop
-    "bg-[#B6629F]", // Soft Purple backdrop
-  ];
+  "bg-[#8985B0]", // Darkened from #ADAAC7
+  "bg-[#D4A373]", // Darkened from #E7B27E
+  "bg-[#C48E8F]", // Darkened from #D69B9C
+  "bg-[#C17FAF]", // Darkened from #D0A1C3
+];
 
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
