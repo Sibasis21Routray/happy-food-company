@@ -39,7 +39,7 @@ export const Footer: React.FC = () => {
     ],
     company: [
       { name: 'About', path: '/about-us' },
-      { name: 'Our Team', path: '/happy-team' },
+      // { name: 'Our Team', path: '/happy-team' },
       { name: 'Careers', path: '/careers' },
       { name: 'Nutrition', path: 'https://happybarnutrition.org/', external: true },
     ],
