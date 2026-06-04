@@ -758,8 +758,8 @@ const AllProductsSection: React.FC<{ products: any[] }> = ({ products }) => {
 
   const circleColors = [
   "bg-[#8985B0]", // Darkened from #ADAAC7
-  "bg-[#D4A373]", // Darkened from #E7B27E
-  "bg-[#C48E8F]", // Darkened from #D69B9C
+  "bg-[#F2AD69]", // Darkened from #E7B27E
+  "bg-[#D58689]", // Darkened from #D69B9C
   "bg-[#C17FAF]", // Darkened from #D0A1C3
 ];
 

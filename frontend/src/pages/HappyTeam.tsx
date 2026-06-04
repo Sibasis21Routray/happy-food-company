@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence, easeInOut } from 'framer-motion';
 import { X } from 'lucide-react';
 import { ShopNowSection } from '../components/ShopNowSection';
@@ -73,6 +73,21 @@ His extensive network across Asia and Europe, coupled with his multicultural bus
 
 export default function HappyTeam() {
   const [selectedMember, setSelectedMember] = useState(null);
+
+  useEffect(() => {
+  if (selectedMember) {
+    document.body.style.overflow = "hidden";
+    document.documentElement.style.overflow = "hidden";
+  } else {
+    document.body.style.overflow = "";
+    document.documentElement.style.overflow = "";
+  }
+
+  return () => {
+    document.body.style.overflow = "";
+    document.documentElement.style.overflow = "";
+  };
+}, [selectedMember]);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -222,26 +237,31 @@ export default function HappyTeam() {
       </motion.section>
 
       
-       {/* Dynamic Pop-up Modal Box for Credentials */}
+      {/* Dynamic Pop-up Modal Box for Credentials */}
       <AnimatePresence>
         {selectedMember && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-sm">
+            
             {/* Click backdrop area to close modal */}
             <motion.div
               initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              onClick={() => setSelectedMember(null)}
-              className="absolute inset-0"
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.1 }}
+        onClick={() => setSelectedMember(null)}
+        className="absolute inset-0"
             />
       
             {/* Modal Inner Window */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              transition={{ type: "spring", damping: 25, stiffness: 350 }}
-              className="bg-white w-full max-w-lg md:max-w-2xl lg:max-w-7xl mt-10 shadow-2xl relative z-10 border border-gray-100 flex flex-col lg:flex-row h-auto max-h-[80vh] lg:max-h-none overflow-y-auto lg:overflow-visible rounded-lg"
+              initial={{ opacity: 0, scale: 0.96, y: 10 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.98, y: 5 }}
+        transition={{
+          duration: 0.15,
+          ease: "easeOut"
+        }}
+              className="bg-white w-full max-w-lg md:max-w-2xl lg:max-w-7xl mt-10 shadow-2xl relative z-10 border border-gray-100 flex flex-col lg:flex-row h-auto max-h-[80vh] lg:h-[600px] overflow-y-auto lg:overflow-hidden rounded-lg"
             >
               {/* Close Button element overlay */}
               <button
@@ -252,8 +272,7 @@ export default function HappyTeam() {
               </button>
       
               {/* Modal Left Frame Segment (Image Container) */}
-              {/* FIXED: Uniformly kept full-width stacked properties up until the lg tier */}
-              <div className="w-full  lg:w-[520px] shrink-0 bg-gray-50 aspect-[3/3] lg:aspect-auto lg:self-stretch relative">
+              <div className="w-full lg:w-[520px] shrink-0 bg-gray-50 aspect-[3/3] lg:aspect-auto lg:self-stretch relative">
                 <img
                   src={selectedMember.image}
                   alt={selectedMember.name}
@@ -262,19 +281,26 @@ export default function HappyTeam() {
               </div>
       
               {/* Modal Right Frame Segment (Content Container) */}
-              {/* FIXED: Replaced md:flex-1 with lg:flex-1 and kept padding scales tidy */}
-              <div className="w-full lg:flex-1 p-5 sm:p-6 md:p-8 flex flex-col justify-center">
+              <div className="w-full lg:flex-1 p-5 sm:p-6 md:p-8 flex flex-col justify-center lg:min-h-0">
+                
+                {/* Header */}
                 <div className="shrink-0 pb-4 pr-8 lg:pr-0">
-                  <h3 className="text-gray-900 text-lg sm:text-xl md:text-2xl font-bold tracking-tight">
-                    {selectedMember.name} {selectedMember.position && <span className="text-sm text-gray-400">({selectedMember.position})</span>}
+                  <h3 className="text-gray-900 text-lg sm:text-xl md:text-2xl font-bold tracking-tight ">
+                    {selectedMember.name}
+                    {selectedMember.position && (
+                      <span className="text-sm text-gray-400 pl-2">
+                        ({selectedMember.position})
+                      </span>
+                    )}
                   </h3>
-                  <span className="inline-block mt-1.5 text-[10px] sm:text-[11px] font-bold text-gray-400   rounded-sm uppercase tracking-widest  leading-tight">
+      
+                  <span className="inline-block mt-1.5 text-[10px] sm:text-[11px] font-bold text-gray-400 rounded-sm uppercase tracking-widest leading-tight">
                     {selectedMember.role}
                   </span>
                 </div>
       
-                {/* Text block wrapper */}
-                <div className="mt-2 sm:mt-4 border-t border-gray-100 pt-3 sm:pt-4 pr-1">
+                {/* Description */}
+                <div className="mt-2 sm:mt-4 border-t border-gray-100 pt-3 sm:pt-4 pr-1 lg:flex-1 lg:overflow-y-auto lg:min-h-0">
                   <p className="text-gray-600 text-xs sm:text-sm leading-relaxed whitespace-pre-line pb-2">
                     {selectedMember.description.trim()}
                   </p>
