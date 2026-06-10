@@ -129,7 +129,7 @@ export const ProductsPage: React.FC = () => {
       console.error('Add to cart failed:', err);
     }
   };
-
+console.log('Products to display:', products);
   return (
     <div className="min-h-screen bg-white pt-24 pb-20 font-sans">
       <div className="container mx-auto px-6 max-w-7xl">

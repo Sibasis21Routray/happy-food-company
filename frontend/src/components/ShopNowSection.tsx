@@ -13,7 +13,7 @@ export const ShopNowSection: React.FC = () => {
       subtitle: "Almond Cranberry + Cashew Raisin", 
       size: "6 Bars",
       desc: "Embark on a flavor-packed journey with our dynamic duo of Almond Cranberry and Cashew Raisin.", 
-      img: "/images/combo-6-1.png", 
+      img: "/combo-products/Variety-6-AC-CR.JPG", 
       link: "/product/combo-6-1",
       price: "300"
     },
@@ -22,17 +22,17 @@ export const ShopNowSection: React.FC = () => {
       subtitle: "All 4 Flavors", 
       size: "12 Bars",
       desc: "Enjoy a snack symphony featuring all four delicious flavors in one complete variety pack.", 
-      img: "/images/combo-12.png", 
+      img: "/combo-products/Variety-12.JPG", 
       link: "/product/combo-12",
       price: "600",
       popular: true
     },
     { 
       title: "Tropical Pack", 
-      subtitle: "Coconut Almond + Date Cranberry", 
+      subtitle: "Coconut Almond + Date Almond Cranberry", 
       size: "6 Bars",
       desc: "Savor the delightful medley of tropical fusion flavors in this irresistible pairing.", 
-      img: "/images/combo-6-2.png", 
+      img: "/combo-products/Variety-6-CA-DAC.JPG", 
       link: "/product/combo-6-2",
       price: "300"
     }

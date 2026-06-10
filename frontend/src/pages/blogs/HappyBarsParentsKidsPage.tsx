@@ -65,7 +65,7 @@ const HappyBarsParentsKidsPage: React.FC = () => {
         author="Boing the Blogger"
         description="Convenient, nutritious, and delicious — the ideal snack solution for active families balancing busy schedules every day."
         date="April 27, 2024"
-        backgroundImage="/happybarsparentskids/whats-in-the-bag.webp"
+        backgroundImage="/happybarparentskids/whats-in-the-bag.webp"
       />
 
       {/* Main Content */}

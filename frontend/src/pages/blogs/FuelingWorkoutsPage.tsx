@@ -67,7 +67,7 @@ const FuelingWorkoutsPage: React.FC = () => {
         author="Boing the Blogger"
         description="Power every workout with clean protein, sustained energy, and wholesome ingredients designed for active lifestyles."
         date="April 20, 2024"
-        backgroundImage="/fuelingworkouts/fuel-workout-protein-pro.webp"
+        backgroundImage="/fuelingworkout/fuel-workout-protein-pro.webp"
       />
 
       {/* Main Content */}
