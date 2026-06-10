@@ -303,66 +303,109 @@ export const CartPage: React.FC = () => {
 
             {/* Step 2: Address Selection */}
             {currentStep === 2 && (
-              <div>
-                <div className="flex justify-between items-center mb-6">
-                  <h3 className="text-lg font-medium text-gray-800">Select delivery address</h3>
-                  <button 
-                    onClick={() => navigate('/profile?section=addresses')} 
-                    className="text-sm text-gray-600 hover:text-gray-900 transition-colors font-medium"
-                  >
-                    + Add New Address
-                  </button>
+         <div>
+           <div className="flex justify-between items-center mb-6">
+            <h3 className="text-lg font-medium text-gray-800">
+             Select Delivery Address <span className="text-red-500">*</span>
+             </h3>
+
+      <button
+        onClick={() => navigate('/profile?section=addresses')}
+        className="text-sm text-gray-600 hover:text-gray-900 transition-colors font-medium"
+      >
+        + Add New Address
+      </button>
+    </div>
+
+    {!selectedAddressId && addresses.length > 0 && (
+      <p className="text-red-500 text-sm mb-4">
+        * Please select a delivery address to continue
+      </p>
+    )}
+
+    {addressLoading ? (
+      <div className="flex justify-center py-12">
+        <div className="w-8 h-8 border-2 border-gray-200 border-t-gray-900 rounded-full animate-spin" />
+      </div>
+    ) : addresses.length === 0 ? (
+      <div className="border border-gray-200 p-12 text-center rounded-sm">
+        <MapPin
+          size={48}
+          className="mx-auto text-gray-300 mb-4"
+          strokeWidth={1}
+        />
+
+        <p className="text-gray-600 text-lg font-light mb-2">
+          No saved addresses
+        </p>
+
+        <p className="text-red-500 text-sm mb-6">
+          * Address is required to place an order
+        </p>
+
+        <button
+          onClick={() => navigate('/profile?section=addresses')}
+          className="px-8 py-3 border border-gray-300 text-gray-700 text-base font-medium hover:border-gray-700 transition-all rounded-sm"
+        >
+          ADD ADDRESS
+        </button>
+      </div>
+    ) : (
+      <div className="grid grid-cols-1 gap-5">
+        {addresses.map((addr) => (
+          <div
+            key={addr._id}
+            onClick={() => setSelectedAddressId(addr._id)}
+            className={`border p-6 cursor-pointer transition-all duration-300 rounded-sm ${
+              selectedAddressId === addr._id
+                ? 'border-gray-700 bg-gray-50'
+                : 'border-gray-200 hover:border-gray-300'
+            }`}
+          >
+            <div className="flex items-start justify-between">
+              <div className="flex-1">
+                <div className="flex items-center gap-2 mb-3">
+                  {addr.type === 'Home' ? (
+                    <Home size={14} className="text-gray-600" />
+                  ) : (
+                    <Briefcase size={14} className="text-gray-600" />
+                  )}
+
+                  <span className="text-xs font-semibold tracking-wide text-gray-600 uppercase">
+                    {addr.type}
+                  </span>
                 </div>
 
-                {addressLoading ? (
-                  <div className="flex justify-center py-12">
-                    <div className="w-8 h-8 border-2 border-gray-200 border-t-gray-900 rounded-full animate-spin" />
-                  </div>
-                ) : addresses.length === 0 ? (
-                  <div className="border border-gray-200 p-12 text-center rounded-sm">
-                    <MapPin size={48} className="mx-auto text-gray-300 mb-4" strokeWidth={1} />
-                    <p className="text-gray-600 text-lg font-light mb-6">No saved addresses</p>
-                    <button 
-                      onClick={() => navigate('/profile?section=addresses')} 
-                      className="px-8 py-3 border border-gray-300 text-gray-700 text-base font-medium hover:border-gray-700 transition-all rounded-sm"
-                    >
-                      ADD ADDRESS
-                    </button>
-                  </div>
-                ) : (
-                  <div className="grid grid-cols-1 gap-5">
-                    {addresses.map((addr) => (
-                      <div 
-                        key={addr._id}
-                        onClick={() => setSelectedAddressId(addr._id)}
-                        className={`border p-6 cursor-pointer transition-all duration-300 rounded-sm ${
-                          selectedAddressId === addr._id ? 'border-gray-700 bg-gray-50' : 'border-gray-200 hover:border-gray-300'
-                        }`}
-                      >
-                        <div className="flex items-start justify-between">
-                          <div className="flex-1">
-                            <div className="flex items-center gap-2 mb-3">
-                              {addr.type === 'Home' ? <Home size={14} className="text-gray-600" /> : <Briefcase size={14} className="text-gray-600" />}
-                              <span className="text-xs font-semibold tracking-wide text-gray-600 uppercase">{addr.type}</span>
-                            </div>
-                            <p className="text-lg font-semibold text-gray-900 mb-1">{addr.name}</p>
-                            <p className="text-base text-gray-600 font-light mb-2">
-                              {addr.streetAddress}, {addr.locality}, {addr.city}, {addr.state} - {addr.pinCode}
-                            </p>
-                            <p className="text-base text-gray-700 font-medium">{addr.phone}</p>
-                          </div>
-                          {selectedAddressId === addr._id && (
-                            <div className="w-6 h-6 rounded-full bg-gray-900 flex items-center justify-center">
-                              <Check size={14} className="text-white" strokeWidth={2} />
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                )}
+                <p className="text-lg font-semibold text-gray-900 mb-1">
+                  {addr.name}
+                </p>
+
+                <p className="text-base text-gray-600 font-light mb-2">
+                  {addr.streetAddress}, {addr.locality}, {addr.city},{" "}
+                  {addr.state} - {addr.pinCode}
+                </p>
+
+                <p className="text-base text-gray-700 font-medium">
+                  {addr.phone}
+                </p>
               </div>
-            )}
+
+              {selectedAddressId === addr._id && (
+                <div className="w-6 h-6 rounded-full bg-gray-900 flex items-center justify-center">
+                  <Check
+                    size={14}
+                    className="text-white"
+                    strokeWidth={2}
+                  />
+                </div>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+    )}
+  </div>
+)}
 
             {/* Step 3: Payment Method */}
             {currentStep === 3 && (

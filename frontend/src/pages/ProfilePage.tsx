@@ -6,7 +6,7 @@ import { api } from '../services/api';
 import { 
   User, MapPin, CreditCard, 
   Package, Heart, Ticket, Bell, 
-  Smartphone, ChevronRight, 
+  Smartphone, ChevronRight, Edit,
   CheckCircle, HelpCircle, UserCheck, Gift,
   Navigation, Trash2, ShoppingCart, Menu, X, UserCircle, Settings, LogOut
 } from 'lucide-react';
@@ -89,6 +89,8 @@ interface SavedAddress {
   state: string;
   pinCode: string;
   type: 'Home' | 'Work';
+  landmark?: string;
+  country?: string;
 }
 
 export const ProfilePage: React.FC = () => {
@@ -247,6 +249,24 @@ export const ProfilePage: React.FC = () => {
     }
   };
 
+  const handleEditAddress = (addr: SavedAddress) => {
+    setIsAddingAddress(true);
+    setAddressForm({
+      name: addr.name,
+      phone: addr.phone,
+      pinCode: addr.pinCode,
+      locality: addr.locality,
+      streetAddress: addr.streetAddress,
+      city: addr.city,
+      state: addr.state,
+      country: addr.country || 'IN',
+      landmark: addr.landmark || '',
+      alternatePhone: '',
+      type: addr.type,
+      email: user?.email || addressForm.email || ''
+    });
+  };
+
   const handleUpdate = async () => {
     setLoading(true);
     setMessage({ type: '', text: '' });
@@ -309,6 +329,38 @@ export const ProfilePage: React.FC = () => {
       setLoading(false);
       showToast('Unable to retrieve your location', 'error');
     });
+  };
+
+  const validateAddressForm = () => {
+    const requiredFields: Array<keyof AddressFormData> = [
+      'name',
+      'phone',
+      'pinCode',
+      'locality',
+      'streetAddress',
+      'city',
+      'state',
+      'country'
+    ];
+
+    for (const field of requiredFields) {
+      if (!addressForm[field]?.toString().trim()) {
+        showToast('Please fill all required fields', 'error');
+        return false;
+      }
+    }
+
+    if (!/^[0-9]{10}$/.test(addressForm.phone)) {
+      showToast('Mobile number must be exactly 10 digits', 'error');
+      return false;
+    }
+
+    if (!/^[0-9]{6}$/.test(addressForm.pinCode)) {
+      showToast('Pin code must be exactly 6 digits', 'error');
+      return false;
+    }
+
+    return true;
   };
 
   const handleLogout = () => {
@@ -687,133 +739,301 @@ export const ProfilePage: React.FC = () => {
                 )}
 
                 {/* Addresses Section */}
-                {activeSection === 'addresses' && (
-                  <motion.div 
-                    key="addresses" 
-                    initial={{ opacity: 0, y: 10 }} 
-                    animate={{ opacity: 1, y: 0 }} 
-                    exit={{ opacity: 0, y: -10 }}
-                    className="space-y-6"
-                  >
-                    <div className="flex justify-between items-center">
-                      <div>
-                        <h2 className="text-2xl font-light text-gray-900 mb-2">Saved Addresses</h2>
-                        <div className="w-16 h-px bg-gray-200" />
-                      </div>
-                      {!isAddingAddress && (
-                        <button 
-                          onClick={() => setIsAddingAddress(true)} 
-                          className="text-sm text-gray-600 hover:text-gray-900 border border-gray-300 px-4 py-2 transition-all font-medium rounded-sm"
-                        >
-                          + ADD NEW
-                        </button>
-                      )}
-                    </div>
+              {activeSection === 'addresses' && (
+  <motion.div 
+    key="addresses" 
+    initial={{ opacity: 0, y: 10 }} 
+    animate={{ opacity: 1, y: 0 }} 
+    exit={{ opacity: 0, y: -10 }}
+    className="space-y-6"
+  >
+    <div className="flex justify-between items-center">
+      <div>
+        <h2 className="text-2xl font-light text-gray-900 mb-2">Saved Addresses</h2>
+        <div className="w-16 h-px bg-gray-200" />
+      </div>
+      {!isAddingAddress && (
+        <button 
+          onClick={() => setIsAddingAddress(true)} 
+          className="text-sm text-gray-600 hover:text-gray-900 border border-gray-300 px-4 py-2 transition-all font-medium rounded-sm"
+        >
+          + ADD NEW
+        </button>
+      )}
+    </div>
 
-                    {isAddingAddress && (
-                      <div className="border border-gray-200 p-6 space-y-5 rounded-sm">
-                        <div className="flex justify-between items-center">
-                          <h3 className="text-lg font-medium text-gray-800">Add New Address</h3>
-                          <button onClick={handleGetCurrentLocation} className="text-sm text-gray-600 hover:text-gray-900 flex items-center gap-1 font-medium">
-                            <Navigation size={14} /> Use my location
-                          </button>
-                        </div>
-                        
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                          <input type="text" className="w-full px-4 py-3 border border-gray-300 text-base focus:border-gray-700 focus:outline-none rounded-sm"
-                            placeholder="Full Name" value={addressForm.name} onChange={(e) => setAddressForm({ ...addressForm, name: e.target.value })} />
-                          <input type="tel" className="w-full px-4 py-3 border border-gray-300 text-base focus:border-gray-700 focus:outline-none rounded-sm"
-                            placeholder="Mobile Number" value={addressForm.phone} onChange={(e) => setAddressForm({ ...addressForm, phone: e.target.value })} />
-                          <select className="w-full px-4 py-3 border border-gray-300 text-base focus:border-gray-700 focus:outline-none rounded-sm bg-white"
-                            value={addressForm.country} onChange={(e) => setAddressForm({ ...addressForm, country: e.target.value, state: '' })}>
-                            <option value="">Select Country</option>
-                            {countries.map(c => <option key={c.isoCode} value={c.isoCode}>{c.name}</option>)}
-                          </select>
-                          <select className="w-full px-4 py-3 border border-gray-300 text-base focus:border-gray-700 focus:outline-none rounded-sm bg-white"
-                            value={addressForm.state} onChange={(e) => setAddressForm({ ...addressForm, state: e.target.value })}>
-                            <option value="">Select State</option>
-                            {states.map(s => <option key={s.isoCode} value={s.isoCode}>{s.name}</option>)}
-                          </select>
-                          <input type="text" className="w-full px-4 py-3 border border-gray-300 text-base focus:border-gray-700 focus:outline-none rounded-sm"
-                            placeholder="Pincode" value={addressForm.pinCode} onChange={(e) => setAddressForm({ ...addressForm, pinCode: e.target.value })} />
-                          <input type="text" className="w-full px-4 py-3 border border-gray-300 text-base focus:border-gray-700 focus:outline-none rounded-sm"
-                            placeholder="Locality" value={addressForm.locality} onChange={(e) => setAddressForm({ ...addressForm, locality: e.target.value })} />
-                        </div>
+    {isAddingAddress && (
+      <div className="border border-gray-200 p-6 space-y-5 rounded-sm">
+        <div className="flex justify-between items-center">
+          <h3 className="text-lg font-medium text-gray-800">Add New Address</h3>
+          <button onClick={handleGetCurrentLocation} className="text-sm text-gray-600 hover:text-gray-900 flex items-center gap-1 font-medium">
+            <Navigation size={14} /> Use my location
+          </button>
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+          {/* Full Name with asterisk */}
+          <div className="flex flex-col gap-1">
+            <label className="text-sm font-medium text-gray-700">
+              Full Name <span className="text-red-500 text-base">*</span>
+            </label>
+            <input 
+              type="text" 
+              className="w-full px-4 py-3 border border-gray-300 text-base focus:border-gray-700 focus:outline-none rounded-sm"
+              placeholder="Enter your full name" 
+              value={addressForm.name} 
+              onChange={(e) => setAddressForm({ ...addressForm, name: e.target.value })} 
+              required
+            />
+          </div>
 
-                        <textarea className="w-full px-4 py-3 border border-gray-300 text-base focus:border-gray-700 focus:outline-none min-h-[100px] rounded-sm"
-                          placeholder="Street Address, House No, Building Name..." value={addressForm.streetAddress} onChange={(e) => setAddressForm({ ...addressForm, streetAddress: e.target.value })} />
+          {/* Mobile Number with asterisk */}
+          <div className="flex flex-col gap-1">
+            <label className="text-sm font-medium text-gray-700">
+              Mobile Number <span className="text-red-500 text-base">*</span>
+            </label>
+            <input 
+              type="tel" 
+              inputMode="numeric" 
+              maxLength={10} 
+              className="w-full px-4 py-3 border border-gray-300 text-base focus:border-gray-700 focus:outline-none rounded-sm"
+              placeholder="Enter 10-digit mobile number" 
+              value={addressForm.phone} 
+              onChange={(e) => setAddressForm({ ...addressForm, phone: e.target.value.replace(/\D/g, '') })} 
+              required
+            />
+          </div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                          <input type="text" className="w-full px-4 py-3 border border-gray-300 text-base focus:border-gray-700 focus:outline-none rounded-sm"
-                            placeholder="City" value={addressForm.city} onChange={(e) => setAddressForm({ ...addressForm, city: e.target.value })} />
-                          <input type="text" className="w-full px-4 py-3 border border-gray-300 text-base focus:border-gray-700 focus:outline-none rounded-sm"
-                            placeholder="Landmark (Optional)" value={addressForm.landmark} onChange={(e) => setAddressForm({ ...addressForm, landmark: e.target.value })} />
-                        </div>
+          {/* Country with asterisk */}
+          <div className="flex flex-col gap-1">
+            <label className="text-sm font-medium text-gray-700">
+              Country <span className="text-red-500 text-base">*</span>
+            </label>
+            <select 
+              className="w-full px-4 py-3 border border-gray-300 text-base focus:border-gray-700 focus:outline-none rounded-sm bg-white"
+              value={addressForm.country} 
+              onChange={(e) => setAddressForm({ ...addressForm, country: e.target.value, state: '' })} 
+              required
+            >
+              <option value="">Select Country</option>
+              {countries.map(c => <option key={c.isoCode} value={c.isoCode}>{c.name}</option>)}
+            </select>
+          </div>
 
-                        <div className="flex justify-between items-center">
-                          <div className="flex gap-6">
-                            {(['Home', 'Work'] as const).map((t) => (
-                              <label key={t} className="flex items-center gap-2 cursor-pointer">
-                                <div className={`w-5 h-5 rounded-full border flex items-center justify-center ${
-                                  addressForm.type === t ? 'border-gray-800' : 'border-gray-300'
-                                }`}>
-                                  {addressForm.type === t && <div className="w-2.5 h-2.5 rounded-full bg-gray-800" />}
-                                </div>
-                                <input type="radio" className="hidden" name="addressType" value={t} 
-                                  checked={addressForm.type === t} onChange={(e) => setAddressForm({ ...addressForm, type: e.target.value as 'Home' | 'Work' })} />
-                                <span className="text-base text-gray-700 font-medium">{t}</span>
-                              </label>
-                            ))}
-                          </div>
-                          <div className="flex gap-4">
-                            <button onClick={() => setIsAddingAddress(false)} className="px-6 py-2 text-base text-gray-600 hover:text-gray-900 font-medium">Cancel</button>
-                            <button onClick={async () => {
-                                if (addressForm.phone.length < 10) {
-                                  showToast('Please enter a valid phone number', 'error');
-                                  return;
-                                }
-                                try {
-                                  setLoading(true);
-                                  const resp = await api.addresses.create(addressForm);
-                                  if (resp.address) {
-                                    setSavedAddresses(prev => [...prev, resp.address]);
-                                    setIsAddingAddress(false);
-                                    setAddressForm(prev => ({ ...prev, phone: '', pinCode: '', locality: '', streetAddress: '', city: '', state: '', landmark: '', alternatePhone: '', type: 'Home' }));
-                                  }
-                                } catch (error) { console.error(error); } finally { setLoading(false); }
-                              }} className="px-6 py-2 bg-gray-900 text-white text-base font-semibold hover:bg-gray-800 transition-all rounded-sm">
-                              SAVE
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    )}
-                    
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                      {savedAddresses.map((addr, i) => (
-                        <div key={addr._id || i} className="border border-gray-200 p-5 hover:border-gray-300 transition-all rounded-sm">
-                          <div className="flex justify-between items-start mb-3">
-                            <span className="text-xs font-semibold text-gray-600 uppercase bg-gray-100 px-3 py-1 rounded-sm">
-                              {addr.type}
-                            </span>
-                          </div>
-                          <p className="font-semibold text-gray-900 text-base mb-1">{addr.name}</p>
-                          <p className="text-gray-600 text-sm mb-2">{addr.phone}</p>
-                          <p className="text-sm text-gray-500 leading-relaxed">
-                            {addr.streetAddress}, {addr.locality}, {addr.city}, {addr.state} - {addr.pinCode}
-                          </p>
-                        </div>
-                      ))}
-                    </div>
+          {/* State with asterisk */}
+          <div className="flex flex-col gap-1">
+            <label className="text-sm font-medium text-gray-700">
+              State <span className="text-red-500 text-base">*</span>
+            </label>
+            <select 
+              className="w-full px-4 py-3 border border-gray-300 text-base focus:border-gray-700 focus:outline-none rounded-sm bg-white"
+              value={addressForm.state} 
+              onChange={(e) => setAddressForm({ ...addressForm, state: e.target.value })} 
+              required
+            >
+              <option value="">Select State</option>
+              {states.map(s => <option key={s.isoCode} value={s.isoCode}>{s.name}</option>)}
+            </select>
+          </div>
 
-                    {!isAddingAddress && savedAddresses.length === 0 && (
-                      <div className="text-center py-16 border-2 border-dashed border-gray-200 rounded-sm">
-                        <MapPin size={48} className="mx-auto text-gray-300 mb-4" strokeWidth={1} />
-                        <p className="text-gray-600 text-lg">No saved addresses</p>
-                      </div>
-                    )}
-                  </motion.div>
-                )}
+          {/* Pincode with asterisk */}
+          <div className="flex flex-col gap-1">
+            <label className="text-sm font-medium text-gray-700">
+              Pincode <span className="text-red-500 text-base">*</span>
+            </label>
+            <input 
+              type="text" 
+              inputMode="numeric" 
+              maxLength={6} 
+              className="w-full px-4 py-3 border border-gray-300 text-base focus:border-gray-700 focus:outline-none rounded-sm"
+              placeholder="Enter 6-digit pincode" 
+              value={addressForm.pinCode} 
+              onChange={(e) => setAddressForm({ ...addressForm, pinCode: e.target.value.replace(/\D/g, '') })} 
+              required
+            />
+          </div>
+
+          {/* Locality with asterisk */}
+          <div className="flex flex-col gap-1">
+            <label className="text-sm font-medium text-gray-700">
+              Locality <span className="text-red-500 text-base">*</span>
+            </label>
+            <input 
+              type="text" 
+              className="w-full px-4 py-3 border border-gray-300 text-base focus:border-gray-700 focus:outline-none rounded-sm"
+              placeholder="Enter locality/area" 
+              value={addressForm.locality} 
+              onChange={(e) => setAddressForm({ ...addressForm, locality: e.target.value })} 
+              required
+            />
+          </div>
+        </div>
+
+        {/* Street Address with asterisk */}
+        <div className="flex flex-col gap-1">
+          <label className="text-sm font-medium text-gray-700">
+            Street Address <span className="text-red-500 text-base">*</span>
+          </label>
+          <textarea 
+            className="w-full px-4 py-3 border border-gray-300 text-base focus:border-gray-700 focus:outline-none min-h-[100px] rounded-sm"
+            placeholder="House No, Building Name, Street Name..." 
+            value={addressForm.streetAddress} 
+            onChange={(e) => setAddressForm({ ...addressForm, streetAddress: e.target.value })} 
+            required
+          />
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+          {/* City with asterisk */}
+          <div className="flex flex-col gap-1">
+            <label className="text-sm font-medium text-gray-700">
+              City <span className="text-red-500 text-base">*</span>
+            </label>
+            <input 
+              type="text" 
+              className="w-full px-4 py-3 border border-gray-300 text-base focus:border-gray-700 focus:outline-none rounded-sm"
+              placeholder="Enter city name" 
+              value={addressForm.city} 
+              onChange={(e) => setAddressForm({ ...addressForm, city: e.target.value })} 
+              required
+            />
+          </div>
+
+          {/* Landmark (Optional) */}
+          <div className="flex flex-col gap-1">
+            <label className="text-sm font-medium text-gray-700">
+              Landmark <span className="text-gray-400 text-sm">(Optional)</span>
+            </label>
+            <input 
+              type="text" 
+              className="w-full px-4 py-3 border border-gray-300 text-base focus:border-gray-700 focus:outline-none rounded-sm"
+              placeholder="Nearby landmark" 
+              value={addressForm.landmark} 
+              onChange={(e) => setAddressForm({ ...addressForm, landmark: e.target.value })} 
+            />
+          </div>
+        </div>
+
+        {/* Address Type with asterisk */}
+        <div className="flex flex-col gap-3">
+          <label className="text-sm font-medium text-gray-700">
+            Address Type <span className="text-red-500 text-base">*</span>
+          </label>
+          <div className="flex gap-6">
+            {(['Home', 'Work'] as const).map((t) => (
+              <label key={t} className="flex items-center gap-2 cursor-pointer">
+                <div className={`w-5 h-5 rounded-full border flex items-center justify-center ${
+                  addressForm.type === t ? 'border-gray-800' : 'border-gray-300'
+                }`}>
+                  {addressForm.type === t && <div className="w-2.5 h-2.5 rounded-full bg-gray-800" />}
+                </div>
+                <input type="radio" className="hidden" name="addressType" value={t} 
+                  checked={addressForm.type === t} onChange={(e) => setAddressForm({ ...addressForm, type: e.target.value as 'Home' | 'Work' })} />
+                <span className="text-base text-gray-700 font-medium">{t}</span>
+              </label>
+            ))}
+          </div>
+        </div>
+
+        {/* Required fields hint */}
+        <div className="text-xs text-gray-500 mt-2">
+          <span className="text-red-500">*</span> Required fields
+        </div>
+
+        <div className="flex justify-between items-center pt-4 border-t border-gray-100">
+          <div className="flex gap-4">
+            <button 
+              onClick={() => setIsAddingAddress(false)} 
+              className="px-6 py-2 text-base text-gray-600 hover:text-gray-900 font-medium transition-colors"
+            >
+              Cancel
+            </button>
+            <button 
+              onClick={async () => {
+                if (!validateAddressForm()) {
+                  return;
+                }
+                try {
+                  setLoading(true);
+                  const resp = await api.addresses.create(addressForm);
+                  if (resp.address) {
+                    setSavedAddresses(prev => [...prev, resp.address]);
+                    setIsAddingAddress(false);
+                    showToast('Address saved successfully', 'success');
+                    setAddressForm(prev => ({
+                      ...prev,
+                      name: '',
+                      phone: '',
+                      pinCode: '',
+                      locality: '',
+                      streetAddress: '',
+                      city: '',
+                      state: '',
+                      country: '',
+                      landmark: '',
+                      type: 'Home'
+                    }));
+                  }
+                } catch (error) {
+                  console.error(error);
+                  showToast('Failed to save address. Please try again.', 'error');
+                } finally {
+                  setLoading(false);
+                }
+              }} 
+              className="px-6 py-2 bg-gray-900 text-white text-base font-semibold hover:bg-gray-800 transition-all rounded-sm"
+              disabled={loading}
+            >
+              {loading ? 'SAVING...' : 'SAVE ADDRESS'}
+            </button>
+          </div>
+        </div>
+      </div>
+    )}
+    
+    {/* Saved Addresses Section */}
+    <div>
+      <div className="flex justify-between items-center mb-4">
+        <h3 className="text-lg font-medium text-gray-800">Your Saved Addresses</h3>
+        <span className="text-sm text-gray-500">{savedAddresses.length} address(es)</span>
+      </div>
+      
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+        {savedAddresses.map((addr, i) => (
+          <div key={addr._id || i} className="border border-gray-200 p-5 hover:border-gray-300 transition-all rounded-sm group">
+            <div className="flex justify-between items-start mb-3">
+              <span className="text-xs font-semibold text-gray-600 uppercase bg-gray-100 px-3 py-1 rounded-sm">
+                {addr.type}
+              </span>
+              <button 
+                onClick={() => handleEditAddress(addr)} 
+                className="text-gray-400 hover:text-gray-700 opacity-0 group-hover:opacity-100 transition-opacity"
+              >
+                <Edit size={14} />
+              </button>
+            </div>
+            <p className="font-semibold text-gray-900 text-base mb-1">{addr.name}</p>
+            <p className="text-gray-600 text-sm mb-2">{addr.phone}</p>
+            <p className="text-sm text-gray-500 leading-relaxed">
+              {addr.streetAddress}, {addr.locality}, {addr.city}, {addr.state} - {addr.pinCode}
+            </p>
+            {addr.landmark && (
+              <p className="text-xs text-gray-400 mt-2">Landmark: {addr.landmark}</p>
+            )}
+          </div>
+        ))}
+      </div>
+
+      {!isAddingAddress && savedAddresses.length === 0 && (
+        <div className="text-center py-16 border-2 border-dashed border-gray-200 rounded-sm">
+          <MapPin size={48} className="mx-auto text-gray-300 mb-4" strokeWidth={1} />
+          <p className="text-gray-600 text-lg mb-2">No saved addresses</p>
+          <p className="text-gray-400 text-sm">Add your first address to continue</p>
+        </div>
+      )}
+    </div>
+  </motion.div>
+)}
 
                 {/* Wishlist Section */}
                 {activeSection === 'wishlist' && (
