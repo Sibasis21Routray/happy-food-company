@@ -192,7 +192,7 @@ export const ShopNowSection: React.FC = () => {
 )}
               
               {/* Image */}
-              <div className={`w-full h-48 flex justify-center mb-6 ${combo.popular ? 'mt-6' : ''}`}>
+              <div className={`w-full  flex justify-center mb-6 ${combo.popular ? 'mt-6' : ''}`}>
                 <img 
                   src={combo.img} 
                   alt={combo.title} 

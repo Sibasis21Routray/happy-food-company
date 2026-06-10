@@ -151,7 +151,7 @@ export const CartPage: React.FC = () => {
   if (loading) {
     return (
       <div className="min-h-screen pt-32 flex justify-center items-center bg-white">
-        <div className="w-8 h-8 border border-gray-200 border-t-gray-800 rounded-full animate-spin" />
+        <div className="w-10 h-10 border-2 border-gray-200 border-t-gray-900 rounded-full animate-spin" />
       </div>
     );
   }
@@ -165,12 +165,12 @@ export const CartPage: React.FC = () => {
           className="text-center"
         >
           <div className="mb-6">
-            <ShoppingBag size={48} className="text-gray-300 mx-auto" strokeWidth={1} />
+            <ShoppingBag size={64} className="text-gray-300 mx-auto" strokeWidth={1} />
           </div>
-          <h1 className="text-2xl font-light text-gray-800 mb-2">Your cart is empty</h1>
-          <p className="text-gray-400 text-md font-light mb-8">Add some happiness to your bag</p>
+          <h1 className="text-4xl font-light text-gray-900 mb-3">Your cart is empty</h1>
+          <p className="text-gray-600 text-lg font-light mb-8">Add some happiness to your bag</p>
           <Link to="/happy-shop">
-            <button className="px-8 py-3 bg-gray-900 text-white text-md font-light tracking-wider hover:bg-gray-800 transition-all duration-300">
+            <button className="px-10 py-4 bg-gray-900 text-white text-base font-medium tracking-wider hover:bg-gray-800 transition-all duration-300 rounded-sm">
               CONTINUE SHOPPING
             </button>
           </Link>
@@ -191,39 +191,39 @@ export const CartPage: React.FC = () => {
         
         {/* Header */}
         <div className="text-center mb-12">
-          <h1 className="text-3xl md:text-4xl font-light text-gray-900 mb-3">
+          <h1 className="text-5xl md:text-6xl font-light text-gray-900 mb-4">
             {currentStep === 1 ? 'Shopping Bag' : currentStep === 2 ? 'Delivery Address' : 'Payment'}
           </h1>
-          <div className="w-12 h-px bg-gray-300 mx-auto" />
+          <div className="w-16 h-px bg-gray-300 mx-auto" />
         </div>
 
         {/* Stepper */}
-        <div className="flex justify-center items-center gap-8 mb-12">
+        <div className="flex justify-center items-center gap-10 mb-12">
           {steps.map((step, idx) => (
             <React.Fragment key={step.number}>
               <div className="flex flex-col items-center gap-2">
-                <div className={`flex items-center justify-center w-8 h-8 transition-all duration-300 ${
+                <div className={`flex items-center justify-center w-10 h-10 rounded-full transition-all duration-300 ${
                   currentStep >= step.number 
                     ? currentStep > step.number 
-                      ? 'text-gray-800' 
-                      : 'text-gray-800 border-b border-gray-800'
-                    : 'text-gray-300'
+                      ? 'bg-gray-900 text-white' 
+                      : 'border-2 border-gray-900 text-gray-900'
+                    : 'border-2 border-gray-200 text-gray-300'
                 }`}>
                   {currentStep > step.number ? (
-                    <Check size={16} strokeWidth={1.5} />
+                    <Check size={18} strokeWidth={2} />
                   ) : (
-                    <span className="text-sm font-light">{step.number}</span>
+                    <span className="text-base font-medium">{step.number}</span>
                   )}
                 </div>
-                <span className={`text-[10px] tracking-wide ${
-                  currentStep >= step.number ? 'text-gray-500' : 'text-gray-300'
+                <span className={`text-sm font-medium tracking-wide ${
+                  currentStep >= step.number ? 'text-gray-800' : 'text-gray-400'
                 }`}>
                   {step.label}
                 </span>
               </div>
               {idx < steps.length - 1 && (
-                <div className={`w-12 h-px transition-all duration-300 ${
-                  currentStep > step.number ? 'bg-gray-400' : 'bg-gray-200'
+                <div className={`w-16 h-px transition-all duration-300 ${
+                  currentStep > step.number ? 'bg-gray-800' : 'bg-gray-200'
                 }`} />
               )}
             </React.Fragment>
@@ -237,7 +237,7 @@ export const CartPage: React.FC = () => {
             
             {/* Step 1: Cart Items */}
             {currentStep === 1 && (
-              <div className="space-y-4">
+              <div className="space-y-5">
                 <AnimatePresence>
                   {cart.items.map((item: any) => {
                     const product = item.productId;
@@ -248,11 +248,11 @@ export const CartPage: React.FC = () => {
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -10 }}
-                        className="border border-gray-100 p-5 hover:border-gray-200 transition-all duration-300"
+                        className="border border-gray-200 p-6 hover:border-gray-300 transition-all duration-300 rounded-sm"
                       >
-                        <div className="flex gap-5">
+                        <div className="flex gap-6">
                           {/* Image */}
-                          <div className="w-20 h-20 bg-gray-50 flex-shrink-0">
+                          <div className="w-24 h-24 bg-gray-50 flex-shrink-0">
                             <img 
                               src={product.images?.[0] || '/images/combo-6-1.png'} 
                               alt={product.title} 
@@ -262,36 +262,36 @@ export const CartPage: React.FC = () => {
                           
                           {/* Info */}
                           <div className="flex-1">
-                            <h3 className="text-md font-light text-gray-800 mb-1">{product.title}</h3>
-                            <p className="text-gray-400 text-sm font-light mb-2">
+                            <h3 className="text-lg font-semibold text-gray-900 mb-1">{product.title}</h3>
+                            <p className="text-gray-500 text-sm font-light mb-2">
                               {product.category || 'Combo Pack'}
                             </p>
-                            <p className="text-gray-900 text-base font-light">₹{item.price}</p>
+                            <p className="text-gray-900 text-xl font-medium">₹{item.price}</p>
                           </div>
                           
                           {/* Quantity Controls */}
-                          <div className="flex items-center gap-2">
+                          <div className="flex items-center gap-3">
                             <button 
                               onClick={() => handleUpdateQuantity(pid, item.quantity - 1)}
-                              className="w-7 h-7 border border-gray-200 flex items-center justify-center hover:border-gray-400 transition-all"
+                              className="w-8 h-8 border border-gray-300 flex items-center justify-center hover:border-gray-600 transition-all rounded-sm"
                             >
-                              <Minus size={12} strokeWidth={1} />
+                              <Minus size={14} strokeWidth={1.5} />
                             </button>
-                            <span className="text-sm text-gray-600 w-6 text-center">{item.quantity}</span>
+                            <span className="text-base text-gray-800 w-8 text-center font-medium">{item.quantity}</span>
                             <button 
                               onClick={() => handleUpdateQuantity(pid, item.quantity + 1)}
-                              className="w-7 h-7 border border-gray-200 flex items-center justify-center hover:border-gray-400 transition-all"
+                              className="w-8 h-8 border border-gray-300 flex items-center justify-center hover:border-gray-600 transition-all rounded-sm"
                             >
-                              <Plus size={12} strokeWidth={1} />
+                              <Plus size={14} strokeWidth={1.5} />
                             </button>
                           </div>
                           
                           {/* Remove Button */}
                           <button 
                             onClick={() => handleRemove(pid)}
-                            className="text-gray-300 hover:text-gray-500 transition-all"
+                            className="text-gray-400 hover:text-red-500 transition-all"
                           >
-                            <Trash2 size={16} strokeWidth={1} />
+                            <Trash2 size={18} strokeWidth={1.5} />
                           </button>
                         </div>
                       </motion.div>
@@ -305,54 +305,56 @@ export const CartPage: React.FC = () => {
             {currentStep === 2 && (
               <div>
                 <div className="flex justify-between items-center mb-6">
-                  <h3 className="text-md font-light text-gray-600">Select delivery address</h3>
+                  <h3 className="text-lg font-medium text-gray-800">Select delivery address</h3>
                   <button 
                     onClick={() => navigate('/profile?section=addresses')} 
-                    className="text-sm text-gray-400 hover:text-gray-600 transition-colors"
+                    className="text-sm text-gray-600 hover:text-gray-900 transition-colors font-medium"
                   >
-                    + Add New
+                    + Add New Address
                   </button>
                 </div>
 
                 {addressLoading ? (
                   <div className="flex justify-center py-12">
-                    <div className="w-6 h-6 border border-gray-200 border-t-gray-800 rounded-full animate-spin" />
+                    <div className="w-8 h-8 border-2 border-gray-200 border-t-gray-900 rounded-full animate-spin" />
                   </div>
                 ) : addresses.length === 0 ? (
-                  <div className="border border-gray-100 p-12 text-center">
-                    <MapPin size={32} className="mx-auto text-gray-200 mb-4" strokeWidth={1} />
-                    <p className="text-gray-400 text-md font-light mb-6">No saved addresses</p>
+                  <div className="border border-gray-200 p-12 text-center rounded-sm">
+                    <MapPin size={48} className="mx-auto text-gray-300 mb-4" strokeWidth={1} />
+                    <p className="text-gray-600 text-lg font-light mb-6">No saved addresses</p>
                     <button 
                       onClick={() => navigate('/profile?section=addresses')} 
-                      className="px-6 py-2 border border-gray-300 text-gray-600 text-sm font-light hover:border-gray-500 transition-all"
+                      className="px-8 py-3 border border-gray-300 text-gray-700 text-base font-medium hover:border-gray-700 transition-all rounded-sm"
                     >
                       ADD ADDRESS
                     </button>
                   </div>
                 ) : (
-                  <div className="grid grid-cols-1 gap-4">
+                  <div className="grid grid-cols-1 gap-5">
                     {addresses.map((addr) => (
                       <div 
                         key={addr._id}
                         onClick={() => setSelectedAddressId(addr._id)}
-                        className={`border p-5 cursor-pointer transition-all duration-300 ${
-                          selectedAddressId === addr._id ? 'border-gray-400' : 'border-gray-100 hover:border-gray-200'
+                        className={`border p-6 cursor-pointer transition-all duration-300 rounded-sm ${
+                          selectedAddressId === addr._id ? 'border-gray-700 bg-gray-50' : 'border-gray-200 hover:border-gray-300'
                         }`}
                       >
                         <div className="flex items-start justify-between">
-                          <div>
-                            <div className="flex items-center gap-2 mb-2">
-                              {addr.type === 'Home' ? <Home size={12} className="text-gray-400" /> : <Briefcase size={12} className="text-gray-400" />}
-                              <span className="text-[10px] tracking-wide text-gray-400 uppercase">{addr.type}</span>
+                          <div className="flex-1">
+                            <div className="flex items-center gap-2 mb-3">
+                              {addr.type === 'Home' ? <Home size={14} className="text-gray-600" /> : <Briefcase size={14} className="text-gray-600" />}
+                              <span className="text-xs font-semibold tracking-wide text-gray-600 uppercase">{addr.type}</span>
                             </div>
-                            <p className="text-md font-light text-gray-800 mb-1">{addr.name}</p>
-                            <p className="text-sm text-gray-400 font-light">
+                            <p className="text-lg font-semibold text-gray-900 mb-1">{addr.name}</p>
+                            <p className="text-base text-gray-600 font-light mb-2">
                               {addr.streetAddress}, {addr.locality}, {addr.city}, {addr.state} - {addr.pinCode}
                             </p>
-                            <p className="text-sm text-gray-500 mt-2">{addr.phone}</p>
+                            <p className="text-base text-gray-700 font-medium">{addr.phone}</p>
                           </div>
                           {selectedAddressId === addr._id && (
-                            <Check size={14} className="text-gray-600" strokeWidth={1.5} />
+                            <div className="w-6 h-6 rounded-full bg-gray-900 flex items-center justify-center">
+                              <Check size={14} className="text-white" strokeWidth={2} />
+                            </div>
                           )}
                         </div>
                       </div>
@@ -365,30 +367,32 @@ export const CartPage: React.FC = () => {
             {/* Step 3: Payment Method */}
             {currentStep === 3 && (
               <div>
-                <h3 className="text-md font-light text-gray-600 mb-6">Choose payment method</h3>
-                <div className="space-y-3">
+                <h3 className="text-lg font-medium text-gray-800 mb-6">Choose payment method</h3>
+                <div className="space-y-4">
                   {[
-                    { id: 'COD', label: 'Cash on Delivery', icon: <Truck size={16} />, desc: 'Pay when your order arrives' },
-                    { id: 'UPI', label: 'UPI', icon: <Smartphone size={16} />, desc: 'Google Pay, PhonePe, etc.' },
-                    { id: 'CARD', label: 'Credit/Debit Card', icon: <CreditCard size={16} />, desc: 'All major cards accepted' },
-                    { id: 'WALLET', label: 'Digital Wallet', icon: <Wallet size={16} />, desc: 'Paytm, Amazon Pay, etc.' }
+                    { id: 'COD', label: 'Cash on Delivery', icon: <Truck size={18} />, desc: 'Pay when your order arrives' },
+                    { id: 'UPI', label: 'UPI', icon: <Smartphone size={18} />, desc: 'Google Pay, PhonePe, etc.' },
+                    { id: 'CARD', label: 'Credit/Debit Card', icon: <CreditCard size={18} />, desc: 'All major cards accepted' },
+                    { id: 'WALLET', label: 'Digital Wallet', icon: <Wallet size={18} />, desc: 'Paytm, Amazon Pay, etc.' }
                   ].map((m) => (
                     <div 
                       key={m.id}
                       onClick={() => setSelectedPaymentMethod(m.id)}
-                      className={`border p-4 cursor-pointer transition-all duration-300 flex items-center gap-4 ${
-                        selectedPaymentMethod === m.id ? 'border-gray-400' : 'border-gray-100 hover:border-gray-200'
+                      className={`border p-5 cursor-pointer transition-all duration-300 flex items-center gap-5 rounded-sm ${
+                        selectedPaymentMethod === m.id ? 'border-gray-700 bg-gray-50' : 'border-gray-200 hover:border-gray-300'
                       }`}
                     >
-                      <div className={`${selectedPaymentMethod === m.id ? 'text-gray-800' : 'text-gray-400'}`}>
+                      <div className={`${selectedPaymentMethod === m.id ? 'text-gray-900' : 'text-gray-500'}`}>
                         {m.icon}
                       </div>
                       <div className="flex-1">
-                        <p className="text-md font-light text-gray-800">{m.label}</p>
-                        <p className="text-sm text-gray-400 font-light">{m.desc}</p>
+                        <p className="text-lg font-medium text-gray-800">{m.label}</p>
+                        <p className="text-sm text-gray-500 font-light mt-1">{m.desc}</p>
                       </div>
                       {selectedPaymentMethod === m.id && (
-                        <Check size={14} className="text-gray-600" strokeWidth={1.5} />
+                        <div className="w-6 h-6 rounded-full bg-gray-900 flex items-center justify-center">
+                          <Check size={14} className="text-white" strokeWidth={2} />
+                        </div>
                       )}
                     </div>
                   ))}
@@ -399,22 +403,22 @@ export const CartPage: React.FC = () => {
 
           {/* Order Summary */}
           <div className="lg:col-span-1">
-            <div className="border border-gray-100 p-6 sticky top-32">
-              <h3 className="text-md font-light text-gray-600 mb-5">Order Summary</h3>
+            <div className="bg-gray-50 p-8 sticky top-32 rounded-sm border border-gray-200">
+              <h3 className="text-xl font-semibold text-gray-900 mb-6">Order Summary</h3>
               
-              <div className="space-y-3 mb-5">
-                <div className="flex justify-between text-sm">
-                  <span className="text-gray-400 font-light">Subtotal</span>
-                  <span className="text-gray-600">₹{cart.totalAmount}</span>
+              <div className="space-y-4 mb-6">
+                <div className="flex justify-between text-lg">
+                  <span className="text-gray-600 font-light">Subtotal</span>
+                  <span className="text-gray-900 font-medium">₹{cart.totalAmount}</span>
                 </div>
-                <div className="flex justify-between text-sm">
-                  <span className="text-gray-400 font-light">Shipping</span>
-                  <span className="text-gray-500">Free</span>
+                <div className="flex justify-between text-lg">
+                  <span className="text-gray-600 font-light">Shipping</span>
+                  <span className="text-green-600 font-medium">Free</span>
                 </div>
-                <div className="border-t border-gray-100 my-3" />
+                <div className="border-t border-gray-200 my-4" />
                 <div className="flex justify-between">
-                  <span className="text-md font-light text-gray-600">Total</span>
-                  <span className="text-base font-light text-gray-900">₹{cart.totalAmount}</span>
+                  <span className="text-xl font-semibold text-gray-900">Total</span>
+                  <span className="text-2xl font-bold text-gray-900">₹{cart.totalAmount}</span>
                 </div>
               </div>
 
@@ -422,7 +426,7 @@ export const CartPage: React.FC = () => {
                 {currentStep > 1 && (
                   <button 
                     onClick={prevStep}
-                    className="w-full py-3 border border-gray-200 text-gray-500 text-sm font-light tracking-wider hover:border-gray-400 transition-all"
+                    className="w-full py-4 border border-gray-300 text-gray-700 text-base font-medium tracking-wider hover:border-gray-900 hover:text-gray-900 transition-all rounded-sm"
                   >
                     BACK
                   </button>
@@ -431,14 +435,14 @@ export const CartPage: React.FC = () => {
                 <button 
                   onClick={currentStep === 3 ? handleCheckout : nextStep}
                   disabled={(currentStep === 2 && !selectedAddressId) || placingOrder}
-                  className="w-full py-3 bg-gray-900 text-white text-sm font-light tracking-wider hover:bg-gray-800 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full py-4 bg-gray-900 text-white text-base font-semibold tracking-wider hover:bg-gray-800 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed rounded-sm"
                 >
-                  {placingOrder ? 'PROCESSING...' : currentStep === 1 ? 'CHECKOUT' : currentStep === 2 ? 'CONTINUE' : 'PLACE ORDER'}
+                  {placingOrder ? 'PROCESSING...' : currentStep === 1 ? 'PROCEED TO CHECKOUT' : currentStep === 2 ? 'CONTINUE TO PAYMENT' : 'PLACE ORDER'}
                 </button>
                 
                 <Link to="/happy-shop" className="block text-center">
-                  <span className="text-sm text-gray-400 hover:text-gray-600 transition-colors">
-                    Continue Shopping
+                  <span className="text-base text-gray-500 hover:text-gray-800 transition-colors font-medium">
+                    ← Continue Shopping
                   </span>
                 </Link>
               </div>
