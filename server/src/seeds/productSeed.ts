@@ -68,7 +68,7 @@ const products = [
     stockDetails: "In Stock",
     category: "Combos",
     price: 300,
-    images: ["/images/combo-6-1.png"],
+    images: ["/combo-products/Variety-6-AC-CR.JPG"],
     isActive: true
   },
   {
@@ -81,7 +81,7 @@ const products = [
     stockDetails: "In Stock",
     category: "Combos",
     price: 300,
-    images: ["/images/combo-6-2.png"],
+    images: ["/combo-products/Variety-6-CA-DAC.JPG"],
     isActive: true
   },
   {
@@ -94,7 +94,7 @@ const products = [
     stockDetails: "In Stock",
     category: "Combos",
     price: 600,
-    images: ["/images/combo-12.png"],
+    images: ["/combo-products/Variety-12.JPG"],
     isActive: true
   }
 ];

@@ -17,7 +17,7 @@ export const ProductsPage: React.FC = () => {
       slug: 'combo-6-1',
       title: 'Almond Cranberry + Cashew Raisin',
       price: 300,
-      images: ['/images/combo-6-1.png'],
+      images: ['/combo-products/Variety-6-AC-CR.JPG'],
       category: 'Combos',
       description: '6 bars • 2 flavors',
       features: ['All Natural', 'No Preservatives', 'Vegetarian'],
@@ -28,7 +28,7 @@ export const ProductsPage: React.FC = () => {
       slug: 'combo-6-2',
       title: 'Coconut Almond + Date Almond Cranberry',
       price: 300,
-      images: ['/images/combo-6-2.png'],
+      images: ['/combo-products/Variety-6-CA-DAC.JPG'],
       category: 'Combos',
       description: '6 bars • 2 flavors',
       features: ['All Natural', 'No Preservatives', 'Vegetarian']
@@ -38,7 +38,7 @@ export const ProductsPage: React.FC = () => {
       slug: 'combo-12',
       title: 'Happy Bar - Combo Box of 12',
       price: 600,
-      images: ['/images/combo-12.png'],
+      images: ['/combo-products/Variety-12.JPG'],
       category: 'Combos',
       description: '12 bars • 4 flavors',
       features: ['All Natural', 'No Preservatives', 'Vegetarian'],
@@ -129,7 +129,8 @@ export const ProductsPage: React.FC = () => {
       console.error('Add to cart failed:', err);
     }
   };
-console.log('Products to display:', products);
+
+
   return (
     <div className="min-h-screen bg-white pt-24 pb-20 font-sans">
       <div className="container mx-auto px-6 max-w-7xl">
