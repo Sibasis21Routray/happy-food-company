@@ -10,31 +10,25 @@ export const ShopNowSection: React.FC = () => {
   const combos = [
     { 
       title: "Starter Pack", 
-      subtitle: "Almond Cranberry + Cashew Raisin", 
-      size: "6 Bars",
-      desc: "Embark on a flavor-packed journey with our dynamic duo of Almond Cranberry and Cashew Raisin.", 
+      subtitle: "Happy Bar - Coconut Almond | Date Almond Cranberry - Variety Box of 6", 
       img: "/combo-products/Variety-6-AC-CR.JPG", 
       link: "/product/combo-6-1",
-      price: "300"
+      price: "276"
     },
     { 
       title: "Family Pack", 
-      subtitle: "All 4 Flavors", 
-      size: "12 Bars",
-      desc: "Enjoy a snack symphony featuring all four delicious flavors in one complete variety pack.", 
+      subtitle: "Almond Cranberry | Cashew Raisin | Coconut Almond | Date Almond Cranberry  - Variety Box of 12", 
       img: "/combo-products/Variety-12.JPG", 
       link: "/product/combo-12",
-      price: "600",
+      price: "552",
       popular: true
     },
     { 
       title: "Tropical Pack", 
-      subtitle: "Coconut Almond + Date Almond Cranberry", 
-      size: "6 Bars",
-      desc: "Savor the delightful medley of tropical fusion flavors in this irresistible pairing.", 
+      subtitle: "Happy Bar - Coconut Almond | Date Almond Cranberry - Variety Box of 6",
       img: "/combo-products/Variety-6-CA-DAC.JPG", 
       link: "/product/combo-6-2",
-      price: "300"
+      price: "276"
     }
   ];
 
@@ -98,12 +92,6 @@ export const ShopNowSection: React.FC = () => {
               </h3>
               <p className="text-body text-md text-gray-500 mb-2">
                 {combos[currentComboIndex].subtitle}
-              </p>
-              <p className="text-body text-md text-gray-500 mb-3">
-                {combos[currentComboIndex].size}
-              </p>
-              <p className="text-body text-gray-500 text-md leading-relaxed mb-4 flex-grow">
-                {combos[currentComboIndex].desc}
               </p>
               <div className="mb-4">
                 <span className="sub-heading text-xl text-gray-900">
@@ -192,12 +180,7 @@ export const ShopNowSection: React.FC = () => {
                   <p className="text-body text-md text-gray-500 mb-2">
                     {combo.subtitle}
                   </p>
-                  <p className="text-body text-md text-gray-500 mb-3">
-                    {combo.size}
-                  </p>
-                  <p className="text-body text-gray-500 text-md leading-relaxed mb-4 min-h-[48px]">
-                    {combo.desc}
-                  </p>
+                 
                 </div>
                 
                 <div>

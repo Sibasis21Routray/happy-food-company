@@ -29,7 +29,7 @@ import {
 } from "lucide-react";
 import { ShopNowSection } from "../components/ShopNowSection";
 
-
+import { Factory, Calendar, Apple, Globe, Users } from 'lucide-react';
 
 // Premium Section Header
 const SectionHeader = ({
@@ -218,7 +218,7 @@ const HappyBarLanding: React.FC = () => {
       {/* --- SECTION 2: BRAND VALUE PROPOSITION --- */}
       <div className="flex justify-center mx-auto flex flex-col lg:flex-row items-center  gap-10 lg:gap-14 py-15">
        <h2 className="heading-1 text-2xl sm:text-3xl md:text-4xl lg:text-5xl  tracking-tight text-neutral-900 px-1 ">
-              Why choose Happy Bar Nutrition?
+              Why choose Happy Bar ?
             </h2>
       </div>
     </div>
@@ -481,26 +481,26 @@ const CraftsmanshipSection: React.FC = () => {
   const steps = [
     {
       step: "01",
-      title: "Sourced",
-      desc: "Premium nuts & fruits from ethical farms",
+      title: "Source the Best",
+      desc: "We select premium nuts, fruits, and wholesome ingredients from trusted suppliers.",
       icon: Leaf,
     },
     {
       step: "02",
-      title: "Cold-Pressed",
-      desc: "Preserving nutrients at low temperatures",
+      title: "Blend Naturally",
+      desc: "Every recipe is crafted to balance taste, texture, and nutrition using real ingredients.",
       icon: Snowflake,
     },
     {
       step: "03",
-      title: "Handcrafted",
-      desc: "Small batches with artisanal care",
+      title: "Quality Assured",
+      desc: "Produced in our modern Bangalore manufacturing facility with strict quality controls.",
       icon: Hand,
     },
     {
       step: "04",
       title: "Packed Fresh",
-      desc: "Sealed for purity and taste",
+      desc: "Sealed for freshness and convenience so every bar tastes as good as intended.",
       icon: Package,
     },
   ];
@@ -509,8 +509,8 @@ const CraftsmanshipSection: React.FC = () => {
     <section className="pt-0 -mt-16 md:-mt-24 pb-12 md:pb-22 bg-white overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeader
-          title="Crafted with intention"
-          subtitle="From farm to bar — pure, simple, honest"
+          title="Crafted with Care"
+          subtitle="From carefully selected ingredients to every finished bar, quality comes first."
         />
 
         <div ref={ref} className="relative mt-12 md:mt-16">
@@ -601,6 +601,138 @@ const CraftsmanshipSection: React.FC = () => {
     </section>
   );
 };
+
+
+//additional section
+
+
+
+const QualityHighlights = () => {
+  const highlights = [
+    {
+      title: "World-Class Manufacturing Facility",
+      desc: "Produced in Bangalore using modern equipment and robust food safety processes.",
+      bgImage: "https://pbs.twimg.com/media/DLxYScxX0AA-Eu4.jpg",
+      gridClass: "col-span-1 lg:col-span-4" // First row grid tuning
+    },
+    {
+      title: "Stringent Quality Standards",
+      desc: "Every batch undergoes quality checks to ensure consistency, safety, and taste.",
+      bgImage: "https://etimg.etb2bimg.com/photo/109858507.cms",
+      gridClass: "col-span-1 lg:col-span-4"
+    },
+    {
+      title: "Made with Pure Ghee",
+      desc: "A traditional ingredient that adds richness and flavour to every bar.",
+      bgImage: "https://cdn.shopify.com/s/files/1/0703/8029/0267/files/ChatGPT_Image_Mar_28_2026_12_51_01_AM.png?v=1774639341",
+      gridClass: "col-span-1 lg:col-span-4",
+      highlightTitle: true // Add distinct brand coloring to title if needed
+    },
+    {
+      title: "9-Month Shelf Life",
+      desc: "TÜV-certified shelf life for confidence in quality and freshness.",
+      bgImage: "https://www.madgetech.com/wp-content/uploads/2020/09/ExpirationDates-Full.jpg",
+      gridClass: "col-span-1 md:col-span-2 lg:col-span-3" // Second row grid tuning
+    },
+    {
+      title: "Real Ingredients Only",
+      desc: "Made with nuts, fruits, milk protein, jaggery, and pure ghee.",
+      bgImage: "https://images.unsplash.com/photo-1490818387583-1baba5e638af?auto=format&fit=crop&w=800&q=80",
+      gridClass: "col-span-1 md:col-span-2 lg:col-span-3"
+    },
+    {
+      title: "Proudly Made in India",
+      desc: "Locally manufactured with global-quality production standards.",
+      bgImage: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=800&q=80",
+      gridClass: "col-span-1 md:col-span-2 lg:col-span-3"
+    },
+    {
+      title: "Trusted by Families",
+      desc: "A convenient snack made with ingredients you know and trust.",
+      bgImage: "https://st2.depositphotos.com/2234518/5181/i/450/depositphotos_51818167-stock-photo-family-portrait-with-thumbs-up.jpg",
+      gridClass: "col-span-1 md:col-span-2 lg:col-span-3"
+    }
+  ];
+
+  const containerVariants: Variants = {
+    hidden: {},
+    visible: {
+      transition: {
+        staggerChildren: 0.08
+      }
+    }
+  };
+
+  const cardVariants: Variants = {
+    hidden: { opacity: 0, y: 40 },
+    visible: { 
+      opacity: 1, 
+      y: 0, 
+      transition: { duration: 0.6, ease: [0.215, 0.610, 0.355, 1.000] } 
+    }
+  };
+
+  return (
+    <section className="py-24 px-6 bg-white border-t border-gray-100">
+      <div className="max-w-6xl mx-auto">
+        
+        
+
+        <SectionHeader
+          title="Additional Quality Highlights"
+          subtitle="Uncompromising Standards Premium Ingredients "
+        />
+
+
+        {/* Dynamic Multi-span Grid Layout */}
+        <motion.div 
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-40px" }}
+          className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-12 gap-6"
+        >
+          {highlights.map((item, index) => (
+            <motion.div
+              key={index}
+              variants={cardVariants}
+              whileHover={{ scale: 1.015, transition: { duration: 0.2 } }}
+              className={`relative rounded-3xl overflow-hidden shadow-sm group min-h-[320px] md:min-h-[340px] flex flex-col justify-end ${item.gridClass}`}
+            >
+              {/* Background Image Container */}
+              <div 
+                className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-transform duration-700 ease-out group-hover:scale-105"
+                style={{ backgroundImage: `url(${item.bgImage})` }}
+              />
+              
+              {/* Refined Linear Dark Gradient Overlay for Crisp Text Contrast */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/60 to-transparent transition-opacity duration-300 group-hover:from-black" />
+              
+              {/* Content Panel */}
+              <div className="relative p-8 z-10 space-y-3">
+                <h3 className="text-2xl md:text-3xl font-extrabold tracking-tight text-white leading-tight">
+                  {item.highlightTitle && item.title.includes("Ghee") ? (
+                    <>
+                      Made with <br />
+                      <span className="text-[#ff5722]">{item.title.replace("Made with ", "")}</span>
+                    </>
+                  ) : (
+                    item.title
+                  )}
+                </h3>
+                <p className="text-gray-300 font-normal leading-relaxed text-sm md:text-base max-w-sm">
+                  {item.desc}
+                </p>
+              </div>
+            </motion.div>
+          ))}
+        </motion.div>
+
+      </div>
+    </section>
+  );
+};
+
 
 // ========== FAQ ACCORDION ITEM COMPONENT ==========
 const FAQItem = ({ question, answer, isOpen, onToggle, index }) => {
@@ -924,33 +1056,33 @@ export const HomePage: React.FC = () => {
 
   const features = [
     {
-      title: "PROTEIN RICH",
-      desc: "5 grams of protein per serving for sustained energy",
-      img: "/homepage/energy-bar_7634814.png",
-    },
-    {
-      title: "ALL NATURAL",
-      desc: "Crafted with premium ingredients, nothing artificial",
-      img: "/homepage/lotus_2610118.png",
-    },
-    {
-      title: "VEGETARIAN",
-      desc: "100% plant-based goodness for everyone",
+      title: "REAL INGREDIENTS",
+      desc: "Made with nuts, fruits, jaggery, and other wholesome ingredients you can recognize.",
       img: "/homepage/leaf.png",
     },
     {
-      title: "NO PRESERVATIVES",
-      desc: "Pure and clean ingredients you can trust",
-      img: "/homepage/no-preservatives_4411195.png",
+      title: "NATURALLY DELICIOUS",
+      desc: "Sweetened with dates, raisins, cranberries, and jaggery—not loaded with refined sugars.",
+      img: "/homepage/lotus_2610118.png",
     },
     {
-      title: "NO ADDED SUGAR",
-      desc: "Naturally sweetened with fruits and nuts",
+      title: "PROTEIN & ENERGY",
+      desc: "A convenient source of protein and sustained energy for busy days.",
+      img: "/homepage/energy-bar_7634814.png",
+    },
+    {
+      title: "PURE GHEE GOODNESS",
+      desc: "Crafted with pure ghee for rich taste and traditional goodness.",
       img: "/homepage/sugar-free.png",
     },
     {
-      title: "AFFORDABLE",
-      desc: "Premium quality at just ₹40 per bar",
+      title: "NO ARTIFICIAL PRESERVATIVES",
+      desc: "Nothing artificial. No preservatives, flavours, or colourings.",
+      img: "/homepage/no-preservatives_4411195.png",
+    },
+    {
+      title: "MADE IN INDIA",
+      desc: "Manufactured in Bangalore under stringent quality and food safety standards.",
       img: "/homepage/rupee-symbol.png",
     },
   ];
@@ -959,73 +1091,73 @@ export const HomePage: React.FC = () => {
     {
       title: "ALMONDS",
       img: "/ingredients/almond.png",
-      desc: "Rich in vitamin E and healthy fats for heart health",
+      desc: "Rich in vitamin E, protein, and healthy fats that support overall wellbeing.",
     },
     {
       title: "CRANBERRIES",
       img: "/ingredients/Cranberry.png",
-      desc: "Packed with antioxidants and natural sweetness",
+      desc: "Naturally tart and packed with antioxidants for a burst of flavour.",
     },
     {
       title: "CASHEWS",
       img: "/ingredients/cashew.png",
-      desc: "Creamy texture with essential minerals and protein",
+      desc: "Creamy, delicious, and a natural source of protein and essential minerals.",
     },
     {
       title: "RAISINS",
       img: "/ingredients/raisin.png",
-      desc: "Natural energy boost with iron and fiber",
+      desc: "A naturally sweet source of energy, fibre, and micronutrients.",
     },
     {
       title: "COCONUT",
       img: "/ingredients/Coconut Craze.png",
-      desc: "Healthy MCTs for sustained energy release",
+      desc: "Provides flavour, texture, and naturally occurring healthy fats.",
     },
     {
       title: "PEANUTS",
       img: "/ingredients/Peanut.png",
-      desc: "Plant-based protein and heart-healthy fats",
+      desc: "Packed with plant-based protein and satisfying crunch.",
     },
     {
       title: "JAGGERY",
       img: "/ingredients/Jaggery.png",
-      desc: "Unrefined sweetener rich in minerals",
+      desc: "A traditional unrefined sweetener made from sugarcane.",
     },
     {
       title: "DATES",
       img: "/ingredients/Date.png",
-      desc: "Naturally sweet with fiber and essential nutrients",
+      desc: "Naturally sweet and rich in fibre, making them a perfect energy source.",
     },
   ];
 
   const faqsToUse = [
     {
-      q: "What are the ingredients?",
-      a: "Our bars are made with 12 or fewer real food ingredients, nothing artificial. We use grass-fed milk protein from family farms in India's County Kerry, plus mineral-rich India Atlantic sea salt. Each product page shows the full ingredient list for that flavor.",
+      q: "What ingredients are used in Happy Bars?",
+      a: "Happy Bars are made using real ingredients such as almonds, cashews, peanuts, coconut, dates, raisins, cranberries, jaggery, milk protein, and pure ghee. Each flavour has its own unique blend, but every recipe is built around simple, wholesome ingredients.",
     },
     {
-      q: "Are Happy Bar products suitable for vegans?",
-      a: "We offer dedicated plant-based recipe lines on our shop matching identical eco metrics. Our vegan range uses premium plant proteins from peas and rice, delivering the same great taste and nutrition profile.",
+      q: "Do Happy Bars contain artificial preservatives?",
+      a: "No. Happy Bars contain no artificial preservatives, flavours, or colourings.",
     },
     {
-      q: "Where do you ship to?",
-      a: "We ship nationwide across Ireland, the UK, and international European sectors seamlessly. Standard shipping takes 3-5 business days, with express options available at checkout.",
+      q: "What sweeteners are used in Happy Bars?",
+      a: "We use ingredients such as dates, raisins, cranberries, and jaggery to provide natural sweetness and great taste.",
     },
     {
-      q: "How long will my order take?",
-      a: "Standard dispatch arrivals settle within 2-4 business fulfillment loops cleanly. You'll receive tracking information via email once your order ships.",
+      q: "What makes Happy Bar different?",
+      a: "We focus on simple ingredients and honest nutrition. Happy Bars are made with pure ghee and real foods, without artificial preservatives, flavours, or colourings.",
     },
     {
-      q: "How does the subscription service work?",
-      a: "Save 10% on recurring automated monthly replenishment cycles cancelable anytime. Choose your favorite bars, set delivery frequency, and we'll handle the rest. No commitment, pause or cancel whenever you like.",
+      q: "Where are Happy Bars manufactured?",
+      a: "Happy Bars are proudly manufactured in Bangalore, India, in a modern food production facility operating under stringent quality and food safety standards.",
     },
     {
-      q: "Can I return my order if there's a problem?",
-      a: "Yes, we uphold 30-day claims protection support pipelines actively. If you're not satisfied with your purchase, contact our support team for a full refund or replacement.",
+      q: "How long do Happy Bars stay fresh?",
+      a: "Happy Bars have a shelf life of up to 9 months when stored according to the instructions on the pack.",
     },
     {
-      q: "Do you sell to wholesale customers?",
-      a: "Yes, connect distribution networks directly through our corporate merchant interface forms. We offer bulk pricing for gyms, cafes, retail stores, and corporate wellness programs.",
+      q: "Do you supply retailers and distributors?",
+      a: "Yes. We work with supermarkets, retail chains, distributors, gyms, cafés, educational institutions, and corporate wellness programs across India.",
     },
   ];
 
@@ -1040,7 +1172,7 @@ export const HomePage: React.FC = () => {
 
       {/* Features Section */}
       <section className="py-2 bg-white px-2">
-        <div className=" flex justify-center mx-auto px-1 lg:px-0 max-w-7xl ">
+        <div className=" flex justify-center mx-auto px-1 lg:px-0 max-w-10/12 ">
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6 sm:gap-8 mx-auto">
             {features.map((feature, i) => (
               <FeatureCard key={i} feature={feature} index={i} 
@@ -1060,7 +1192,7 @@ export const HomePage: React.FC = () => {
       <section className="mt-15 sm:mt-15 md:mt-15 ">
         <div className="container mx-auto px-4 sm:px-6">
           <SectionHeader
-            title="Pure Ingredients"
+            title="Meet the Ingredients Behind Every Happy Bar"
             subtitle="Simple. Natural. Honest."
           />
 
@@ -1079,7 +1211,7 @@ export const HomePage: React.FC = () => {
 
       <CraftsmanshipSection />
       <TestimonialSection />
-
+      <QualityHighlights />
       {/* FAQ Section */}
       <FAQ faqs={faqsToUse} contactEmail={contactEmail} />
 

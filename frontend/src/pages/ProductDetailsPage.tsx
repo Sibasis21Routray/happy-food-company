@@ -225,34 +225,34 @@ export const ProductDetailsPage: React.FC = () => {
    // YOUR ORIGINAL FEATURES WITH SAME ICONS - COMPLETELY UNCHANGED
   const features = [
     {
-      title: "Protein Packed Punch",
-      desc: "5.x grams of protein per serving (30g) – the secret sauce for muscle magic and all-day energy!",
-      img: "/productdetails/energy-bar_7634814.png",
-    },
-    {
-      title: "All-Natural Awesomeness",
-      desc: "Crafted with love with the best ingredients. No funny business – just natural goodness!",
+      title: "Real Ingredients",
+      desc: "Made with almonds, cashews, peanuts, dates, raisins, cranberries, coconut, jaggery, pure ghee, and quality protein.",
       img: "/productdetails/lotus_2610118.png",
     },
     {
-      title: "Price Tag Happiness",
-      desc: "All this awesomeness for just ₹ 40! That's right – a pocket-friendly protein party for everyone!",
-      img: "/productdetails/rupee-symbol.png",
+      title: "Protein-Powered",
+      desc: "Delivers approximately 5g of protein per serving to keep you going throughout the day.",
+      img: "/productdetails/energy-bar_7634814.png",
     },
     {
-      title: "No Artificial Shenanigans",
-      desc: "Wave goodbye to artificial preservatives, flavors, or colorings. Our bar keeps it real – just like your snacking standards!",
+      title: "Clean & Honest",
+      desc: "No artificial preservatives, flavours, or colourings. No unnecessary additives.",
       img: "/productdetails/no-preservatives_4411195.png",
     },
     {
-      title: "Veggie Vibes Only",
-      desc: "Vegetarian? We got you covered! No eggs, just pure plant power for your snacking pleasure.",
+      title: "Vegetarian Friendly",
+      desc: "100% vegetarian recipes crafted to suit modern lifestyles.",
       img: "/productdetails/leaf.png",
     },
     {
-      title: "Say No to Sneaky Sugars",
-      desc: "Zero glucose, emulsifiers, fructooligosaccharides (FOS) & other funny sounding chemicals. Nothing Sneaky & Zero Nonsense!",
+      title: "Made with Pure Ghee",
+      desc: "A traditional ingredient that enhances both flavour and quality.",
       img: "/productdetails/sugar-free.png",
+    },
+    {
+      title: "Affordable Everyday Nutrition",
+      desc: "Premium-quality nutrition at a price that makes healthy snacking accessible to everyone.",
+      img: "/productdetails/rupee-symbol.png",
     },
   ];
 
@@ -521,15 +521,7 @@ export const ProductDetailsPage: React.FC = () => {
               >
                 Why Choose Us
               </h2>
-              {/* <div
-                className="w-12 h-px mx-auto rounded-full"
-                style={{
-                  backgroundColor:
-                    data.featuresTitleColor === "text-white"
-                      ? "rgba(255,255,255,0.3)"
-                      : "#d1d5db",
-                }}
-              ></div> */}
+              
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 ">

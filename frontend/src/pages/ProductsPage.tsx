@@ -15,34 +15,24 @@ export const ProductsPage: React.FC = () => {
     {
       _id: '69e0bed3ddd3678cb38d4aa3',
       slug: 'combo-6-1',
-      title: 'Almond Cranberry + Cashew Raisin',
-      price: 300,
+      title: 'Happy Bar - Almond Cranberry | Cashew Raisin - Variety Box of 6',
+      price: 276,
       images: ['/combo-products/Variety-6-AC-CR.JPG'],
-      category: 'Combos',
-      description: '6 bars • 2 flavors',
-      features: ['All Natural', 'No Preservatives', 'Vegetarian'],
-      badge: 'Bestseller'
     },
     {
       _id: '69e0bed3ddd3678cb38d4aa4',
       slug: 'combo-6-2',
-      title: 'Coconut Almond + Date Almond Cranberry',
-      price: 300,
+      title: 'Happy Bar - Coconut Almond | Date Almond Cranberry - Variety Box of 6',
+      price: 276,
       images: ['/combo-products/Variety-6-CA-DAC.JPG'],
-      category: 'Combos',
-      description: '6 bars • 2 flavors',
-      features: ['All Natural', 'No Preservatives', 'Vegetarian']
+      
     },
     {
       _id: '69e0bed3ddd3678cb38d4aa5',
       slug: 'combo-12',
-      title: 'Happy Bar - Combo Box of 12',
+      title: 'Almond Cranberry | Cashew Raisin | Coconut Almond | Date Almond Cranberry 0- Variety Box of 12',
       price: 600,
       images: ['/combo-products/Variety-12.JPG'],
-      category: 'Combos',
-      description: '12 bars • 4 flavors',
-      features: ['All Natural', 'No Preservatives', 'Vegetarian'],
-      badge: 'Best Value'
     }
   ];
 
