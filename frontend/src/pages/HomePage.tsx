@@ -138,14 +138,19 @@ const HappyBarLanding: React.FC = () => {
 
       {/* --- SECTION 1: HERO SECTION --- */}
       <section
-        ref={sectionRef}
-        className="relative w-full min-h-[65vh] bg-gray-100 flex items-center overflow-hidden py-12 md:py-0"
-        style={{
-          backgroundImage: `linear-gradient(to right, rgba(0,0,0,0.45) 30%, rgba(0,0,0,0.1) 70%), url('/homepage/Gym-Exercise-PC-Wallpaper.jpg')`,
-          backgroundSize: "cover",
-          backgroundRepeat: "no-repeat",
-        }}
-      >
+  ref={sectionRef}
+  className="
+    relative w-full min-h-[75vh]  
+    flex items-center overflow-hidden
+    py-12 md:py-0
+    bg-gray-100
+
+    bg-[linear-gradient(to_right,rgba(0,0,0,0.45)_30%,rgba(0,0,0,0.1)_70%),url('/homepage/Gym-Exercise-PC-Wallpaper-sm.png')]
+    md:bg-[linear-gradient(to_right,rgba(0,0,0,0.45)_30%,rgba(0,0,0,0.1)_70%),url('/homepage/Gym-Exercise-PC-Wallpaper.jpg')]
+
+    bg-cover bg-center bg-no-repeat
+  "
+>
         <div className="max-w-7xl mx-auto w-full px-6 md:px-12 lg:px-16 grid grid-cols-1 lg:grid-cols-12 items-center gap-12 relative z-10">
           {/* Hero Text Copy */}
           <motion.div
