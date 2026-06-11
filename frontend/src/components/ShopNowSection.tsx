@@ -47,10 +47,10 @@ export const ShopNowSection: React.FC = () => {
   };
 
   return (
-    <section className="py-5  font-sans">
+    <section className="py-5 font-sans">
       <div className="container mx-auto px-6 max-w-7xl my-20">
         
-        {/* Section Header - Using global typography classes */}
+        {/* Section Header */}
         <div className="text-center mb-12">
           <div className="mb-3">
             <span className="text-body text-md tracking-[0.2em] text-gray-700">COMBO PACKS</span>
@@ -58,7 +58,6 @@ export const ShopNowSection: React.FC = () => {
           <h2 className="heading-1 text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-gray-900 mb-3">
             Better Together
           </h2>
-          {/* <div className="w-12 h-px bg-gray-300 mx-auto" /> */}
           <p className="sub-heading text-body text-gray-500 text-md mt-4 max-w-md mx-auto ">
             Perfect for sharing or stocking up
           </p>
@@ -72,28 +71,28 @@ export const ShopNowSection: React.FC = () => {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: -20 }}
             transition={{ duration: 0.3 }}
-            className="bg-white border border-gray-100 p-6 max-w-sm mx-auto"
+            className="bg-white border border-gray-100 p-6 max-w-sm mx-auto flex flex-col h-full"
           >
-            {/* Popular Badge */}
-            {combos[currentComboIndex].popular && (
-              <div className="text-center mb-4">
+            {/* Popular Badge Placeholder to keep height structural */}
+            <div className="h-8 flex items-center justify-center mb-4">
+              {combos[currentComboIndex].popular && (
                 <span className="text-body text-md tracking-wide text-gray-500 border-b border-gray-300 pb-1">
                   MOST POPULAR
                 </span>
-              </div>
-            )}
+              )}
+            </div>
             
-            {/* Image */}
-            <div className="w-full h-48 flex justify-center mb-6">
+            {/* Standardized Image Box for Mobile */}
+            <div className="w-full h-64 flex items-center justify-center mb-6 bg-gray-50/35 overflow-hidden">
               <img 
                 src={combos[currentComboIndex].img} 
                 alt={combos[currentComboIndex].title} 
-                className="w-full h-full object-contain" 
+                className="max-w-full max-h-full object-contain" 
               />
             </div>
             
-            {/* Info - Using typography classes */}
-            <div className="text-center">
+            {/* Info */}
+            <div className="text-center flex flex-col flex-grow">
               <h3 className="sub-heading text-lg text-gray-800 mb-1">
                 {combos[currentComboIndex].title}
               </h3>
@@ -103,7 +102,7 @@ export const ShopNowSection: React.FC = () => {
               <p className="text-body text-md text-gray-500 mb-3">
                 {combos[currentComboIndex].size}
               </p>
-              <p className="text-body text-gray-500 text-md leading-relaxed mb-4">
+              <p className="text-body text-gray-500 text-md leading-relaxed mb-4 flex-grow">
                 {combos[currentComboIndex].desc}
               </p>
               <div className="mb-4">
@@ -153,7 +152,7 @@ export const ShopNowSection: React.FC = () => {
         </div>
 
         {/* Desktop Grid */}
-        <div className="hidden lg:grid lg:grid-cols-3 gap-6">
+        <div className="hidden lg:grid lg:grid-cols-3 gap-6 items-stretch">
           {combos.map((combo, i) => (
             <motion.div 
               key={i} 
@@ -162,37 +161,21 @@ export const ShopNowSection: React.FC = () => {
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
               whileHover={{ y: -4 }}
-              className="bg-white border border-gray-100 hover:border-gray-200 transition-all duration-300 p-6 relative"
+              className="bg-white border border-gray-100 hover:border-gray-200 transition-all duration-300 p-6 relative flex flex-col justify-between"
             >
-              {/* Popular Badge */}
-             {/* Popular Badge */}
-{combo.popular && (
-  <div className="absolute top-4 left-1/4 -translate-x-1/2 z-20">
-    
-    <div className="
-      px-5 py-2
-      rounded-full
-      bg-white/90
-      backdrop-blur-xl
-      border border-orange-200
-      shadow-[0_8px_30px_rgba(0,0,0,0.08)]
-    ">
-      <span className="
-        text-[11px]
-        font-semibold
-        tracking-[0.18em]
-        uppercase
-        text-orange-500
-      ">
-        ✦ Most Popular
-      </span>
-    </div>
-
-  </div>
-)}
+              {/* Popular Badge Container */}
+              <div className="h-10 w-full relative z-20 flex items-center justify-center mb-2">
+                {combo.popular && (
+                  <div className="px-5 py-2 rounded-full bg-white/90 backdrop-blur-xl border border-orange-200 shadow-[0_8px_30px_rgba(0,0,0,0.08)]">
+                    <span className="text-[11px] font-semibold tracking-[0.18em] uppercase text-orange-500">
+                      ✦ Most Popular
+                    </span>
+                  </div>
+                )}
+              </div>
               
-              {/* Image */}
-              <div className={`w-full  flex justify-center mb-6 ${combo.popular ? 'mt-6' : ''}`}>
+              {/* Desktop Image Box - Strictly locked constraints prevent height shifts */}
+              <div className="w-full aspect-[4/3] max-h-72 flex items-center justify-center mb-6 bg-gray-50/35 overflow-hidden">
                 <img 
                   src={combo.img} 
                   alt={combo.title} 
@@ -200,31 +183,36 @@ export const ShopNowSection: React.FC = () => {
                 />
               </div>
               
-              {/* Info - Using typography classes */}
-              <div className="text-center">
-                <h3 className="sub-heading text-lg text-gray-800 mb-1">
-                  {combo.title}
-                </h3>
-                <p className="text-body text-md text-gray-500 mb-2">
-                  {combo.subtitle}
-                </p>
-                <p className="text-body text-md text-gray-500 mb-3">
-                  {combo.size}
-                </p>
-                <p className="text-body text-gray-500 text-md leading-relaxed mb-4">
-                  {combo.desc}
-                </p>
-                <div className="mb-5">
-                  <span className="sub-heading text-xl text-gray-900">
-                    ₹{combo.price}
-                  </span>
+              {/* Info */}
+              <div className="text-center flex flex-col flex-grow justify-between">
+                <div>
+                  <h3 className="sub-heading text-lg text-gray-800 mb-1">
+                    {combo.title}
+                  </h3>
+                  <p className="text-body text-md text-gray-500 mb-2">
+                    {combo.subtitle}
+                  </p>
+                  <p className="text-body text-md text-gray-500 mb-3">
+                    {combo.size}
+                  </p>
+                  <p className="text-body text-gray-500 text-md leading-relaxed mb-4 min-h-[48px]">
+                    {combo.desc}
+                  </p>
                 </div>
-                <button
-                  onClick={() => navigate("/happy-shop")}
-                  className="text-body w-full py-2.5 border border-gray-300 text-gray-700 text-md tracking-wider hover:border-gray-500 transition-all duration-300"
-                >
-                  Shop Now
-                </button>
+                
+                <div>
+                  <div className="mb-5">
+                    <span className="sub-heading text-xl text-gray-900">
+                      ₹{combo.price}
+                    </span>
+                  </div>
+                  <button
+                    onClick={() => navigate("/happy-shop")}
+                    className="text-body w-full py-2.5 border border-gray-300 text-gray-700 text-md tracking-wider hover:border-gray-500 transition-all duration-300"
+                  >
+                    Shop Now
+                  </button>
+                </div>
               </div>
             </motion.div>
           ))}
