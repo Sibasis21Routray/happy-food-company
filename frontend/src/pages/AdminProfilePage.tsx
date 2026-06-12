@@ -7,7 +7,7 @@ import { ProfileDropdown } from '../components/Dashboard/ProfileDropdown';
 
 const PhoneInput = (PhoneInputModule as any).default || PhoneInputModule;
 
-const API = 'http://localhost:5000/api';
+const API = `${import.meta.env.VITE_API_URL}`;
 
 export const AdminProfilePage: React.FC = () => {
   const [user, setUser] = useState<any>(null);

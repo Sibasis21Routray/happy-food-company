@@ -626,55 +626,55 @@ const CraftsmanshipSection: React.FC = () => {
 
 const QualityHighlights = () => {
   const highlights = [
-    {
-      title: "World-Class Manufacturing Facility",
-      desc: "Produced in Bangalore using modern equipment and robust food safety processes.",
-      bgImage: "https://pbs.twimg.com/media/DLxYScxX0AA-Eu4.jpg",
-      gridClass: "col-span-1 lg:col-span-4", // First row grid tuning
-    },
-    {
-      title: "Stringent Quality Standards",
-      desc: "Every batch undergoes quality checks to ensure consistency, safety, and taste.",
-      bgImage: "https://etimg.etb2bimg.com/photo/109858507.cms",
-      gridClass: "col-span-1 lg:col-span-4",
-    },
-    {
-      title: "Made with Pure Ghee",
-      desc: "A traditional ingredient that adds richness and flavour to every bar.",
-      bgImage:
-        "https://cdn.shopify.com/s/files/1/0703/8029/0267/files/ChatGPT_Image_Mar_28_2026_12_51_01_AM.png?v=1774639341",
-      gridClass: "col-span-1 lg:col-span-4",
-      highlightTitle: true, // Add distinct brand coloring to title if needed
-    },
-    {
-      title: "9-Month Shelf Life",
-      desc: "TÜV-certified shelf life for confidence in quality and freshness.",
-      bgImage:
-        "https://www.madgetech.com/wp-content/uploads/2020/09/ExpirationDates-Full.jpg",
-      gridClass: "col-span-1 md:col-span-2 lg:col-span-3", // Second row grid tuning
-    },
-    {
-      title: "Real Ingredients Only",
-      desc: "Made with nuts, fruits, milk protein, jaggery, and pure ghee.",
-      bgImage:
-        "https://images.unsplash.com/photo-1490818387583-1baba5e638af?auto=format&fit=crop&w=800&q=80",
-      gridClass: "col-span-1 md:col-span-2 lg:col-span-3",
-    },
-    {
-      title: "Proudly Made in India",
-      desc: "Locally manufactured with global-quality production standards.",
-      bgImage:
-        "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=800&q=80",
-      gridClass: "col-span-1 md:col-span-2 lg:col-span-3",
-    },
-    {
-      title: "Trusted by Families",
-      desc: "A convenient snack made with ingredients you know and trust.",
-      bgImage:
-        "https://st2.depositphotos.com/2234518/5181/i/450/depositphotos_51818167-stock-photo-family-portrait-with-thumbs-up.jpg",
-      gridClass: "col-span-1 md:col-span-2 lg:col-span-3",
-    },
-  ];
+  {
+    title: "World-Class Manufacturing Facility",
+    desc: "Produced in Bangalore using modern equipment and robust food safety processes.",
+    bgImage: "https://pbs.twimg.com/media/DLxYScxX0AA-Eu4.jpg",
+    gridClass: "lg:col-span-4",
+  },
+  {
+    title: "Stringent Quality Standards",
+    desc: "Every batch undergoes quality checks to ensure consistency, safety, and taste.",
+    bgImage: "https://etimg.etb2bimg.com/photo/109858507.cms",
+    gridClass: "lg:col-span-4",
+  },
+  {
+    title: "Made with Pure Ghee",
+    desc: "A traditional ingredient that adds richness and flavour to every bar.",
+    bgImage:
+      "https://cdn.shopify.com/s/files/1/0703/8029/0267/files/ChatGPT_Image_Mar_28_2026_12_51_01_AM.png?v=1774639341",
+    gridClass: "lg:col-span-4",
+    highlightTitle: true,
+  },
+  {
+    title: "9-Month Shelf Life",
+    desc: "TÜV-certified shelf life for confidence in quality and freshness.",
+    bgImage:
+      "https://www.madgetech.com/wp-content/uploads/2020/09/ExpirationDates-Full.jpg",
+    gridClass: "lg:col-span-3",
+  },
+  {
+    title: "Real Ingredients Only",
+    desc: "Made with nuts, fruits, milk protein, jaggery, and pure ghee.",
+    bgImage:
+      "https://images.unsplash.com/photo-1490818387583-1baba5e638af?auto=format&fit=crop&w=800&q=80",
+    gridClass: "lg:col-span-3",
+  },
+  {
+    title: "Proudly Made in India",
+    desc: "Locally manufactured with global-quality production standards.",
+    bgImage:
+      "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=800&q=80",
+    gridClass: "lg:col-span-3",
+  },
+  {
+    title: "Trusted by Families",
+    desc: "A convenient snack made with ingredients you know and trust.",
+    bgImage:
+      "https://st2.depositphotos.com/2234518/5181/i/450/depositphotos_51818167-stock-photo-family-portrait-with-thumbs-up.jpg",
+    gridClass: "lg:col-span-3",
+  },
+];
 
   const containerVariants: Variants = {
     hidden: {},
@@ -703,50 +703,112 @@ const QualityHighlights = () => {
         />
 
         {/* Dynamic Multi-span Grid Layout */}
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-40px" }}
-          className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-12 gap-6"
+        {/* Dynamic Multi-span Grid Layout */}
+<motion.div
+  variants={containerVariants}
+  initial="hidden"
+  whileInView="visible"
+  viewport={{ once: true, margin: "-40px" }}
+  className="
+    grid
+    grid-cols-1
+    sm:grid-cols-2
+    lg:grid-cols-12
+    gap-4 md:gap-6
+  "
+>
+  {highlights.map((item, index) => (
+    <motion.div
+      key={index}
+      variants={cardVariants}
+      whileHover={{
+        scale: 1.015,
+        transition: { duration: 0.2 },
+      }}
+      className={`
+        relative
+        overflow-hidden
+        rounded-3xl
+        shadow-sm
+        group
+        flex flex-col justify-end
+
+        min-h-[280px]
+        sm:min-h-[320px]
+        md:min-h-[340px]
+
+        col-span-1
+        ${item.gridClass}
+      `}
+    >
+      {/* Background Image */}
+      <div
+        className="
+          absolute inset-0
+          bg-cover bg-center bg-no-repeat
+          transition-transform duration-700 ease-out
+          group-hover:scale-105
+        "
+        style={{
+          backgroundImage: `url(${item.bgImage})`,
+        }}
+      />
+
+      {/* Gradient Overlay */}
+      <div
+        className="
+          absolute inset-0
+          bg-gradient-to-t
+          from-black/95
+          via-black/60
+          to-transparent
+          transition-opacity duration-300
+          group-hover:from-black
+        "
+      />
+
+      {/* Content */}
+      <div className="relative z-10 p-5 sm:p-6 md:p-8">
+        <h3
+          className="
+            text-xl
+            sm:text-2xl
+            lg:text-3xl
+            font-extrabold
+            tracking-tight
+            text-white
+            leading-tight
+            mb-3
+          "
         >
-          {highlights.map((item, index) => (
-            <motion.div
-              key={index}
-              variants={cardVariants}
-              whileHover={{ scale: 1.015, transition: { duration: 0.2 } }}
-              className={`relative rounded-3xl overflow-hidden shadow-sm group min-h-[320px] md:min-h-[340px] flex flex-col justify-end ${item.gridClass}`}
-            >
-              {/* Background Image Container */}
-              <div
-                className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-transform duration-700 ease-out group-hover:scale-105"
-                style={{ backgroundImage: `url(${item.bgImage})` }}
-              />
+          {item.highlightTitle && item.title.includes("Ghee") ? (
+            <>
+              Made with <br />
+              <span className="text-[#ff5722]">
+                {item.title.replace("Made with ", "")}
+              </span>
+            </>
+          ) : (
+            item.title
+          )}
+        </h3>
 
-              {/* Refined Linear Dark Gradient Overlay for Crisp Text Contrast */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/60 to-transparent transition-opacity duration-300 group-hover:from-black" />
-
-              {/* Content Panel */}
-              <div className="relative p-8 z-10 space-y-3">
-                <h3 className="text-2xl md:text-3xl font-extrabold tracking-tight text-white leading-tight">
-                  {item.highlightTitle && item.title.includes("Ghee") ? (
-                    <>
-                      Made with <br />
-                      <span className="text-[#ff5722]">
-                        {item.title.replace("Made with ", "")}
-                      </span>
-                    </>
-                  ) : (
-                    item.title
-                  )}
-                </h3>
-                <p className="text-gray-300 font-normal leading-relaxed text-sm md:text-base max-w-sm">
-                  {item.desc}
-                </p>
-              </div>
-            </motion.div>
-          ))}
-        </motion.div>
+        <p
+          className="
+            text-gray-300
+            font-normal
+            leading-relaxed
+            text-sm
+            lg:text-base
+            max-w-sm
+          "
+        >
+          {item.desc}
+        </p>
+      </div>
+    </motion.div>
+  ))}
+</motion.div>
       </div>
     </section>
   );

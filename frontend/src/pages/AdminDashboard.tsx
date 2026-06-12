@@ -7,7 +7,9 @@ const PhoneInput = (PhoneInputModule as any).default || PhoneInputModule;
 import { useNavigate, Link } from 'react-router-dom';
 import { ProfileDropdown } from '../components/Dashboard/ProfileDropdown';
 
-const API = 'http://localhost:5000/api';
+
+const API = `${import.meta.env.VITE_API_URL}`;
+
 
 export const AdminDashboard: React.FC = () => {
   const [activeTab, setActiveTab] = useState<'overview' | 'vendors' | 'users' | 'orders' | 'revenue'>('overview');

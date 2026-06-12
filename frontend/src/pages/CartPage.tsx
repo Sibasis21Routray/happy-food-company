@@ -8,6 +8,9 @@ import {
 } from 'lucide-react';
 import { Link, useNavigate } from 'react-router-dom';
 import { api } from '../services/api';
+import { useSearchParams } from 'react-router-dom';
+import { useToast } from '../components/Layout/Toast';
+
 
 export const CartPage: React.FC = () => {
   const navigate = useNavigate();
@@ -19,6 +22,8 @@ export const CartPage: React.FC = () => {
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState('COD');
   const [addressLoading, setAddressLoading] = useState(false);
   const [placingOrder, setPlacingOrder] = useState(false);
+  const [searchParams] = useSearchParams();
+  const { showToast } = useToast();
 
   const fetchCart = async () => {
     try {
@@ -32,6 +37,19 @@ export const CartPage: React.FC = () => {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+  const step = Number(searchParams.get('step'));
+
+  if (step === 2 && cart?.items?.length) {
+  setCurrentStep(2);
+}
+
+if (step === 3 && selectedAddressId) {
+  setCurrentStep(3);
+}
+}, [searchParams]);
+
 
   useEffect(() => {
     const user = localStorage.getItem('user');
@@ -93,12 +111,12 @@ export const CartPage: React.FC = () => {
 
   const handleCheckout = async () => {
     if (selectedPaymentMethod !== 'COD') {
-      alert('Currently, only Cash on Delivery (COD) is supported for immediate placing. Please select Cash on Delivery.');
+      showToast('Currently, only Cash on Delivery (COD) is supported for immediate placing. Please select Cash on Delivery.', 'error');
       return;
     }
 
     if (!selectedAddressId) {
-      alert('Please select a delivery address');
+      showToast('Please select a delivery address', 'error');
       return;
     }
 
@@ -111,7 +129,7 @@ export const CartPage: React.FC = () => {
     setPlacingOrder(true);
     try {
       const token = localStorage.getItem('token');
-      const res = await fetch('http://localhost:5000/api/order/place', {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/order/place`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -134,15 +152,15 @@ export const CartPage: React.FC = () => {
       });
 
       if (res.ok) {
-        alert('Order placed successfully!');
+        showToast('Order placed successfully!', 'success');
         navigate('/profile?section=orders');
       } else {
         const data = await res.json();
-        alert(data.message || 'Failed to place order');
+        showToast(data.message || 'Failed to place order', 'error');
       }
     } catch (err) {
       console.error('Checkout error:', err);
-      alert('An error occurred while placing the order.');
+      showToast('An error occurred while placing the order.', 'error');
     } finally {
       setPlacingOrder(false);
     }
@@ -310,7 +328,9 @@ export const CartPage: React.FC = () => {
              </h3>
 
       <button
-        onClick={() => navigate('/profile?section=addresses')}
+        onClick={() =>
+  navigate('/profile?section=addresses&returnTo=checkout')
+}
         className="text-sm text-gray-600 hover:text-gray-900 transition-colors font-medium"
       >
         + Add New Address
@@ -344,7 +364,9 @@ export const CartPage: React.FC = () => {
         </p>
 
         <button
-          onClick={() => navigate('/profile?section=addresses')}
+          onClick={() =>
+  navigate('/profile?section=addresses&returnTo=checkout')
+}
           className="px-8 py-3 border border-gray-300 text-gray-700 text-base font-medium hover:border-gray-700 transition-all rounded-sm"
         >
           ADD ADDRESS

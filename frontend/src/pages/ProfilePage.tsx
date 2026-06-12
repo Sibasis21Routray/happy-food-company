@@ -136,6 +136,7 @@ export const ProfilePage: React.FC = () => {
   const [windowWidth, setWindowWidth] = useState(typeof window !== 'undefined' ? window.innerWidth : 768);
 
   const [searchParams] = useSearchParams();
+  const returnTo = searchParams.get('returnTo');
 
   const countries = Country.getAllCountries();
   const states = State.getStatesOfCountry(addressForm.country);
@@ -695,7 +696,7 @@ export const ProfilePage: React.FC = () => {
                                   {order.status}
                                 </span>
                                 <span className="text-xs text-gray-500">
-                                  {new Date(order.createdAt).toLocaleDateString()}
+                                  {new Date(order.createdAt).toLocaleString()}
                                 </span>
                               </div>
                             </div>
@@ -959,7 +960,12 @@ export const ProfilePage: React.FC = () => {
                   if (resp.address) {
                     setSavedAddresses(prev => [...prev, resp.address]);
                     setIsAddingAddress(false);
-                    showToast('Address saved successfully', 'success');
+showToast('Address saved successfully', 'success');
+
+if (returnTo === 'checkout') {
+  navigate('/cart?step=2');
+  return;
+}
                     setAddressForm(prev => ({
                       ...prev,
                       name: '',

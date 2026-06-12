@@ -3,7 +3,7 @@ import { Package, CheckCircle, DollarSign, Calendar, Clock, Search, XCircle } fr
 import { useNavigate, Link } from 'react-router-dom';
 import { ProfileDropdown } from '../components/Dashboard/ProfileDropdown';
 
-const API = 'http://localhost:5000/api';
+const API = `${import.meta.env.VITE_API_URL}`;
 
 export const VendorDashboard: React.FC = () => {
   const navigate = useNavigate();
