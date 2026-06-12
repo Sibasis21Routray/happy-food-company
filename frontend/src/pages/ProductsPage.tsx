@@ -31,7 +31,7 @@ export const ProductsPage: React.FC = () => {
       _id: '69e0bed3ddd3678cb38d4aa5',
       slug: 'combo-12',
       title: 'Almond Cranberry | Cashew Raisin | Coconut Almond | Date Almond Cranberry 0- Variety Box of 12',
-      price: 600,
+      price: 552,
       images: ['/combo-products/Variety-12.JPG'],
     }
   ];
@@ -205,15 +205,10 @@ export const ProductsPage: React.FC = () => {
                       </p>
                     )}
                     
-                    {/* Description/Serving info - Using text-body */}
-                    {p.description && (
-                      <p className="text-body text-gray-700 text-sm tracking-wide mb-2">
-                        {p.description}
-                      </p>
-                    )}
+                    
                     
                     {/* Title - Using heading-3 class */}
-                    <h3 className="heading-3 text-gray-800 text-base tracking-wide mb-3 leading-relaxed">
+                    <h3 className="heading-3 text-gray-800 text-base tracking-wide mb-3 leading-relaxed min-h-20">
                       {p.title}
                     </h3>
                     
@@ -225,16 +220,7 @@ export const ProductsPage: React.FC = () => {
                       ₹{p.price}
                     </p>
                     
-                    {/* Features Tags - Using text-body */}
-                    {p.features && p.features.length > 0 && (
-                      <div className="flex flex-wrap gap-2 justify-center mt-3 mb-4">
-                        {p.features.slice(0, 3).map((feature: string, i: number) => (
-                          <span key={i} className="text-body text-[10px] text-gray-700">
-                            {feature}
-                          </span>
-                        ))}
-                      </div>
-                    )}
+                    
                     
                     {/* Action Button - Using text-body */}
                     <motion.button
