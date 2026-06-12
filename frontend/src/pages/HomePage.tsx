@@ -29,7 +29,7 @@ import {
 } from "lucide-react";
 import { ShopNowSection } from "../components/ShopNowSection";
 
-import { Factory, Calendar, Apple, Globe, Users } from 'lucide-react';
+import { Factory, Calendar, Apple, Globe, Users } from "lucide-react";
 
 // Premium Section Header
 const SectionHeader = ({
@@ -138,8 +138,8 @@ const HappyBarLanding: React.FC = () => {
 
       {/* --- SECTION 1: HERO SECTION --- */}
       <section
-  ref={sectionRef}
-  className="
+        ref={sectionRef}
+        className="
     relative w-full min-h-[75vh]  
     flex items-center overflow-hidden
     py-12 md:py-0
@@ -150,7 +150,7 @@ const HappyBarLanding: React.FC = () => {
 
     bg-cover bg-center bg-no-repeat
   "
->
+      >
         <div className="max-w-7xl mx-auto w-full px-6 md:px-12 lg:px-16 grid grid-cols-1 lg:grid-cols-12 items-center gap-12 relative z-10">
           {/* Hero Text Copy */}
           <motion.div
@@ -206,13 +206,11 @@ const HappyBarLanding: React.FC = () => {
                 Highly rated by satisfied customers
               </p>
             </motion.div>
-
-            
           </motion.div>
         </div>
       </section>
 
-   <motion.img
+      <motion.img
         src="/images/cashew-raisin.png"
         alt="Happy Bar Cashew Cookie Dough Protein Bar"
         className="absolute lg:block hidden  md:top-90 lg:top-80 left-110 w-full h-114 md:h-94 lg:h-134 xl:h-[42vh] object-contain z-10 filter drop-shadow-[0_20px_35px_rgba(0,0,0,0.3)] -rotate-10"
@@ -222,9 +220,9 @@ const HappyBarLanding: React.FC = () => {
 
       {/* --- SECTION 2: BRAND VALUE PROPOSITION --- */}
       <div className="flex justify-center mx-auto flex flex-col lg:flex-row items-center  gap-10 lg:gap-14 py-15">
-       <h2 className="heading-1 text-2xl sm:text-3xl md:text-4xl lg:text-5xl  tracking-tight text-neutral-900 px-1 ">
-              Why choose Happy Bar ?
-            </h2>
+        <h2 className="heading-1 text-2xl sm:text-3xl md:text-4xl lg:text-5xl  tracking-tight text-neutral-900 px-1 ">
+          Why choose Happy Bar ?
+        </h2>
       </div>
     </div>
   );
@@ -238,41 +236,46 @@ const FeatureCard = ({ feature, index }: { feature: any; index: number }) => {
 
   return (
     <motion.div
-      ref={ref}
-      initial={{ opacity: 0, y: 15 }}
-      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 15 }}
-      transition={{
-        duration: 0.5,
-        delay: index * 0.08,
-        ease: [0.16, 1, 0.3, 1],
-      }}
-      whileHover={{ scale: 1.05 }}
-      className="flex items-center gap-3 text-left py-2 cursor-pointer"
-    >
-      {/* Minimalist Black Vector Stamp Graphic */}
-      <div className="w-12 h-12 sm:w-14 sm:h-14 flex-shrink-0 flex items-center justify-center">
-        <img
-          src={feature.img}
-          alt={feature.title}
-          className="w-full h-full object-contain text-neutral-900"
-        />
-      </div>
+  ref={ref}
+  initial={{ opacity: 0, y: 15 }}
+  animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 15 }}
+  transition={{
+    duration: 0.5,
+    delay: index * 0.08,
+    ease: [0.16, 1, 0.3, 1],
+  }}
+  whileHover={{ scale: 1.05 }}
+  className="
+    flex flex-col sm:flex-row
+    items-center
+    text-center sm:text-left
+    gap-3
+    py-2
+    cursor-pointer
+  "
+>
+  {/* Image */}
+  <div className="w-12 h-12 sm:w-14 sm:h-14 flex-shrink-0 flex items-center justify-center">
+    <img
+      src={feature.img}
+      alt={feature.title}
+      className="w-full h-full object-contain"
+    />
+  </div>
 
-      {/* Horizontal Text Breakdown Stack */}
-      <div className="flex flex-col justify-center max-w-[160px]">
-        {/* Bold Slab Title - Using heading-4 */}
-        <h4 className="heading-4 font-bold text-[#F05E26] text-sm sm:text-base tracking-tight">
-          {feature.title}
-        </h4>
+  {/* Text */}
+  <div className="flex flex-col justify-center max-w-[160px] sm:max-w-[180px]">
+    <h4 className="heading-4 font-bold text-[#F05E26] text-sm sm:text-base tracking-tight">
+      {feature.title}
+    </h4>
 
-        {/* Subdued Meta Description Text if available */}
-        {feature.desc && (
-          <p className="text-muted text-[11px] sm:text-xs mt-0.5 leading-tight">
-            {feature.desc}
-          </p>
-        )}
-      </div>
-    </motion.div>
+    {feature.desc && (
+      <p className="text-muted text-[11px] sm:text-xs mt-1 leading-tight">
+        {feature.desc}
+      </p>
+    )}
+  </div>
+</motion.div>
   );
 };
 
@@ -541,9 +544,11 @@ const CraftsmanshipSection: React.FC = () => {
                   }`}
                 >
                   {/* Left content block wrapper */}
-                  <div className={`flex-1 text-left ${
-                    idx % 2 === 0 ? "md:items-end" : "md:text-left"
-                  } pl-16 md:pl-0`}>
+                  <div
+                    className={`flex-1 text-left ${
+                      idx % 2 === 0 ? "md:items-end" : "md:text-left"
+                    } pl-16 md:pl-0`}
+                  >
                     <div className="flex flex-col">
                       <motion.span
                         className="heading-1 text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-orange-100/90 leading-none select-none"
@@ -554,7 +559,10 @@ const CraftsmanshipSection: React.FC = () => {
                       </motion.span>
                       <motion.h3
                         className="heading-3 text-xl sm:text-2xl md:text-3xl text-gray-900 mt-1 tracking-tight font-bold"
-                        whileHover={{ x: idx % 2 === 0 ? -5 : 5, color: "#F97316" }}
+                        whileHover={{
+                          x: idx % 2 === 0 ? -5 : 5,
+                          color: "#F97316",
+                        }}
                         transition={{ duration: 0.3 }}
                       >
                         {step.title}
@@ -569,7 +577,11 @@ const CraftsmanshipSection: React.FC = () => {
                   <div className="absolute left-0 md:relative md:left-auto flex justify-center items-center z-10 w-20 md:w-auto">
                     <motion.div
                       whileHover={{ scale: 1.12, rotate: 6 }}
-                      transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                      transition={{
+                        type: "spring",
+                        stiffness: 300,
+                        damping: 20,
+                      }}
                     >
                       {/* Outer ring */}
                       <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-gradient-to-br from-orange-100 to-amber-100 flex items-center justify-center shadow-md">
@@ -585,7 +597,10 @@ const CraftsmanshipSection: React.FC = () => {
                       {/* Animated Glow effect ring structure */}
                       <motion.div
                         className="absolute inset-0 rounded-full bg-orange-400/20 blur-lg -z-10"
-                        animate={{ scale: [1, 1.15, 1], opacity: [0.3, 0.5, 0.3] }}
+                        animate={{
+                          scale: [1, 1.15, 1],
+                          opacity: [0.3, 0.5, 0.3],
+                        }}
                         transition={{
                           duration: 2,
                           repeat: Infinity,
@@ -607,10 +622,7 @@ const CraftsmanshipSection: React.FC = () => {
   );
 };
 
-
 //additional section
-
-
 
 const QualityHighlights = () => {
   const highlights = [
@@ -618,79 +630,80 @@ const QualityHighlights = () => {
       title: "World-Class Manufacturing Facility",
       desc: "Produced in Bangalore using modern equipment and robust food safety processes.",
       bgImage: "https://pbs.twimg.com/media/DLxYScxX0AA-Eu4.jpg",
-      gridClass: "col-span-1 lg:col-span-4" // First row grid tuning
+      gridClass: "col-span-1 lg:col-span-4", // First row grid tuning
     },
     {
       title: "Stringent Quality Standards",
       desc: "Every batch undergoes quality checks to ensure consistency, safety, and taste.",
       bgImage: "https://etimg.etb2bimg.com/photo/109858507.cms",
-      gridClass: "col-span-1 lg:col-span-4"
+      gridClass: "col-span-1 lg:col-span-4",
     },
     {
       title: "Made with Pure Ghee",
       desc: "A traditional ingredient that adds richness and flavour to every bar.",
-      bgImage: "https://cdn.shopify.com/s/files/1/0703/8029/0267/files/ChatGPT_Image_Mar_28_2026_12_51_01_AM.png?v=1774639341",
+      bgImage:
+        "https://cdn.shopify.com/s/files/1/0703/8029/0267/files/ChatGPT_Image_Mar_28_2026_12_51_01_AM.png?v=1774639341",
       gridClass: "col-span-1 lg:col-span-4",
-      highlightTitle: true // Add distinct brand coloring to title if needed
+      highlightTitle: true, // Add distinct brand coloring to title if needed
     },
     {
       title: "9-Month Shelf Life",
       desc: "TÜV-certified shelf life for confidence in quality and freshness.",
-      bgImage: "https://www.madgetech.com/wp-content/uploads/2020/09/ExpirationDates-Full.jpg",
-      gridClass: "col-span-1 md:col-span-2 lg:col-span-3" // Second row grid tuning
+      bgImage:
+        "https://www.madgetech.com/wp-content/uploads/2020/09/ExpirationDates-Full.jpg",
+      gridClass: "col-span-1 md:col-span-2 lg:col-span-3", // Second row grid tuning
     },
     {
       title: "Real Ingredients Only",
       desc: "Made with nuts, fruits, milk protein, jaggery, and pure ghee.",
-      bgImage: "https://images.unsplash.com/photo-1490818387583-1baba5e638af?auto=format&fit=crop&w=800&q=80",
-      gridClass: "col-span-1 md:col-span-2 lg:col-span-3"
+      bgImage:
+        "https://images.unsplash.com/photo-1490818387583-1baba5e638af?auto=format&fit=crop&w=800&q=80",
+      gridClass: "col-span-1 md:col-span-2 lg:col-span-3",
     },
     {
       title: "Proudly Made in India",
       desc: "Locally manufactured with global-quality production standards.",
-      bgImage: "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=800&q=80",
-      gridClass: "col-span-1 md:col-span-2 lg:col-span-3"
+      bgImage:
+        "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=800&q=80",
+      gridClass: "col-span-1 md:col-span-2 lg:col-span-3",
     },
     {
       title: "Trusted by Families",
       desc: "A convenient snack made with ingredients you know and trust.",
-      bgImage: "https://st2.depositphotos.com/2234518/5181/i/450/depositphotos_51818167-stock-photo-family-portrait-with-thumbs-up.jpg",
-      gridClass: "col-span-1 md:col-span-2 lg:col-span-3"
-    }
+      bgImage:
+        "https://st2.depositphotos.com/2234518/5181/i/450/depositphotos_51818167-stock-photo-family-portrait-with-thumbs-up.jpg",
+      gridClass: "col-span-1 md:col-span-2 lg:col-span-3",
+    },
   ];
 
   const containerVariants: Variants = {
     hidden: {},
     visible: {
       transition: {
-        staggerChildren: 0.08
-      }
-    }
+        staggerChildren: 0.08,
+      },
+    },
   };
 
   const cardVariants: Variants = {
     hidden: { opacity: 0, y: 40 },
-    visible: { 
-      opacity: 1, 
-      y: 0, 
-      transition: { duration: 0.6, ease: [0.215, 0.610, 0.355, 1.000] } 
-    }
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.6, ease: [0.215, 0.61, 0.355, 1.0] },
+    },
   };
 
   return (
     <section className="py-24 px-6 bg-white border-t border-gray-100">
       <div className="max-w-6xl mx-auto">
-        
-        
-
         <SectionHeader
           title="Additional Quality Highlights"
           subtitle="Uncompromising Standards Premium Ingredients "
         />
 
-
         {/* Dynamic Multi-span Grid Layout */}
-        <motion.div 
+        <motion.div
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
@@ -705,21 +718,23 @@ const QualityHighlights = () => {
               className={`relative rounded-3xl overflow-hidden shadow-sm group min-h-[320px] md:min-h-[340px] flex flex-col justify-end ${item.gridClass}`}
             >
               {/* Background Image Container */}
-              <div 
+              <div
                 className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-transform duration-700 ease-out group-hover:scale-105"
                 style={{ backgroundImage: `url(${item.bgImage})` }}
               />
-              
+
               {/* Refined Linear Dark Gradient Overlay for Crisp Text Contrast */}
               <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/60 to-transparent transition-opacity duration-300 group-hover:from-black" />
-              
+
               {/* Content Panel */}
               <div className="relative p-8 z-10 space-y-3">
                 <h3 className="text-2xl md:text-3xl font-extrabold tracking-tight text-white leading-tight">
                   {item.highlightTitle && item.title.includes("Ghee") ? (
                     <>
                       Made with <br />
-                      <span className="text-[#ff5722]">{item.title.replace("Made with ", "")}</span>
+                      <span className="text-[#ff5722]">
+                        {item.title.replace("Made with ", "")}
+                      </span>
                     </>
                   ) : (
                     item.title
@@ -732,12 +747,10 @@ const QualityHighlights = () => {
             </motion.div>
           ))}
         </motion.div>
-
       </div>
     </section>
   );
 };
-
 
 // ========== FAQ ACCORDION ITEM COMPONENT ==========
 const FAQItem = ({ question, answer, isOpen, onToggle, index }) => {
@@ -828,7 +841,7 @@ const FAQ = ({ faqs, contactEmail = "woohoo@thehappyfoodcompany.com" }) => {
         >
           <div className="space-y-2">
             <h2 className="heading-1 text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-black tracking-tight text-gray-900 leading-tight">
-              Frequently Asked              
+              Frequently Asked
             </h2>
             <h2 className="heading-2 text-2xl sm:text-3xl md:text-4xl lg:text-5xl">
               Questions
@@ -894,11 +907,11 @@ const AllProductsSection: React.FC<{ products: any[] }> = ({ products }) => {
   const [hoveredId, setHoveredId] = useState<string | null>(null);
 
   const circleColors = [
-  "bg-[#8985B0]", // Darkened from #ADAAC7
-  "bg-[#F2AD69]", // Darkened from #E7B27E
-  "bg-[#D58689]", // Darkened from #D69B9C
-  "bg-[#C17FAF]", // Darkened from #D0A1C3
-];
+    "bg-[#8985B0]", // Darkened from #ADAAC7
+    "bg-[#F2AD69]", // Darkened from #E7B27E
+    "bg-[#D58689]", // Darkened from #D69B9C
+    "bg-[#C17FAF]", // Darkened from #D0A1C3
+  ];
 
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
@@ -934,7 +947,6 @@ const AllProductsSection: React.FC<{ products: any[] }> = ({ products }) => {
             Experience our complete range of clean energy. No fillers, no
             secrets, just real food.
           </p>
-          
         </div>
 
         {/* --- AUTHENTIC GRID WITH STAGGER ANIMATION --- */}
@@ -1177,12 +1189,10 @@ export const HomePage: React.FC = () => {
 
       {/* Features Section */}
       <section className="py-2 bg-white px-2">
-        <div className=" flex justify-center mx-auto px-1 lg:px-0 max-w-10/12 ">
+        <div className=" flex justify-center mx-auto px-0 max-w-full md:max-w-10/12 ">
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6 sm:gap-8 mx-auto">
             {features.map((feature, i) => (
-              <FeatureCard key={i} feature={feature} index={i} 
-              
-              />
+              <FeatureCard key={i} feature={feature} index={i} />
             ))}
           </div>
         </div>
@@ -1219,7 +1229,6 @@ export const HomePage: React.FC = () => {
       <QualityHighlights />
       {/* FAQ Section */}
       <FAQ faqs={faqsToUse} contactEmail={contactEmail} />
-
     </div>
   );
 };
