@@ -1,6 +1,6 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
-
+//new config
 export default defineConfig({
   plugins: [react()],
   preview: {
