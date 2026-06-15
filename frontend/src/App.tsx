@@ -33,7 +33,7 @@ import NourishEnergizeThrivePage from './pages/blogs/NourishEnergizeThrivePage';
 import HappyBarsParentsKidsPage from './pages/blogs/HappyBarsParentsKidsPage';
 
 import { ToastProvider } from './components/Layout/Toast';
-import HappyTeam from './pages/HappyTeam';
+// import HappyTeam from './pages/HappyTeam';
 import Careers from './pages/Careers';
 import PrivacyPolicy from './pages/PrivacyPolicy';
 import Term from './pages/Term';
@@ -73,7 +73,7 @@ function App() {
           <Route path="/happy-bars" element={<RoleBasedRedirect><ProductsPage /></RoleBasedRedirect>} />
           <Route path="/happy-shop" element={<RoleBasedRedirect><ProductsPage /></RoleBasedRedirect>} />
           <Route path="/about-us" element={<RoleBasedRedirect><AboutUsPage /></RoleBasedRedirect>} />
-          <Route path='/happy-team' element={<RoleBasedRedirect><HappyTeam /></RoleBasedRedirect>} />
+          
           <Route path='/careers' element={<RoleBasedRedirect><Careers /></RoleBasedRedirect>} />
 
           <Route path='/privacy' element={<RoleBasedRedirect><PrivacyPolicy /></RoleBasedRedirect>} />
