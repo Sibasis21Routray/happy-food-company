@@ -155,7 +155,7 @@ const ContactPage = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8 }}
-        className="absolute inset-0 bg-gradient-to-br from-gray-50 via-white to-gray-50"
+        className="absolute inset-0 bg-gradient-to-br from-orange-50/40 via-white to-orange-50/20"
       />
 
       <div className="container mx-auto px-6 max-w-6xl relative z-10">
@@ -167,10 +167,10 @@ const ContactPage = () => {
           animate="visible"
           className="text-center mb-12"
         >
-          <h1 className="heading-1 text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-gray-800 mb-3">
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 mb-4 tracking-tight">
             Contact Us
           </h1>
-          <p className="sub-heading text-md font-light max-w-2xl mx-auto">
+          <p className="text-gray-500 text-lg max-w-2xl mx-auto leading-relaxed">
             We'd love to hear from you! Reach out with any questions, feedback, or just to say hello.
           </p>
         </motion.div>
@@ -182,62 +182,80 @@ const ContactPage = () => {
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
-            className="lg:col-span-1 space-y-5"
+            className="lg:col-span-1 space-y-6"
           >
             {/* Phone Card */}
-            <motion.div 
-              variants={cardVariants}
-              initial="hidden"
-              animate="visible"
-              whileHover="hover"
-              className="bg-white border border-gray-200 p-6 hover:border-gray-300 transition-all duration-300"
-            >
-              <div className="mb-4">
-                <Phone className="w-5 h-5 text-gray-500" strokeWidth={1.5} />
-              </div>
-              <h3 className="text-base font-light text-gray-800 mb-1">Call Us</h3>
-              <p className="text-gray-400 text-sm font-light mb-2">Mon-Fri, 10 AM - 6 PM IST</p>
-              <a href="tel:+918042987652" className="text-gray-600 text-md font-light hover:text-gray-900 transition-colors">
-                +91 8042987652
-              </a>
-            </motion.div>
+            <motion.div
+  variants={cardVariants}
+  initial="hidden"
+  animate="visible"
+  whileHover={{ y: -4 }}
+  className="bg-white border border-gray-200 rounded-2xl p-7 min-h-[200px] shadow-sm hover:shadow-md hover:border-orange-300 transition-all duration-300"
+>
+  <div className="w-12 h-12 rounded-xl bg-orange-50 flex items-center justify-center mb-6">
+    <Phone className="w-5 h-5 text-orange-500" strokeWidth={1.8} />
+  </div>
+
+  <h3 className="text-lg font-medium text-gray-800 mb-2">
+    Call Us
+  </h3>
+
+  <p className="text-gray-400 text-sm mb-4">
+    Mon-Fri, 10 AM - 6 PM IST
+  </p>
+
+  <a
+    href="tel:+918042987652"
+    className="text-gray-700 text-lg hover:text-orange-500 transition-colors"
+  >
+    +91 8042987652
+  </a>
+</motion.div>
 
             {/* Address Card */}
-            <motion.div 
-              variants={cardVariants}
-              initial="hidden"
-              animate="visible"
-              whileHover="hover"
-              className="bg-white border border-gray-200 p-6 hover:border-gray-300 transition-all duration-300"
-            >
-              <div className="mb-4">
-                <MapPin className="w-5 h-5 text-gray-500" strokeWidth={1.5} />
-              </div>
-              <h3 className="text-base font-light text-gray-800 mb-1">Visit Us</h3>
-              <p className="text-gray-500 text-sm font-light leading-relaxed">
-                Angstrohm Foods Pvt Ltd<br />
-                3rd Floor, Krishna Arcade,<br />
-                No. 17, S K Nagar, Kodigehalli,<br />
-                Bengaluru, Karnataka - 560092
-              </p>
-            </motion.div>
+            <motion.div
+  variants={cardVariants}
+  initial="hidden"
+  animate="visible"
+  whileHover={{ y: -4 }}
+  className="bg-white border border-gray-200 rounded-2xl p-7 min-h-[250px] shadow-sm hover:shadow-md hover:border-orange-300 transition-all duration-300"
+>
+  <div className="w-12 h-12 rounded-xl bg-orange-50 flex items-center justify-center mb-6">
+    <MapPin className="w-5 h-5 text-orange-500" strokeWidth={1.8} />
+  </div>
+
+  <h3 className="text-lg font-medium text-gray-800 mb-4">
+    Visit Us
+  </h3>
+
+  <div className="text-gray-500 text-[15px] leading-8">
+    <p>Angstrohm Foods Pvt Ltd</p>
+    <p>3rd Floor, Krishna Arcade,</p>
+    <p>No. 17, S K Nagar, Kodigehalli,</p>
+    <p>Bengaluru, Karnataka - 560092</p>
+  </div>
+</motion.div>
 
             {/* Business Hours Card */}
-            <motion.div 
-              variants={cardVariants}
-              initial="hidden"
-              animate="visible"
-              whileHover="hover"
-              className="bg-white border border-gray-200 p-6 hover:border-gray-300 transition-all duration-300"
-            >
-              <div className="mb-4">
-                <Clock className="w-5 h-5 text-gray-500" strokeWidth={1.5} />
-              </div>
-              <h3 className="text-base font-light text-gray-800 mb-1">Business Hours</h3>
-              <div className="space-y-1 text-sm text-gray-500 font-light">
-                <p><span className="text-gray-600">Monday - Friday:</span> 9:00 AM - 6:00 PM</p>
-              </div>
-            </motion.div>
+            <motion.div
+  variants={cardVariants}
+  initial="hidden"
+  animate="visible"
+  whileHover={{ y: -4 }}
+  className="bg-white border border-gray-200 rounded-2xl p-7 min-h-[160px] shadow-sm hover:shadow-md hover:border-orange-300 transition-all duration-300"
+>
+  <div className="w-12 h-12 rounded-xl bg-orange-50 flex items-center justify-center mb-6">
+    <Clock className="w-5 h-5 text-orange-500" strokeWidth={1.8} />
+  </div>
+
+  <h3 className="text-lg font-medium text-gray-800 mb-4">
+    Business Hours
+  </h3>
+
+  <p className="text-gray-500 text-[15px]">
+    Monday - Friday: 9:00 AM - 6:00 PM
+  </p>
+</motion.div>
           </motion.div>
 
           {/* Contact Form */}
@@ -247,77 +265,92 @@ const ContactPage = () => {
             animate="visible"
             className="lg:col-span-2"
           >
-            <div className="bg-white border border-gray-200 p-6 md:p-8">
-              <h2 className="text-xl font-light text-gray-800 mb-6">Send Us a Message</h2>
+            <div className="
+bg-white
+border border-gray-100
+rounded-3xl
+shadow-[0_10px_40px_rgba(0,0,0,0.06)]
+p-8
+md:p-10
+">
+             <h2 className="text-2xl font-semibold text-gray-900 mb-8">Send Us a Message</h2>
               
               <form onSubmit={handleSubmit} className="space-y-5">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                   <motion.div variants={fieldVariants}>
-                    <label className="block text-sm text-gray-500 mb-1.5 tracking-wide">YOUR NAME *</label>
-                    <input
-                      type="text"
-                      id="name"
-                      name="name"
-                      required
-                      value={formData.name}
-                      onChange={handleChange}
-                      className="w-full px-4 py-2.5 border border-gray-300 text-md focus:border-gray-600 focus:outline-none transition-all duration-300 hover:border-gray-400"
-                      placeholder="John Doe"
-                    />
-                  </motion.div>
+                   <label className="block text-sm font-medium text-gray-700 mb-2">
+                       YOUR NAME *
+                       </label>
+                         <input
+                        type="text"
+                         id="name"
+                           name="name"
+                              required
+                              value={formData.name}
+                                onChange={handleChange}
+                                className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-700 placeholder:text-gray-400 shadow-sm transition-all duration-300 hover:border-orange-300 hover:shadow-md focus:outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-100"
+                                 placeholder="John Doe"
+                                      />
+                                 </motion.div>
                   
-                  <motion.div variants={fieldVariants}>
-                    <label className="block text-sm text-gray-500 mb-1.5 tracking-wide">EMAIL ADDRESS *</label>
-                    <input
-                      type="email"
-                      id="email"
-                      name="email"
-                      required
-                      value={formData.email}
-                      onChange={handleChange}
-                      className="w-full px-4 py-2.5 border border-gray-300 text-md focus:border-gray-600 focus:outline-none transition-all duration-300 hover:border-gray-400"
-                      placeholder="john@example.com"
-                    />
-                  </motion.div>
-                </div>
+                               <motion.div variants={fieldVariants}>
+                              <label className="block text-sm font-medium text-gray-700 mb-2">
+                             EMAIL ADDRESS *
+                            </label>
+                             <input
+                           type="email"
+                            id="email"
+                              name="email"
+                               required
+                              value={formData.email}
+                                  onChange={handleChange}
+                                  className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-700 placeholder:text-gray-400 shadow-sm transition-all duration-300 hover:border-orange-300 hover:shadow-md focus:outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-100"
+                                      placeholder="john@example.com"
+                                         />
+                                    </motion.div>
+                                 </div>
+
+                         <motion.div variants={fieldVariants}>
+                           <label className="block text-sm text-gray-500 mb-2.5 tracking-wide">
+                           SUBJECT *
+                          </label>
+                          <select
+                           id="subject"
+                           name="subject"
+                            required
+                 value={formData.subject}
+                        onChange={handleChange}
+                  className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-700 shadow-sm transition-all duration-300 hover:border-orange-300 hover:shadow-md focus:outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-100 bg-white"
+  >
+    <option value="">Select a subject</option>
+    <option value="General Inquiry">General Inquiry</option>
+    <option value="Order Question">Order Question</option>
+    <option value="Returns">Returns & Refunds</option>
+    <option value="Wholesale">Wholesale Inquiry</option>
+    <option value="Feedback">Feedback</option>
+    <option value="Other">Other</option>
+  </select>
+</motion.div>
 
                 <motion.div variants={fieldVariants}>
-                  <label className="block text-sm text-gray-500 mb-1.5 tracking-wide">SUBJECT *</label>
-                  <select
-                    id="subject"
-                    name="subject"
-                    required
-                    value={formData.subject}
-                    onChange={handleChange}
-                    className="w-full px-4 py-2.5 border border-gray-300 text-md focus:border-gray-600 focus:outline-none transition-all duration-300 hover:border-gray-400 bg-white"
-                  >
-                    <option value="">Select a subject</option>
-                    <option value="General Inquiry">General Inquiry</option>
-                    <option value="Order Question">Order Question</option>
-                    <option value="Returns">Returns & Refunds</option>
-                    <option value="Wholesale">Wholesale Inquiry</option>
-                    <option value="Feedback">Feedback</option>
-                    <option value="Other">Other</option>
-                  </select>
-                </motion.div>
-
-                <motion.div variants={fieldVariants}>
-                  <label className="block text-sm text-gray-500 mb-1.5 tracking-wide">MESSAGE *</label>
-                  <textarea
-                    id="message"
-                    name="message"
-                    required
-                    rows={6}
-                    value={formData.message}
-                    onChange={handleChange}
-                    className="w-full px-4 py-2.5 border border-gray-300 text-md focus:border-gray-600 focus:outline-none transition-all duration-300 hover:border-gray-400 resize-none"
-                    placeholder="Tell us how we can help you..."
-                    maxLength={1000}
-                  />
-                  <div className="text-right text-xs text-gray-400 mt-1">
-                    {formData.message.length}/1000
-                  </div>
-                </motion.div>
+  <label className="block text-sm text-gray-500 mb-1.5 tracking-wide">
+    MESSAGE *
+  </label>
+  <textarea
+    id="message"
+    name="message"
+    required
+    rows={6}
+    value={formData.message}
+    onChange={handleChange}
+    className="w-full px-4 py-3 bg-white border border-gray-200 rounded-xl text-gray-700 placeholder:text-gray-400 shadow-sm transition-all duration-300 hover:border-orange-300 hover:shadow-md focus:outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-100 resize-none"
+    placeholder="Tell us how we can help you..."
+    maxLength={1000}
+  />
+  <div className="text-right text-xs text-gray-400 mt-2">
+    {formData.message.length}/1000
+  </div>
+</motion.div>
 
                 {/* Cloudflare Turnstile */}
                 <motion.div variants={fieldVariants} className="flex justify-center py-2">
@@ -396,7 +429,7 @@ const ContactPage = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
-              className="mt-8 bg-white border border-gray-200 overflow-hidden"
+              className="mt-8 bg-white border border-gray-200 rounded-2xl shadow-sm hover:shadow-md hover:border-orange-300 transition-all duration-300 overflow-hidden"
             >
               <div className="p-5 pb-0">
                 <h3 className="text-base font-light text-gray-800 mb-1">Find Us</h3>

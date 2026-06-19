@@ -102,7 +102,7 @@ const HappyBarLanding: React.FC = () => {
       setCurrentImageIndex((prevIndex) => 
         prevIndex === carouselImages.length - 1 ? 0 : prevIndex + 1
       );
-    }, 7000); // 5 seconds
+    }, 5000); // 5 seconds
 
     return () => clearInterval(interval);
   }, [carouselImages.length]);

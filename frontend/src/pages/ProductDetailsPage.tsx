@@ -331,7 +331,7 @@ export const ProductDetailsPage: React.FC = () => {
                         className="flex flex-col items-center group focus:outline-none"
                       >
                         <div
-                          className="w-14 h-14 rounded-full bg-gray-50 border flex items-center justify-center overflow-hidden p-1 transition-all duration-300"
+                          className="w-20 h-20 rounded-full bg-gray-50 border flex items-center justify-center overflow-hidden p-0.2 transition-all duration-300"
                           style={{
                             borderColor: isSelected ? item.color : "#e5e7eb",
                             boxShadow: isSelected
@@ -343,7 +343,7 @@ export const ProductDetailsPage: React.FC = () => {
                           <img
                             src={item.img}
                             alt={item.title}
-                            className="w-full h-full object-contain group-hover:scale-110 transition-transform duration-300"
+                            className="w-full h-full object-contain  group-hover:scale-130 transition-transform duration-300"
                           />
                         </div>
                         <span className="text-body text-[10px] mt-1.5 font-medium text-gray-600 text-center line-clamp-1 w-full tracking-tight">
