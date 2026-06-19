@@ -28,3 +28,24 @@ export const getAddressesByUserId = async (userId: string): Promise<IAddress[]> 
 export const getAddressById = async (id: string): Promise<IAddress | null> => {
   return await Address.findById(id);
 };
+
+
+// ─── Update address by ID ───────────────────────────────────────
+export const updateAddress = async (
+  addressId: string,
+  userId: string,
+  updateData: any
+) => {
+  const address = await Address.findOneAndUpdate(
+    { _id: addressId, userId: userId },
+    { $set: updateData },
+    { new: true, runValidators: true }
+  );
+  return address;
+};
+
+// ─── Delete address by ID ───────────────────────────────────────
+export const deleteAddress = async (addressId: string, userId: string) => {
+  const result = await Address.findOneAndDelete({ _id: addressId, userId: userId });
+  return result;
+};

@@ -323,7 +323,7 @@ const Term = () => {
               <motion.p variants={sectionVariants} className="mt-2">Your submission of personal information through the store is governed by our Privacy Policy.</motion.p>
 
               {/* SECTION 12 */}
-              <motion.h2 variants={sectionVariants} className="text-xl font-light text-gray-800 pt-4">SECTION 12 – ERRORS, INACCURACIES AND OMISSIONS</motion.h2>
+              <motion.h2 variants={sectionVariants} className="text-xl font-light text-gray-800 pt-4">SECTION 12 – ERRORS, INACCURACIES AND COMISSIONS</motion.h2>
               <motion.p variants={sectionVariants} className="mt-2">Occasionally there may be information on our site or in the Service that contains typographical errors, inaccuracies or omissions that may relate to product descriptions, pricing, promotions, offers, product shipping charges, transit times and availability. We reserve the right to correct any errors, inaccuracies or omissions, and to change or update information or cancel orders if any information in the Service or on any related website is inaccurate at any time without prior notice (including after you have submitted your order).</motion.p>
               <motion.p variants={sectionVariants} className="mt-2">We undertake no obligation to update, amend or clarify information in the Service or on any related website, including without limitation, pricing information, except as required by law. No specified update or refresh date applied in the Service or on any related website, should be taken to indicate that all information in the Service or on any related website has been modified or updated.</motion.p>
 

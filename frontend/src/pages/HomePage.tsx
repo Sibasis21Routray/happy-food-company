@@ -63,13 +63,6 @@ const SectionHeader = ({
           {subtitle}
         </motion.p>
       )}
-
-      {/* <motion.div
-        initial={{ width: 0 }}
-        animate={isInView ? { width: 40 } : { width: 0 }}
-        transition={{ delay: 0.4, duration: 0.6 }}
-        className="h-px bg-gradient-to-r from-orange-300 to-orange-400 rounded-full mx-auto mt-6"
-      /> */}
     </div>
   );
 };
@@ -79,6 +72,40 @@ const SectionHeader = ({
 const HappyBarLanding: React.FC = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const isInView = useInView(sectionRef, { once: true, amount: 0.1 });
+
+  // Image carousel data
+  const carouselImages = [
+    {
+      src: "/images/cashew-raisin.png",
+      alt: "Happy Bar Cashew Cookie Dough Protein Bar"
+    },
+    {
+      src: "/images/coconut-almond.png",
+      alt: "Happy Bar Coconut Almond Protein Bar"
+    },
+    {
+      src: "/images/date-almond-cranberry.png",
+      alt: "Happy Bar Date Almond Cranberry Protein Bar"
+    },
+    {
+      src: "/images/almond-cranberry.png",
+      alt: "Happy Bar Almond Cranberry Protein Bar"
+    }
+  ];
+
+  // State for current image index
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+  // Auto-scroll effect - changes image every 5 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prevIndex) => 
+        prevIndex === carouselImages.length - 1 ? 0 : prevIndex + 1
+      );
+    }, 7000); // 5 seconds
+
+    return () => clearInterval(interval);
+  }, [carouselImages.length]);
 
   // Animation variants tailored for crisp presentation
   const containerVariants: Variants = {
@@ -95,16 +122,6 @@ const HappyBarLanding: React.FC = () => {
       opacity: 1,
       y: 0,
       transition: { duration: 0.5, ease: [0.215, 0.61, 0.355, 1] },
-    },
-  };
-
-  const imageVariants: Variants = {
-    hidden: { opacity: 0, scale: 0.95, y: 30 },
-    visible: {
-      opacity: 1,
-      scale: 1,
-      y: 0,
-      transition: { duration: 0.8, type: "spring", stiffness: 90, damping: 20 },
     },
   };
 
@@ -126,7 +143,7 @@ const HappyBarLanding: React.FC = () => {
           />
         </svg>
         <span className="text-body">
-          Indias's Favorite Protein Bars Has Landed —{" "}
+          India's Favorite Protein Bars Has Landed —{" "}
           <Link
             to={"/happy-shop"}
             className="underline cursor-pointer lowercase font-normal"
@@ -162,12 +179,6 @@ const HappyBarLanding: React.FC = () => {
             <motion.div variants={itemVariants} className="space-y-1">
               {/* Main Headline Stack - Using global typography classes */}
               <div className="flex flex-col items-center lg:items-start text-center lg:text-left pt-0 lg:pt-4">
-                {/* Dry Ink Brush Script Accent - Using heading-2 class */}
-                {/* <h2 className="heading-2 text-3xl sm:text-4xl md:text-5xl mb-1 lg:-ml-1 transform -rotate-[1deg]">
-                  Real Food
-                </h2> */}
-
-                {/* Premium Slab Serif Headings - Using heading-1 class */}
                 <h1 className="heading-1 text-4xl sm:text-5xl md:text-6xl text-white mt-2">
                   All natural ingredients.
                   <br />
@@ -175,13 +186,51 @@ const HappyBarLanding: React.FC = () => {
                 </h1>
               </div>
             </motion.div>
-            <motion.img
-              src="/images/cashew-raisin.png"
-              alt="Happy Bar Cashew Cookie Dough Protein Bar"
-              className="block lg:hidden mx-auto h-fit sm:h-64 object-contain z-10 filter drop-shadow-[0_20px_35px_rgba(0,0,0,0.3)] -rotate-10"
-              whileHover={{ scale: 1.02, rotate: -1 }}
-              transition={{ duration: 0.3 }}
-            />
+
+            {/* MOBILE CAROUSEL - Horizontal slide only with hidden scrollbar */}
+            <div className="block lg:hidden relative w-full max-w-xs mx-auto">
+              <div 
+                className="relative overflow-hidden" 
+                style={{ 
+                  scrollbarWidth: 'none', 
+                  msOverflowStyle: 'none' 
+                }}
+              >
+                <style>{`
+                  .relative.overflow-hidden::-webkit-scrollbar {
+                    display: none;
+                  }
+                `}</style>
+                <AnimatePresence mode="wait">
+                  <motion.img
+                    key={currentImageIndex}
+                    src={carouselImages[currentImageIndex].src}
+                    alt={carouselImages[currentImageIndex].alt}
+                    className="mx-auto h-64 sm:h-72 object-contain z-10 filter drop-shadow-[0_20px_35px_rgba(0,0,0,0.3)] -rotate-10"
+                    initial={{ opacity: 0, x: 80 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -80 }}
+                    transition={{ duration: 0.6, ease: "easeInOut" }}
+                    whileHover={{ scale: 1.02, rotate: -1 }}
+                  />
+                </AnimatePresence>
+              </div>
+
+              {/* Dot indicators for mobile */}
+              {/* <div className="flex justify-center gap-2 mt-4">
+                {carouselImages.map((_, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => setCurrentImageIndex(idx)}
+                    className={`transition-all duration-300 ${
+                      currentImageIndex === idx 
+                        ? 'w-6 h-1.5 bg-white/80' 
+                        : 'w-3 h-1.5 bg-white/30'
+                    }`}
+                  />
+                ))}
+              </div> */}
+            </div>
 
             {/* CTA Button Link */}
             <motion.div variants={itemVariants} className="pt-0 lg:pt-4">
@@ -210,17 +259,54 @@ const HappyBarLanding: React.FC = () => {
         </div>
       </section>
 
-      <motion.img
-        src="/images/cashew-raisin.png"
-        alt="Happy Bar Cashew Cookie Dough Protein Bar"
-        className="absolute lg:block hidden  md:top-90 lg:top-80 left-110 w-full h-114 md:h-94 lg:h-134 xl:h-[42vh] object-contain z-10 filter drop-shadow-[0_20px_35px_rgba(0,0,0,0.3)] -rotate-10"
-        whileHover={{ scale: 1.02, rotate: -1 }}
-        transition={{ duration: 0.3 }}
-      />
+      {/* DESKTOP CAROUSEL - Horizontal slide only with hidden scrollbar */}
+      <div className="absolute lg:block hidden md:top-90 lg:top-80 left-110 w-full h-114 md:h-94 lg:h-134 xl:h-[42vh]">
+        <div 
+          className="relative w-full h-full overflow-hidden"
+          style={{ 
+            scrollbarWidth: 'none', 
+            msOverflowStyle: 'none' 
+          }}
+        >
+          <style>{`
+            .relative.w-full.h-full.overflow-hidden::-webkit-scrollbar {
+              display: none;
+            }
+          `}</style>
+          <AnimatePresence mode="wait">
+            <motion.img
+              key={currentImageIndex}
+              src={carouselImages[currentImageIndex].src}
+              alt={carouselImages[currentImageIndex].alt}
+              className="w-full h-full object-contain z-10 filter drop-shadow-[0_20px_35px_rgba(0,0,0,0.3)] -rotate-10"
+              initial={{ opacity: 0, x: 100 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -100 }}
+              transition={{ duration: 0.8, ease: "easeInOut" }}
+              whileHover={{ scale: 1.02, rotate: -1 }}
+            />
+          </AnimatePresence>
+        </div>
+
+        {/* Dot indicators for desktop */}
+        {/* <div className="absolute -bottom-8 left-1/2 transform -translate-x-1/2 flex justify-center gap-2 mt-4">
+          {carouselImages.map((_, idx) => (
+            <button
+              key={idx}
+              onClick={() => setCurrentImageIndex(idx)}
+              className={`transition-all duration-300 ${
+                currentImageIndex === idx 
+                  ? 'w-6 h-1.5 bg-white/80' 
+                  : 'w-3 h-1.5 bg-white/30'
+              }`}
+            />
+          ))}
+        </div> */}
+      </div>
 
       {/* --- SECTION 2: BRAND VALUE PROPOSITION --- */}
-      <div className="flex justify-center mx-auto flex flex-col lg:flex-row items-center  gap-10 lg:gap-14 py-15">
-        <h2 className="heading-1 text-2xl sm:text-3xl md:text-4xl lg:text-5xl  tracking-tight text-neutral-900 px-1 ">
+      <div className="flex justify-center mx-auto flex flex-col lg:flex-row items-center gap-10 lg:gap-14 py-15">
+        <h2 className="heading-1 text-2xl sm:text-3xl md:text-4xl lg:text-5xl tracking-tight text-neutral-900 px-1">
           Why choose Happy Bar ?
         </h2>
       </div>
@@ -229,53 +315,52 @@ const HappyBarLanding: React.FC = () => {
 };
 
 // Feature Card
-
 const FeatureCard = ({ feature, index }: { feature: any; index: number }) => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-20px" });
 
   return (
     <motion.div
-  ref={ref}
-  initial={{ opacity: 0, y: 15 }}
-  animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 15 }}
-  transition={{
-    duration: 0.5,
-    delay: index * 0.08,
-    ease: [0.16, 1, 0.3, 1],
-  }}
-  whileHover={{ scale: 1.05 }}
-  className="
-    flex flex-col sm:flex-row
-    items-center
-    text-center sm:text-left
-    gap-3
-    py-2
-    cursor-pointer
-  "
->
-  {/* Image */}
-  <div className="w-12 h-12 sm:w-14 sm:h-14 flex-shrink-0 flex items-center justify-center">
-    <img
-      src={feature.img}
-      alt={feature.title}
-      className="w-full h-full object-contain"
-    />
-  </div>
+      ref={ref}
+      initial={{ opacity: 0, y: 15 }}
+      animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 15 }}
+      transition={{
+        duration: 0.5,
+        delay: index * 0.08,
+        ease: [0.16, 1, 0.3, 1],
+      }}
+      whileHover={{ scale: 1.05 }}
+      className="
+        flex flex-col sm:flex-row
+        items-center
+        text-center sm:text-left
+        gap-3
+        py-2
+        cursor-pointer
+      "
+    >
+      {/* Image */}
+      <div className="w-12 h-12 sm:w-14 sm:h-14 flex-shrink-0 flex items-center justify-center">
+        <img
+          src={feature.img}
+          alt={feature.title}
+          className="w-full h-full object-contain"
+        />
+      </div>
 
-  {/* Text */}
-  <div className="flex flex-col justify-center max-w-[160px] sm:max-w-[180px]">
-    <h4 className="heading-4 font-bold text-[#F05E26] text-sm sm:text-base tracking-tight">
-      {feature.title}
-    </h4>
+      {/* Text */}
+      <div className="flex flex-col justify-center max-w-[160px] sm:max-w-[180px]">
+        <h4 className="heading-4 font-bold text-[#F05E26] text-sm sm:text-base tracking-tight">
+          {feature.title}
+        </h4>
 
-    {feature.desc && (
-      <p className="text-muted text-[11px] sm:text-xs mt-1 leading-tight">
-        {feature.desc}
-      </p>
-    )}
-  </div>
-</motion.div>
+        {feature.desc && (
+          <p className="text-muted text-[11px] sm:text-xs mt-1 leading-tight">
+            {feature.desc}
+          </p>
+        )}
+      </div>
+    </motion.div>
   );
 };
 
@@ -525,7 +610,7 @@ const CraftsmanshipSection: React.FC = () => {
           {/* Timeline connector line - dynamically adjusts positions cleanly between mobile and desktop styles */}
           <div className="absolute left-10 md:left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-orange-200 via-orange-300/50 to-transparent transform md:-translate-x-1/2" />
 
-          <div className="space-y-12 md:space-y-16">
+          <div className="space-y-12 md:space-y-8">
             {steps.map((step, idx) => {
               const IconComponent = step.icon;
               return (
@@ -538,7 +623,6 @@ const CraftsmanshipSection: React.FC = () => {
                     duration: 0.6,
                     ease: [0.16, 1, 0.3, 1],
                   }}
-                  /* Fallback to simple left alignment layout on mobile, alternate positions on desktop elements */
                   className={`flex flex-row md:items-center gap-6 md:gap-12 w-full ${
                     idx % 2 === 0 ? "md:flex-row" : "md:flex-row-reverse"
                   }`}
@@ -626,55 +710,55 @@ const CraftsmanshipSection: React.FC = () => {
 
 const QualityHighlights = () => {
   const highlights = [
-  {
-    title: "World-Class Manufacturing Facility",
-    desc: "Produced in Bangalore using modern equipment and robust food safety processes.",
-    bgImage: "https://pbs.twimg.com/media/DLxYScxX0AA-Eu4.jpg",
-    gridClass: "lg:col-span-4",
-  },
-  {
-    title: "Stringent Quality Standards",
-    desc: "Every batch undergoes quality checks to ensure consistency, safety, and taste.",
-    bgImage: "https://etimg.etb2bimg.com/photo/109858507.cms",
-    gridClass: "lg:col-span-4",
-  },
-  {
-    title: "Made with Pure Ghee",
-    desc: "A traditional ingredient that adds richness and flavour to every bar.",
-    bgImage:
-      "https://cdn.shopify.com/s/files/1/0703/8029/0267/files/ChatGPT_Image_Mar_28_2026_12_51_01_AM.png?v=1774639341",
-    gridClass: "lg:col-span-4",
-    highlightTitle: true,
-  },
-  {
-    title: "9-Month Shelf Life",
-    desc: "TÜV-certified shelf life for confidence in quality and freshness.",
-    bgImage:
-      "https://www.madgetech.com/wp-content/uploads/2020/09/ExpirationDates-Full.jpg",
-    gridClass: "lg:col-span-3",
-  },
-  {
-    title: "Real Ingredients Only",
-    desc: "Made with nuts, fruits, milk protein, jaggery, and pure ghee.",
-    bgImage:
-      "https://images.unsplash.com/photo-1490818387583-1baba5e638af?auto=format&fit=crop&w=800&q=80",
-    gridClass: "lg:col-span-3",
-  },
-  {
-    title: "Proudly Made in India",
-    desc: "Locally manufactured with global-quality production standards.",
-    bgImage:
-      "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=800&q=80",
-    gridClass: "lg:col-span-3",
-  },
-  {
-    title: "Trusted by Families",
-    desc: "A convenient snack made with ingredients you know and trust.",
-    bgImage:
-      "https://st2.depositphotos.com/2234518/5181/i/450/depositphotos_51818167-stock-photo-family-portrait-with-thumbs-up.jpg",
-    gridClass: "lg:col-span-3",
-  },
-];
+    {
+      title: "World-Class Manufacturing Facility",
+      desc: "Produced in Bangalore using modern equipment and robust food safety processes.",
+      bgImage: "https://pbs.twimg.com/media/DLxYScxX0AA-Eu4.jpg",
+      gridClass: "lg:col-span-4",
+    },
+    {
+      title: "Stringent Quality Standards",
+      desc: "Every batch undergoes quality checks to ensure consistency, safety, and taste.",
+      bgImage: "https://etimg.etb2bimg.com/photo/109858507.cms",
+      gridClass: "lg:col-span-4",
+    },
+    {
+      title: "Made with Pure Ghee",
+      desc: "A traditional ingredient that adds richness and flavour to every bar.",
+      bgImage:
+        "https://cdn.shopify.com/s/files/1/0703/8029/0267/files/ChatGPT_Image_Mar_28_2026_12_51_01_AM.png?v=1774639341",
+      gridClass: "lg:col-span-4",
+      highlightTitle: true,
+    },
+    {
+      title: "9-Month Shelf Life",
+      desc: "TÜV-certified shelf life for confidence in quality and freshness.",
+      bgImage:
+        "https://www.madgetech.com/wp-content/uploads/2020/09/ExpirationDates-Full.jpg",
+      gridClass: "lg:col-span-3",
+    },
+    {
+      title: "Real Ingredients Only",
+      desc: "Made with nuts, fruits, milk protein, jaggery, and pure ghee.",
+      bgImage:
+        "https://images.unsplash.com/photo-1490818387583-1baba5e638af?auto=format&fit=crop&w=800&q=80",
+      gridClass: "lg:col-span-3",
+    },
+    {
+      title: "Proudly Made in India",
+      desc: "Locally manufactured with global-quality production standards.",
+      bgImage:
+        "https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=800&q=80",
+      gridClass: "lg:col-span-3",
+    },
+    {
+      title: "Trusted by Families",
+      desc: "A convenient snack made with ingredients you know and trust.",
+      bgImage:
+        "https://st2.depositphotos.com/2234518/5181/i/450/depositphotos_51818167-stock-photo-family-portrait-with-thumbs-up.jpg",
+      gridClass: "lg:col-span-3",
+    },
+  ];
 
   const containerVariants: Variants = {
     hidden: {},
@@ -702,113 +786,111 @@ const QualityHighlights = () => {
           subtitle="Uncompromising Standards Premium Ingredients "
         />
 
-        {/* Dynamic Multi-span Grid Layout */}
-        {/* Dynamic Multi-span Grid Layout */}
-<motion.div
-  variants={containerVariants}
-  initial="hidden"
-  whileInView="visible"
-  viewport={{ once: true, margin: "-40px" }}
-  className="
-    grid
-    grid-cols-1
-    sm:grid-cols-2
-    lg:grid-cols-12
-    gap-4 md:gap-6
-  "
->
-  {highlights.map((item, index) => (
-    <motion.div
-      key={index}
-      variants={cardVariants}
-      whileHover={{
-        scale: 1.015,
-        transition: { duration: 0.2 },
-      }}
-      className={`
-        relative
-        overflow-hidden
-        rounded-3xl
-        shadow-sm
-        group
-        flex flex-col justify-end
-
-        min-h-[280px]
-        sm:min-h-[320px]
-        md:min-h-[340px]
-
-        col-span-1
-        ${item.gridClass}
-      `}
-    >
-      {/* Background Image */}
-      <div
-        className="
-          absolute inset-0
-          bg-cover bg-center bg-no-repeat
-          transition-transform duration-700 ease-out
-          group-hover:scale-105
-        "
-        style={{
-          backgroundImage: `url(${item.bgImage})`,
-        }}
-      />
-
-      {/* Gradient Overlay */}
-      <div
-        className="
-          absolute inset-0
-          bg-gradient-to-t
-          from-black/95
-          via-black/60
-          to-transparent
-          transition-opacity duration-300
-          group-hover:from-black
-        "
-      />
-
-      {/* Content */}
-      <div className="relative z-10 p-5 sm:p-6 md:p-8">
-        <h3
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-40px" }}
           className="
-            text-xl
-            sm:text-2xl
-            lg:text-3xl
-            font-extrabold
-            tracking-tight
-            text-white
-            leading-tight
-            mb-3
+            grid
+            grid-cols-1
+            sm:grid-cols-2
+            lg:grid-cols-12
+            gap-4 md:gap-6
           "
         >
-          {item.highlightTitle && item.title.includes("Ghee") ? (
-            <>
-              Made with <br />
-              <span className="text-[#ff5722]">
-                {item.title.replace("Made with ", "")}
-              </span>
-            </>
-          ) : (
-            item.title
-          )}
-        </h3>
+          {highlights.map((item, index) => (
+            <motion.div
+              key={index}
+              variants={cardVariants}
+              whileHover={{
+                scale: 1.015,
+                transition: { duration: 0.2 },
+              }}
+              className={`
+                relative
+                overflow-hidden
+                rounded-3xl
+                shadow-sm
+                group
+                flex flex-col justify-end
 
-        <p
-          className="
-            text-gray-300
-            font-normal
-            leading-relaxed
-            text-sm
-            lg:text-base
-            max-w-sm
-          "
-        >
-          {item.desc}
-        </p>
-      </div>
-    </motion.div>
-  ))}
-</motion.div>
+                min-h-[280px]
+                sm:min-h-[320px]
+                md:min-h-[340px]
+
+                col-span-1
+                ${item.gridClass}
+              `}
+            >
+              {/* Background Image */}
+              <div
+                className="
+                  absolute inset-0
+                  bg-cover bg-center bg-no-repeat
+                  transition-transform duration-700 ease-out
+                  group-hover:scale-105
+                "
+                style={{
+                  backgroundImage: `url(${item.bgImage})`,
+                }}
+              />
+
+              {/* Gradient Overlay */}
+              <div
+                className="
+                  absolute inset-0
+                  bg-gradient-to-t
+                  from-black/95
+                  via-black/60
+                  to-transparent
+                  transition-opacity duration-300
+                  group-hover:from-black
+                "
+              />
+
+              {/* Content */}
+              <div className="relative z-10 p-5 sm:p-6 md:p-8">
+                <h3
+                  className="
+                    text-xl
+                    sm:text-2xl
+                    lg:text-3xl
+                    font-extrabold
+                    tracking-tight
+                    text-white
+                    leading-tight
+                    mb-3
+                  "
+                >
+                  {item.highlightTitle && item.title.includes("Ghee") ? (
+                    <>
+                      Made with <br />
+                      <span className="text-[#ff5722]">
+                        {item.title.replace("Made with ", "")}
+                      </span>
+                    </>
+                  ) : (
+                    item.title
+                  )}
+                </h3>
+
+                <p
+                  className="
+                    text-gray-300
+                    font-normal
+                    leading-relaxed
+                    text-sm
+                    lg:text-base
+                    max-w-sm
+                  "
+                >
+                  {item.desc}
+                </p>
+              </div>
+            </motion.div>
+          ))}
+        </motion.div>
       </div>
     </section>
   );

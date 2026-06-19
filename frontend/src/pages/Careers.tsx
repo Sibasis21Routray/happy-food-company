@@ -227,7 +227,7 @@ export default function Careers() {
               whileHover="hover"
               className="relative group w-full"
             >
-              <div className="overflow-hidden border border-gray-100 aspect-video rounded-sm">
+              {/* <div className="overflow-hidden border border-gray-100 aspect-video rounded-sm">
                 <video
                   loop
                   muted
@@ -236,11 +236,21 @@ export default function Careers() {
                   className="w-full h-full object-cover"
                 >
                   <source
-                    src="https://thehappyfoodcompany.com/wp-content/uploads/2024/05/The-Happy-Food-Company-v1.0.mp4"
+                    src="https://youtu.be/srSoRImGc4o?si=TpEHrstvwuTCrXTg"
                     type="video/mp4"
                   />
                 </video>
-              </div>
+              </div> */}
+
+              <div className="overflow-hidden border border-gray-100 aspect-video rounded-sm">
+  <iframe
+    className="w-full h-full"
+    src="https://www.youtube.com/embed/srSoRImGc4o"
+    title="YouTube video player"
+    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+    allowFullScreen
+  />
+</div>
             </motion.div>
           </div>
         </div>

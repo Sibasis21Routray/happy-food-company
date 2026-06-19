@@ -115,6 +115,9 @@ export const ProfilePage: React.FC = () => {
   });
   const [isAddingAddress, setIsAddingAddress] = useState(false);
   const [savedAddresses, setSavedAddresses] = useState<SavedAddress[]>([]);
+  const [editingAddress, setEditingAddress] = useState<SavedAddress | null>(null);
+  const [deletingAddressId, setDeletingAddressId] = useState<string | null>(null);
+
   const [addressForm, setAddressForm] = useState<AddressFormData>({
     name: '',
     phone: '',
@@ -142,7 +145,7 @@ export const ProfilePage: React.FC = () => {
   const states = State.getStatesOfCountry(addressForm.country);
   const { showToast } = useToast();
 
-
+  
   useEffect(() => {
   const section = searchParams.get('section');
 
@@ -251,22 +254,103 @@ export const ProfilePage: React.FC = () => {
   };
 
   const handleEditAddress = (addr: SavedAddress) => {
-    setIsAddingAddress(true);
+  setEditingAddress(addr);
+
+  setIsAddingAddress(true);
+
+  setAddressForm({
+    name: addr.name,
+    phone: addr.phone,
+    pinCode: addr.pinCode,
+    locality: addr.locality,
+    streetAddress: addr.streetAddress,
+    city: addr.city,
+    state: addr.state,
+    country: addr.country || "IN",
+    landmark: addr.landmark || "",
+    alternatePhone: "",
+    type: addr.type,
+    email: user?.email || ""
+  });
+};
+
+const handleSaveAddress = async () => {
+  if (!validateAddressForm()) return;
+
+  try {
+    setLoading(true);
+
+    let resp;
+
+    if (editingAddress?._id) {
+      resp = await api.addresses.update(
+        editingAddress._id,
+        addressForm
+      );
+
+      setSavedAddresses(prev =>
+        prev.map(addr =>
+          addr._id === editingAddress._id
+            ? resp.address
+            : addr
+        )
+      );
+
+      showToast("Address updated successfully", "success");
+    } else {
+      resp = await api.addresses.create(addressForm);
+
+      setSavedAddresses(prev => [
+        ...prev,
+        resp.address
+      ]);
+
+      showToast("Address saved successfully", "success");
+    }
+
+    setEditingAddress(null);
+    setIsAddingAddress(false);
+
     setAddressForm({
-      name: addr.name,
-      phone: addr.phone,
-      pinCode: addr.pinCode,
-      locality: addr.locality,
-      streetAddress: addr.streetAddress,
-      city: addr.city,
-      state: addr.state,
-      country: addr.country || 'IN',
-      landmark: addr.landmark || '',
-      alternatePhone: '',
-      type: addr.type,
-      email: user?.email || addressForm.email || ''
+      name: "",
+      phone: "",
+      pinCode: "",
+      locality: "",
+      streetAddress: "",
+      city: "",
+      state: "",
+      country: "IN",
+      landmark: "",
+      alternatePhone: "",
+      type: "Home",
+      email: user?.email || ""
     });
-  };
+  } catch (err) {
+    console.error(err);
+    showToast("Operation failed", "error");
+  } finally {
+    setLoading(false);
+  }
+};
+
+const handleDeleteAddress = async (addressId: string) => {
+  try {
+    setDeletingAddressId(addressId);
+
+    await api.addresses.delete(addressId);
+
+    setSavedAddresses(prev =>
+      prev.filter(addr => addr._id !== addressId)
+    );
+
+    showToast("Address deleted successfully", "success");
+  } catch (err) {
+    console.error(err);
+    showToast("Failed to delete address", "error");
+  } finally {
+    setDeletingAddressId(null);
+  }
+};
 
   const handleUpdate = async () => {
     setLoading(true);
@@ -462,7 +546,6 @@ export const ProfilePage: React.FC = () => {
                         <User size={24} className="text-gray-600" />
                       </div>
                       <div>
-                        <p className="text-sm text-gray-500">Hello,</p>
                         <p className="text-lg font-semibold text-gray-900">{user.fullName}</p>
                         <p className="text-sm text-gray-500 mt-0.5">{user.email}</p>
                       </div>
@@ -949,49 +1032,17 @@ export const ProfilePage: React.FC = () => {
             >
               Cancel
             </button>
-            <button 
-              onClick={async () => {
-                if (!validateAddressForm()) {
-                  return;
-                }
-                try {
-                  setLoading(true);
-                  const resp = await api.addresses.create(addressForm);
-                  if (resp.address) {
-                    setSavedAddresses(prev => [...prev, resp.address]);
-                    setIsAddingAddress(false);
-showToast('Address saved successfully', 'success');
-
-if (returnTo === 'checkout') {
-  navigate('/cart?step=2');
-  return;
-}
-                    setAddressForm(prev => ({
-                      ...prev,
-                      name: '',
-                      phone: '',
-                      pinCode: '',
-                      locality: '',
-                      streetAddress: '',
-                      city: '',
-                      state: '',
-                      country: '',
-                      landmark: '',
-                      type: 'Home'
-                    }));
-                  }
-                } catch (error) {
-                  console.error(error);
-                  showToast('Failed to save address. Please try again.', 'error');
-                } finally {
-                  setLoading(false);
-                }
-              }} 
-              className="px-6 py-2 bg-gray-900 text-white text-base font-semibold hover:bg-gray-800 transition-all rounded-sm"
-              disabled={loading}
-            >
-              {loading ? 'SAVING...' : 'SAVE ADDRESS'}
-            </button>
+            <button
+  onClick={handleSaveAddress}
+  className="px-6 py-2 bg-gray-900 text-white text-base font-semibold hover:bg-gray-800 transition-all rounded-sm"
+  disabled={loading}
+>
+  {loading
+    ? "SAVING..."
+    : editingAddress
+    ? "UPDATE ADDRESS"
+    : "SAVE ADDRESS"}
+</button>
           </div>
         </div>
       </div>
@@ -1011,12 +1062,21 @@ if (returnTo === 'checkout') {
               <span className="text-xs font-semibold text-gray-600 uppercase bg-gray-100 px-3 py-1 rounded-sm">
                 {addr.type}
               </span>
-              <button 
-                onClick={() => handleEditAddress(addr)} 
-                className="text-gray-400 hover:text-gray-700 opacity-0 group-hover:opacity-100 transition-opacity"
-              >
-                <Edit size={14} />
-              </button>
+              <div className="flex gap-2">
+  <button
+    onClick={() => handleEditAddress(addr)}
+    className="text-gray-400 hover:text-gray-700"
+  >
+    <Edit size={14} />
+  </button>
+
+  <button
+    onClick={() => handleDeleteAddress(addr._id!)}
+    className="text-gray-400 hover:text-red-600"
+  >
+    <Trash2 size={14} />
+  </button>
+</div>
             </div>
             <p className="font-semibold text-gray-900 text-base mb-1">{addr.name}</p>
             <p className="text-gray-600 text-sm mb-2">{addr.phone}</p>

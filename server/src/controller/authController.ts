@@ -9,7 +9,8 @@ import { sendResetPasswordEmail } from "../services/mailService";
 // ─── REGISTER ─────────────────────────────────────────────────
 export const register = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { fullName, email, password, gender, mobileNumber } = req.body;
+    const { fullName, email, password, gender,
+       mobileNumber } = req.body;
     const result = await authService.registerService({ fullName, email, password, gender, mobileNumber });
     
     res.status(201).json({
@@ -121,54 +122,121 @@ export const updateProfile = async (req: AuthRequest, res: Response): Promise<vo
     res.status(500).json({ message: "Server error", error });
   }
 };
+
+
+
 // ─── FORGOT PASSWORD ──────────────────────────────────────────
 export const forgotPassword = async (req: Request, res: Response): Promise<void> => {
   try {
     const { email } = req.body;
-    const user = await userDao.findUserByEmail(email);
-
-    if (!user) {
-      res.status(404).json({ message: "User not found" });
+    
+    // Validate email
+    if (!email) {
+      res.status(400).json({ message: "Email is required" });
       return;
     }
 
-    // Generate reset token
-    const resetToken = crypto.randomBytes(20).toString("hex");
+    const user = await userDao.findUserByEmail(email);
+
+    if (!user) {
+      // Security best practice: Don't reveal if user exists
+      res.status(200).json({ 
+        message: "If an account exists with this email, a reset link will be sent." 
+      });
+      return;
+    }
+
+    // Generate reset token (use 32 bytes for better security)
+    const resetToken = crypto.randomBytes(32).toString("hex");
     const resetPasswordExpires = new Date(Date.now() + 3600000); // 1 hour
 
+    // Save token FIRST
     await userDao.updateUser(user._id.toString(), {
       resetPasswordToken: resetToken,
       resetPasswordExpires,
     } as any);
 
-    // Send email
-    await sendResetPasswordEmail(email, resetToken);
-
-    res.status(200).json({ message: "Password reset link sent to email" });
+    // THEN try to send email
+    try {
+      await sendResetPasswordEmail(email, resetToken);
+      res.status(200).json({ 
+        message: "Password reset link sent to your email" 
+      });
+    } catch (emailError) {
+      // Email failed - clear the token to prevent issues
+      await userDao.updateUser(user._id.toString(), {
+        resetPasswordToken: null,
+        resetPasswordExpires: null,
+      } as any);
+      
+      console.error('Failed to send reset email:', emailError);
+      res.status(500).json({ 
+        message: "Failed to send reset email. Please try again later." 
+      });
+    }
   } catch (error: any) {
-    res.status(500).json({ message: error.message });
+    console.error('Forgot password error:', error);
+    res.status(500).json({ 
+      message: error.message || "Internal server error" 
+    });
   }
 };
+
+
 
 // ─── RESET PASSWORD ───────────────────────────────────────────
 export const resetPassword = async (req: Request, res: Response): Promise<void> => {
   try {
     const { token, password } = req.body;
 
+    // Validate inputs
+    if (!token) {
+      res.status(400).json({ message: "Reset token is required" });
+      return;
+    }
+
+    if (!password) {
+      res.status(400).json({ message: "New password is required" });
+      return;
+    }
+
+    // Validate password strength
+    if (password.length < 8) {
+      res.status(400).json({ 
+        message: "Password must be at least 8 characters long" 
+      });
+      return;
+    }
+
     const user = await userDao.findUserByResetToken(token);
     if (!user) {
-      res.status(400).json({ message: "Invalid or expired reset token" });
+      res.status(400).json({ 
+        message: "Invalid or expired reset token" 
+      });
+      return;
+    }
+
+    // Check if token is expired
+    if (user.resetPasswordExpires && new Date() > user.resetPasswordExpires) {
+      res.status(400).json({ 
+        message: "Reset token has expired. Please request a new one." 
+      });
       return;
     }
 
     // Update password
     const hashedPassword = await bcrypt.hash(password, 10);
     
-    // Clear reset token and set new password using DAO
+    // Clear reset token and set new password
     await userDao.resetUserPassword(user._id.toString(), hashedPassword);
 
-    res.status(200).json({ message: "Password reset successful" });
+    res.status(200).json({ 
+      message: "Password reset successful. You can now login with your new password." 
+    });
   } catch (error: any) {
-    res.status(500).json({ message: error.message });
+    console.error('Reset password error:', error);
+    res.status(500).json({ 
+      message: error.message || "Internal server error" 
+    });
   }
 };

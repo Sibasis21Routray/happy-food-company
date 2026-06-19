@@ -17,14 +17,14 @@ export const ProductsPage: React.FC = () => {
       slug: 'combo-6-1',
       title: 'Happy Bar - Almond Cranberry | Cashew Raisin - Variety Box of 6',
       price: 276,
-      images: ['/combo-products/Variety-6-AC-CR.JPG'],
+      images: ['/combo-products/Variety-6-AC-CR-removebg-preview.png'],
     },
     {
       _id: '69e0bed3ddd3678cb38d4aa4',
       slug: 'combo-6-2',
       title: 'Happy Bar - Coconut Almond | Date Almond Cranberry - Variety Box of 6',
       price: 276,
-      images: ['/combo-products/Variety-6-CA-DAC.JPG'],
+      images: ['/combo-products/Variety-6-CA-DAC-removebg-preview.png'],
       
     },
     {
@@ -32,7 +32,7 @@ export const ProductsPage: React.FC = () => {
       slug: 'combo-12',
       title: 'Almond Cranberry | Cashew Raisin | Coconut Almond | Date Almond Cranberry 0- Variety Box of 12',
       price: 552,
-      images: ['/combo-products/Variety-12.JPG'],
+      images: ['/combo-products/Variety-12-removebg-preview.png'],
     }
   ];
 
@@ -50,9 +50,9 @@ export const ProductsPage: React.FC = () => {
           );
           
           if (comboProducts.length > 0) {
-            setProducts(comboProducts);
-          } else {
             setProducts(INITIAL_PRODUCTS);
+          } else {
+            setProducts(comboProducts);
           }
         } else {
           setProducts(INITIAL_PRODUCTS);

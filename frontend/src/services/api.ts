@@ -187,35 +187,66 @@ export const api = {
       return await response.json();
     }
   },
-  addresses: {
-    getAll: async () => {
-      const token = localStorage.getItem('token');
-      const response = await fetch(`${API_URL}/addresses`, {
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
-      if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.message || 'Failed to fetch addresses');
-      }
-      return await response.json();
-    },
-    create: async (addressData: any) => {
-      const token = localStorage.getItem('token');
-      const response = await fetch(`${API_URL}/addresses`, {
-        method: 'POST',
-        headers: { 
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}` 
-        },
-        body: JSON.stringify(addressData)
-      });
-      if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.message || 'Failed to create address');
-      }
-      return await response.json();
+
+addresses: {
+  getAll: async () => {
+    const token = localStorage.getItem('token');
+    const response = await fetch(`${API_URL}/addresses`, {
+      headers: { 'Authorization': `Bearer ${token}` }
+    });
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || 'Failed to fetch addresses');
     }
+    return await response.json();
   },
+  create: async (addressData: any) => {
+    const token = localStorage.getItem('token');
+    const response = await fetch(`${API_URL}/addresses`, {
+      method: 'POST',
+      headers: { 
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}` 
+      },
+      body: JSON.stringify(addressData)
+    });
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || 'Failed to create address');
+    }
+    return await response.json();
+  },
+  update: async (addressId: string, addressData: any) => {
+    const token = localStorage.getItem('token');
+    const response = await fetch(`${API_URL}/addresses/${addressId}`, {
+      method: 'PUT',
+      headers: { 
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}` 
+      },
+      body: JSON.stringify(addressData)
+    });
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || 'Failed to update address');
+    }
+    return await response.json();
+  },
+  delete: async (addressId: string) => {
+    const token = localStorage.getItem('token');
+    const response = await fetch(`${API_URL}/addresses/${addressId}`, {
+      method: 'DELETE',
+      headers: { 
+        'Authorization': `Bearer ${token}` 
+      }
+    });
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(error.message || 'Failed to delete address');
+    }
+    return await response.json();
+  }
+},
   orders: {
     getAll: async () => {
       const token = localStorage.getItem('token');

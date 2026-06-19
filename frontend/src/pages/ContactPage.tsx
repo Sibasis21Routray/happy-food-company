@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { motion, easeInOut } from 'framer-motion';
 import { Mail, Phone, MapPin, Clock, Send } from 'lucide-react';
+import { Turnstile } from '@marsidev/react-turnstile';
+import axios from 'axios';
 
 const ContactPage = () => {
   const [formData, setFormData] = useState({
@@ -11,6 +13,10 @@ const ContactPage = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<null | 'success' | 'error'>(null);
+  const [errorMessage, setErrorMessage] = useState('');
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  
+  const turnstileRef = useRef<any>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData({
@@ -19,18 +25,90 @@ const ContactPage = () => {
     });
   };
 
+  const validateForm = () => {
+    if (!formData.name.trim()) {
+      setErrorMessage('Please enter your name');
+      return false;
+    }
+    if (!formData.email.trim()) {
+      setErrorMessage('Please enter your email');
+      return false;
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email.trim())) {
+      setErrorMessage('Please enter a valid email address');
+      return false;
+    }
+    if (!formData.subject.trim()) {
+      setErrorMessage('Please select a subject');
+      return false;
+    }
+    if (!formData.message.trim()) {
+      setErrorMessage('Please enter your message');
+      return false;
+    }
+    if (formData.message.length > 1000) {
+      setErrorMessage('Message cannot exceed 1000 characters');
+      return false;
+    }
+    if (!turnstileToken) {
+      setErrorMessage('Please complete the verification');
+      return false;
+    }
+    return true;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Validate form
+    if (!validateForm()) {
+      setSubmitStatus('error');
+      setTimeout(() => setSubmitStatus(null), 5000);
+      return;
+    }
+
     setIsSubmitting(true);
     setSubmitStatus(null);
-    
-    setTimeout(() => {
-      console.log('Form submitted:', formData);
-      setSubmitStatus('success');
-      setFormData({ name: '', email: '', subject: '', message: '' });
-      setIsSubmitting(false);
+    setErrorMessage('');
+
+    try {
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URL}/api/contact`,
+        {
+          ...formData,
+          turnstileToken,
+        }
+      );
+
+      if (response.data.success) {
+        setSubmitStatus('success');
+        setFormData({ 
+          name: '', 
+          email: '', 
+          subject: '', 
+          message: '' 
+        });
+        
+        // Reset Turnstile
+        if (turnstileRef.current) {
+          turnstileRef.current.reset();
+        }
+        setTurnstileToken(null);
+        
+        setTimeout(() => setSubmitStatus(null), 5000);
+      }
+    } catch (error: any) {
+      console.error('Contact form error:', error);
+      setSubmitStatus('error');
+      setErrorMessage(
+        error?.response?.data?.message || 
+        'Failed to send message. Please try again later.'
+      );
       setTimeout(() => setSubmitStatus(null), 5000);
-    }, 1500);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const containerVariants = {
@@ -92,7 +170,6 @@ const ContactPage = () => {
           <h1 className="heading-1 text-2xl sm:text-3xl md:text-4xl lg:text-5xl text-gray-800 mb-3">
             Contact Us
           </h1>
-          {/* <div className="w-12 h-px bg-gray-300 mx-auto mb-4" /> */}
           <p className="sub-heading text-md font-light max-w-2xl mx-auto">
             We'd love to hear from you! Reach out with any questions, feedback, or just to say hello.
           </p>
@@ -107,27 +184,6 @@ const ContactPage = () => {
             transition={{ duration: 0.5 }}
             className="lg:col-span-1 space-y-5"
           >
-            {/* Email Card */}
-            <motion.div 
-              variants={cardVariants}
-              initial="hidden"
-              animate="visible"
-              whileHover="hover"
-              className="bg-white border border-gray-200 p-6 hover:border-gray-300 transition-all duration-300"
-            >
-              <div className="mb-4">
-                <Mail className="w-5 h-5 text-gray-500" strokeWidth={1.5} />
-              </div>
-              <h3 className="text-base font-light text-gray-800 mb-1">Email Us</h3>
-              <p className="text-gray-400 text-sm font-light mb-2">For general inquiries and support</p>
-              <a 
-                href="mailto:woohoo@thehappyfoodcompany.com" 
-                className="text-gray-600 text-md font-light hover:text-gray-900 transition-colors break-all"
-              >
-                woohoo@thehappyfoodcompany.com
-              </a>
-            </motion.div>
-
             {/* Phone Card */}
             <motion.div 
               variants={cardVariants}
@@ -180,8 +236,6 @@ const ContactPage = () => {
               <h3 className="text-base font-light text-gray-800 mb-1">Business Hours</h3>
               <div className="space-y-1 text-sm text-gray-500 font-light">
                 <p><span className="text-gray-600">Monday - Friday:</span> 9:00 AM - 6:00 PM</p>
-                <p><span className="text-gray-600">Saturday:</span> 10:00 AM - 4:00 PM</p>
-                <p><span className="text-gray-600">Sunday:</span> Closed</p>
               </div>
             </motion.div>
           </motion.div>
@@ -258,8 +312,41 @@ const ContactPage = () => {
                     onChange={handleChange}
                     className="w-full px-4 py-2.5 border border-gray-300 text-md focus:border-gray-600 focus:outline-none transition-all duration-300 hover:border-gray-400 resize-none"
                     placeholder="Tell us how we can help you..."
+                    maxLength={1000}
+                  />
+                  <div className="text-right text-xs text-gray-400 mt-1">
+                    {formData.message.length}/1000
+                  </div>
+                </motion.div>
+
+                {/* Cloudflare Turnstile */}
+                <motion.div variants={fieldVariants} className="flex justify-center py-2">
+                  <Turnstile
+                    ref={turnstileRef}
+                    siteKey={import.meta.env.VITE_TURNSTILE_SITE_KEY || ''}
+                    onSuccess={(token) => {
+                      setTurnstileToken(token);
+                      setErrorMessage('');
+                    }}
+                    onError={() => {
+                      setTurnstileToken(null);
+                      setErrorMessage('Verification failed. Please try again.');
+                      setSubmitStatus('error');
+                      setTimeout(() => setSubmitStatus(null), 5000);
+                    }}
+                    onExpire={() => {
+                      setTurnstileToken(null);
+                      setErrorMessage('Verification expired. Please verify again.');
+                      setSubmitStatus('error');
+                      setTimeout(() => setSubmitStatus(null), 5000);
+                    }}
                   />
                 </motion.div>
+
+                {/* Rate Limit Info */}
+                <div className="text-center text-xs text-gray-400">
+                  You can send up to 5 messages every 15 minutes
+                </div>
 
                 {submitStatus === 'success' && (
                   <motion.div 
@@ -267,17 +354,17 @@ const ContactPage = () => {
                     animate={{ opacity: 1, y: 0 }}
                     className="border border-green-300 bg-green-50 text-green-700 px-4 py-3 text-md font-light"
                   >
-                    Thank you for your message! We'll get back to you soon.
+                    ✓ Thank you for your message! We'll get back to you soon.
                   </motion.div>
                 )}
 
-                {submitStatus === 'error' && (
+                {(submitStatus === 'error' || errorMessage) && (
                   <motion.div 
                     initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
                     className="border border-red-300 bg-red-50 text-red-700 px-4 py-3 text-md font-light"
                   >
-                    Something went wrong. Please try again.
+                    {errorMessage || 'Something went wrong. Please try again.'}
                   </motion.div>
                 )}
 
@@ -286,8 +373,8 @@ const ContactPage = () => {
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   type="submit"
-                  disabled={isSubmitting}
-                  className="w-full bg-gray-800 text-white py-3 text-md font-light tracking-wider hover:bg-gray-700 transition-all duration-300 disabled:opacity-50 flex items-center justify-center gap-2 group"
+                  disabled={isSubmitting || !turnstileToken}
+                  className="w-full bg-gray-800 text-white py-3 text-md font-light tracking-wider hover:bg-gray-700 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 group"
                 >
                   {isSubmitting ? (
                     <>

@@ -10,6 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@marsidev/react-turnstile": "^1.5.3",
+    "axios": "^1.18.0",
     "country-state-city": "^3.2.1",
     "lucide-react": "^1.8.0",
     "react": "^19.2.4",

@@ -323,7 +323,12 @@ export const AboutUsPage: React.FC = () => {
                 <div className="p-4 sm:p-5 text-center flex flex-col flex-grow justify-between">
                   <div>
                     <h3 className="sub-heading text-gray-800 text-base sm:text-lg font-semibold mb-1 tracking-wide group-hover:text-gray-900 transition-colors">
-                      {member.name}
+                      {member.name}{" "}
+                      {member.position && (
+                        <span className="text-sm text-gray-400 font-normal">
+                          ({member.position})
+                        </span>
+                      )}
                     </h3>
                     <p className="text-gray-400 text-[10px] sm:text-[11px] font-bold uppercase tracking-wider leading-tight">
                       {member.role}

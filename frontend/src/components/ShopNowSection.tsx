@@ -11,14 +11,14 @@ export const ShopNowSection: React.FC = () => {
     { 
       title: "Starter Pack", 
       subtitle: "Happy Bar - Coconut Almond | Date Almond Cranberry - Variety Box of 6", 
-      img: "/combo-products/Variety-6-AC-CR.JPG", 
+      img: "/combo-products/Variety-6-AC-CR-removebg-preview.png", 
       link: "/product/combo-6-1",
       price: "276"
     },
     { 
       title: "Family Pack", 
       subtitle: "Almond Cranberry | Cashew Raisin | Coconut Almond | Date Almond Cranberry  - Variety Box of 12", 
-      img: "/combo-products/Variety-12.JPG", 
+      img: "/combo-products/Variety-12-removebg-preview.png", 
       link: "/product/combo-12",
       price: "552",
       popular: true
@@ -26,7 +26,7 @@ export const ShopNowSection: React.FC = () => {
     { 
       title: "Tropical Pack", 
       subtitle: "Happy Bar - Coconut Almond | Date Almond Cranberry - Variety Box of 6",
-      img: "/combo-products/Variety-6-CA-DAC.JPG", 
+      img: "/combo-products/Variety-6-CA-DAC-removebg-preview.png", 
       link: "/product/combo-6-2",
       price: "276"
     }
@@ -57,7 +57,7 @@ export const ShopNowSection: React.FC = () => {
           </p>
         </div>
 
-        {/* Mobile Carousel */}
+        {/* Mobile Carousel - IMAGES MADE BIGGER */}
         <div className="block lg:hidden">
           <motion.div
             key={currentComboIndex}
@@ -76,12 +76,12 @@ export const ShopNowSection: React.FC = () => {
               )}
             </div>
             
-            {/* Standardized Image Box for Mobile */}
-            <div className="w-full h-64 flex items-center justify-center mb-6 bg-gray-50/35 overflow-hidden">
+            {/* Mobile Image - INCREASED HEIGHT from h-64 to h-80 */}
+            <div className="w-full h-80 flex items-center justify-center mb-6 bg-gray-50/35 overflow-hidden">
               <img 
                 src={combos[currentComboIndex].img} 
                 alt={combos[currentComboIndex].title} 
-                className="max-w-full max-h-full object-contain" 
+                className="w-full h-full object-contain" 
               />
             </div>
             
@@ -139,7 +139,7 @@ export const ShopNowSection: React.FC = () => {
           </div>
         </div>
 
-        {/* Desktop Grid */}
+        {/* Desktop Grid - IMAGES MADE BIGGER */}
         <div className="hidden lg:grid lg:grid-cols-3 gap-6 items-stretch">
           {combos.map((combo, i) => (
             <motion.div 
@@ -149,7 +149,7 @@ export const ShopNowSection: React.FC = () => {
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
               whileHover={{ y: -4 }}
-              className="bg-white border border-gray-100 hover:border-gray-200 transition-all duration-300 p-6 relative flex flex-col justify-between"
+              className="bg-white border border-gray-100 hover:border-gray-200 transition-all duration-300 p-4 relative flex flex-col justify-between"
             >
               {/* Popular Badge Container */}
               <div className="h-10 w-full relative z-20 flex items-center justify-center mb-2">
@@ -162,8 +162,8 @@ export const ShopNowSection: React.FC = () => {
                 )}
               </div>
               
-              {/* Desktop Image Box - Strictly locked constraints prevent height shifts */}
-              <div className="w-full aspect-[4/3] max-h-72 flex items-center justify-center mb-6 bg-gray-50/35 overflow-hidden">
+              {/* Desktop Image - CHANGED to aspect-square and increased max-h */}
+              <div className="w-full aspect-square max-h-[420px] flex items-center justify-center mb-6 bg-gray-50/35 overflow-hidden">
                 <img 
                   src={combo.img} 
                   alt={combo.title} 
@@ -180,7 +180,6 @@ export const ShopNowSection: React.FC = () => {
                   <p className="text-body text-md text-gray-500 mb-2">
                     {combo.subtitle}
                   </p>
-                 
                 </div>
                 
                 <div>

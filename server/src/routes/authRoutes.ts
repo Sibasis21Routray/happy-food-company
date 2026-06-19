@@ -8,6 +8,7 @@ import {
   updateProfile,
   addOrderId,
   addCartId,
+  
 } from "../controller/authController";
 import { protect } from "../middleware/authMiddleware";
 
@@ -18,6 +19,10 @@ router.post("/register", register);
 router.post("/login",    login);
 router.post("/forgot-password", forgotPassword);
 router.post("/reset-password", resetPassword);
+
+
+
+
 
 // Protected routes (require JWT token)
 router.get ("/profile",       protect, getProfile);
