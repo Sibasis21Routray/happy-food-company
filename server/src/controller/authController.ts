@@ -186,6 +186,7 @@ export const forgotPassword = async (req: Request, res: Response): Promise<void>
 
 // ─── RESET PASSWORD ───────────────────────────────────────────
 export const resetPassword = async (req: Request, res: Response): Promise<void> => {
+  console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
   try {
     const { token, password } = req.body;
 
@@ -215,7 +216,7 @@ export const resetPassword = async (req: Request, res: Response): Promise<void> 
       });
       return;
     }
-
+    
     // Check if token is expired
     if (user.resetPasswordExpires && new Date() > user.resetPasswordExpires) {
       res.status(400).json({ 
