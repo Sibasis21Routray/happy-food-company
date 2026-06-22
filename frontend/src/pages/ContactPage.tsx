@@ -167,7 +167,7 @@ const ContactPage = () => {
           animate="visible"
           className="text-center mb-12"
         >
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 mb-4 tracking-tight">
+          <h1 className="heading-1 text-4xl sm:text-5xl md:text-6xl tracking-tight text-gray-900 mb-4">
             Contact Us
           </h1>
           <p className="text-gray-500 text-lg max-w-2xl mx-auto leading-relaxed">
