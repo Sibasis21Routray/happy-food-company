@@ -127,6 +127,7 @@ export const updateProfile = async (req: AuthRequest, res: Response): Promise<vo
 
 // ─── FORGOT PASSWORD ──────────────────────────────────────────
 export const forgotPassword = async (req: Request, res: Response): Promise<void> => {
+  console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
   try {
     const { email } = req.body;
     
@@ -186,7 +187,6 @@ export const forgotPassword = async (req: Request, res: Response): Promise<void>
 
 // ─── RESET PASSWORD ───────────────────────────────────────────
 export const resetPassword = async (req: Request, res: Response): Promise<void> => {
-  console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
   try {
     const { token, password } = req.body;
 
