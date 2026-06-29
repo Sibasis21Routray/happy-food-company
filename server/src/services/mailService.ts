@@ -1,4 +1,5 @@
-import axios from 'axios';
+import nodemailer from 'nodemailer';
+import { Options } from 'nodemailer/lib/mailer';
 
 interface EmailOptions {
   to: string | string[];
@@ -12,43 +13,57 @@ interface EmailOptions {
     email: string;
     name: string;
   };
+  text?: string;
 }
 
 /**
- * Send email using Brevo API directly via Axios
+ * Create SMTP transporter using Brevo
+ */
+const createTransporter = () => {
+  return nodemailer.createTransport({
+    host: process.env.BREVO_SMTP_HOST || 'smtp-relay.brevo.com',
+    port: parseInt(process.env.BREVO_SMTP_PORT || '587'),
+    secure: process.env.BREVO_SMTP_SECURE === 'true',
+    auth: {
+      user: process.env.BREVO_SMTP_LOGIN,
+      pass: process.env.BREVO_SMTP_KEY,
+    },
+  });
+};
+
+/**
+ * Send email using SMTP (Nodemailer) with Brevo
  */
 export const sendEmail = async (options: EmailOptions): Promise<any> => {
   try {
+    const transporter = createTransporter();
+    
     const recipients = Array.isArray(options.to) ? options.to : [options.to];
     
-    const payload = {
-      sender: options.sender || {
-        email: process.env.BREVO_SENDER_EMAIL || 'noreply@yourdomain.com',
-        name: process.env.BREVO_SENDER_NAME || 'Your Website',
-      },
-      to: recipients.map(email => ({
-        email: email,
-        name: email.split('@')[0],
-      })),
-      ...(options.replyTo && { replyTo: options.replyTo }),
+    const mailOptions: Options = {
+      from: options.sender 
+        ? `"${options.sender.name}" <${options.sender.email}>`
+        : `"${process.env.BREVO_SENDER_NAME}" <${process.env.BREVO_SENDER_EMAIL}>`,
+      to: recipients.join(', '),
       subject: options.subject,
-      htmlContent: options.htmlContent,
+      html: options.htmlContent,
+      ...(options.text && { text: options.text }),
     };
 
-    const response = await axios.post(
-      'https://api.brevo.com/v3/smtp/email',
-      payload,
-      {
-        headers: {
-          'api-key': process.env.BREVO_API_KEY,
-          'Content-Type': 'application/json',
-        },
-      }
-    );
+    if (options.replyTo) {
+      mailOptions.replyTo = `"${options.replyTo.name}" <${options.replyTo.email}>`;
+    }
 
-    return response.data;
+    const info = await transporter.sendMail(mailOptions);
+    
+    return {
+      messageId: info.messageId,
+      response: info.response,
+      accepted: info.accepted,
+      rejected: info.rejected,
+    };
   } catch (error: any) {
-    console.error('Error sending email:', error.response?.data || error.message);
+    console.error('Error sending email:', error.message);
     throw new Error('Failed to send email');
   }
 };
@@ -58,7 +73,7 @@ export const sendEmail = async (options: EmailOptions): Promise<any> => {
  */
 export const sendResetPasswordEmail = async (email: string, resetToken: string): Promise<any> => {
   const resetUrl = `${process.env.FRONTEND_URL}/reset-password?token=${resetToken}`;
-  const siteName =  'HappyBar';
+  const siteName = 'Happy Food Company';
   const themeColor = '#f05a22';
 
   const htmlContent = `
@@ -218,151 +233,7 @@ export const sendResetPasswordEmail = async (email: string, resetToken: string):
     subject: `Reset Your ${siteName} Password`,
     htmlContent,
     sender: {
-      email: process.env.BREVO_SENDER_EMAIL || 'noreply@yourdomain.com',
-      name: siteName,
-    },
-  });
-};
-
-/**
- * Send welcome email after registration
- */
-export const sendWelcomeEmail = async (email: string, fullName: string): Promise<any> => {
-  const siteName = process.env.SITE_NAME || 'HappyBar';
-  const themeColor = process.env.THEME_COLOR || '#f05a22';
-
-  const htmlContent = `
-    <!DOCTYPE html>
-    <html>
-    <head>
-      <meta charset="UTF-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      <title>Welcome to ${siteName}</title>
-      <style>
-        body { 
-          font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
-          background-color: #f9fafb; 
-          margin: 0; 
-          padding: 0; 
-          line-height: 1.5;
-        }
-        .container { 
-          max-width: 600px; 
-          margin: 0 auto; 
-          padding: 40px 20px; 
-        }
-        .card {
-          background-color: #ffffff;
-          border-radius: 16px;
-          overflow: hidden;
-          box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.1);
-        }
-        .header { 
-          background: linear-gradient(135deg, ${themeColor} 0%, #d9441a 100%);
-          padding: 40px 30px; 
-          text-align: center; 
-          color: white;
-        }
-        .header h1 { 
-          font-size: 32px; 
-          font-weight: 800; 
-          margin: 0 0 8px 0; 
-        }
-        .header p {
-          font-size: 16px;
-          opacity: 0.9;
-          margin: 0;
-        }
-        .content { 
-          padding: 40px 30px; 
-        }
-        .content h2 {
-          font-size: 24px;
-          color: #1a1a2e;
-          margin: 0 0 16px 0;
-        }
-        .content p {
-          font-size: 16px;
-          color: #4a5568;
-          margin: 0 0 16px 0;
-        }
-        .button { 
-          display: inline-block; 
-          background-color: ${themeColor}; 
-          color: white; 
-          padding: 14px 32px; 
-          text-decoration: none; 
-          border-radius: 50px; 
-          font-weight: 600; 
-          font-size: 16px; 
-          box-shadow: 0 4px 12px rgba(240, 90, 34, 0.25);
-        }
-        .button:hover {
-          background-color: #d9441a;
-        }
-        .footer {
-          background-color: #f8f9fa;
-          padding: 20px 30px;
-          text-align: center;
-          border-top: 1px solid #e9ecef;
-        }
-        .footer p {
-          font-size: 12px;
-          color: #6c757d;
-          margin: 0;
-        }
-        @media only screen and (max-width: 480px) {
-          .container { padding: 20px 10px; }
-          .content { padding: 24px 16px; }
-          .header { padding: 24px 16px; }
-          .header h1 { font-size: 24px; }
-          .button { padding: 12px 24px; font-size: 14px; }
-        }
-      </style>
-    </head>
-    <body>
-      <div class="container">
-        <div class="card">
-          <div class="header">
-            <h1>🎉 Welcome to ${siteName}!</h1>
-            <p>We're thrilled to have you on board</p>
-          </div>
-          <div class="content">
-            <h2>Hello ${fullName},</h2>
-            <p>Welcome to <strong>${siteName}</strong>! We're excited to have you as part of our community.</p>
-            <p>Your account has been successfully created. Here's what you can do next:</p>
-            <ul style="color: #4a5568; margin: 16px 0; padding-left: 20px;">
-              <li style="margin-bottom: 8px;">✨ Explore our features and services</li>
-              <li style="margin-bottom: 8px;">🛍️ Browse our products</li>
-              <li style="margin-bottom: 8px;">💬 Connect with our community</li>
-            </ul>
-            <div style="text-align: center; margin: 32px 0;">
-              <a href="${process.env.FRONTEND_URL}/dashboard" class="button">Get Started</a>
-            </div>
-            <p style="font-size: 14px; color: #6c757d; margin-top: 24px;">
-              If you have any questions, feel free to reach out to our support team. We're here to help!
-            </p>
-            <p style="margin-top: 16px;">
-              Cheers,<br>
-              <strong>The ${siteName} Team</strong>
-            </p>
-          </div>
-          <div class="footer">
-            <p>&copy; ${new Date().getFullYear()} ${siteName}. All rights reserved.</p>
-            <p>This is an automated message, please do not reply to this email.</p>
-          </div>
-        </div>
-      </div>
-    </body>
-    </html>
-  `;
-
-  return sendEmail({
-    to: email,
-    subject: `Welcome to ${siteName}! 🎉`,
-    htmlContent,
-    sender: {
-      email: process.env.BREVO_SENDER_EMAIL || 'noreply@yourdomain.com',
+      email: process.env.BREVO_SENDER_EMAIL || 'woohoo@thehappyfoodcompany.com',
       name: siteName,
     },
   });
@@ -378,7 +249,7 @@ export const sendContactFormEmail = async (data: {
   message: string;
 }): Promise<any> => {
   const { name, email, subject, message } = data;
-  const siteName = process.env.SITE_NAME || 'HappyBar';
+  const siteName = 'Happy Food Company';
 
   const htmlContent = `
     <!DOCTYPE html>
@@ -407,7 +278,7 @@ export const sendContactFormEmail = async (data: {
           box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.1);
         }
         .header { 
-          background: linear-gradient(135deg, ${process.env.THEME_COLOR || '#f05a22'} 0%, #d9441a 100%);
+          background: linear-gradient(135deg, '#f05a22'} 0%, #d9441a 100%);
           padding: 30px; 
           text-align: center; 
           color: white;
@@ -497,11 +368,11 @@ export const sendContactFormEmail = async (data: {
   `;
 
   return sendEmail({
-    to: process.env.CONTACT_FORM_RECIPIENT || 'contact@yourdomain.com',
+    to: process.env.CONTACT_FORM_RECIPIENT || 'woohoo@thehappyfoodcompany.com',
     subject: `Contact Form: ${subject}`,
     htmlContent,
     sender: {
-      email: process.env.BREVO_SENDER_EMAIL || 'noreply@yourdomain.com',
+      email: process.env.BREVO_SENDER_EMAIL || 'woohoo@thehappyfoodcompany.com',
       name: siteName,
     },
     replyTo: {
