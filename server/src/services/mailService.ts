@@ -23,7 +23,7 @@ const createTransporter = () => {
   return nodemailer.createTransport({
     host: process.env.BREVO_SMTP_HOST || 'smtp-relay.brevo.com',
     port: parseInt(process.env.BREVO_SMTP_PORT || '587'),
-    secure: process.env.BREVO_SMTP_SECURE === 'true',
+    secure: false,
     auth: {
       user: process.env.BREVO_SMTP_LOGIN,
       pass: process.env.BREVO_SMTP_KEY,
