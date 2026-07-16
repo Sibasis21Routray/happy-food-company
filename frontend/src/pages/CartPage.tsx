@@ -11,6 +11,15 @@ import { api } from '../services/api';
 import { useSearchParams } from 'react-router-dom';
 import { useToast } from '../components/Layout/Toast';
 
+const loadRazorpayScript = () => {
+  return new Promise((resolve) => {
+    const script = document.createElement('script');
+    script.src = 'https://checkout.razorpay.com/v1/checkout.js';
+    script.onload = () => resolve(true);
+    script.onerror = () => resolve(false);
+    document.body.appendChild(script);
+  });
+};
 
 export const CartPage: React.FC = () => {
   const navigate = useNavigate();
@@ -110,11 +119,6 @@ if (step === 3 && selectedAddressId) {
   const prevStep = () => setCurrentStep(prev => Math.max(prev - 1, 1));
 
   const handleCheckout = async () => {
-    if (selectedPaymentMethod !== 'COD') {
-      showToast('Currently, only Cash on Delivery (COD) is supported for immediate placing. Please select Cash on Delivery.', 'error');
-      return;
-    }
-
     if (!selectedAddressId) {
       showToast('Please select a delivery address', 'error');
       return;
@@ -125,43 +129,148 @@ if (step === 3 && selectedAddressId) {
 
     const userStr = localStorage.getItem('user');
     const user = userStr ? JSON.parse(userStr) : null;
+    const token = localStorage.getItem('token');
 
     setPlacingOrder(true);
     try {
-      const token = localStorage.getItem('token');
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/order/place`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({
-          billingAddress: {
-            name: selectedAddr.name,
-            email: user?.email || selectedAddr.email || 'user@example.com',
-            phone: selectedAddr.phone,
-            streetAddress: selectedAddr.streetAddress,
-            locality: selectedAddr.locality,
-            city: selectedAddr.city,
-            state: selectedAddr.state,
-            country: selectedAddr.country || 'India',
-            pinCode: selectedAddr.pinCode,
-            type: selectedAddr.type
-          }
-        })
-      });
+      if (selectedPaymentMethod !== 'COD') {
+        // Online Payment Flow (Razorpay)
+        const isScriptLoaded = await loadRazorpayScript();
+        if (!isScriptLoaded) {
+          showToast('Razorpay SDK failed to load. Are you online?', 'error');
+          setPlacingOrder(false);
+          return;
+        }
 
-      if (res.ok) {
-        showToast('Order placed successfully!', 'success');
-        navigate('/profile?section=orders');
+        // 1. Create Razorpay order on backend
+        const orderRes = await fetch(`${import.meta.env.VITE_API_URL}/order/create-razorpay-order`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({}) // productIds and couponCode can be added if needed, currently uses cart
+        });
+
+        if (!orderRes.ok) {
+          const errData = await orderRes.json();
+          throw new Error(errData.message || 'Failed to initialize payment');
+        }
+
+        const orderData = await orderRes.json();
+
+        // 2. Open Razorpay Checkout
+        const options = {
+          key: import.meta.env.VITE_RAZORPAY_KEY_ID || '',
+          amount: orderData.amount,
+          currency: orderData.currency,
+          name: 'The Happy Food Company',
+          description: 'Payment for your order',
+          image: '/images/logo.png', // Add a valid logo if available
+          order_id: orderData.orderId,
+          handler: async function (response: any) {
+            // 3. On success, verify and place order
+            try {
+              const placeRes = await fetch(`${import.meta.env.VITE_API_URL}/order/place`, {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                  Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify({
+                  billingAddress: {
+                    name: selectedAddr.name,
+                    email: user?.email || selectedAddr.email || 'user@example.com',
+                    phone: selectedAddr.phone,
+                    streetAddress: selectedAddr.streetAddress,
+                    locality: selectedAddr.locality,
+                    city: selectedAddr.city,
+                    state: selectedAddr.state,
+                    country: selectedAddr.country || 'India',
+                    pinCode: selectedAddr.pinCode,
+                    type: selectedAddr.type
+                  },
+                  paymentMethod: 'Online',
+                  razorpayDetails: {
+                    orderId: response.razorpay_order_id,
+                    paymentId: response.razorpay_payment_id,
+                    signature: response.razorpay_signature
+                  }
+                })
+              });
+
+              if (placeRes.ok) {
+                showToast('Payment successful and order placed!', 'success');
+                navigate('/profile?section=orders');
+              } else {
+                const data = await placeRes.json();
+                showToast(data.message || 'Payment verified but order placement failed', 'error');
+              }
+            } catch (err) {
+              console.error('Order placement error:', err);
+              showToast('An error occurred while placing the order.', 'error');
+            } finally {
+              setPlacingOrder(false);
+            }
+          },
+          prefill: {
+            name: selectedAddr.name,
+            email: user?.email || selectedAddr.email || '',
+            contact: selectedAddr.phone
+          },
+          theme: {
+            color: '#111827' // gray-900 to match theme
+          },
+          modal: {
+            ondismiss: function() {
+              setPlacingOrder(false);
+            }
+          }
+        };
+
+        const razorpay = new (window as any).Razorpay(options);
+        razorpay.on('payment.failed', function (response: any) {
+          showToast(response.error.description || 'Payment failed', 'error');
+          setPlacingOrder(false);
+        });
+        razorpay.open();
       } else {
-        const data = await res.json();
-        showToast(data.message || 'Failed to place order', 'error');
+        // COD Flow
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/order/place`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            billingAddress: {
+              name: selectedAddr.name,
+              email: user?.email || selectedAddr.email || 'user@example.com',
+              phone: selectedAddr.phone,
+              streetAddress: selectedAddr.streetAddress,
+              locality: selectedAddr.locality,
+              city: selectedAddr.city,
+              state: selectedAddr.state,
+              country: selectedAddr.country || 'India',
+              pinCode: selectedAddr.pinCode,
+              type: selectedAddr.type
+            },
+            paymentMethod: 'COD'
+          })
+        });
+
+        if (res.ok) {
+          showToast('Order placed successfully!', 'success');
+          navigate('/profile?section=orders');
+        } else {
+          const data = await res.json();
+          showToast(data.message || 'Failed to place order', 'error');
+        }
+        setPlacingOrder(false);
       }
     } catch (err) {
       console.error('Checkout error:', err);
-      showToast('An error occurred while placing the order.', 'error');
-    } finally {
+      showToast('An error occurred while initiating checkout.', 'error');
       setPlacingOrder(false);
     }
   };

@@ -115,11 +115,26 @@ export const getUsers = async (req: Request, res: Response): Promise<void> => {
     }
 
     const skip = (Number(page) - 1) * Number(limit);
-    const users = await User.find(query)
-      .select("-password")
-      .sort(sort)
-      .skip(skip)
-      .limit(Number(limit));
+    
+    const users = await User.aggregate([
+      { $match: query },
+      { $sort: sort },
+      { $skip: skip },
+      { $limit: Number(limit) },
+      {
+        $lookup: {
+          from: "addresses",
+          let: { userId: "$_id" },
+          pipeline: [
+            { $match: { $expr: { $and: [ { $eq: ["$userId", "$$userId"] }, { $eq: ["$isSaved", true] } ] } } }
+          ],
+          as: "savedAddresses"
+        }
+      },
+      {
+        $project: { password: 0 }
+      }
+    ]);
 
     const total = await User.countDocuments(query);
     res.status(200).json({ users, total, page: Number(page), pages: Math.ceil(total / Number(limit)) });
@@ -180,6 +195,9 @@ export const getAllOrders = async (req: Request, res: Response): Promise<void> =
     const orders = await Order.find(query)
       .populate('vendorId', 'fullName email')
       .populate('userId', 'fullName email')
+      .populate('billingAddressId')
+      .populate('shippingAddressId')
+      .populate('items.productId')
       .sort(sort)
       .skip(skip)
       .limit(Number(limit));
@@ -229,6 +247,44 @@ export const reassignVendor = async (req: Request, res: Response): Promise<void>
     res.status(200).json({ message: "Vendor reassigned", order });
   } catch (error) {
     res.status(500).json({ message: "Error reassigning vendor", error });
+  }
+};
+
+export const updateOrderStatus = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { id } = req.params;
+    const { status } = req.body;
+    
+    if (!status) {
+      res.status(400).json({ message: "Status is required" });
+      return;
+    }
+
+    const validStatuses = ["pending", "confirmed", "shipped", "out for delivery", "delivered", "cancelled"];
+    if (!validStatuses.includes(status)) {
+      res.status(400).json({ message: "Invalid status value" });
+      return;
+    }
+
+    const order = await Order.findByIdAndUpdate(
+      id,
+      { status },
+      { returnDocument: 'after' }
+    )
+      .populate('vendorId', 'fullName email')
+      .populate('userId', 'fullName email')
+      .populate('billingAddressId')
+      .populate('shippingAddressId')
+      .populate('items.productId');
+
+    if (!order) {
+      res.status(404).json({ message: "Order not found" });
+      return;
+    }
+
+    res.status(200).json({ message: "Order status updated successfully", order });
+  } catch (error) {
+    res.status(500).json({ message: "Error updating order status", error });
   }
 };
 

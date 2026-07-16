@@ -15,6 +15,7 @@ router.get("/users", adminController.getUsers);
 router.put("/users/:id/block", adminController.blockUser);
 router.get("/orders", adminController.getAllOrders);
 router.put("/orders/:id/vendor", adminController.reassignVendor);
+router.put("/orders/:id/status", adminController.updateOrderStatus);
 
 export default router;
 

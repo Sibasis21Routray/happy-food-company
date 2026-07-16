@@ -8,6 +8,7 @@ import * as productDao from "../dao/productDao";
 import { IOrder } from "../models/order.model";
 import { IAddress } from "../models/address.model";
 import User from "../models/user.model";
+import { sendOrderEmails } from "../utils/emailService";
 
 const getProductIdString = (productId: any): string => {
   if (!productId) return '';
@@ -35,6 +36,12 @@ export interface PlaceOrderInput {
   couponCode?: string;
   billingAddress: AddressInput;
   shippingAddress?: AddressInput;
+  paymentMethod?: "COD" | "Online";
+  razorpayDetails?: {
+    orderId: string;
+    paymentId: string;
+    signature: string;
+  };
 }
 
 export interface PlaceOrderResult {
@@ -43,8 +50,10 @@ export interface PlaceOrderResult {
   shippingAddress: IAddress;
 }
 
+import crypto from "crypto";
+
 export const placeOrder = async (input: PlaceOrderInput): Promise<PlaceOrderResult> => {
-  const { userId, productIds, couponCode, billingAddress, shippingAddress } = input;
+  const { userId, productIds, couponCode, billingAddress, shippingAddress, paymentMethod, razorpayDetails } = input;
 
   const cart = await cartService.getCart(userId);
   if (!cart.items.length) throw new Error("Cart is empty");
@@ -110,7 +119,26 @@ export const placeOrder = async (input: PlaceOrderInput): Promise<PlaceOrderResu
     totalAmount,
     billingAddressId: savedBilling._id as any,
     shippingAddressId: savedShipping._id as any,
+    paymentMethod: paymentMethod || "COD",
+    paymentStatus: paymentMethod === "Online" ? "Completed" : "Pending",
+    status: "confirmed",
+    razorpayDetails
   });
+
+  if (paymentMethod === "Online" && razorpayDetails) {
+    const secret = process.env.RAZORPAY_KEY_SECRET;
+    if (!secret) throw new Error("Razorpay secret not configured");
+
+    const generatedSignature = crypto
+      .createHmac("sha256", secret)
+      .update(`${razorpayDetails.orderId}|${razorpayDetails.paymentId}`)
+      .digest("hex");
+
+    if (generatedSignature !== razorpayDetails.signature) {
+      // In a real app we might update order status to Failed here
+      throw new Error("Invalid Razorpay signature");
+    }
+  }
 
   if (productIds && productIds.length > 0) {
     const normalizedProductIds = productIds.map(id => id.trim().toLowerCase());
@@ -124,6 +152,11 @@ export const placeOrder = async (input: PlaceOrderInput): Promise<PlaceOrderResu
   } else {
     await cartService.clearCart(userId);
   }
+
+  // Send transactional emails asynchronously
+  sendOrderEmails(order, savedBilling, savedShipping, billingAddress.name, billingAddress.email).catch(err => {
+    console.error("Failed to send order emails during placeOrder:", err);
+  });
 
   return { order, billingAddress: savedBilling, shippingAddress: savedShipping };
 };

@@ -16,10 +16,13 @@ export const ProfileDropdown: React.FC<ProfileDropdownProps> = ({ user, onLogout
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
+  const [isNotificationOpen, setIsNotificationOpen] = useState(false);
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setIsOpen(false);
+        setIsNotificationOpen(false);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
@@ -30,15 +33,57 @@ export const ProfileDropdown: React.FC<ProfileDropdownProps> = ({ user, onLogout
 
   return (
     <div className="flex items-center gap-6" ref={dropdownRef}>
-      {/* Notifications Icon (Optional but present in screenshot) */}
-      <button className="text-gray-400 hover:text-gray-600 transition-colors relative">
-        <Bell size={20} />
-        <span className="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
-      </button>
+      {/* Notifications Icon */}
+      <div className="relative">
+        <button 
+          onClick={() => {
+            setIsNotificationOpen(!isNotificationOpen);
+            setIsOpen(false);
+          }}
+          className="text-gray-400 hover:text-gray-600 transition-colors relative"
+        >
+          <Bell size={20} />
+          <span className="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full border-2 border-white"></span>
+        </button>
+
+        {isNotificationOpen && (
+          <div className="absolute right-[-60px] sm:right-[-10px] mt-4 w-80 bg-white border border-gray-100 rounded-[1.5rem] shadow-2xl py-3 z-[100] animate-in fade-in zoom-in duration-200">
+            <div className="px-5 py-3 border-b border-gray-50 flex justify-between items-center">
+              <span className="text-md font-bold text-gray-800">Notifications</span>
+              <span className="text-xs font-semibold bg-red-100 text-red-600 px-2 py-0.5 rounded-full">2 New</span>
+            </div>
+            <div className="max-h-80 overflow-y-auto">
+              <div className="px-4 py-3 hover:bg-gray-50 transition-colors border-b border-gray-50 cursor-pointer">
+                <p className="text-sm font-semibold text-gray-800">New order received</p>
+                <p className="text-xs font-medium text-gray-500 mt-0.5">Order #5932 needs processing.</p>
+                <p className="text-[10px] font-bold text-gray-400 mt-1">10 min ago</p>
+              </div>
+              <div className="px-4 py-3 hover:bg-gray-50 transition-colors border-b border-gray-50 cursor-pointer">
+                <p className="text-sm font-semibold text-gray-800">New user registered</p>
+                <p className="text-xs font-medium text-gray-500 mt-0.5">Welcome to the Happy Food Company.</p>
+                <p className="text-[10px] font-bold text-gray-400 mt-1">1 hour ago</p>
+              </div>
+              <div className="px-4 py-3 hover:bg-gray-50 transition-colors cursor-pointer opacity-60">
+                <p className="text-sm font-semibold text-gray-800">Server update successful</p>
+                <p className="text-xs font-medium text-gray-500 mt-0.5">All systems are running smoothly.</p>
+                <p className="text-[10px] font-bold text-gray-400 mt-1">Yesterday</p>
+              </div>
+            </div>
+            <div className="px-4 py-2 border-t border-gray-50 mt-1">
+              <button className="w-full text-center text-sm font-bold text-[#FA6011] hover:text-[#e05610] transition-colors">
+                Mark all as read
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
 
       <div className="relative">
         <button 
-          onClick={() => setIsOpen(!isOpen)}
+          onClick={() => {
+            setIsOpen(!isOpen);
+            setIsNotificationOpen(false);
+          }}
           className="flex items-center gap-3 group p-1 pr-3 rounded-full hover:bg-gray-50 transition-all border border-transparent hover:border-gray-200"
         >
           <div className="w-10 h-10 bg-[#FA6011] rounded-full flex items-center justify-center text-white shadow-sm group-hover:scale-105 transition-transform">

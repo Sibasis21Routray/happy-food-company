@@ -8,6 +8,7 @@ export const ProductsPage: React.FC = () => {
   const navigate = useNavigate();
   const [products, setProducts] = useState<any[]>([]);
   const [wishlist, setWishlist] = useState<string[]>([]);
+  const [quantities, setQuantities] = useState<Record<string, number>>({});
   const [loading, setLoading] = useState(true);
 
   // Complete product data with all details
@@ -30,7 +31,7 @@ export const ProductsPage: React.FC = () => {
     {
       _id: '69e0bed3ddd3678cb38d4aa5',
       slug: 'combo-12',
-      title: 'Almond Cranberry | Cashew Raisin | Coconut Almond | Date Almond Cranberry 0- Variety Box of 12',
+      title: 'Almond Cranberry | Cashew Raisin | Coconut Almond | Date Almond Cranberry - Variety Box of 12',
       price: 552,
       images: ['/combo-products/Variety-12-removebg-preview.png'],
     }
@@ -105,7 +106,11 @@ export const ProductsPage: React.FC = () => {
     }
   };
 
-  const handleAddToCart = async (productId: string) => {
+  const handleQtyChange = (productId: string, qty: number) => {
+    setQuantities(prev => ({ ...prev, [productId]: qty }));
+  };
+
+  const handleAddToCart = async (productId: string, isBuyNow: boolean = false) => {
     const user = localStorage.getItem('user');
     if (!user) {
       navigate('/login');
@@ -113,10 +118,16 @@ export const ProductsPage: React.FC = () => {
     }
     
     try {
-      await api.cart.add(productId, 1);
-      navigate('/cart');
+      const qty = quantities[productId] || 1;
+      await api.cart.add(productId, qty);
+      if (isBuyNow) {
+        navigate('/cart');
+      } else {
+        alert('Added to cart successfully!');
+      }
     } catch (err) {
       console.error('Add to cart failed:', err);
+      alert('Failed to add to cart');
     }
   };
 
@@ -222,15 +233,40 @@ export const ProductsPage: React.FC = () => {
                     
                     
                     
-                    {/* Action Button - Using text-body */}
-                    <motion.button
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                      onClick={() => handleAddToCart(p._id)}
-                      className="text-body mt-5 w-full py-3 border border-gray-200 text-gray-700 text-sm tracking-wider hover:border-gray-400 hover:text-gray-900 transition-all duration-300"
-                    >
-                      ADD TO CART
-                    </motion.button>
+                    {/* Quantity Dropdown */}
+                    <div className="mt-3 mb-2 flex items-center justify-center gap-2">
+                      <label htmlFor={`qty-${p._id}`} className="text-sm font-medium text-gray-600">Qty:</label>
+                      <select 
+                        id={`qty-${p._id}`}
+                        value={quantities[p._id] || 1}
+                        onChange={(e) => handleQtyChange(p._id, parseInt(e.target.value))}
+                        className="border border-gray-200 rounded-md px-3 py-1.5 text-sm text-gray-700 bg-gray-50 outline-none focus:border-gray-400 focus:bg-white transition-colors"
+                      >
+                        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(n => (
+                          <option key={n} value={n}>{n}</option>
+                        ))}
+                      </select>
+                    </div>
+                    
+                    {/* Action Buttons */}
+                    <div className="flex gap-2 mt-4">
+                      <motion.button
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        onClick={() => handleAddToCart(p._id, false)}
+                        className="flex-1 text-body py-2.5 border border-gray-200 text-gray-700 text-xs sm:text-sm tracking-wider hover:border-gray-400 hover:text-gray-900 hover:bg-gray-50 transition-all duration-300"
+                      >
+                        ADD TO CART
+                      </motion.button>
+                      <motion.button
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        onClick={() => handleAddToCart(p._id, true)}
+                        className="flex-1 text-body py-2.5 bg-gray-900 text-white border border-gray-900 text-xs sm:text-sm tracking-wider hover:bg-gray-800 hover:border-gray-800 shadow-sm transition-all duration-300"
+                      >
+                        BUY NOW
+                      </motion.button>
+                    </div>
                   </div>
                 </div>
               </motion.div>

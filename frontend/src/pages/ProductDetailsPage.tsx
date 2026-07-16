@@ -19,13 +19,24 @@ type ProductData = {
   featuresTitleColor: string;
   mascots: { id: string; name: string; desc: string; img: string }[];
   ingredientsList: { title: string; img: string }[];
+  comboFlavors?: { name: string; img: string; quantity: number }[];
+  isPopular?: boolean;
+  price?: string;
 };
 
-const happyBarsMenu = [
+// Individual product menu (for regular product pages)
+const individualBarsMenu = [
   { title: 'Cashew Raisin', subtitle: 'Energize your Enjoyment', color: '#4A3E8E', img: '/images/cashew-raisin.png', link: '/product/cashew-raisin', slug: 'cashew-raisin' },
   { title: 'Coconut Almond', subtitle: 'Spark your snacking', color: '#E86E24', img: '/images/coconut-almond.png', link: '/product/coconut-almond', slug: 'coconut-almond' },
   { title: 'Date Almond Cranberry', subtitle: 'Fuel your Fun', color: '#C92C3A', img: '/images/date-almond-cranberry.png', link: '/product/date-almond-cranberry', slug: 'date-almond-cranberry' },
-  { title: 'Almond Cranberry', subtitle: 'Unleash the Awesome', color: '#902A78', img: '/images/almond-cranberry.png', link: '/product/almond-cranberry', slug: 'almond-cranberry' }
+  { title: 'Almond Cranberry', subtitle: 'Unleash the Awesome', color: '#902A78', img: '/images/almond-cranberry.png', link: '/product/almond-cranberry', slug: 'almond-cranberry' },
+];
+
+// Combo product menu (for combo pages)
+const comboMenu = [
+  { title: 'Starter Pack', subtitle: '6 Bars', color: '#4A3E8E', img: '/combo-products/Variety-6-AC-CR-removebg-preview.png', link: '/product/combo-6-1', slug: 'combo-6-1' },
+  { title: 'Tropical Pack', subtitle: '6 Bars', color: '#E86E24', img: '/combo-products/Variety-6-CA-DAC-removebg-preview.png', link: '/product/combo-6-2', slug: 'combo-6-2' },
+  { title: 'Family Pack', subtitle: '12 Bars', color: '#C92C3A', img: '/combo-products/Variety-12-removebg-preview.png', link: '/product/combo-12', slug: 'combo-12' },
 ];
 
 const ingredients = {
@@ -124,6 +135,82 @@ const productLibrary: Record<string, ProductData> = {
     ],
     ingredientsList: [ingredients.date, ingredients.almond, ingredients.cranberry, ingredients.peanut],
   },
+  
+  // Combo Products
+  "combo-6-1": {
+    titleLines: ["Starter", "Pack"],
+    titleColor: "text-[#36316b]",
+    img: "/combo-products/Variety-6-AC-CR-removebg-preview.png",
+    pitchTitle: "Perfect for Sharing",
+    pitchTitleColor: "text-[#76649d]",
+    pitchDesc: "A carefully curated selection of our most popular bars. Perfect for trying our flavors or sharing with friends.",
+    pitchDescColor: "text-[#413c70]",
+    waveColor1: "#928abf",
+    waveColor2: "#3c3c72",
+    featuresBg: "bg-[#3c3c72]",
+    featuresTitleColor: "text-[#fb8a3b]",
+    mascots: [
+      { id: "cashew-raisin", name: "Cashew Raisin", desc: "The perfect blend of creamy cashews and sweet raisins.", img: ingredients.cashew.img },
+      { id: "almond-cranberry", name: "Almond Cranberry", desc: "A delightful combination of crunchy almonds and tangy cranberries.", img: ingredients.almond.img },
+    ],
+    ingredientsList: [ingredients.almond, ingredients.cranberry, ingredients.cashew, ingredients.raisin],
+    comboFlavors: [
+      { name: "Cashew Raisin", img: "/images/cashew-raisin.png", quantity: 3 },
+      { name: "Almond Cranberry", img: "/images/almond-cranberry.png", quantity: 3 },
+    ],
+    price: "₹276"
+  },
+  "combo-6-2": {
+    titleLines: ["Tropical", "Pack"],
+    titleColor: "text-[#d65f4c]",
+    img: "/combo-products/Variety-6-CA-DAC-removebg-preview.png",
+    pitchTitle: "Tropical Delight",
+    pitchTitleColor: "text-[#e6755a]",
+    pitchDesc: "Experience the taste of the tropics with our Coconut Almond and Date Almond Cranberry bars. A perfect escape in every bite.",
+    pitchDescColor: "text-[#ad301b]",
+    waveColor1: "#e2ac97",
+    waveColor2: "#cc4b34",
+    featuresBg: "bg-[#cc4b34]",
+    featuresTitleColor: "text-[#fb8a3b]",
+    mascots: [
+      { id: "coconut-almond", name: "Coconut Almond", desc: "A tropical twist with creamy coconut and crunchy almonds.", img: ingredients.coconut.img },
+      { id: "date-almond-cranberry", name: "Date Almond Cranberry", desc: "Sweet dates, crunchy almonds, and tangy cranberries in perfect harmony.", img: ingredients.date.img },
+    ],
+    ingredientsList: [ingredients.coconut, ingredients.almond, ingredients.date, ingredients.cranberry],
+    comboFlavors: [
+      { name: "Coconut Almond", img: "/images/coconut-almond.png", quantity: 3 },
+      { name: "Date Almond Cranberry", img: "/images/date-almond-cranberry.png", quantity: 3 },
+    ],
+    price: "₹276"
+  },
+  "combo-12": {
+    titleLines: ["Family", "Pack"],
+    titleColor: "text-[#7a448e]",
+    img: "/combo-products/Variety-12-removebg-preview.png",
+    pitchTitle: "The Ultimate Variety",
+    pitchTitleColor: "text-[#7a448e]",
+    pitchDesc: "Our complete collection featuring all four flavors. Perfect for families and those who want to experience the full Happy Bar range.",
+    pitchDescColor: "text-[#7a181b]",
+    waveColor1: "#d66853",
+    waveColor2: "#7a181b",
+    featuresBg: "bg-[#7a448e]",
+    featuresTitleColor: "text-[#fb8a3b]",
+    mascots: [
+      { id: "cashew-raisin", name: "Cashew Raisin", desc: "The perfect blend of creamy cashews and sweet raisins.", img: ingredients.cashew.img },
+      { id: "coconut-almond", name: "Coconut Almond", desc: "A tropical twist with creamy coconut and crunchy almonds.", img: ingredients.coconut.img },
+      { id: "date-almond-cranberry", name: "Date Almond Cranberry", desc: "Sweet dates, crunchy almonds, and tangy cranberries in perfect harmony.", img: ingredients.date.img },
+      { id: "almond-cranberry", name: "Almond Cranberry", desc: "A delightful combination of crunchy almonds and tangy cranberries.", img: ingredients.almond.img },
+    ],
+    ingredientsList: [ingredients.cashew, ingredients.raisin, ingredients.coconut, ingredients.almond, ingredients.date, ingredients.cranberry],
+    comboFlavors: [
+      { name: "Cashew Raisin", img: "/images/cashew-raisin.png", quantity: 3 },
+      { name: "Coconut Almond", img: "/images/coconut-almond.png", quantity: 3 },
+      { name: "Date Almond Cranberry", img: "/images/date-almond-cranberry.png", quantity: 3 },
+      { name: "Almond Cranberry", img: "/images/almond-cranberry.png", quantity: 3 },
+    ],
+    isPopular: true,
+    price: "₹552"
+  },
 };
 
 export const ProductDetailsPage: React.FC = () => {
@@ -131,9 +218,6 @@ export const ProductDetailsPage: React.FC = () => {
   const navigate = useNavigate();
   const [dbProduct, setDbProduct] = useState<any>(null);
   const [wishlist, setWishlist] = useState<string[]>([]);
-
-
-  
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -222,7 +306,6 @@ export const ProductDetailsPage: React.FC = () => {
     }
   };
 
-   // YOUR ORIGINAL FEATURES WITH SAME ICONS - COMPLETELY UNCHANGED
   const features = [
     {
       title: "Real Ingredients",
@@ -256,15 +339,16 @@ export const ProductDetailsPage: React.FC = () => {
     },
   ];
 
-
   const productKey = id && productLibrary[id] ? id : "cashew-raisin";
   const data = productLibrary[productKey];
   const isCombo = id && id.startsWith("combo");
 
-  // Mathematical configuration for standard placement distribution
   const totalItems = data.mascots.length;
-  // Radius determines the width/spread of our component wheel wrapper layout
-  const radius = 340;
+  const radiusX = isCombo ? 280 : 340;
+  const radiusY = isCombo ? 265 : 220;
+
+  // Determine which menu to show
+  const menuItems = isCombo ? comboMenu : individualBarsMenu;
 
   return (
     <div className="w-full font-sans bg-white overflow-hidden pt-12 sm:pt-16">
@@ -294,7 +378,7 @@ export const ProductDetailsPage: React.FC = () => {
 
             {/* RIGHT COLUMN: Interactive Ordering Matrix & Specifications */}
             <div className="lg:col-span-6 flex flex-col space-y-6">
-              {/* Product Header Text Grouping - Using heading-1 class */}
+              {/* Product Header Text Grouping */}
               <div>
                 <h1 className="heading-1 text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-gray-900 leading-tight mb-2">
                   {data.titleLines.join(" ")}
@@ -316,13 +400,13 @@ export const ProductDetailsPage: React.FC = () => {
                 </span>
               </div>
 
-              {/* Dynamic Variant Switcher Grid matching screenshot circles */}
+              {/* Dynamic Variant Switcher Grid - Shows only relevant items */}
               <div className="pt-2">
                 <h3 className="heading-4 text-xs font-bold uppercase tracking-widest text-gray-400 mb-3">
-                  Select Flavor Flavor Pack
+                  Select {isCombo ? "Combo Pack" : "Flavor Pack"}
                 </h3>
-                <div className="grid grid-cols-4 sm:grid-cols-5 gap-3">
-                  {happyBarsMenu.map((item) => {
+                <div className={`grid ${isCombo ? 'grid-cols-3' : 'grid-cols-4'} gap-3`}>
+                  {menuItems.map((item) => {
                     const isSelected = item.slug === productKey;
                     return (
                       <button
@@ -354,6 +438,42 @@ export const ProductDetailsPage: React.FC = () => {
                   })}
                 </div>
               </div>
+
+              {/* MOST POPULAR Badge for Combo */}
+              {isCombo && data.isPopular && (
+                <div className="flex justify-center">
+                  <div className="px-6 py-2 rounded-full bg-orange-50 border border-orange-200">
+                    <span className="text-xs font-bold tracking-[0.15em] uppercase text-orange-500">
+                      ✦ Most Popular
+                    </span>
+                  </div>
+                </div>
+              )}
+
+              {/* Combo Flavors Display */}
+              {isCombo && data.comboFlavors && (
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <div className="flex justify-between items-center mb-3">
+                    <h4 className="text-sm font-semibold text-gray-700">Includes:</h4>
+                    {data.price && (
+                      <span className="text-lg font-bold text-gray-900">{data.price}</span>
+                    )}
+                  </div>
+                  <div className="grid grid-cols-2 gap-3">
+                    {data.comboFlavors.map((flavor, idx) => (
+                      <div key={idx} className="flex items-center gap-3 bg-white p-2 rounded-md border border-gray-100">
+                        <div className="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center overflow-hidden">
+                          <img src={flavor.img} alt={flavor.name} className="w-8 h-8 object-contain" />
+                        </div>
+                        <div className="flex-1">
+                          <p className="text-xs font-medium text-gray-700">{flavor.name}</p>
+                          <p className="text-xs text-gray-500">× {flavor.quantity}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
 
               <hr className="border-gray-100" />
 
@@ -405,13 +525,13 @@ export const ProductDetailsPage: React.FC = () => {
         </motion.section>
       </AnimatePresence>
 
-      {/* ingredient Section*/}
+      {/* Ingredient Section - Now shows for both regular and combo products */}
       <section className="py-20 bg-[#fafafa] border-t border-neutral-100 overflow-hidden">
         <div className="max-w-7xl mx-auto px-4">
           
           <div className="text-center mb-12">
             <h2 className="heading-1 text-2xl sm:text-3xl md:text-4xl lg:text-5xl tracking-tight">
-              The real ingredients in our {data.titleLines.join(" ")} bar
+              {isCombo ? `What's inside our ${data.titleLines.join(" ")}` : `The real ingredients in our ${data.titleLines.join(" ")} bar`}
             </h2>
           </div>
 
@@ -438,16 +558,16 @@ export const ProductDetailsPage: React.FC = () => {
               <div>
                 <h4 className="heading-4 font-bold text-white text-sm">Allergen info</h4>
                 <p className="text-body text-red-50 text-xs mt-0.5 font-light">
-                  Contains premium premium nuts. Made in a trace-free natural space.
+                  Contains premium nuts. Made in a trace-free natural space.
                 </p>
               </div>
             </div>
           </div>
 
           {/* RADIAL SATELLITE SYSTEM FRAMEWORK */}
-          <div className="relative w-full h-[750px] hidden md:flex items-center justify-center">
+          <div className={`relative w-full ${isCombo ? 'h-[900px]' : 'h-[750px]'} hidden md:flex items-center justify-center`}>
             
-            {/* Center Focal Point (Horizontal Candy Bar Foil Package) */}
+            {/* Center Focal Point */}
             <div className="absolute z-20 w-[490px] p-2 ">
               <img
                 src={data.img}
@@ -459,8 +579,15 @@ export const ProductDetailsPage: React.FC = () => {
             {/* Mathematically Structured Circle Nodes Loop */}
             {data.mascots.map((item: any, idx: number) => {
               const angle = (idx * 2 * Math.PI) / data.mascots.length - Math.PI / 2;
-              const x = Math.cos(angle) * radius;
-              const y = Math.sin(angle) * radius;
+              const x = Math.cos(angle) * radiusX;
+              const y = Math.sin(angle) * radiusY;
+
+              // Find quantity for combo flavors
+              let quantity = 1;
+              if (isCombo && data.comboFlavors) {
+                const found = data.comboFlavors.find(f => f.name === item.name);
+                if (found) quantity = found.quantity;
+              }
 
               return (
                 <div
@@ -474,7 +601,7 @@ export const ProductDetailsPage: React.FC = () => {
                   >
                     <img src={item.img} alt={item.name} className="max-w-full max-h-full object-contain" />
                     
-                    {/* Hover Tooltip Overlay Descriptor box matching style specs */}
+                    {/* Hover Tooltip Overlay */}
                     <div className="absolute bottom-full mb-2 hidden group-hover:flex flex-col items-center w-40 bg-neutral-900 text-white p-2 rounded-lg shadow-xl text-center z-50">
                       <span className="text-[11px] font-bold">{item.name}</span>
                       <span className="text-body text-[9px] text-neutral-300 font-light mt-0.5 leading-tight">{item.desc}</span>
@@ -482,7 +609,14 @@ export const ProductDetailsPage: React.FC = () => {
                     </div>
                   </motion.div>
                   
-                  <span className="text-body text-[10px] font-extrabold tracking-wider text-neutral-700 mt-2 uppercase bg-white px-2.5 py-0.5 rounded-full border border-neutral-100 shadow-3xs">
+                  {/* Quantity display under the circle for combo products */}
+                  {isCombo && quantity > 1 && (
+                    <span className="text-body text-[11px] font-extrabold text-gray-700 mt-1">
+                      ×{quantity}
+                    </span>
+                  )}
+                  
+                  <span className="text-body text-[10px] font-extrabold tracking-wider text-neutral-700 mt-0.5 uppercase bg-white px-2.5 py-0.5 rounded-full border border-neutral-100 shadow-3xs">
                     {item.name}
                   </span>
                 </div>
@@ -490,15 +624,25 @@ export const ProductDetailsPage: React.FC = () => {
             })}
           </div>
 
-          {/* Simple Grid Adaptive Mobile Viewport View */}
+          {/* Mobile Grid View */}
           <div className="grid grid-cols-2 gap-4 md:hidden">
-            {data.mascots.map((item: any) => (
-              <div key={item.id} className="bg-white p-4 rounded-xl border border-neutral-100 text-center flex flex-col items-center">
-                <img src={item.img} alt={item.name} className="w-14 h-14 object-contain mb-2" />
-                <h5 className="heading-4 text-xs font-bold text-neutral-900">{item.name}</h5>
-                <p className="text-body text-[10px] text-neutral-500 mt-1">{item.desc}</p>
-              </div>
-            ))}
+            {data.mascots.map((item: any) => {
+              let quantity = 1;
+              if (isCombo && data.comboFlavors) {
+                const found = data.comboFlavors.find(f => f.name === item.name);
+                if (found) quantity = found.quantity;
+              }
+              return (
+                <div key={item.id} className="bg-white p-4 rounded-xl border border-neutral-100 text-center flex flex-col items-center">
+                  <img src={item.img} alt={item.name} className="w-14 h-14 object-contain mb-2" />
+                  {isCombo && quantity > 1 && (
+                    <span className="text-xs font-bold text-gray-700 mb-1">×{quantity}</span>
+                  )}
+                  <h5 className="heading-4 text-xs font-bold text-neutral-900">{item.name}</h5>
+                  <p className="text-body text-[10px] text-neutral-500 mt-1">{item.desc}</p>
+                </div>
+              );
+            })}
           </div>
 
         </div>
@@ -514,17 +658,14 @@ export const ProductDetailsPage: React.FC = () => {
           transition={{ duration: 0.4 }}
           className={`${data.featuresBg} py-16 sm:py-20 md:py-24 relative z-0`}
         >
-          <div className="container mx-auto px-4 sm:px-6  max-w-7xl">
+          <div className="container mx-auto px-4 sm:px-6 max-w-7xl">
             <div className="text-center mb-12">
-              <h2
-                className={`${data.featuresTitleColor} heading-1 text-2xl sm:text-3xl md:text-4xl lg:text-5xl `}
-              >
+              <h2 className={`${data.featuresTitleColor} heading-1 text-2xl sm:text-3xl md:text-4xl lg:text-5xl`}>
                 Why Choose Us
               </h2>
-              
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 ">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {features.map((f, i) => (
                 <motion.div
                   key={i}
@@ -542,9 +683,7 @@ export const ProductDetailsPage: React.FC = () => {
                       className="w-10 h-10 object-contain brightness-0 invert opacity-80"
                     />
                   </div>
-                  <h3
-                    className={`heading-3 ${data.featuresTitleColor} font-light text-lg mb-2`}
-                  >
+                  <h3 className={`heading-3 ${data.featuresTitleColor} font-light text-lg mb-2`}>
                     {f.title}
                   </h3>
                   <p className="text-body text-white text-md font-light leading-relaxed">
@@ -557,8 +696,6 @@ export const ProductDetailsPage: React.FC = () => {
         </motion.section>
       </AnimatePresence>
 
-
- 
       {/* Shop Now Section */}
       <ShopNowSection />
     </div>
