@@ -107,7 +107,7 @@ export const OrderDetailsModal: React.FC<OrderDetailsModalProps> = ({ order, onC
                           Sold by: <span className="text-[#007185] hover:underline cursor-pointer hover:text-[#c45500]">The Happy Food Company</span>
                         </p>
                         <p className="text-sm font-medium text-gray-800 mt-1 flex items-center gap-2">
-                          <span>₹{price.toFixed(2)}</span>
+                          <span>₹{price}</span>
                           <span className="text-gray-300">|</span>
                           <span className="text-gray-600 font-normal">Qty: {item.quantity || 1}</span>
                         </p>
@@ -150,34 +150,34 @@ export const OrderDetailsModal: React.FC<OrderDetailsModalProps> = ({ order, onC
                 
                 <div className="text-sm text-gray-600 space-y-1.5 mb-5 bg-gray-50 p-3 rounded-lg border border-gray-100">
                   <p className="flex justify-between"><span className="text-gray-500">Date:</span> <span className="font-medium text-gray-900">{orderDate}</span></p>
-                  <p className="flex justify-between"><span className="text-gray-500">Order #:</span> <span className="font-medium text-gray-900">{order.orderNumber ? `171-${order.orderNumber.toString().padStart(7, '0')}` : order._id.slice(-8)}</span></p>
+                  <p className="flex justify-between"><span className="text-gray-500">Order #:</span> <span className="font-medium text-gray-900">{order.orderNumber ? `171-${order.orderNumber.toString().padStart(7, '0')}` : order._id}</span></p>
                 </div>
 
                 <div className="space-y-2 text-sm">
                   <div className="flex justify-between text-gray-600">
                     <span>Subtotal</span>
-                    <span className="font-medium text-gray-900">₹{subtotal.toFixed(2)}</span>
+                    <span className="font-medium text-gray-900">₹{subtotal}</span>
                   </div>
                   <div className="flex justify-between text-gray-600">
                     <span>Shipping</span>
-                    <span className="font-medium text-gray-900">₹{shippingFee.toFixed(2)}</span>
+                    <span className="font-medium text-gray-900">₹{shippingFee}</span>
                   </div>
                   <div className="flex justify-between text-gray-600">
                     <span>Marketplace Fee</span>
-                    <span className="font-medium text-gray-900">₹{marketplaceFee.toFixed(2)}</span>
+                    <span className="font-medium text-gray-900">₹{marketplaceFee}</span>
                   </div>
                   
                   {order.discount > 0 && (
                     <div className="flex justify-between text-green-600 font-medium">
                       <span>Discount</span>
-                      <span>-₹{order.discount.toFixed(2)}</span>
+                      <span>-₹{order.discount}</span>
                     </div>
                   )}
                   
                   <div className="pt-3 border-t border-gray-100 mt-3">
                     <div className="flex justify-between text-black font-bold text-lg">
                       <span>Grand Total</span>
-                      <span className="text-orange-600">₹{totalAmount.toFixed(2)}</span>
+                      <span className="text-orange-600">₹{totalAmount}</span>
                     </div>
                   </div>
                 </div>
