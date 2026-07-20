@@ -20,8 +20,11 @@ export const getDashboardStats = async (req: Request, res: Response): Promise<vo
     const completedOrders = allOrders.filter(o => o.status === 'delivered').length;  // ← lowercase
     
     const totalRevenue = allOrders
-      .filter(o => o.status !== 'cancelled')  // ← lowercase
-      .reduce((sum, order) => sum + (order.totalAmount || 0), 0);
+  .filter(o => o.status !== "cancelled")
+  .reduce(
+    (sum, order) => sum + Number(order.totalAmount || 0),
+    0
+  );
 
     res.status(200).json({ 
       totalVendors: totalVendors.length,
