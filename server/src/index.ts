@@ -4,7 +4,7 @@ import express from "express";
 import cors from "cors";
 import connectDB from "./config/database";
 import { seedAdmin } from "./seeds/adminSeed";
-import {seedProducts} from "./seeds/productSeed";
+
 
 // ─── Import Routes ────────────────────────────────────────────
 import authRoutes from "./routes/authRoutes";
@@ -73,7 +73,6 @@ const startServer = async () => {
     
     // Seed admin user (optional, will skip if exists)
     await seedAdmin();
-    await seedProducts();
     // Start server
     app.listen(PORT, () => {
       console.log(`🚀 Server running on http://localhost:${PORT}`);
