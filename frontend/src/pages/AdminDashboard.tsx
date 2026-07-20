@@ -375,7 +375,7 @@ export const AdminDashboard: React.FC = () => {
                       </tr>
                     )) : (
                       <>
-                        {[1, 2, 3, 4].map((i) => (
+                        {/* {[1, 2, 3, 4].map((i) => (
                           <tr key={i} className="border-b border-gray-50 last:border-0 hover:bg-gray-50/50 transition-colors">
                             <td className="px-6 py-4 text-sm font-medium text-gray-500">#5210</td>
                             <td className="px-6 py-4">
@@ -391,7 +391,7 @@ export const AdminDashboard: React.FC = () => {
                             </td>
                             <td className="px-6 py-4 text-sm font-semibold text-gray-700">₹35.00</td>
                           </tr>
-                        ))}
+                        ))} */}
                       </>
                     )}
                   </tbody>
