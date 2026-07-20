@@ -11,29 +11,105 @@ export const ProductsPage: React.FC = () => {
   const [quantities, setQuantities] = useState<Record<string, number>>({});
   const [loading, setLoading] = useState(true);
 
-  // Complete product data with all details
-  const INITIAL_PRODUCTS = [
+  // Fallback products - using the same structure as backend
+  const FALLBACK_PRODUCTS = [
     {
-      _id: '69e0bed3ddd3678cb38d4aa3',
+      id: 'e95b67ad-8122-11f1-b002-70a6cc26590d',
+      slug: 'cashew-raisin',
+      title: 'Cashew Raisin',
+      heading: 'Happy Bar',
+      subtitle: 'Combo Box of 6',
+      productHeading: 'Energize your Enjoyment!',
+      productDescription: 'Looking for a snack...',
+      stockDetails: 'In Stock',
+      category: 'Happy Bars',
+      price: 300,
+      images: ['/images/cashew-raisin.png'],
+      isActive: true
+    },
+    {
+      id: 'e95f796f-8122-11f1-b002-70a6cc26590d',
+      slug: 'coconut-almond',
+      title: 'Coconut Almond',
+      heading: 'Happy Bar',
+      subtitle: 'Combo Box of 6',
+      productHeading: 'Spark your snacking!',
+      productDescription: 'In the quest for a snack...',
+      stockDetails: 'In Stock',
+      category: 'Happy Bars',
+      price: 300,
+      images: ['/images/coconut-almond.png'],
+      isActive: true
+    },
+    {
+      id: 'e95fa902-8122-11f1-b002-70a6cc26590d',
+      slug: 'date-almond-cranberry',
+      title: 'Date Almond Cranberry',
+      heading: 'Happy Bar',
+      subtitle: 'Combo Box of 6',
+      productHeading: 'Fuel your Fun!',
+      productDescription: 'Looking for a snack...',
+      stockDetails: 'In Stock',
+      category: 'Happy Bars',
+      price: 300,
+      images: ['/images/date-almond-cranberry.png'],
+      isActive: true
+    },
+    {
+      id: 'e95fe3a8-8122-11f1-b002-70a6cc26590d',
+      slug: 'almond-cranberry',
+      title: 'Almond Cranberry',
+      heading: 'Happy Bar',
+      subtitle: 'Combo Box of 6',
+      productHeading: 'Unleash the Awesome!',
+      productDescription: 'Are you ready for a taste explosion...',
+      stockDetails: 'In Stock',
+      category: 'Happy Bars',
+      price: 300,
+      images: ['/images/almond-cranberry.png'],
+      isActive: true
+    },
+    {
+      id: 'e9601c50-8122-11f1-b002-70a6cc26590d',
       slug: 'combo-6-1',
       title: 'Happy Bar - Almond Cranberry | Cashew Raisin - Variety Box of 6',
+      heading: 'Combo Pack',
+      subtitle: '',
+      productHeading: '',
+      productDescription: '',
+      stockDetails: 'In Stock',
+      category: 'Combos',
       price: 276,
       images: ['/combo-products/Variety-6-AC-CR-removebg-preview.png'],
+      isActive: true
     },
     {
-      _id: '69e0bed3ddd3678cb38d4aa4',
+      id: 'e9604375-8122-11f1-b002-70a6cc26590d',
       slug: 'combo-6-2',
       title: 'Happy Bar - Coconut Almond | Date Almond Cranberry - Variety Box of 6',
+      heading: 'Combo Pack',
+      subtitle: '',
+      productHeading: '',
+      productDescription: '',
+      stockDetails: 'In Stock',
+      category: 'Combos',
       price: 276,
       images: ['/combo-products/Variety-6-CA-DAC-removebg-preview.png'],
-      
+      isActive: true
     },
     {
-      _id: '69e0bed3ddd3678cb38d4aa5',
+      id: 'e96068e1-8122-11f1-b002-70a6cc26590d',
       slug: 'combo-12',
       title: 'Almond Cranberry | Cashew Raisin | Coconut Almond | Date Almond Cranberry - Variety Box of 12',
+      heading: 'Mega Combo',
+      subtitle: '',
+      productHeading: '',
+      productDescription: '',
+      stockDetails: 'In Stock',
+      category: 'Combos',
       price: 552,
       images: ['/combo-products/Variety-12-removebg-preview.png'],
+      isActive: true
     }
   ];
 
@@ -45,18 +121,9 @@ export const ProductsPage: React.FC = () => {
         const apiProducts = await api.products.getAll();
         
         if (apiProducts && apiProducts.length > 0) {
-          // Filter only combo products
-          const comboProducts = apiProducts.filter((p: any) => 
-            p.slug?.startsWith('combo') || p.category === 'Combos'
-          );
-          
-          if (comboProducts.length > 0) {
-            setProducts(INITIAL_PRODUCTS);
-          } else {
-            setProducts(comboProducts);
-          }
+          setProducts(apiProducts);
         } else {
-          setProducts(INITIAL_PRODUCTS);
+          setProducts(FALLBACK_PRODUCTS);
         }
 
         // Fetch wishlist if user is logged in
@@ -65,7 +132,11 @@ export const ProductsPage: React.FC = () => {
           try {
             const wish = await api.wishlist.get();
             if (wish && wish.wishlist) {
-              const wishlistIds = wish.wishlist.productIds.map((p: any) => p._id || p);
+              // Handle both id and _id formats
+              const wishlistIds = wish.wishlist.items?.map((item: any) => {
+                const product = item.productId || item.product;
+                return product?.id || product?._id || product;
+              }).filter(Boolean) || [];
               setWishlist(wishlistIds);
             }
           } catch (wishErr) {
@@ -74,7 +145,7 @@ export const ProductsPage: React.FC = () => {
         }
       } catch (err) {
         console.error('Products fetch failed, using fallback data:', err);
-        setProducts(INITIAL_PRODUCTS);
+        setProducts(FALLBACK_PRODUCTS);
       } finally {
         setLoading(false);
       }
@@ -131,12 +202,19 @@ export const ProductsPage: React.FC = () => {
     }
   };
 
+  if (loading) {
+    return (
+      <div className="min-h-screen pt-32 flex justify-center items-center bg-white">
+        <div className="w-10 h-10 border-2 border-gray-200 border-t-gray-900 rounded-full animate-spin" />
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-white pt-24 pb-20 font-sans">
       <div className="container mx-auto px-6 max-w-7xl">
         
-        {/* Header - Using global typography classes */}
+        {/* Header */}
         <header className="text-center mb-16">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -156,15 +234,15 @@ export const ProductsPage: React.FC = () => {
           </motion.div>
         </header>
 
-        {loading ? (
-          <div className="flex justify-center items-center h-96">
-            <div className="w-8 h-8 border border-gray-200 border-t-gray-800 rounded-full animate-spin" />
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {products.map((p, idx) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {products.map((p, idx) => {
+            // Use id from backend (UUID) or fallback to _id
+            const productId = p.id || p._id;
+            const images = p.images || [];
+            
+            return (
               <motion.div
-                key={p._id}
+                key={productId}
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: idx * 0.1, duration: 0.5 }}
@@ -187,7 +265,7 @@ export const ProductsPage: React.FC = () => {
                     <Link to={`/product/${p.slug}`}>
                       <div className="aspect-square overflow-hidden">
                         <img
-                          src={p.images?.[0] || '/images/placeholder.png'}
+                          src={images[0] || '/images/placeholder.png'}
                           alt={p.title}
                           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                         />
@@ -196,50 +274,42 @@ export const ProductsPage: React.FC = () => {
                     
                     {/* Wishlist Button */}
                     <button
-                      onClick={(e) => handleAddToWishlist(e, p._id)}
+                      onClick={(e) => handleAddToWishlist(e, productId)}
                       className="absolute top-3 right-3 p-2 bg-white/90 backdrop-blur-sm hover:bg-white transition-all duration-300 z-20"
                     >
                       <Heart
                         size={16}
                         strokeWidth={1.5}
-                        className={`${wishlist.includes(p._id) ? 'fill-gray-800 text-gray-800' : 'text-gray-700 hover:text-gray-600'}`}
+                        className={`${wishlist.includes(productId) ? 'fill-gray-800 text-gray-800' : 'text-gray-700 hover:text-gray-600'}`}
                       />
                     </button>
                   </div>
 
-                  {/* Product Info - Using global text classes */}
+                  {/* Product Info */}
                   <div className="p-6 text-center">
-                    {/* Category - Using text-body */}
                     {p.category && (
                       <p className="text-body text-gray-700 text-[10px] tracking-wider mb-2 uppercase">
                         {p.category}
                       </p>
                     )}
                     
-                    
-                    
-                    {/* Title - Using heading-3 class */}
                     <h3 className="heading-3 text-gray-800 text-base tracking-wide mb-3 leading-relaxed min-h-20">
                       {p.title}
                     </h3>
                     
-                    {/* Divider */}
                     <div className="w-8 h-px bg-gray-200 mx-auto my-3" />
                     
-                    {/* Price - Using heading-3 for emphasis */}
                     <p className="heading-3 text-gray-900 text-xl">
                       ₹{p.price}
                     </p>
                     
-                    
-                    
                     {/* Quantity Dropdown */}
                     <div className="mt-3 mb-2 flex items-center justify-center gap-2">
-                      <label htmlFor={`qty-${p._id}`} className="text-sm font-medium text-gray-600">Qty:</label>
+                      <label htmlFor={`qty-${productId}`} className="text-sm font-medium text-gray-600">Qty:</label>
                       <select 
-                        id={`qty-${p._id}`}
-                        value={quantities[p._id] || 1}
-                        onChange={(e) => handleQtyChange(p._id, parseInt(e.target.value))}
+                        id={`qty-${productId}`}
+                        value={quantities[productId] || 1}
+                        onChange={(e) => handleQtyChange(productId, parseInt(e.target.value))}
                         className="border border-gray-200 rounded-md px-3 py-1.5 text-sm text-gray-700 bg-gray-50 outline-none focus:border-gray-400 focus:bg-white transition-colors"
                       >
                         {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(n => (
@@ -253,7 +323,7 @@ export const ProductsPage: React.FC = () => {
                       <motion.button
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
-                        onClick={() => handleAddToCart(p._id, false)}
+                        onClick={() => handleAddToCart(productId, false)}
                         className="flex-1 text-body py-2.5 border border-gray-200 text-gray-700 text-xs sm:text-sm tracking-wider hover:border-gray-400 hover:text-gray-900 hover:bg-gray-50 transition-all duration-300"
                       >
                         ADD TO CART
@@ -261,7 +331,7 @@ export const ProductsPage: React.FC = () => {
                       <motion.button
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
-                        onClick={() => handleAddToCart(p._id, true)}
+                        onClick={() => handleAddToCart(productId, true)}
                         className="flex-1 text-body py-2.5 bg-gray-900 text-white border border-gray-900 text-xs sm:text-sm tracking-wider hover:bg-gray-800 hover:border-gray-800 shadow-sm transition-all duration-300"
                       >
                         BUY NOW
@@ -270,9 +340,9 @@ export const ProductsPage: React.FC = () => {
                   </div>
                 </div>
               </motion.div>
-            ))}
-          </div>
-        )}
+            );
+          })}
+        </div>
       </div>
     </div>
   );

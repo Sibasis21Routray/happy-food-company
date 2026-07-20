@@ -1,7 +1,7 @@
 import * as wishlistDao from "../dao/wishlistDao";
-import { IWishlist } from "../models/wishlist.model";
+import { Wishlist } from "../models/wishlist.model";
 
-export const getWishlist = async (userId: string): Promise<IWishlist> => {
+export const getWishlist = async (userId: string): Promise<Wishlist> => {
   let wishlist = await wishlistDao.getWishlistByUserId(userId);
   if (!wishlist) {
     wishlist = await wishlistDao.createWishlist(userId);
@@ -9,10 +9,10 @@ export const getWishlist = async (userId: string): Promise<IWishlist> => {
   return wishlist;
 };
 
-export const addToWishlist = async (userId: string, productId: string): Promise<IWishlist | null> => {
+export const addToWishlist = async (userId: string, productId: string): Promise<Wishlist | null> => {
   return await wishlistDao.addProductToWishlist(userId, productId);
 };
 
-export const removeFromWishlist = async (userId: string, productId: string): Promise<IWishlist | null> => {
+export const removeFromWishlist = async (userId: string, productId: string): Promise<Wishlist | null> => {
   return await wishlistDao.removeProductFromWishlist(userId, productId);
 };

@@ -5,8 +5,29 @@ import * as couponService from "../services/couponService";
 // ─── Create coupon (admin) ────────────────────────────────────
 export const createCoupon = async (req: Request, res: Response): Promise<void> => {
   try {
-    const coupon = await couponService.createCoupon(req.body);
-    res.status(201).json({ message: "Coupon created", coupon });
+    const { code, discountPercent, minOrderAmount, maxUses, expiresAt } = req.body;
+
+    if (!code || discountPercent === undefined || !expiresAt) {
+      res.status(400).json({ 
+        message: "Code, discountPercent, and expiry date are required" 
+      });
+      return;
+    }
+
+    const coupon = await couponService.createCoupon({
+      code,
+      discountPercent: Number(discountPercent),
+      minOrderAmount: minOrderAmount ? Number(minOrderAmount) : 0,
+      maxUses: maxUses ? Number(maxUses) : 0,
+      expiresAt: new Date(expiresAt),
+      isActive: true,
+      usedCount: 0
+    });
+
+    res.status(201).json({ 
+      message: "Coupon created", 
+      coupon 
+    });
   } catch (error: any) {
     res.status(400).json({ message: error.message });
   }
@@ -16,16 +37,24 @@ export const createCoupon = async (req: Request, res: Response): Promise<void> =
 export const applyCoupon = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
     const { code, cartTotal } = req.body;
+
     if (!code || cartTotal === undefined) {
       res.status(400).json({ message: "code and cartTotal are required" });
       return;
     }
+
+    if (Number(cartTotal) <= 0) {
+      res.status(400).json({ message: "Cart total must be greater than 0" });
+      return;
+    }
+
     const result = await couponService.applyCoupon(code, Number(cartTotal));
+    
     res.status(200).json({
       message: "Coupon applied successfully",
       discountPercent: result.discountPercent,
-      discountAmount:  result.discountAmount,
-      finalAmount:     result.finalAmount,
+      discountAmount: result.discountAmount,
+      finalAmount: result.finalAmount,
     });
   } catch (error: any) {
     res.status(400).json({ message: error.message });

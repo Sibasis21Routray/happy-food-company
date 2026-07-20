@@ -6,9 +6,20 @@ import * as cartService from "../services/cartService";
 import * as couponService from "../services/couponService";
 import * as productDao from "../dao/productDao";
 
+// ─── Helper to convert params to string ──────────────────────
+const getParamId = (id: string | string[] | undefined): string | null => {
+  if (!id) return null;
+  return Array.isArray(id) ? id[0] : id;
+};
+
 // ─── Place order ──────────────────────────────────────────────
 export const placeOrder = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
+    if (!req.userId) {
+      res.status(401).json({ message: "User not authenticated" });
+      return;
+    }
+
     const { productIds, couponCode, billingAddress, shippingAddress, paymentMethod, razorpayDetails } = req.body;
 
     if (!billingAddress) {
@@ -17,7 +28,7 @@ export const placeOrder = async (req: AuthRequest, res: Response): Promise<void>
     }
 
     const result = await orderService.placeOrder({
-      userId: req.userId!,
+      userId: req.userId,
       productIds,
       couponCode,
       billingAddress,
@@ -28,8 +39,8 @@ export const placeOrder = async (req: AuthRequest, res: Response): Promise<void>
 
     res.status(201).json({
       message: "Order placed successfully",
-      order:           result.order,
-      billingAddress:  result.billingAddress,
+      order: result.order,
+      billingAddress: result.billingAddress,
       shippingAddress: result.shippingAddress,
     });
   } catch (error: any) {
@@ -40,11 +51,19 @@ export const placeOrder = async (req: AuthRequest, res: Response): Promise<void>
 // ─── Create Razorpay Order ────────────────────────────────────
 export const createRazorpayOrder = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
+    if (!req.userId) {
+      res.status(401).json({ message: "User not authenticated" });
+      return;
+    }
+
     const { productIds, couponCode } = req.body;
-    const userId = req.userId!;
+    const userId = req.userId;
 
     const cart = await cartService.getCart(userId);
-    if (!cart.items.length) { res.status(400).json({ message: "Cart is empty" }); return; }
+    if (!cart.items || !cart.items.length) {
+      res.status(400).json({ message: "Cart is empty" });
+      return;
+    }
 
     let cartItems = cart.items;
     
@@ -52,29 +71,36 @@ export const createRazorpayOrder = async (req: AuthRequest, res: Response): Prom
       const normalizedProductIds = productIds.map((id: string) => id.trim().toLowerCase());
       const productIdSet = new Set(normalizedProductIds);
       cartItems = cartItems.filter((item) => {
-        let itemProductId = item.productId as any;
-        if (typeof itemProductId !== "string") itemProductId = itemProductId._id ? itemProductId._id.toString() : itemProductId.toString();
-        return productIdSet.has(itemProductId.trim().toLowerCase());
+        const itemProductId = item.productId.toString().trim().toLowerCase();
+        return productIdSet.has(itemProductId);
       });
-      if (!cartItems.length) { res.status(400).json({ message: "No matching items found in cart" }); return; }
+      if (!cartItems.length) {
+        res.status(400).json({ message: "No matching items found in cart" });
+        return;
+      }
     }
 
-    const orderItems = await Promise.all(
-      cartItems.map(async (item) => {
-        let productIdStr = item.productId as any;
-        if (typeof productIdStr !== "string") productIdStr = productIdStr._id ? productIdStr._id.toString() : productIdStr.toString();
-        const product = await productDao.getProductById(productIdStr);
-        if (!product || !product.isActive) throw new Error(`Product no longer available`);
-        return { price: item.price, quantity: item.quantity };
-      })
-    );
+    let subtotal = 0;
+    for (const item of cartItems) {
+      const productIdStr = item.productId.toString();
+      const product = await productDao.getActiveProductById(productIdStr);
+      if (!product) {
+        res.status(400).json({ message: "Product no longer available" });
+        return;
+      }
+      subtotal += item.price * item.quantity;
+    }
 
-    const subtotal = orderItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
     let totalAmount = subtotal;
 
     if (couponCode) {
-      const couponResult = await couponService.applyCoupon(couponCode, subtotal);
-      totalAmount = couponResult.finalAmount;
+      try {
+        const couponResult = await couponService.applyCoupon(couponCode, subtotal);
+        totalAmount = couponResult.finalAmount;
+      } catch (error: any) {
+        res.status(400).json({ message: `Coupon error: ${error.message}` });
+        return;
+      }
     }
 
     const razorpay = getRazorpayInstance();
@@ -83,7 +109,7 @@ export const createRazorpayOrder = async (req: AuthRequest, res: Response): Prom
     const order = await razorpay.orders.create({
       amount: amountInPaise,
       currency: "INR",
-      receipt: `rcpt_${userId.toString().substring(16)}_${Date.now()}`,
+      receipt: `rcpt_${userId.substring(0, 8)}_${Date.now()}`,
     });
 
     res.status(200).json({
@@ -99,7 +125,12 @@ export const createRazorpayOrder = async (req: AuthRequest, res: Response): Prom
 // ─── Get my orders ────────────────────────────────────────────
 export const getMyOrders = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
-    const orders = await orderService.getUserOrders(req.userId!);
+    if (!req.userId) {
+      res.status(401).json({ message: "User not authenticated" });
+      return;
+    }
+
+    const orders = await orderService.getUserOrders(req.userId);
     res.status(200).json({ orders });
   } catch (error: any) {
     res.status(500).json({ message: error.message });
@@ -109,7 +140,20 @@ export const getMyOrders = async (req: AuthRequest, res: Response): Promise<void
 // ─── Get single order ─────────────────────────────────────────
 export const getOrderById = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
-    const order = await orderService.getOrderDetail(req.params.id as string, req.userId!);
+    if (!req.userId) {
+      res.status(401).json({ message: "User not authenticated" });
+      return;
+    }
+
+    const { id } = req.params;
+    const orderId = getParamId(id);
+
+    if (!orderId) {
+      res.status(400).json({ message: "Order ID is required" });
+      return;
+    }
+
+    const order = await orderService.getOrderDetail(orderId, req.userId);
     res.status(200).json({ order });
   } catch (error: any) {
     res.status(404).json({ message: error.message });

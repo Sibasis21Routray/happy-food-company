@@ -1,7 +1,7 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import * as userDao from "../dao/userDao";
-import User from "../models/user.model";
+import { User } from "../models/user.model";
 
 export interface RegisterInput {
   fullName: string;
@@ -12,7 +12,7 @@ export interface RegisterInput {
 }
 
 export interface LoginInput {
-  identifier: string; // email or mobile
+  identifier: string;
   password: string;
 }
 
@@ -21,8 +21,8 @@ interface AuthResponse {
     id: string;
     fullName: string;
     email: string;
-    mobileNumber?: string;
-    gender?: 'Male' | 'Female' | 'Other';
+    mobileNumber?: string | null;
+    gender?: string | null;
     orderIds: string[];
     cartIds: string[];
     role: string;
@@ -30,7 +30,7 @@ interface AuthResponse {
   token: string;
 }
 
-// ─── REGISTER SERVICE ──────────────────────────────────────────
+//// ─── REGISTER SERVICE ──────────────────────────────────────────
 export const registerService = async (data: RegisterInput): Promise<AuthResponse> => {
   const { fullName, email, password, gender, mobileNumber } = data;
 
@@ -51,28 +51,33 @@ export const registerService = async (data: RegisterInput): Promise<AuthResponse
   // Hash password
   const hashedPassword = await bcrypt.hash(password, 10);
 
-  // Create user
+  // Create user with role - CHANGE from 'CUSTOMER' to 'user'
   const user = await userDao.createUser({ 
-    fullName, email, password: hashedPassword, gender, mobileNumber 
+    fullName, 
+    email, 
+    password: hashedPassword, 
+    gender, 
+    mobileNumber,
+    role: 'user'  // ← lowercase
   });
 
   // Generate JWT
   const token = jwt.sign(
-    { userId: user._id },
+    { userId: user.id },
     process.env.JWT_SECRET as string,
     { expiresIn: "7d" }
   );
 
   return {
     user: {
-      id: user._id!.toString(),
+      id: user.id,
       fullName: user.fullName,
       email: user.email,
       mobileNumber: user.mobileNumber,
       gender: user.gender,
-      orderIds: user.orderIds,
-      cartIds: user.cartIds,
-      role: (user as any).role || 'user',
+      orderIds: user.orderIds || [],
+      cartIds: user.cartIds || [],
+      role: user.role,  // ← already lowercase, no need for toLocaleLowerCase()
     },
     token
   };
@@ -97,23 +102,22 @@ export const loginService = async (data: LoginInput): Promise<AuthResponse> => {
   }
 
   const token = jwt.sign(
-    { userId: user._id },
+    { userId: user.id },
     process.env.JWT_SECRET as string,
     { expiresIn: "7d" }
   );
 
   return {
     user: {
-      id: user._id!.toString(),
+      id: user.id,
       fullName: user.fullName,
       email: user.email,
       mobileNumber: user.mobileNumber,
       gender: user.gender,
-      orderIds: user.orderIds,
-      cartIds: user.cartIds,
-      role: (user as any).role || 'user',
+      orderIds: user.orderIds || [],
+      cartIds: user.cartIds || [],
+      role: user.role,  // ← already lowercase
     },
     token
   };
 };
-

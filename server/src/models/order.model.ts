@@ -1,80 +1,54 @@
-import mongoose, { Document, Schema, Types } from "mongoose";
-
-export interface IOrderItem {
-  productId: Types.ObjectId;
+// src/models/order.model.ts
+export interface OrderItem {
+  productId: string;
   title: string;
   quantity: number;
   price: number;
 }
 
+// IMPORTANT: Use lowercase to match old MongoDB
 export type OrderStatus = "pending" | "confirmed" | "shipped" | "out for delivery" | "delivered" | "cancelled";
+export type PaymentMethod = "COD" | "Online";  // Match old MongoDB
+export type PaymentStatus = "Pending" | "Completed" | "Failed";  // Match old MongoDB
 
-export interface IOrder extends Document {
+export interface RazorpayDetails {
+  orderId: string;
+  paymentId: string;
+  signature: string;
+}
+
+export interface Order {
+  id: string;
   orderNumber: number;
-  userId: Types.ObjectId;
-  items: IOrderItem[];
+  userId: string;
+  items: OrderItem[];
   subtotal: number;
   couponCode: string | null;
   discountPercent: number;
   discountAmount: number;
   totalAmount: number;
-  billingAddressId: Types.ObjectId;
-  shippingAddressId: Types.ObjectId;
+  billingAddressId: string;
+  shippingAddressId: string;
   status: OrderStatus;
-  vendorId?: Types.ObjectId;
-  paymentMethod: "COD" | "Online";
-  paymentStatus: "Pending" | "Completed" | "Failed";
-  razorpayDetails?: {
-    orderId: string;
-    paymentId: string;
-    signature: string;
-  };
+  vendorId?: string;
+  paymentMethod: PaymentMethod;
+  paymentStatus: PaymentStatus;
+  razorpayDetails?: RazorpayDetails;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
-const OrderItemSchema = new Schema<IOrderItem>(
-  {
-    productId: { type: Schema.Types.ObjectId, ref: "Product", required: true },
-    title:     { type: String, required: true },
-    quantity:  { type: Number, required: true, min: 1 },
-    price:     { type: Number, required: true },
-  },
-  { _id: false }
-);
+export type CreateOrderInput = Omit<Order, 'id' | 'createdAt' | 'updatedAt' | 'orderNumber' | 'status' | 'paymentStatus'> & {
+  status?: OrderStatus;
+  paymentStatus?: PaymentStatus;
+};
 
-const OrderSchema: Schema = new Schema(
-  {
-    orderNumber:       { type: Number, unique: true },
-    userId:            { type: Schema.Types.ObjectId, ref: "User", required: true },
-    items:             { type: [OrderItemSchema], required: true },
-    subtotal:          { type: Number, required: true },
-    couponCode:        { type: String, default: null },
-    discountPercent:   { type: Number, default: 0 },
-    discountAmount:    { type: Number, default: 0 },
-    totalAmount:       { type: Number, required: true },
-    billingAddressId:  { type: Schema.Types.ObjectId, ref: "Address", required: true },
-    shippingAddressId: { type: Schema.Types.ObjectId, ref: "Address", required: true },
-    status:            { type: String, enum: ["pending","confirmed","shipped","out for delivery","delivered","cancelled"], default: "pending" },
-    vendorId:          { type: Schema.Types.ObjectId, ref: "User", default: null },
-    paymentMethod:     { type: String, enum: ["COD", "Online"], default: "COD" },
-    paymentStatus:     { type: String, enum: ["Pending", "Completed", "Failed"], default: "Pending" },
-    razorpayDetails:   {
-      orderId: String,
-      paymentId: String,
-      signature: String
-    }
-  },
-  { timestamps: true }
-);
+export type UpdateOrderInput = Partial<Omit<Order, 'id' | 'createdAt' | 'updatedAt' | 'orderNumber'>>;
 
-OrderSchema.pre("save", async function () {
-  if (this.isNew) {
-    const lastOrder = await mongoose.model("Order").findOne({}, {}, { sort: { orderNumber: -1 } });
-    if (lastOrder && lastOrder.orderNumber) {
-      this.orderNumber = lastOrder.orderNumber + 1;
-    } else {
-      this.orderNumber = 1;
-    }
-  }
-});
-
-export default mongoose.model<IOrder>("Order", OrderSchema);
+export type OrderFilters = {
+  userId?: string;
+  status?: OrderStatus;
+  paymentStatus?: PaymentStatus;
+  startDate?: Date;
+  endDate?: Date;
+};

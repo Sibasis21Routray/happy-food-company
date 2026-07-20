@@ -1,6 +1,6 @@
-import mongoose, { Document, Schema } from "mongoose";
-
-export interface ICoupon extends Document {
+// src/models/coupon.model.ts
+export interface Coupon {
+  id: string;
   code: string;
   discountPercent: number;      // e.g. 10 means 10% off
   minOrderAmount: number;       // minimum cart total to apply coupon
@@ -8,19 +8,20 @@ export interface ICoupon extends Document {
   usedCount: number;
   expiresAt: Date | null;
   isActive: boolean;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
-const CouponSchema: Schema = new Schema(
-  {
-    code:            { type: String, required: true, unique: true, uppercase: true, trim: true },
-    discountPercent: { type: Number, required: true, min: 1, max: 100 },
-    minOrderAmount:  { type: Number, default: 0 },
-    maxUses:         { type: Number, default: 0 },
-    usedCount:       { type: Number, default: 0 },
-    expiresAt:       { type: Date, default: null },
-    isActive:        { type: Boolean, default: true },
-  },
-  { timestamps: true }
-);
+export type CreateCouponInput = Omit<Coupon, 'id' | 'createdAt' | 'updatedAt' | 'usedCount' | 'isActive'> & {
+  isActive?: boolean;
+};
 
-export default mongoose.model<ICoupon>("Coupon", CouponSchema);
+export type UpdateCouponInput = Partial<Omit<Coupon, 'id' | 'createdAt' | 'updatedAt'>>;
+
+export type CouponFilters = {
+  isActive?: boolean;
+  code?: string;
+  minAmount?: number;
+  expiresBefore?: Date;
+  expiresAfter?: Date;
+};

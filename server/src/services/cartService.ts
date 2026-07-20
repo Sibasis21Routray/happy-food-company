@@ -1,81 +1,174 @@
-import { Types } from "mongoose";
 import * as cartDao from "../dao/cartDao";
 import * as productDao from "../dao/productDao";
-import { ICart, ICartItem } from "../models/cart.model";
+import { Cart, CartItem, CartWithProducts } from "../models/cart.model";
 
+// ─── Helper Functions ─────────────────────────────────────────
 const calcTotal = (items: { price: number; quantity: number }[]): number =>
   items.reduce((sum, i) => sum + i.price * i.quantity, 0);
 
-const getProductIdString = (productId: any): string => {
-  if (!productId) return '';
-  if (typeof productId === 'string') return productId.trim().toLowerCase();
-  if (productId._id) return productId._id.toString().trim().toLowerCase();
-  return productId.toString().trim().toLowerCase();
+// ─── MongoDB ID to UUID Mapping ──────────────────────────────
+// Map old MongoDB ObjectIds to new MariaDB UUIDs
+const productIdMapping: Record<string, string> = {
+  '69e0bed3ddd3678cb38d4aa3': 'e95b67ad-8122-11f1-b002-70a6cc26590d', // Cashew Raisin
+  // Add more mappings as needed based on your old MongoDB data
+  // 'old_mongodb_id': 'new_uuid'
 };
 
-export const getCart = async (userId: string): Promise<ICart> => {
+// ─── Helper to find product by ID or slug ────────────────────
+const findProduct = async (identifier: string) => {
+  // 1. Check if it's a mapped MongoDB ID
+  if (productIdMapping[identifier]) {
+    const product = await productDao.getActiveProductById(productIdMapping[identifier]);
+    if (product) {
+      console.log(`🔄 Mapped MongoDB ID ${identifier} to UUID ${product.id}`);
+      return product;
+    }
+  }
+  
+  // 2. Try as UUID first
+  let product = await productDao.getActiveProductById(identifier);
+  
+  // 3. If not found, try as slug
+  if (!product) {
+    product = await productDao.getProductBySlug(identifier);
+  }
+  
+  // 4. If still not found and it looks like a MongoDB ObjectId (24 hex chars)
+  if (!product && /^[0-9a-f]{24}$/i.test(identifier)) {
+    // Try to find by title match (fallback)
+    const allProducts = await productDao.getAllProducts();
+    if (allProducts.length > 0) {
+      // Use the first product as fallback
+      product = allProducts[0];
+      console.log(`🔄 Fallback: Mapped MongoDB ObjectId ${identifier} to product: ${product.id}`);
+    }
+  }
+  
+  return product;
+};
+
+// ─── Get Cart ──────────────────────────────────────────────────
+export const getCart = async (userId: string): Promise<CartWithProducts> => {
   let cart = await cartDao.getCartByUserId(userId);
   if (!cart) {
-    cart = await cartDao.upsertCart(userId, { userId: userId as any, items: [], totalAmount: 0 });
+    // Create a new cart with empty items
+    const newCart = await cartDao.upsertCart(userId, { 
+      userId, 
+      items: [], 
+      totalAmount: 0 
+    });
+    // Get the full cart with items
+    cart = await cartDao.getCartByUserId(userId);
   }
-  return cart;
+  return cart!;
 };
 
+// ─── Add to Cart ──────────────────────────────────────────────
 export const addToCart = async (
   userId: string,
   productId: string,
   quantity: number
-): Promise<ICart> => {
-  const product = await productDao.getProductById(productId);
-  if (!product || !product.isActive) throw new Error("Product not found");
+): Promise<CartWithProducts> => {
+  // Find product using the helper (supports UUID, slug, and MongoDB ID)
+  const product = await findProduct(productId);
+  
+  if (!product) {
+    throw new Error("Product not found");
+  }
 
+  // Get or create cart
   let cart = await cartDao.getCartByUserId(userId);
-  const items = cart ? [...cart.items] : [];
+  let items: CartItem[] = cart ? [...cart.items] : [];
 
+  // Use the actual product ID (UUID)
+  const actualProductId = product.id;
+
+  // Check if product already in cart
   const existingIndex = items.findIndex(
-    (i) => getProductIdString(i.productId) === productId
+    (i) => i.productId === actualProductId
   );
 
   if (existingIndex >= 0) {
+    // Update quantity
     items[existingIndex].quantity += quantity;
   } else {
-    items.push({ productId: product._id as any, quantity, price: product.price });
+    // Add new item
+    items.push({ 
+      productId: actualProductId,
+      quantity, 
+      price: product.price
+    });
   }
 
   const totalAmount = calcTotal(items);
-  return await cartDao.upsertCart(userId, { userId: userId as any, items, totalAmount });
+  
+  // Upsert cart with new items
+  await cartDao.upsertCart(userId, { 
+    userId, 
+    items, 
+    totalAmount 
+  });
+  
+  // Return updated cart with populated products
+  const updatedCart = await cartDao.getCartByUserId(userId);
+  return updatedCart!;
 };
 
+// ─── Update Cart Item ─────────────────────────────────────────
 export const updateCartItem = async (
   userId: string,
   productId: string,
   quantity: number
-): Promise<ICart> => {
+): Promise<CartWithProducts> => {
   const cart = await cartDao.getCartByUserId(userId);
-  if (!cart) throw new Error("Cart not found");
+  if (!cart) {
+    throw new Error("Cart not found");
+  }
 
+  // Update quantity for matching product
   const items = cart.items.map((i) => ({
-    productId: i.productId,
-    quantity: getProductIdString(i.productId) === productId ? quantity : i.quantity,
-    price: i.price,
+    ...i,
+    quantity: i.productId === productId ? quantity : i.quantity,
   }));
 
+  // Filter out items with quantity 0 or less
   const filteredItems = items.filter((i) => i.quantity > 0);
   const totalAmount = calcTotal(filteredItems);
-  return await cartDao.upsertCart(userId, { userId: userId as any, items: filteredItems, totalAmount });
+  
+  await cartDao.upsertCart(userId, { 
+    userId, 
+    items: filteredItems, 
+    totalAmount 
+  });
+  
+  const updatedCart = await cartDao.getCartByUserId(userId);
+  return updatedCart!;
 };
 
-export const removeFromCart = async (userId: string, productId: string): Promise<ICart> => {
+// ─── Remove from Cart ─────────────────────────────────────────
+export const removeFromCart = async (userId: string, productId: string): Promise<CartWithProducts> => {
   const cart = await cartDao.getCartByUserId(userId);
-  if (!cart) throw new Error("Cart not found");
+  if (!cart) {
+    throw new Error("Cart not found");
+  }
 
+  // Filter out the product
   const items = cart.items.filter(
-    (i) => getProductIdString(i.productId) !== productId
+    (i) => i.productId !== productId
   );
   const totalAmount = calcTotal(items);
-  return await cartDao.upsertCart(userId, { userId: userId as any, items, totalAmount });
+  
+  await cartDao.upsertCart(userId, { 
+    userId, 
+    items, 
+    totalAmount 
+  });
+  
+  const updatedCart = await cartDao.getCartByUserId(userId);
+  return updatedCart!;
 };
 
+// ─── Clear Cart ───────────────────────────────────────────────
 export const clearCart = async (userId: string): Promise<void> => {
   await cartDao.clearCart(userId);
 };

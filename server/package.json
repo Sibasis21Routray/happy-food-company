@@ -22,7 +22,7 @@
     "express-rate-limit": "^8.5.2",
     "express-validator": "^7.3.2",
     "jsonwebtoken": "^9.0.3",
-    "mongoose": "^9.4.1",
+    "mysql2": "^3.6.0",
     "nodemailer": "^9.0.3",
     "razorpay": "^2.9.6"
   },

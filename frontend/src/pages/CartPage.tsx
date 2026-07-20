@@ -37,8 +37,10 @@ export const CartPage: React.FC = () => {
   const fetchCart = async () => {
     try {
       const data = await api.cart.get();
-      if (data.cart) {
-        setCart(data.cart);
+      // Handle both response formats
+      const cartData = data.cart || data.data || data;
+      if (cartData && cartData.items) {
+        setCart(cartData);
       }
     } catch (err) {
       console.error('Failed to fetch cart:', err);
@@ -48,17 +50,14 @@ export const CartPage: React.FC = () => {
   };
 
   useEffect(() => {
-  const step = Number(searchParams.get('step'));
-
-  if (step === 2 && cart?.items?.length) {
-  setCurrentStep(2);
-}
-
-if (step === 3 && selectedAddressId) {
-  setCurrentStep(3);
-}
-}, [searchParams]);
-
+    const step = Number(searchParams.get('step'));
+    if (step === 2 && cart?.items?.length) {
+      setCurrentStep(2);
+    }
+    if (step === 3 && selectedAddressId) {
+      setCurrentStep(3);
+    }
+  }, [searchParams, cart, selectedAddressId]);
 
   useEffect(() => {
     const user = localStorage.getItem('user');
@@ -73,9 +72,11 @@ if (step === 3 && selectedAddressId) {
     setAddressLoading(true);
     try {
       const resp = await api.addresses.getAll();
-      setAddresses(resp.addresses || []);
-      if (resp.addresses?.length > 0 && !selectedAddressId) {
-        setSelectedAddressId(resp.addresses[0]._id);
+      const addressesData = resp.addresses || resp.data || [];
+      setAddresses(addressesData);
+      if (addressesData.length > 0 && !selectedAddressId) {
+        // Use id or _id
+        setSelectedAddressId(addressesData[0].id || addressesData[0]._id);
       }
     } catch (err) {
       console.error('Failed to fetch addresses:', err);
@@ -90,6 +91,11 @@ if (step === 3 && selectedAddressId) {
     }
   }, [currentStep]);
 
+  const getProductId = (item: any) => {
+    const product = item.productId || item.product;
+    return product?.id || product?._id || item.productId || item.product;
+  };
+
   const handleUpdateQuantity = async (productId: string, newQty: number) => {
     try {
       if (newQty === 0) {
@@ -98,7 +104,11 @@ if (step === 3 && selectedAddressId) {
       }
       if (newQty < 0) return;
       
-      const currentQty = cart.items.find((i: any) => (i.productId._id || i.productId) === productId)?.quantity || 0;
+      const currentQty = cart.items.find((i: any) => {
+        const pid = getProductId(i);
+        return pid === productId;
+      })?.quantity || 0;
+      
       await api.cart.add(productId, newQty - currentQty);
       await fetchCart();
     } catch (err) {
@@ -124,7 +134,7 @@ if (step === 3 && selectedAddressId) {
       return;
     }
 
-    const selectedAddr = addresses.find(a => a._id === selectedAddressId);
+    const selectedAddr = addresses.find(a => (a.id || a._id) === selectedAddressId);
     if (!selectedAddr) return;
 
     const userStr = localStorage.getItem('user');
@@ -142,14 +152,13 @@ if (step === 3 && selectedAddressId) {
           return;
         }
 
-        // 1. Create Razorpay order on backend
         const orderRes = await fetch(`${import.meta.env.VITE_API_URL}/order/create-razorpay-order`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${token}`,
           },
-          body: JSON.stringify({}) // productIds and couponCode can be added if needed, currently uses cart
+          body: JSON.stringify({})
         });
 
         if (!orderRes.ok) {
@@ -159,17 +168,15 @@ if (step === 3 && selectedAddressId) {
 
         const orderData = await orderRes.json();
 
-        // 2. Open Razorpay Checkout
         const options = {
           key: import.meta.env.VITE_RAZORPAY_KEY_ID || '',
           amount: orderData.amount,
           currency: orderData.currency,
           name: 'The Happy Food Company',
           description: 'Payment for your order',
-          image: '/images/logo.png', // Add a valid logo if available
+          image: '/images/logo.png',
           order_id: orderData.orderId,
           handler: async function (response: any) {
-            // 3. On success, verify and place order
             try {
               const placeRes = await fetch(`${import.meta.env.VITE_API_URL}/order/place`, {
                 method: 'POST',
@@ -219,7 +226,7 @@ if (step === 3 && selectedAddressId) {
             contact: selectedAddr.phone
           },
           theme: {
-            color: '#111827' // gray-900 to match theme
+            color: '#111827'
           },
           modal: {
             ondismiss: function() {
@@ -283,7 +290,7 @@ if (step === 3 && selectedAddressId) {
     );
   }
 
-  if (!cart || cart.items.length === 0) {
+  if (!cart || !cart.items || cart.items.length === 0) {
     return (
       <div className="min-h-screen pt-32 bg-white flex flex-col items-center justify-center px-6">
         <motion.div 
@@ -367,8 +374,10 @@ if (step === 3 && selectedAddressId) {
               <div className="space-y-5">
                 <AnimatePresence>
                   {cart.items.map((item: any) => {
-                    const product = item.productId;
-                    const pid = product._id || product;
+                    const product = item.productId || item.product;
+                    const pid = product?.id || product?._id || item.productId;
+                    const images = product?.images || [];
+                    
                     return (
                       <motion.div 
                         key={pid}
@@ -381,17 +390,19 @@ if (step === 3 && selectedAddressId) {
                           {/* Image */}
                           <div className="w-24 h-24 bg-gray-50 flex-shrink-0">
                             <img 
-                              src={product.images?.[0] || '/images/combo-6-1.png'} 
-                              alt={product.title} 
+                              src={images[0] || '/images/combo-6-1.png'} 
+                              alt={product?.title || item.title} 
                               className="w-full h-full object-cover"
                             />
                           </div>
                           
                           {/* Info */}
                           <div className="flex-1">
-                            <h3 className="text-lg font-semibold text-gray-900 mb-1">{product.title}</h3>
+                            <h3 className="text-lg font-semibold text-gray-900 mb-1">
+                              {product?.title || item.title}
+                            </h3>
                             <p className="text-gray-500 text-sm font-light mb-2">
-                              {product.category || 'Combo Pack'}
+                              {product?.category || 'Combo Pack'}
                             </p>
                             <p className="text-gray-900 text-xl font-medium">₹{item.price}</p>
                           </div>
@@ -430,113 +441,86 @@ if (step === 3 && selectedAddressId) {
 
             {/* Step 2: Address Selection */}
             {currentStep === 2 && (
-         <div>
-           <div className="flex justify-between items-center mb-6">
-            <h3 className="text-lg font-medium text-gray-800">
-             Select Delivery Address <span className="text-red-500">*</span>
-             </h3>
-
-      <button
-        onClick={() =>
-  navigate('/profile?section=addresses&returnTo=checkout')
-}
-        className="text-sm text-gray-600 hover:text-gray-900 transition-colors font-medium"
-      >
-        + Add New Address
-      </button>
-    </div>
-
-    {!selectedAddressId && addresses.length > 0 && (
-      <p className="text-red-500 text-sm mb-4">
-        * Please select a delivery address to continue
-      </p>
-    )}
-
-    {addressLoading ? (
-      <div className="flex justify-center py-12">
-        <div className="w-8 h-8 border-2 border-gray-200 border-t-gray-900 rounded-full animate-spin" />
-      </div>
-    ) : addresses.length === 0 ? (
-      <div className="border border-gray-200 p-12 text-center rounded-sm">
-        <MapPin
-          size={48}
-          className="mx-auto text-gray-300 mb-4"
-          strokeWidth={1}
-        />
-
-        <p className="text-gray-600 text-lg font-light mb-2">
-          No saved addresses
-        </p>
-
-        <p className="text-red-500 text-sm mb-6">
-          * Address is required to place an order
-        </p>
-
-        <button
-          onClick={() =>
-  navigate('/profile?section=addresses&returnTo=checkout')
-}
-          className="px-8 py-3 border border-gray-300 text-gray-700 text-base font-medium hover:border-gray-700 transition-all rounded-sm"
-        >
-          ADD ADDRESS
-        </button>
-      </div>
-    ) : (
-      <div className="grid grid-cols-1 gap-5">
-        {addresses.map((addr) => (
-          <div
-            key={addr._id}
-            onClick={() => setSelectedAddressId(addr._id)}
-            className={`border p-6 cursor-pointer transition-all duration-300 rounded-sm ${
-              selectedAddressId === addr._id
-                ? 'border-gray-700 bg-gray-50'
-                : 'border-gray-200 hover:border-gray-300'
-            }`}
-          >
-            <div className="flex items-start justify-between">
-              <div className="flex-1">
-                <div className="flex items-center gap-2 mb-3">
-                  {addr.type === 'Home' ? (
-                    <Home size={14} className="text-gray-600" />
-                  ) : (
-                    <Briefcase size={14} className="text-gray-600" />
-                  )}
-
-                  <span className="text-xs font-semibold tracking-wide text-gray-600 uppercase">
-                    {addr.type}
-                  </span>
+              <div>
+                <div className="flex justify-between items-center mb-6">
+                  <h3 className="text-lg font-medium text-gray-800">
+                    Select Delivery Address <span className="text-red-500">*</span>
+                  </h3>
+                  <button
+                    onClick={() => navigate('/profile?section=addresses&returnTo=checkout')}
+                    className="text-sm text-gray-600 hover:text-gray-900 transition-colors font-medium"
+                  >
+                    + Add New Address
+                  </button>
                 </div>
 
-                <p className="text-lg font-semibold text-gray-900 mb-1">
-                  {addr.name}
-                </p>
+                {!selectedAddressId && addresses.length > 0 && (
+                  <p className="text-red-500 text-sm mb-4">
+                    * Please select a delivery address to continue
+                  </p>
+                )}
 
-                <p className="text-base text-gray-600 font-light mb-2">
-                  {addr.streetAddress}, {addr.locality}, {addr.city},{" "}
-                  {addr.state} - {addr.pinCode}
-                </p>
-
-                <p className="text-base text-gray-700 font-medium">
-                  {addr.phone}
-                </p>
+                {addressLoading ? (
+                  <div className="flex justify-center py-12">
+                    <div className="w-8 h-8 border-2 border-gray-200 border-t-gray-900 rounded-full animate-spin" />
+                  </div>
+                ) : addresses.length === 0 ? (
+                  <div className="border border-gray-200 p-12 text-center rounded-sm">
+                    <MapPin size={48} className="mx-auto text-gray-300 mb-4" strokeWidth={1} />
+                    <p className="text-gray-600 text-lg font-light mb-2">No saved addresses</p>
+                    <p className="text-red-500 text-sm mb-6">* Address is required to place an order</p>
+                    <button
+                      onClick={() => navigate('/profile?section=addresses&returnTo=checkout')}
+                      className="px-8 py-3 border border-gray-300 text-gray-700 text-base font-medium hover:border-gray-700 transition-all rounded-sm"
+                    >
+                      ADD ADDRESS
+                    </button>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 gap-5">
+                    {addresses.map((addr) => {
+                      const addrId = addr.id || addr._id;
+                      return (
+                        <div
+                          key={addrId}
+                          onClick={() => setSelectedAddressId(addrId)}
+                          className={`border p-6 cursor-pointer transition-all duration-300 rounded-sm ${
+                            selectedAddressId === addrId
+                              ? 'border-gray-700 bg-gray-50'
+                              : 'border-gray-200 hover:border-gray-300'
+                          }`}
+                        >
+                          <div className="flex items-start justify-between">
+                            <div className="flex-1">
+                              <div className="flex items-center gap-2 mb-3">
+                                {addr.type === 'Home' ? (
+                                  <Home size={14} className="text-gray-600" />
+                                ) : (
+                                  <Briefcase size={14} className="text-gray-600" />
+                                )}
+                                <span className="text-xs font-semibold tracking-wide text-gray-600 uppercase">
+                                  {addr.type}
+                                </span>
+                              </div>
+                              <p className="text-lg font-semibold text-gray-900 mb-1">{addr.name}</p>
+                              <p className="text-base text-gray-600 font-light mb-2">
+                                {addr.streetAddress}, {addr.locality}, {addr.city}, {addr.state} - {addr.pinCode}
+                              </p>
+                              <p className="text-base text-gray-700 font-medium">{addr.phone}</p>
+                            </div>
+                            {selectedAddressId === addrId && (
+                              <div className="w-6 h-6 rounded-full bg-gray-900 flex items-center justify-center">
+                                <Check size={14} className="text-white" strokeWidth={2} />
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
               </div>
-
-              {selectedAddressId === addr._id && (
-                <div className="w-6 h-6 rounded-full bg-gray-900 flex items-center justify-center">
-                  <Check
-                    size={14}
-                    className="text-white"
-                    strokeWidth={2}
-                  />
-                </div>
-              )}
-            </div>
-          </div>
-        ))}
-      </div>
-    )}
-  </div>
-)}
+            )}
 
             {/* Step 3: Payment Method */}
             {currentStep === 3 && (
@@ -583,7 +567,7 @@ if (step === 3 && selectedAddressId) {
               <div className="space-y-4 mb-6">
                 <div className="flex justify-between text-lg">
                   <span className="text-gray-600 font-light">Subtotal</span>
-                  <span className="text-gray-900 font-medium">₹{cart.totalAmount}</span>
+                  <span className="text-gray-900 font-medium">₹{cart.totalAmount || 0}</span>
                 </div>
                 <div className="flex justify-between text-lg">
                   <span className="text-gray-600 font-light">Shipping</span>
@@ -592,7 +576,7 @@ if (step === 3 && selectedAddressId) {
                 <div className="border-t border-gray-200 my-4" />
                 <div className="flex justify-between">
                   <span className="text-xl font-semibold text-gray-900">Total</span>
-                  <span className="text-2xl font-bold text-gray-900">₹{cart.totalAmount}</span>
+                  <span className="text-2xl font-bold text-gray-900">₹{cart.totalAmount || 0}</span>
                 </div>
               </div>
 

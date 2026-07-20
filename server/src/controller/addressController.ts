@@ -7,11 +7,29 @@ interface AddressParams {
   addressId: string;
 }
 
+// ─── Helper to convert params to string ──────────────────────
+const getParamId = (id: string | string[] | undefined): string | null => {
+  if (!id) return null;
+  return Array.isArray(id) ? id[0] : id;
+};
+
 // ─── Save a new address ───────────────────────────────────────
 export const saveAddress = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
-    const address = await addressDao.createAddress({ userId: req.userId!, ...req.body });
-    res.status(201).json({ message: "Address saved", address });
+    if (!req.userId) {
+      res.status(401).json({ message: "User not authenticated" });
+      return;
+    }
+
+    const address = await addressDao.createAddress({ 
+      userId: req.userId, 
+      ...req.body 
+    });
+    
+    res.status(201).json({ 
+      message: "Address saved", 
+      address 
+    });
   } catch (error: any) {
     res.status(400).json({ message: error.message });
   }
@@ -20,28 +38,40 @@ export const saveAddress = async (req: AuthRequest, res: Response): Promise<void
 // ─── Get all addresses for logged-in user ─────────────────────
 export const getMyAddresses = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
-    const addresses = await addressDao.getAddressesByUserId(req.userId!);
+    if (!req.userId) {
+      res.status(401).json({ message: "User not authenticated" });
+      return;
+    }
+
+    const addresses = await addressDao.getAddressesByUserId(req.userId);
     res.status(200).json({ addresses });
   } catch (error: any) {
     res.status(500).json({ message: error.message });
   }
 };
 
-
-
-// addressController.ts - Add these functions
-
-// ─── Update an existing address ───────────────────────────────────────
+// ─── Update an existing address ───────────────────────────────
 export const updateAddress = async (
   req: AuthRequest & Request<AddressParams>,
   res: Response
 ): Promise<void> => {
   try {
+    if (!req.userId) {
+      res.status(401).json({ message: "User not authenticated" });
+      return;
+    }
+
     const { addressId } = req.params;
+    const addressIdStr = getParamId(addressId);
+
+    if (!addressIdStr) {
+      res.status(400).json({ message: "Invalid address ID" });
+      return;
+    }
 
     const updatedAddress = await addressDao.updateAddress(
-      addressId,
-      req.userId!,
+      addressIdStr,
+      req.userId,
       req.body
     );
 
@@ -59,21 +89,26 @@ export const updateAddress = async (
   }
 };
 
-
 // ─── Delete an address ───────────────────────────────────────
 export const deleteAddress = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
+    if (!req.userId) {
+      res.status(401).json({ message: "User not authenticated" });
+      return;
+    }
+
     const { addressId } = req.params;
+    const addressIdStr = getParamId(addressId);
 
-    if (Array.isArray(addressId)) {
-  res.status(400).json({ message: "Invalid address ID" });
-  return;
-}
+    if (!addressIdStr) {
+      res.status(400).json({ message: "Invalid address ID" });
+      return;
+    }
 
-   const deleted = await addressDao.deleteAddress(
-  addressId,
-  req.userId!
-);
+    const deleted = await addressDao.deleteAddress(
+      addressIdStr,
+      req.userId
+    );
     
     if (!deleted) {
       res.status(404).json({ message: "Address not found" });

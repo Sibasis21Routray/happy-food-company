@@ -1,33 +1,38 @@
-import mongoose, { Document, Schema, Types } from "mongoose";
+// src/models/cart.model.ts
+import { Product } from './product.model';
 
-export interface ICartItem {
-  productId: Types.ObjectId;
+export interface CartItem {
+  productId: string;
   quantity: number;
   price: number;
 }
 
-export interface ICart extends Document {
-  userId: Types.ObjectId;
-  items: ICartItem[];
+export interface Cart {
+  id: string;
+  userId: string;
+  items: CartItem[];
   totalAmount: number;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
-const CartItemSchema = new Schema<ICartItem>(
-  {
-    productId: { type: Schema.Types.ObjectId, ref: "Product", required: true },
-    quantity:  { type: Number, required: true, min: 1, default: 1 },
-    price:     { type: Number, required: true },
-  },
-  { _id: false }
-);
+export interface CartItemWithProduct extends CartItem {
+  product: Product;
+}
 
-const CartSchema: Schema = new Schema(
-  {
-    userId:      { type: Schema.Types.ObjectId, ref: "User", required: true, unique: true },
-    items:       { type: [CartItemSchema], default: [] },
-    totalAmount: { type: Number, default: 0 },
-  },
-  { timestamps: true }
-);
+export interface CartWithProducts extends Omit<Cart, 'items'> {
+  items: CartItemWithProduct[];
+}
 
-export default mongoose.model<ICart>("Cart", CartSchema);
+export type CreateCartItemInput = Omit<CartItem, 'id'>;
+export type UpdateCartItemInput = Partial<Omit<CartItem, 'productId'>> & {
+  productId: string;
+};
+
+export type CartItemInput = {
+  productId: string;
+  quantity: number;
+};
+
+export type CreateCartInput = Omit<Cart, 'id' | 'createdAt' | 'updatedAt' | 'items' | 'totalAmount'>;
+export type UpdateCartInput = Partial<Omit<Cart, 'id' | 'createdAt' | 'updatedAt' | 'userId'>>;

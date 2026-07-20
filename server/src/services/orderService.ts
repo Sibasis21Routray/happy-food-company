@@ -5,18 +5,21 @@ import * as cartDao from "../dao/cartDao";
 import * as couponService from "./couponService";
 import * as cartService from "./cartService";
 import * as productDao from "../dao/productDao";
-import { IOrder } from "../models/order.model";
-import { IAddress } from "../models/address.model";
-import User from "../models/user.model";
+import { Order } from "../models/order.model";
+import { Address } from "../models/address.model";
+import * as userDao from "../dao/userDao";
 import { sendOrderEmails } from "../utils/emailService";
+import crypto from "crypto";
 
+// ─── Helper Functions ─────────────────────────────────────────
 const getProductIdString = (productId: any): string => {
   if (!productId) return '';
   if (typeof productId === 'string') return productId.trim().toLowerCase();
-  if (productId._id) return productId._id.toString().trim().toLowerCase();
+  if (productId.id) return productId.id.toString().trim().toLowerCase();
   return productId.toString().trim().toLowerCase();
 };
 
+// ─── Types ────────────────────────────────────────────────────
 export interface AddressInput {
   name: string;
   email: string;
@@ -45,18 +48,44 @@ export interface PlaceOrderInput {
 }
 
 export interface PlaceOrderResult {
-  order: IOrder;
-  billingAddress: IAddress;
-  shippingAddress: IAddress;
+  order: Order;
+  billingAddress: Address;
+  shippingAddress: Address;
 }
 
-import crypto from "crypto";
+// ─── Helper to find vendor ────────────────────────────────────
+const findVendor = async (): Promise<string | undefined> => {
+  try {
+    // Try to find vendor named "vendor1" first
+    const vendors = await userDao.getUsersByRole('vendor');
+    
+    // Look for vendor with name containing "vendor1"
+    const vendor1 = vendors.find(v => 
+      v.fullName?.toLowerCase().includes('vendor1')
+    );
+    
+    if (vendor1) {
+      return vendor1.id;
+    }
+    
+    // Fall back to any active vendor
+    if (vendors.length > 0) {
+      return vendors[0].id;
+    }
+    
+    return undefined;
+  } catch (error) {
+    console.error('Error finding vendor:', error);
+    return undefined;
+  }
+};
 
+// ─── Place Order ──────────────────────────────────────────────
 export const placeOrder = async (input: PlaceOrderInput): Promise<PlaceOrderResult> => {
   const { userId, productIds, couponCode, billingAddress, shippingAddress, paymentMethod, razorpayDetails } = input;
 
   const cart = await cartService.getCart(userId);
-  if (!cart.items.length) throw new Error("Cart is empty");
+  if (!cart.items || !cart.items.length) throw new Error("Cart is empty");
 
   let cartItems = cart.items;
   
@@ -73,11 +102,10 @@ export const placeOrder = async (input: PlaceOrderInput): Promise<PlaceOrderResu
   const orderItems = await Promise.all(
     cartItems.map(async (item) => {
       const productIdStr = getProductIdString(item.productId);
-      const product = await productDao.getProductById(productIdStr);
-      if (!product || !product.isActive) throw new Error(`Product no longer available`);
+      const product = await productDao.getActiveProductById(productIdStr);
+      if (!product) throw new Error(`Product no longer available`);
       return {
-        productId: item.productId,
-        title: product.title,
+        productId: product.id,
         quantity: item.quantity,
         price: item.price,
       };
@@ -98,33 +126,42 @@ export const placeOrder = async (input: PlaceOrderInput): Promise<PlaceOrderResu
     await couponDao.incrementCouponUse(couponCode);
   }
 
-  const savedBilling = await addressDao.createAddress({ userId, ...billingAddress, isSaved: false });
+  const savedBilling = await addressDao.createAddress({ 
+    userId, 
+    ...billingAddress, 
+    isSaved: false 
+  });
 
   const savedShipping = shippingAddress
-    ? await addressDao.createAddress({ userId, ...shippingAddress, isSaved: false })
+    ? await addressDao.createAddress({ 
+        userId, 
+        ...shippingAddress, 
+        isSaved: false 
+      })
     : savedBilling;
 
-  // Vendor Assignment: prefer vendor named "vendor1", fall back to any active vendor
-  const vendor1 = await User.findOne({ role: 'vendor', isBlocked: false, fullName: /vendor1/i });
-  const availableVendor = vendor1 || await User.findOne({ role: 'vendor', isBlocked: false });
+  // Find vendor
+  const vendorId = await findVendor();
 
+  // Create order with lowercase status values
   const order = await orderDao.createOrder({
-    userId: userId as any,
-    vendorId: availableVendor ? availableVendor._id as any : undefined,
-    items: orderItems as any,
+    userId,
+    vendorId: vendorId || undefined,
+    items: orderItems,
     subtotal,
     couponCode: couponCode || null,
     discountPercent,
     discountAmount,
     totalAmount,
-    billingAddressId: savedBilling._id as any,
-    shippingAddressId: savedShipping._id as any,
+    billingAddressId: savedBilling.id,
+    shippingAddressId: savedShipping.id,
     paymentMethod: paymentMethod || "COD",
-    paymentStatus: paymentMethod === "Online" ? "Completed" : "Pending",
-    status: "confirmed",
+    paymentStatus: paymentMethod === "Online" ? "Completed" : "Pending",  // ← lowercase format
+    status: "confirmed",  // ← lowercase
     razorpayDetails
   });
 
+  // Verify Razorpay payment
   if (paymentMethod === "Online" && razorpayDetails) {
     const secret = process.env.RAZORPAY_KEY_SECRET;
     if (!secret) throw new Error("Razorpay secret not configured");
@@ -135,11 +172,19 @@ export const placeOrder = async (input: PlaceOrderInput): Promise<PlaceOrderResu
       .digest("hex");
 
     if (generatedSignature !== razorpayDetails.signature) {
-      // In a real app we might update order status to Failed here
+      // Update order status to failed
+      await orderDao.updateOrder(order.id, {
+        status: "cancelled",  // ← lowercase
+        paymentStatus: "Failed"
+      });
       throw new Error("Invalid Razorpay signature");
     }
+
+    // Update payment status to completed
+    await orderDao.updatePaymentStatus(order.id, "Completed", razorpayDetails.paymentId);
   }
 
+  // Update cart - remove ordered items
   if (productIds && productIds.length > 0) {
     const normalizedProductIds = productIds.map(id => id.trim().toLowerCase());
     const productIdSet = new Set(normalizedProductIds);
@@ -147,27 +192,51 @@ export const placeOrder = async (input: PlaceOrderInput): Promise<PlaceOrderResu
       const itemProductId = getProductIdString(item.productId);
       return !productIdSet.has(itemProductId);
     });
-    const remainingTotal = remainingItems.reduce((sum, i) => sum + i.price * i.quantity, 0);
-    await cartDao.upsertCart(userId, { userId: userId as any, items: remainingItems, totalAmount: remainingTotal });
+    
+    if (remainingItems.length === 0) {
+      await cartDao.clearCart(userId);
+    } else {
+      const remainingTotal = remainingItems.reduce((sum, i) => sum + i.price * i.quantity, 0);
+      await cartDao.upsertCart(userId, { 
+        userId, 
+        items: remainingItems, 
+        totalAmount: remainingTotal 
+      });
+    }
   } else {
     await cartService.clearCart(userId);
   }
 
   // Send transactional emails asynchronously
-  sendOrderEmails(order, savedBilling, savedShipping, billingAddress.name, billingAddress.email).catch(err => {
+  sendOrderEmails(
+    order, 
+    savedBilling, 
+    savedShipping, 
+    billingAddress.name, 
+    billingAddress.email
+  ).catch(err => {
     console.error("Failed to send order emails during placeOrder:", err);
   });
 
-  return { order, billingAddress: savedBilling, shippingAddress: savedShipping };
+  // Get complete order with relations
+  const completeOrder = await orderDao.getOrderById(order.id);
+
+  return { 
+    order: completeOrder || order, 
+    billingAddress: savedBilling, 
+    shippingAddress: savedShipping 
+  };
 };
 
-export const getUserOrders = async (userId: string): Promise<IOrder[]> => {
+// ─── Get User Orders ──────────────────────────────────────────
+export const getUserOrders = async (userId: string): Promise<Order[]> => {
   return await orderDao.getOrdersByUserId(userId);
 };
 
-export const getOrderDetail = async (orderId: string, userId: string): Promise<IOrder> => {
+// ─── Get Order Detail ─────────────────────────────────────────
+export const getOrderDetail = async (orderId: string, userId: string): Promise<Order> => {
   const order = await orderDao.getOrderById(orderId);
   if (!order) throw new Error("Order not found");
-  if (order.userId.toString() !== userId) throw new Error("Unauthorized");
+  if (order.userId !== userId) throw new Error("Unauthorized");
   return order;
 };

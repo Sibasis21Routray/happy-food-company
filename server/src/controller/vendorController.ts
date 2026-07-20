@@ -1,41 +1,54 @@
 import { Response } from "express";
-import mongoose from "mongoose";
-import Order from "../models/order.model";
 import { AuthRequest } from "../middleware/authMiddleware";
+import * as orderDao from "../dao/orderDao";
+import * as userDao from "../dao/userDao";
 
+// ─── Helper to convert params to string ──────────────────────
+const getParamId = (id: string | string[] | undefined): string | null => {
+  if (!id) return null;
+  return Array.isArray(id) ? id[0] : id;
+};
+
+// ─── Get Dashboard Stats ──────────────────────────────────────
 export const getDashboardStats = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
+    if (!req.userId) {
+      res.status(401).json({ message: "User not authenticated" });
+      return;
+    }
+
     const vendorId = req.userId;
     const { startDate, endDate } = req.query;
 
-    let query: any = { vendorId };
-
+    const allOrders = await orderDao.getAllOrders();
+    
+    let vendorOrders = allOrders.filter(o => o.vendorId === vendorId);
+    
     if (startDate && endDate) {
-      query.createdAt = {
-        $gte: new Date(startDate as string),
-        $lte: new Date(endDate as string),
-      };
+      const start = new Date(startDate as string);
+      const end = new Date(endDate as string);
+      end.setHours(23, 59, 59, 999);
+      
+      vendorOrders = vendorOrders.filter(o => {
+        const createdAt = new Date(o.createdAt);
+        return createdAt >= start && createdAt <= end;
+      });
     }
 
-    const orders = await Order.find(query);
-    const totalOrders = orders.length;
-    const completedOrders = orders.filter(o => o.status === "delivered").length;
-    const pendingOrders = orders.filter(o => o.status === "pending").length;
-    const processingOrders = orders.filter(o => o.status === "confirmed" || o.status === "shipped").length;
+    const totalOrders = vendorOrders.length;
+    const completedOrders = vendorOrders.filter(o => o.status === "DELIVERED").length;
+    const pendingOrders = vendorOrders.filter(o => o.status === "PENDING").length;
+    const processingOrders = vendorOrders.filter(o => 
+      o.status === "CONFIRMED" || o.status === "SHIPPED"
+    ).length;
 
-    const vId = new mongoose.Types.ObjectId(vendorId as string);
-    const revenueAggregate = await Order.aggregate([
-      { $match: { vendorId: vId, status: { $in: ["delivered", "shipped", "confirmed"] } } },
-      { $group: { _id: null, total: { $sum: "$totalAmount" } } }
-    ]);
-    const totalRevenue = revenueAggregate.length > 0 ? revenueAggregate[0].total : 0;
+    const totalRevenue = vendorOrders
+      .filter(o => ["DELIVERED", "SHIPPED", "CONFIRMED"].includes(o.status))
+      .reduce((sum, order) => sum + (order.totalAmount || 0), 0);
 
-    const salesValueAggregate = await Order.aggregate([
-      { $match: { vendorId: vId, status: { $ne: "cancelled" } } },
-      { $group: { _id: null, total: { $sum: "$totalAmount" } } }
-    ]);
-    const totalSalesValue = salesValueAggregate.length > 0 ? salesValueAggregate[0].total : 0;
-
+    const totalSalesValue = vendorOrders
+      .filter(o => o.status !== "CANCELLED")
+      .reduce((sum, order) => sum + (order.totalAmount || 0), 0);
 
     res.status(200).json({
       totalOrders,
@@ -45,102 +58,145 @@ export const getDashboardStats = async (req: AuthRequest, res: Response): Promis
       totalRevenue,
       totalSalesValue
     });
-  } catch (error) {
-    res.status(500).json({ message: "Error fetching vendor stats", error });
+  } catch (error: any) {
+    res.status(500).json({
+      message: "Error fetching vendor stats",
+      error: error.message
+    });
   }
 };
 
+// ─── Get Orders ──────────────────────────────────────────────
 export const getOrders = async (req: AuthRequest, res: Response): Promise<void> => {
   try {
-    const vendorId = req.userId;
-    const { search, status, sortBy, sortOrder, page = 1, limit = 10, startDate, endDate } = req.query;
-    let query: any = { vendorId };
-
-    if (startDate || endDate) {
-      query.createdAt = {};
-      if (startDate) query.createdAt.$gte = new Date(startDate as string);
-      if (endDate) {
-        const end = new Date(endDate as string);
-        end.setHours(23, 59, 59, 999);
-        query.createdAt.$lte = end;
-      }
-    }
-
-    if (status && status !== 'all') {
-      query.status = status;
-    }
-
-    let sort: any = { createdAt: -1 };
-    if (sortBy) {
-      sort = { [sortBy as string]: sortOrder === "desc" ? -1 : 1 };
-    }
-
-    const total = await Order.countDocuments(query);
-    const skip = (Number(page) - 1) * Number(limit);
-
-    // Calculate total revenue for the filtered results (All except Cancelled)
-    let revQuery = { ...query };
-    if (revQuery.vendorId) {
-      revQuery.vendorId = new mongoose.Types.ObjectId(revQuery.vendorId as string);
-    }
-    
-    if (!status || status === 'all') {
-      revQuery.status = { $ne: "cancelled" };
-    }
-    
-    const revenueStats = await Order.aggregate([
-      { $match: revQuery },
-      { $group: { _id: null, total: { $sum: "$totalAmount" } } }
-    ]);
-    const totalRevenue = revenueStats.length > 0 ? revenueStats[0].total : 0;
-
-    const orders = await Order.find(query)
-      .populate("userId", "fullName email")
-      .sort(sort)
-      .skip(skip)
-      .limit(Number(limit));
-
-    let processedOrders = orders;
-    if (search) {
-      const searchStr = (search as string).toLowerCase();
-      processedOrders = orders.filter(o =>
-        o._id.toString().toLowerCase().includes(searchStr) ||
-        (o.userId as any)?.fullName?.toLowerCase().includes(searchStr) ||
-        (o.userId as any)?.email?.toLowerCase().includes(searchStr)
-      );
-    }
-
-    res.status(200).json({ 
-      orders: processedOrders, 
-      total, 
-      totalRevenue,
-      page: Number(page), 
-      pages: Math.ceil(total / Number(limit)) 
-    });
-  } catch (error) {
-    res.status(500).json({ message: "Error fetching vendor orders", error });
-  }
-};
-
-export const updateOrderStatus = async (req: AuthRequest, res: Response): Promise<void> => {
-  try {
-    const { id } = req.params;
-    const { status } = req.body;
-    const vendorId = req.userId;
-
-    const order = await Order.findOneAndUpdate(
-      { _id: id, vendorId },
-      { status },
-      { returnDocument: 'after' }
-    );
-
-    if (!order) {
-      res.status(404).json({ message: "Order not found or not assigned to you" });
+    if (!req.userId) {
+      res.status(401).json({ message: "User not authenticated" });
       return;
     }
 
-    res.status(200).json({ message: "Order status updated", order });
-  } catch (error) {
-    res.status(500).json({ message: "Error updating order status", error });
+    const vendorId = req.userId;
+    const { search, status, sortBy, sortOrder, page = 1, limit = 10, startDate, endDate } = req.query;
+
+    let allOrders = await orderDao.getAllOrders();
+    
+    let vendorOrders = allOrders.filter(o => o.vendorId === vendorId);
+    
+    if (startDate || endDate) {
+      const start = startDate ? new Date(startDate as string) : new Date(0);
+      const end = endDate ? new Date(endDate as string) : new Date();
+      end.setHours(23, 59, 59, 999);
+      
+      vendorOrders = vendorOrders.filter(o => {
+        const createdAt = new Date(o.createdAt);
+        return createdAt >= start && createdAt <= end;
+      });
+    }
+
+    if (status && status !== 'all') {
+      vendorOrders = vendorOrders.filter(o => o.status === status);
+    }
+
+    if (search) {
+      const searchStr = (search as string).toLowerCase();
+      vendorOrders = vendorOrders.filter(o =>
+        o.id?.toLowerCase().includes(searchStr) ||
+        o.user?.fullName?.toLowerCase().includes(searchStr) ||
+        o.user?.email?.toLowerCase().includes(searchStr)
+      );
+    }
+
+    if (sortBy) {
+      const sortOrderValue = sortOrder === 'desc' ? -1 : 1;
+      vendorOrders.sort((a, b) => {
+        const aVal = (a as any)[sortBy as string];
+        const bVal = (b as any)[sortBy as string];
+        if (aVal < bVal) return -1 * sortOrderValue;
+        if (aVal > bVal) return 1 * sortOrderValue;
+        return 0;
+      });
+    } else {
+      vendorOrders.sort((a, b) => {
+        return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+      });
+    }
+
+    const totalRevenue = vendorOrders
+      .filter(o => o.status !== "CANCELLED")
+      .reduce((sum, order) => sum + (order.totalAmount || 0), 0);
+
+    const total = vendorOrders.length;
+    const pageNum = Number(page);
+    const limitNum = Number(limit);
+    const skip = (pageNum - 1) * limitNum;
+    const paginatedOrders = vendorOrders.slice(skip, skip + limitNum);
+
+    res.status(200).json({
+      orders: paginatedOrders,
+      total,
+      totalRevenue,
+      page: pageNum,
+      pages: Math.ceil(total / limitNum)
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      message: "Error fetching vendor orders",
+      error: error.message
+    });
+  }
+};
+
+// ─── Update Order Status ──────────────────────────────────────
+export const updateOrderStatus = async (req: AuthRequest, res: Response): Promise<void> => {
+  try {
+    if (!req.userId) {
+      res.status(401).json({ message: "User not authenticated" });
+      return;
+    }
+
+    const { id } = req.params;
+    const { status } = req.body;
+    const vendorId = req.userId;
+    const idStr = getParamId(id);
+
+    if (!idStr) {
+      res.status(400).json({ message: "Order ID is required" });
+      return;
+    }
+
+    if (!status) {
+      res.status(400).json({ message: "Status is required" });
+      return;
+    }
+
+    const validStatuses = ["PENDING", "CONFIRMED", "SHIPPED", "OUT_FOR_DELIVERY", "DELIVERED", "CANCELLED"];
+    if (!validStatuses.includes(status)) {
+      res.status(400).json({ message: "Invalid status value" });
+      return;
+    }
+
+    const order = await orderDao.getOrderById(idStr);
+    if (!order) {
+      res.status(404).json({ message: "Order not found" });
+      return;
+    }
+
+    if (order.vendorId !== vendorId) {
+      res.status(403).json({ message: "Order not assigned to you" });
+      return;
+    }
+
+    await orderDao.updateOrderStatus(idStr, status);
+    
+    const fullOrder = await orderDao.getOrderById(idStr);
+
+    res.status(200).json({
+      message: "Order status updated",
+      order: fullOrder
+    });
+  } catch (error: any) {
+    res.status(500).json({
+      message: "Error updating order status",
+      error: error.message
+    });
   }
 };

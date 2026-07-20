@@ -1,6 +1,6 @@
-import mongoose, { Document, Schema } from "mongoose";
-
-export interface IProduct extends Document {
+// src/models/product.model.ts
+export interface Product {
+  id: string;
   heading: string;
   slug: string;
   title: string;
@@ -12,23 +12,21 @@ export interface IProduct extends Document {
   price: number;
   images: string[];
   isActive: boolean;
+  createdAt: Date;
+  updatedAt: Date;
 }
 
-const ProductSchema: Schema = new Schema(
-  {
-    heading:            { type: String, required: true, trim: true },
-    slug:               { type: String, required: true, unique: true, trim: true },
-    title:              { type: String, required: true, trim: true },
-    subtitle:           { type: String, required: true, trim: true },
-    productHeading:     { type: String, required: true },
-    productDescription: { type: String, required: true },
-    stockDetails:       { type: String, required: true },
-    category:           { type: String, required: true, trim: true },
-    price:              { type: Number, required: true, min: 0 },
-    images:             { type: [String], default: [] },
-    isActive:           { type: Boolean, default: true },
-  },
-  { timestamps: true }
-);
+export type CreateProductInput = Omit<Product, 'id' | 'createdAt' | 'updatedAt' | 'images' | 'isActive'> & {
+  images?: string[];
+  isActive?: boolean;
+};
 
-export default mongoose.model<IProduct>("Product", ProductSchema);
+export type UpdateProductInput = Partial<Omit<Product, 'id' | 'createdAt' | 'updatedAt'>>;
+
+export type ProductFilters = {
+  category?: string;
+  minPrice?: number;
+  maxPrice?: number;
+  isActive?: boolean;
+  search?: string;
+};

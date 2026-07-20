@@ -48,12 +48,14 @@ class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
 type Section = 'profile' | 'addresses' | 'orders' | 'gift-cards' | 'upi' | 'cards' | 'wishlist' | 'coupons' | 'notifications';
 
 interface UserData {
+  id?: string;
   firstName?: string;
   lastName?: string;
   fullName?: string;
   gender?: string;
   email?: string;
   mobileNumber?: string;
+  role?: string;
 }
 
 interface AddressFormData {
@@ -73,14 +75,17 @@ interface AddressFormData {
 
 interface WishlistItem {
   _id: string;
+  id?: string;
   slug?: string;
   title?: string;
   price?: number;
   images?: string[];
+  product?: any;
 }
 
 interface SavedAddress {
   _id?: string;
+  id?: string;
   name: string;
   phone: string;
   streetAddress: string;
@@ -171,18 +176,54 @@ export const ProfilePage: React.FC = () => {
   const fetchAddresses = async () => {
     try {
       const resp = await api.addresses.getAll();
-      setSavedAddresses(resp.addresses || []);
+      const addresses = resp.addresses || resp.data || [];
+      setSavedAddresses(addresses);
     } catch (err) {
       console.error(err);
       showToast('Failed to fetch addresses', 'error');
     }
   };
 
+  // ─── Fetch Wishlist ──────────────────────────────────────────
   const fetchWishlist = async () => {
     setLoadingWishlist(true);
     try {
       const resp = await api.wishlist.get();
-      setWishlistItems(resp.wishlist?.productIds || []);
+      console.log('Wishlist response:', resp);
+      
+      let items: WishlistItem[] = [];
+      
+      if (resp && resp.wishlist) {
+        // New format: items array with product objects
+        if (resp.wishlist.items && Array.isArray(resp.wishlist.items)) {
+          items = resp.wishlist.items.map((item: any) => {
+            const product = item.product || item.productId || item;
+            return {
+              _id: product.id || product._id || product.productId || item.id,
+              id: product.id || product._id || product.productId || item.id,
+              title: product.title || item.title || 'Product',
+              price: product.price || item.price || 0,
+              images: product.images || item.images || [],
+              slug: product.slug || item.slug || '',
+              product: product
+            };
+          });
+        } 
+        // Old format: productIds array
+        else if (resp.wishlist.productIds && Array.isArray(resp.wishlist.productIds)) {
+          items = resp.wishlist.productIds.map((product: any) => ({
+            _id: product.id || product._id || product,
+            id: product.id || product._id || product,
+            title: product.title || 'Product',
+            price: product.price || 0,
+            images: product.images || [],
+            slug: product.slug || '',
+            product: product
+          }));
+        }
+      }
+      
+      setWishlistItems(items);
     } catch (err) {
       console.error('Wishlist fetch error:', err);
       showToast('Failed to fetch wishlist', 'error');
@@ -235,7 +276,7 @@ export const ProfilePage: React.FC = () => {
   const handleRemoveFromWishlist = async (productId: string) => {
     try {
       await api.wishlist.remove(productId);
-      setWishlistItems(prev => prev.filter(item => (item._id || item) !== productId));
+      setWishlistItems(prev => prev.filter(item => (item._id || item.id) !== productId));
       showToast('Removed from wishlist', 'success');
     } catch (err) {
       console.error(err);
@@ -282,29 +323,20 @@ export const ProfilePage: React.FC = () => {
 
       let resp;
 
-      if (editingAddress?._id) {
-        resp = await api.addresses.update(
-          editingAddress._id,
-          addressForm
-        );
-
+      const addressId = editingAddress?._id || editingAddress?.id;
+      if (addressId) {
+        resp = await api.addresses.update(addressId, addressForm);
         setSavedAddresses(prev =>
-          prev.map(addr =>
-            addr._id === editingAddress._id
-              ? resp.address
-              : addr
-          )
+          prev.map(addr => {
+            const addrId = addr._id || addr.id;
+            return addrId === addressId ? (resp.address || resp.data) : addr;
+          })
         );
-
         showToast("Address updated successfully", "success");
       } else {
         resp = await api.addresses.create(addressForm);
-
-        setSavedAddresses(prev => [
-          ...prev,
-          resp.address
-        ]);
-
+        const newAddress = resp.address || resp.data;
+        setSavedAddresses(prev => [...prev, newAddress]);
         showToast("Address saved successfully", "success");
       }
 
@@ -336,13 +368,10 @@ export const ProfilePage: React.FC = () => {
   const handleDeleteAddress = async (addressId: string) => {
     try {
       setDeletingAddressId(addressId);
-
       await api.addresses.delete(addressId);
-
       setSavedAddresses(prev =>
-        prev.filter(addr => addr._id !== addressId)
+        prev.filter(addr => (addr._id || addr.id) !== addressId)
       );
-
       showToast("Address deleted successfully", "success");
     } catch (err) {
       console.error(err);
@@ -747,9 +776,6 @@ export const ProfilePage: React.FC = () => {
                         {mobileError && isEditing && (
                           <p className="text-red-500 text-xs mt-1">{mobileError}</p>
                         )}
-                        {/* {!mobileError && isEditing && formData.mobileNumber.length === 10 && (
-                          <p className="text-green-500 text-xs mt-1">✓ Valid mobile number</p>
-                        )} */}
                         {!mobileError && isEditing && formData.mobileNumber.length > 0 && formData.mobileNumber.length < 10 && (
                           <p className="text-gray-400 text-xs mt-1">{formData.mobileNumber.length}/10 digits</p>
                         )}
@@ -790,7 +816,6 @@ export const ProfilePage: React.FC = () => {
                           onClick={() => {
                             setIsEditing(false);
                             setMobileError('');
-                            // Reset form data to original user data
                             if (user) {
                               setFormData({
                                 firstName: user.firstName || user.fullName?.split(' ')[0] || '',
@@ -832,13 +857,13 @@ export const ProfilePage: React.FC = () => {
                       <div className="space-y-5">
                         {orders.map((order) => (
                           <div
-                            key={order._id}
+                            key={order._id || order.id}
                             className="border border-gray-200 p-6 hover:border-gray-300 transition-all group rounded-sm"
                           >
                             <div className="flex justify-between items-start mb-4 pb-4 border-b border-gray-100">
                               <div>
                                 <p className="text-xs text-gray-500 uppercase tracking-wider font-semibold">Order ID</p>
-                                <p className="text-sm text-gray-700 font-mono font-medium">{order._id?.slice(-12)}</p>
+                                <p className="text-sm text-gray-700 font-mono font-medium">{(order._id || order.id)?.slice(-12)}</p>
                               </div>
                               <div className="flex items-center gap-3">
                                 <span className={`text-xs font-semibold uppercase px-3 py-1 rounded-sm ${
@@ -857,8 +882,8 @@ export const ProfilePage: React.FC = () => {
                             </div>
 
                             <div className="space-y-3">
-                              {order.items?.slice(0, 2).map((item: any) => (
-                                <div key={item.productId} className="flex justify-between">
+                              {order.items?.slice(0, 2).map((item: any, idx: number) => (
+                                <div key={idx} className="flex justify-between">
                                   <div>
                                     <p className="text-base text-gray-800 font-medium">{item.title}</p>
                                     <p className="text-sm text-gray-500">Qty: {item.quantity}</p>
@@ -877,7 +902,7 @@ export const ProfilePage: React.FC = () => {
                                 <p className="text-xl font-bold text-gray-900">₹{order.totalAmount}</p>
                               </div>
                               <button 
-                                onClick={() => navigate(`/orders/${order._id}`)}
+                                onClick={() => navigate(`/orders/${order._id || order.id}`)}
                                 className="px-5 py-2 bg-gray-900 text-white text-sm font-medium rounded-sm hover:bg-gray-800 transition-colors flex items-center gap-2"
                               >
                                 See Updates <ChevronRight size={16} />
@@ -1125,39 +1150,42 @@ export const ProfilePage: React.FC = () => {
                       </div>
                       
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                        {savedAddresses.map((addr, i) => (
-                          <div key={addr._id || i} className="border border-gray-200 p-5 hover:border-gray-300 transition-all rounded-sm group">
-                            <div className="flex justify-between items-start mb-3">
-                              <span className="text-xs font-semibold text-gray-600 uppercase bg-gray-100 px-3 py-1 rounded-sm">
-                                {addr.type}
-                              </span>
-                              <div className="flex gap-2">
-                                <button
-                                  onClick={() => handleEditAddress(addr)}
-                                  className="text-gray-400 hover:text-gray-700"
-                                >
-                                  <Edit size={14} />
-                                </button>
+                        {savedAddresses.map((addr, i) => {
+                          const addressId = addr._id || addr.id || i.toString();
+                          return (
+                            <div key={addressId} className="border border-gray-200 p-5 hover:border-gray-300 transition-all rounded-sm group">
+                              <div className="flex justify-between items-start mb-3">
+                                <span className="text-xs font-semibold text-gray-600 uppercase bg-gray-100 px-3 py-1 rounded-sm">
+                                  {addr.type}
+                                </span>
+                                <div className="flex gap-2">
+                                  <button
+                                    onClick={() => handleEditAddress(addr)}
+                                    className="text-gray-400 hover:text-gray-700"
+                                  >
+                                    <Edit size={14} />
+                                  </button>
 
-                                <button
-                                  onClick={() => handleDeleteAddress(addr._id!)}
-                                  className="text-gray-400 hover:text-red-600"
-                                  disabled={deletingAddressId === addr._id}
-                                >
-                                  <Trash2 size={14} />
-                                </button>
+                                  <button
+                                    onClick={() => handleDeleteAddress(addressId)}
+                                    className="text-gray-400 hover:text-red-600"
+                                    disabled={deletingAddressId === addressId}
+                                  >
+                                    <Trash2 size={14} />
+                                  </button>
+                                </div>
                               </div>
+                              <p className="font-semibold text-gray-900 text-base mb-1">{addr.name}</p>
+                              <p className="text-gray-600 text-sm mb-2">{addr.phone}</p>
+                              <p className="text-sm text-gray-500 leading-relaxed">
+                                {addr.streetAddress}, {addr.locality}, {addr.city}, {addr.state} - {addr.pinCode}
+                              </p>
+                              {addr.landmark && (
+                                <p className="text-xs text-gray-400 mt-2">Landmark: {addr.landmark}</p>
+                              )}
                             </div>
-                            <p className="font-semibold text-gray-900 text-base mb-1">{addr.name}</p>
-                            <p className="text-gray-600 text-sm mb-2">{addr.phone}</p>
-                            <p className="text-sm text-gray-500 leading-relaxed">
-                              {addr.streetAddress}, {addr.locality}, {addr.city}, {addr.state} - {addr.pinCode}
-                            </p>
-                            {addr.landmark && (
-                              <p className="text-xs text-gray-400 mt-2">Landmark: {addr.landmark}</p>
-                            )}
-                          </div>
-                        ))}
+                          );
+                        })}
                       </div>
 
                       {!isAddingAddress && savedAddresses.length === 0 && (
@@ -1190,31 +1218,44 @@ export const ProfilePage: React.FC = () => {
                       </div>
                     ) : wishlistItems.length > 0 ? (
                       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {wishlistItems.map((item) => (
-                          <div key={item._id} className="border border-gray-200 p-4 hover:border-gray-300 transition-all group relative rounded-sm">
-                            <button 
-                              onClick={() => handleRemoveFromWishlist(item._id)}
-                              className="absolute top-3 right-3 p-2 text-gray-400 hover:text-red-600 transition-all z-10 bg-white rounded-full"
-                            >
-                              <Trash2 size={16} />
-                            </button>
-                            
-                            <div className="cursor-pointer" onClick={() => navigate(`/product/${item.slug || item._id}`)}>
-                              <div className="aspect-square bg-gray-50 mb-4 overflow-hidden">
-                                <img src={item.images?.[0] || '/images/placeholder.png'} alt={item.title || 'Product'} 
-                                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
-                                  onError={(e) => { (e.target as HTMLImageElement).src = '/images/placeholder.png'; }} />
+                        {wishlistItems.map((item) => {
+                          const productId = item._id || item.id;
+                          const title = item.title || 'Product';
+                          const price = item.price || 0;
+                          const images = item.images || [];
+                          const slug = item.slug || productId;
+                          
+                          return (
+                            <div key={productId} className="border border-gray-200 p-4 hover:border-gray-300 transition-all group relative rounded-sm">
+                              <button 
+                                onClick={() => handleRemoveFromWishlist(productId)}
+                                className="absolute top-3 right-3 p-2 text-gray-400 hover:text-red-600 transition-all z-10 bg-white rounded-full"
+                              >
+                                <Trash2 size={16} />
+                              </button>
+                              
+                              <div className="cursor-pointer" onClick={() => navigate(`/product/${slug}`)}>
+                                <div className="aspect-square bg-gray-50 mb-4 overflow-hidden">
+                                  <img 
+                                    src={images[0] || '/images/placeholder.png'} 
+                                    alt={title} 
+                                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
+                                    onError={(e) => { (e.target as HTMLImageElement).src = '/images/placeholder.png'; }} 
+                                  />
+                                </div>
+                                <h3 className="text-base font-semibold text-gray-900 mb-2 line-clamp-2">{title}</h3>
+                                <p className="text-xl font-bold text-gray-900 mb-4">₹{price}</p>
                               </div>
-                              <h3 className="text-base font-semibold text-gray-900 mb-2 line-clamp-2">{item.title}</h3>
-                              <p className="text-xl font-bold text-gray-900 mb-4">₹{item.price || 0}</p>
-                            </div>
 
-                            <button onClick={() => handleAddToCartFromWishlist(item._id)}
-                              className="w-full py-3 border border-gray-300 text-gray-700 text-base font-medium hover:border-gray-800 hover:text-gray-900 transition-all rounded-sm">
-                              ADD TO CART
-                            </button>
-                          </div>
-                        ))}
+                              <button 
+                                onClick={() => handleAddToCartFromWishlist(productId)}
+                                className="w-full py-3 border border-gray-300 text-gray-700 text-base font-medium hover:border-gray-800 hover:text-gray-900 transition-all rounded-sm"
+                              >
+                                ADD TO CART
+                              </button>
+                            </div>
+                          );
+                        })}
                       </div>
                     ) : (
                       <div className="text-center py-16 border-2 border-dashed border-gray-200 rounded-sm">
