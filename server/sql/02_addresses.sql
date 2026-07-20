@@ -1,4 +1,4 @@
-USE HFC;
+USE happy_food;
 
 CREATE TABLE IF NOT EXISTS addresses (
     id VARCHAR(36) PRIMARY KEY DEFAULT (UUID()),

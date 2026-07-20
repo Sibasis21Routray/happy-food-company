@@ -1,16 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Users, Truck, DollarSign, Activity, XCircle, Trash, Package, RefreshCw, Search, Clock, CheckCircle, TrendingUp, ShoppingCart, MoreVertical, Filter } from 'lucide-react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
-import PhoneInputModule from 'react-phone-input-2';
-import 'react-phone-input-2/lib/style.css';
-
-const PhoneInput = (PhoneInputModule as any).default || PhoneInputModule;
 import { useNavigate, Link } from 'react-router-dom';
 import { ProfileDropdown } from '../components/Dashboard/ProfileDropdown';
 import { OrderDetailsModal } from '../components/Dashboard/OrderDetailsModal';
 
 const API = `${import.meta.env.VITE_API_URL}`;
-
 
 const chartData = [
   { name: 'Lab', revenue: 700, sales: 900 },
@@ -71,87 +66,200 @@ export const AdminDashboard: React.FC = () => {
   });
 
   const [loading, setLoading] = useState(true);
-  const [reassigning, setReassigning] = useState<string | null>(null);
-  const [vendors, setVendors] = useState<any[]>([]);
-  const [vendorForm, setVendorForm] = useState({ fullName: '', email: '', password: '', mobileNumber: '' });
   const [currentUser, setCurrentUser] = useState<any>(null);
   const [debouncedSearch, setDebouncedSearch] = useState('');
   const [expandedAddressUser, setExpandedAddressUser] = useState<any>(null);
   const navigate = useNavigate();
 
+  // Initialize user
   useEffect(() => {
     const usr = localStorage.getItem('user');
     if (usr) setCurrentUser(JSON.parse(usr));
-    fetchData();
-  }, [activeTab, debouncedSearch,
-    vendorState.filter, vendorState.page, vendorState.sortBy, vendorState.sortOrder,
-    userState.filter, userState.page, userState.sortBy, userState.sortOrder,
-    overviewOrderState.page, overviewOrderState.limit,
-    orderState.status, orderState.page, orderState.sortBy, orderState.sortOrder,
-    revenueState.startDate, revenueState.endDate, revenueState.status, revenueState.page, revenueState.sortBy, revenueState.sortOrder
-  ]);
+  }, []);
 
+  // Handle debounced search
   useEffect(() => {
-    const searchMap = { vendors: vendorState.search, users: userState.search, orders: orderState.search, revenue: revenueState.search, overview: '' };
+    const searchMap = { 
+      vendors: vendorState.search, 
+      users: userState.search, 
+      orders: orderState.search, 
+      revenue: revenueState.search, 
+      overview: '' 
+    };
     const currentSearch = searchMap[activeTab as keyof typeof searchMap] || '';
     const timer = setTimeout(() => setDebouncedSearch(currentSearch), 500);
     return () => clearTimeout(timer);
   }, [vendorState.search, userState.search, orderState.search, revenueState.search, activeTab]);
 
+  // Fetch data when tab changes or dependencies change
+  useEffect(() => {
+    fetchData();
+  }, [
+    activeTab,
+    debouncedSearch,
+    // Overview dependencies
+    overviewOrderState.page, overviewOrderState.limit,
+    // User dependencies
+    userState.filter, userState.page, userState.sortBy, userState.sortOrder,
+    // Order dependencies
+    orderState.status, orderState.page, orderState.sortBy, orderState.sortOrder,
+    // Revenue dependencies
+    revenueState.startDate, revenueState.endDate, revenueState.status, 
+    revenueState.page, revenueState.sortBy, revenueState.sortOrder
+  ]);
+
   const fetchData = async () => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      navigate('/login');
+      return;
+    }
+
     setLoading(true);
+    
     try {
-      const token = localStorage.getItem('token');
-      if (!token) return navigate('/login');
+      console.log(`Fetching data for tab: ${activeTab}`);
 
       if (activeTab === 'overview') {
-        const res = await fetch(`${API}/admin/dashboard`, { headers: { Authorization: `Bearer ${token}` } });
-        if (res.ok) setStats(await res.json());
+        // Fetch dashboard stats
+        const res = await fetch(`${API}/admin/dashboard`, { 
+          headers: { Authorization: `Bearer ${token}` } 
+        });
+        if (res.ok) {
+          const data = await res.json();
+          setStats(data);
+        }
 
-        const orderRes = await fetch(`${API}/admin/orders?page=${overviewOrderState.page}&limit=${overviewOrderState.limit}`, { headers: { Authorization: `Bearer ${token}` } });
+        // Fetch recent orders
+        const orderRes = await fetch(
+          `${API}/admin/orders?page=${overviewOrderState.page}&limit=${overviewOrderState.limit}`, 
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
         if (orderRes.ok) {
           const data = await orderRes.json();
-          setOverviewOrderState(prev => ({ ...prev, data: data.orders, total: data.total, totalPages: data.pages }));
+          setOverviewOrderState(prev => ({ 
+            ...prev, 
+            data: data.orders || [], 
+            total: data.total || 0, 
+            totalPages: data.pages || 1 
+          }));
         }
-      } else if (activeTab === 'users') {
-        const qParams = new URLSearchParams({ search: debouncedSearch, filter: userState.filter, sortBy: userState.sortBy, sortOrder: userState.sortOrder, page: userState.page.toString() });
-        const res = await fetch(`${API}/admin/users?${qParams}`, { headers: { Authorization: `Bearer ${token}` } });
-        if (res.ok) {
-          const data = await res.json();
-          setUserState(prev => ({ ...prev, data: data.users, totalPages: data.pages }));
-        }
-      } else if (activeTab === 'orders' || activeTab === 'revenue') {
-        const isRev = activeTab === 'revenue';
-        const qParams = new URLSearchParams({
-          search: isRev ? revenueState.search : debouncedSearch,
-          status: isRev ? revenueState.status : orderState.status,
-          sortBy: isRev ? revenueState.sortBy : orderState.sortBy,
-          sortOrder: isRev ? revenueState.sortOrder : orderState.sortOrder,
-          page: (isRev ? revenueState.page : orderState.page).toString(),
-          startDate: isRev ? revenueState.startDate : '',
-          endDate: isRev ? revenueState.endDate : ''
+      } 
+      else if (activeTab === 'users') {
+        const qParams = new URLSearchParams({ 
+          search: debouncedSearch, 
+          filter: userState.filter, 
+          sortBy: userState.sortBy, 
+          sortOrder: userState.sortOrder, 
+          page: userState.page.toString() 
         });
-        const res = await fetch(`${API}/admin/orders?${qParams}`, { headers: { Authorization: `Bearer ${token}` } });
+        const res = await fetch(`${API}/admin/users?${qParams}`, { 
+          headers: { Authorization: `Bearer ${token}` } 
+        });
         if (res.ok) {
           const data = await res.json();
-          if (isRev) {
-            setRevenueState(prev => ({
-              ...prev,
-              data: data.orders,
-              totalPages: data.pages,
-              totalPeriodOrders: data.total,
-              totalPeriodRevenue: data.totalRevenue || 0
-            }));
-          } else {
-            setOrderState(prev => ({ ...prev, data: data.orders, totalPages: data.pages }));
+          setUserState(prev => ({ 
+            ...prev, 
+            data: data.users || [], 
+            totalPages: data.pages || 1 
+          }));
+        }
+      } 
+      else if (activeTab === 'orders') {
+        // Build query parameters for orders
+        const qParams = new URLSearchParams({
+          page: orderState.page.toString(),
+          limit: '10'
+        });
+        
+        if (orderState.status !== 'all') {
+          qParams.append('status', orderState.status);
+        }
+        
+        if (debouncedSearch) {
+          qParams.append('search', debouncedSearch);
+        }
+        
+        if (orderState.sortBy) {
+          qParams.append('sortBy', orderState.sortBy);
+          qParams.append('sortOrder', orderState.sortOrder);
+        }
+
+        console.log('Fetching orders with params:', qParams.toString());
+        console.log('API URL:', `${API}/admin/orders?${qParams}`);
+        
+        const res = await fetch(`${API}/admin/orders?${qParams}`, { 
+          headers: { Authorization: `Bearer ${token}` } 
+        });
+        
+        if (res.ok) {
+          const data = await res.json();
+          console.log('Orders data received:', data);
+          
+          setOrderState(prev => ({ 
+            ...prev, 
+            data: data.orders || [], 
+            totalPages: data.pages || 1 
+          }));
+        } else {
+          console.error('Failed to fetch orders:', await res.text());
+        }
+      } 
+      else if (activeTab === 'revenue') {
+        const qParams = new URLSearchParams({
+          page: revenueState.page.toString(),
+          limit: '10'
+        });
+        
+        if (revenueState.status !== 'all') {
+          qParams.append('status', revenueState.status);
+        }
+        
+        if (revenueState.search) {
+          qParams.append('search', revenueState.search);
+        }
+        
+        if (revenueState.startDate) {
+          qParams.append('startDate', revenueState.startDate);
+        }
+        
+        if (revenueState.endDate) {
+          qParams.append('endDate', revenueState.endDate);
+        }
+        
+        if (revenueState.sortBy) {
+          qParams.append('sortBy', revenueState.sortBy);
+          qParams.append('sortOrder', revenueState.sortOrder);
+        }
+
+        const res = await fetch(`${API}/admin/orders?${qParams}`, { 
+          headers: { Authorization: `Bearer ${token}` } 
+        });
+        
+        if (res.ok) {
+          const data = await res.json();
+          
+          // Fix: Parse totalRevenue if it's a string
+          let totalRevenue = data.totalRevenue || 0;
+          if (typeof totalRevenue === 'string') {
+            totalRevenue = parseFloat(totalRevenue.replace(/[^0-9.]/g, '')) || 0;
           }
+          
+          setRevenueState(prev => ({
+            ...prev,
+            data: data.orders || [],
+            totalPages: data.pages || 1,
+            totalPeriodOrders: data.total || 0,
+            totalPeriodRevenue: totalRevenue
+          }));
         }
       }
-    } catch (e) { console.error(e); }
-    finally { setLoading(false); }
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    } finally {
+      setLoading(false);
+    }
   };
-
-
 
   const toggleBlock = async (id: string, isBlocked: boolean, type: 'vendors' | 'users') => {
     try {
@@ -164,8 +272,6 @@ export const AdminDashboard: React.FC = () => {
       if (res.ok) fetchData();
     } catch (e) { console.error(e); }
   };
-
-
 
   const handleStatusChange = async (orderId: string, newStatus: string) => {
     try {
@@ -182,7 +288,7 @@ export const AdminDashboard: React.FC = () => {
 
       const updatedOrderRes = await res.json();
 
-      if (expandedOrder && expandedOrder._id === orderId) {
+      if (expandedOrder && expandedOrder.id === orderId) {
         setExpandedOrder(updatedOrderRes.order);
       }
       fetchData(); // Refresh the data tables
@@ -196,6 +302,36 @@ export const AdminDashboard: React.FC = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     navigate('/login');
+  };
+
+  // Helper function to get order display ID
+  const getOrderDisplayId = (order: any) => {
+    return order.orderNumber ? `#${String(order.orderNumber).padStart(4, '0')}` : order.id?.slice(0, 8) || 'N/A';
+  };
+
+  // Helper function to get customer name
+  const getCustomerName = (order: any) => {
+    return order.userName || order.user?.fullName || order.userId?.fullName || 'Guest';
+  };
+
+  // Helper function to get customer email
+  const getCustomerEmail = (order: any) => {
+    return order.userEmail || order.user?.email || order.userId?.email || '';
+  };
+
+  // Helper function to format status for display
+  const getStatusDisplay = (status: string) => {
+    const statusMap: Record<string, { label: string; color: string }> = {
+      'pending': { label: 'Pending', color: 'bg-amber-50 text-amber-700' },
+      'confirmed': { label: 'Confirmed', color: 'bg-blue-50 text-blue-700' },
+      'processing': { label: 'Processing', color: 'bg-indigo-50 text-indigo-700' },
+      'shipped': { label: 'Shipped', color: 'bg-purple-50 text-purple-700' },
+      'out for delivery': { label: 'Out for Delivery', color: 'bg-cyan-50 text-cyan-700' },
+      'delivered': { label: 'Delivered', color: 'bg-emerald-50 text-emerald-700' },
+      'cancelled': { label: 'Cancelled', color: 'bg-rose-50 text-rose-700' },
+      'refunded': { label: 'Refunded', color: 'bg-gray-50 text-gray-700' },
+    };
+    return statusMap[status?.toLowerCase()] || { label: status || 'Unknown', color: 'bg-gray-50 text-gray-700' };
   };
 
   return (
@@ -222,7 +358,14 @@ export const AdminDashboard: React.FC = () => {
           {['overview', 'users', 'orders', 'revenue'].map((tab) => (
             <button
               key={tab}
-              onClick={() => setActiveTab(tab as any)}
+              onClick={() => {
+                console.log(`Switching to tab: ${tab}`);
+                setActiveTab(tab as any);
+                // Reset page to 1 when switching tabs
+                if (tab === 'orders') {
+                  setOrderState(prev => ({ ...prev, page: 1 }));
+                }
+              }}
               className={`px-6 py-2.5 text-md font-light tracking-wide transition-all ${activeTab === tab
                   ? 'text-gray-800 border-b-2 border-gray-800'
                   : 'text-gray-400 hover:text-gray-600'
@@ -235,6 +378,7 @@ export const AdminDashboard: React.FC = () => {
 
         {activeTab === 'overview' ? (
           <div className="space-y-6">
+            {/* Overview content - same as before */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
               <div className="bg-white border border-gray-100 p-6 rounded-xl shadow-sm flex items-start gap-4">
                 <div className="bg-green-100 text-green-500 p-3 rounded-xl">
@@ -246,7 +390,6 @@ export const AdminDashboard: React.FC = () => {
                     ₹{stats.totalRevenue ? stats.totalRevenue.toLocaleString() : '0'}
                   </h3>
                   <p className="text-xs text-gray-400 mt-2 font-medium flex items-center">
-                    {/* <span className="text-green-500 bg-green-50 px-1.5 py-0.5 rounded mr-2">+18%</span> */}
                     {stats.totalOrders > 0 ? `${stats.totalOrders}+ Orders` : ''}
                   </p>
                 </div>
@@ -259,10 +402,9 @@ export const AdminDashboard: React.FC = () => {
                 <div>
                   <p className="text-sm text-gray-500 mb-1 font-medium">Total Customers</p>
                   <h3 className="text-2xl font-bold text-gray-800">
-                    {stats.totalUsers ? stats.totalUsers.toLocaleString() : '352,152'}
+                    {stats.totalUsers ? stats.totalUsers.toLocaleString() : '0'}
                   </h3>
                   <p className="text-xs text-gray-400 mt-2 font-medium flex items-center">
-                    {/* <span className="text-indigo-500 bg-indigo-50 px-1.5 py-0.5 rounded mr-2">+18%</span> */}
                     Last week
                   </p>
                 </div>
@@ -278,7 +420,6 @@ export const AdminDashboard: React.FC = () => {
                     {stats.totalOrders ? stats.totalOrders.toLocaleString() : '0'}
                   </h3>
                   <p className="text-xs text-gray-400 mt-2 font-medium flex items-center">
-                    {/* <span className="text-orange-500 bg-orange-50 px-1.5 py-0.5 rounded mr-2">+18%</span> */}
                     Last week
                   </p>
                 </div>
@@ -353,46 +494,29 @@ export const AdminDashboard: React.FC = () => {
                   </thead>
                   <tbody>
                     {overviewOrderState.data.length > 0 ? overviewOrderState.data.map((o: any) => (
-                      <tr key={o._id} className="border-b border-gray-50 last:border-0 hover:bg-gray-50/50 transition-colors">
-                        <td className="px-6 py-4 text-sm font-medium text-gray-500">#{o._id}</td>
+                      <tr key={o.id || o._id} className="border-b border-gray-50 last:border-0 hover:bg-gray-50/50 transition-colors">
+                        <td className="px-6 py-4 text-sm font-medium text-gray-500">{getOrderDisplayId(o)}</td>
                         <td className="px-6 py-4">
                           <div className="flex items-center gap-3">
-                            <span className="text-sm font-semibold text-gray-800">{o.userId?.fullName || 'Guest'}</span>
+                            <span className="text-sm font-semibold text-gray-800">{getCustomerName(o)}</span>
                           </div>
                         </td>
                         <td className="px-6 py-4 text-sm font-medium text-gray-600">
                           {new Date(o.createdAt).toLocaleDateString('en-GB')}
                         </td>
                         <td className="px-6 py-4">
-                          <span className={`inline-flex items-center px-3 py-1 rounded-md text-xs font-semibold ${o.status === 'delivered' ? 'bg-green-100 text-green-700' :
-                              o.status === 'pending' ? 'bg-orange-100 text-orange-700' :
-                                'bg-blue-100 text-blue-700'
-                            }`}>
-                            {o.status === 'delivered' ? 'Complete' : o.status === 'pending' ? 'Pending' : o.status}
+                          <span className={`inline-flex items-center px-3 py-1 rounded-md text-xs font-semibold ${getStatusDisplay(o.status).color}`}>
+                            {getStatusDisplay(o.status).label}
                           </span>
                         </td>
                         <td className="px-6 py-4 text-sm font-semibold text-gray-700">₹{o.totalAmount}</td>
                       </tr>
                     )) : (
-                      <>
-                        {/* {[1, 2, 3, 4].map((i) => (
-                          <tr key={i} className="border-b border-gray-50 last:border-0 hover:bg-gray-50/50 transition-colors">
-                            <td className="px-6 py-4 text-sm font-medium text-gray-500">#5210</td>
-                            <td className="px-6 py-4">
-                              <div className="flex items-center gap-3">
-                                <span className="text-sm font-semibold text-gray-800">Mahmoud Ali</span>
-                              </div>
-                            </td>
-                            <td className="px-6 py-4 text-sm font-medium text-gray-600">14/3/2024</td>
-                            <td className="px-6 py-4">
-                              <span className={`inline-flex items-center px-3 py-1 rounded-md text-xs font-semibold ${i % 2 !== 0 ? 'bg-green-100 text-green-700' : 'bg-orange-100 text-orange-700'}`}>
-                                {i % 2 !== 0 ? 'Complete' : 'Pending'}
-                              </span>
-                            </td>
-                            <td className="px-6 py-4 text-sm font-semibold text-gray-700">₹35.00</td>
-                          </tr>
-                        ))} */}
-                      </>
+                      <tr>
+                        <td colSpan={5} className="px-6 py-8 text-center text-gray-500">
+                          No orders found
+                        </td>
+                      </tr>
                     )}
                   </tbody>
                 </table>
@@ -417,7 +541,7 @@ export const AdminDashboard: React.FC = () => {
                     className="w-8 h-8 flex items-center justify-center rounded-md hover:bg-white border border-transparent hover:border-gray-200 hover:shadow-sm text-gray-400 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                   >{'<'}</button>
 
-                  {Array.from({ length: overviewOrderState.totalPages }).map((_, idx) => {
+                  {Array.from({ length: Math.min(overviewOrderState.totalPages, 5) }).map((_, idx) => {
                     const p = idx + 1;
                     return (
                       <button
@@ -442,11 +566,153 @@ export const AdminDashboard: React.FC = () => {
               </div>
             </div>
           </div>
+        ) : activeTab === 'orders' ? (
+          <div className="bg-white border border-gray-100 shadow-sm rounded-xl overflow-hidden">
+            <div className="p-4 border-b border-gray-100 flex items-center justify-between gap-4">
+              <div className="relative w-full max-w-md">
+                <input 
+                  type="text" 
+                  placeholder="Search orders..." 
+                  value={orderState.search} 
+                  onChange={(e) => {
+                    setOrderState(prev => ({ ...prev, search: e.target.value, page: 1 }));
+                  }} 
+                  className="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:border-gray-800 focus:bg-white transition-all outline-none pl-10" 
+                />
+                <Search size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" strokeWidth={1.5} />
+              </div>
+              <select
+                value={orderState.status}
+                onChange={(e) => setOrderState(prev => ({ ...prev, status: e.target.value, page: 1 }))}
+                className="px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm font-medium focus:border-gray-800 focus:bg-white transition-all outline-none min-w-[150px]"
+              >
+                <option value="all">All Statuses</option>
+                <option value="pending">Pending</option>
+                <option value="confirmed">Confirmed</option>
+                <option value="processing">Processing</option>
+                <option value="shipped">Shipped</option>
+                <option value="out for delivery">Out for Delivery</option>
+                <option value="delivered">Delivered</option>
+                <option value="cancelled">Cancelled</option>
+                <option value="refunded">Refunded</option>
+              </select>
+            </div>
+            {loading ? (
+              <div className="flex justify-center items-center py-12">
+                <div className="w-8 h-8 border-2 border-gray-200 border-t-gray-800 rounded-full animate-spin"></div>
+              </div>
+            ) : (
+              <>
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left">
+                    <thead className="border-b border-gray-100">
+                      <tr>
+                        <th className="px-5 py-4 text-sm font-light text-gray-400 uppercase tracking-wide">Order ID</th>
+                        <th className="px-5 py-4 text-sm font-light text-gray-400 uppercase tracking-wide">Date</th>
+                        <th className="px-5 py-4 text-sm font-light text-gray-400 uppercase tracking-wide">Customer</th>
+                        {/* <th className="px-5 py-4 text-sm font-light text-gray-400 uppercase tracking-wide">Items</th> */}
+                        <th className="px-5 py-4 text-sm font-light text-gray-400 uppercase tracking-wide">Amount</th>
+                        <th className="px-5 py-4 text-sm font-light text-gray-400 uppercase tracking-wide">Payment</th>
+                        <th className="px-5 py-4 text-sm font-light text-gray-400 uppercase tracking-wide">Status</th>
+                        <th className="px-5 py-4 text-sm font-light text-gray-400 uppercase tracking-wide">Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {orderState.data.length > 0 ? (
+                        orderState.data.map((o: any) => (
+                          <tr key={o.id || o._id} className="border-b border-gray-50 hover:bg-gray-50">
+                            <td className="px-5 py-4 text-md text-gray-600 font-mono">{getOrderDisplayId(o)}</td>
+                            <td className="px-5 py-4 text-md text-gray-500">
+                              {new Date(o.createdAt).toLocaleDateString()} <br />
+                              <span className="text-xs text-gray-400">{new Date(o.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
+                            </td>
+                            <td className="px-5 py-4 text-md text-gray-600">
+                              {getCustomerName(o)}
+                              {getCustomerEmail(o) && (
+                                <div className="text-xs text-gray-400">{getCustomerEmail(o)}</div>
+                              )}
+                            </td>
+                            {/* <td className="px-5 py-4 text-md text-gray-500">{o.items?.length || 0} items</td> */}
+                            <td className="px-5 py-4 text-md font-medium text-gray-800">₹{Number(o.totalAmount).toLocaleString()}</td>
+                            <td className="px-5 py-4">
+                              <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-semibold uppercase tracking-wide ${
+                                o.paymentMethod?.toLowerCase() === 'online' ? 'bg-indigo-50 text-indigo-700' : 
+                                o.paymentMethod?.toLowerCase() === 'cod' ? 'bg-gray-100 text-gray-600' :
+                                'bg-gray-50 text-gray-500'
+                              }`}>
+                                {o.paymentMethod?.toLowerCase() === 'online' ? <DollarSign size={12} strokeWidth={2.5} /> : <Package size={12} strokeWidth={2.5} />}
+                                {o.paymentMethod || 'COD'}
+                              </span>
+                            </td>
+                            <td className="px-5 py-4">
+                              <div className="flex flex-col items-start gap-2">
+                                <select
+                                  value={o.status?.toLowerCase() || 'pending'}
+                                  onChange={(e) => handleStatusChange(o.id || o._id, e.target.value)}
+                                  className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wide cursor-pointer focus:outline-none focus:ring-2 focus:ring-gray-200 border-0 ${getStatusDisplay(o.status).color}`}
+                                >
+                                  <option value="pending">PENDING</option>
+                                  <option value="confirmed">CONFIRMED</option>
+                                  <option value="processing">PROCESSING</option>
+                                  <option value="shipped">SHIPPED</option>
+                                  <option value="out for delivery">OUT FOR DELIVERY</option>
+                                  <option value="delivered">DELIVERED</option>
+                                  <option value="cancelled">CANCELLED</option>
+                                  <option value="refunded">REFUNDED</option>
+                                </select>
+                                {o.razorpayDetails?.paymentId && (
+                                  <span className="text-[10px] font-mono text-gray-500 bg-gray-50 px-2 py-0.5 rounded-md border border-gray-200" title="Transaction ID">
+                                    Txn: {o.razorpayDetails.paymentId}
+                                  </span>
+                                )}
+                              </div>
+                            </td>
+                            <td className="px-5 py-4">
+                              <button onClick={() => setExpandedOrder(o)} className="text-gray-500 text-md hover:text-gray-700">View</button>
+                            </td>
+                          </tr>
+                        ))
+                      ) : (
+                        <tr>
+                          <td colSpan={8} className="px-5 py-8 text-center text-gray-500">
+                            No orders found
+                          </td>
+                        </tr>
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+                {/* Pagination */}
+                {orderState.totalPages > 1 && (
+                  <div className="p-4 border-t border-gray-100 flex items-center justify-between">
+                    <div className="text-sm text-gray-500">
+                      Page {orderState.page} of {orderState.totalPages}
+                    </div>
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() => setOrderState(prev => ({ ...prev, page: Math.max(1, prev.page - 1) }))}
+                        disabled={orderState.page === 1}
+                        className="px-3 py-1 border border-gray-200 rounded text-sm disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50"
+                      >
+                        Previous                      </button>
+                      <button
+                        onClick={() => setOrderState(prev => ({ ...prev, page: Math.min(prev.totalPages, prev.page + 1) }))}
+                        disabled={orderState.page === orderState.totalPages}
+                        className="px-3 py-1 border border-gray-200 rounded text-sm disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50"
+                      >
+                        Next
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </>
+            )}
+          </div>
         ) : activeTab === 'revenue' ? (
           <div className="space-y-6">
+            {/* Revenue content - same as before */}
             <div className="bg-white border border-gray-100 p-6 shadow-sm rounded-xl">
               <div className="flex flex-col gap-6">
-
                 {/* Summary Card */}
                 <div className="bg-gradient-to-r from-gray-900 to-gray-800 p-6 rounded-xl text-white flex items-center justify-between shadow-md">
                   <div>
@@ -477,9 +743,12 @@ export const AdminDashboard: React.FC = () => {
                       <option value="all">All Statuses</option>
                       <option value="pending">Pending</option>
                       <option value="confirmed">Confirmed</option>
+                      <option value="processing">Processing</option>
                       <option value="shipped">Shipped</option>
+                      <option value="out for delivery">Out for Delivery</option>
                       <option value="delivered">Delivered</option>
                       <option value="cancelled">Cancelled</option>
+                      <option value="refunded">Refunded</option>
                     </select>
                   </div>
                   <div className="flex-2 min-w-[250px] relative">
@@ -487,7 +756,6 @@ export const AdminDashboard: React.FC = () => {
                     <Search size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" strokeWidth={1.5} />
                   </div>
                 </div>
-
               </div>
             </div>
 
@@ -505,23 +773,20 @@ export const AdminDashboard: React.FC = () => {
                   </thead>
                   <tbody>
                     {revenueState.data.map((o: any) => (
-                      <tr key={o._id} className="border-b border-gray-50 hover:bg-gray-50 transition-all">
-                        <td className="px-5 py-4 text-md text-gray-600 font-mono">{o._id}</td>
+                      <tr key={o.id || o._id} className="border-b border-gray-50 hover:bg-gray-50 transition-all">
+                        <td className="px-5 py-4 text-md text-gray-600 font-mono">{getOrderDisplayId(o)}</td>
                         <td className="px-5 py-4 text-md text-gray-500">{new Date(o.createdAt).toLocaleDateString()}</td>
-                        <td className="px-5 py-4 text-md text-gray-600">{o.userId?.fullName || 'Guest'}</td>
-                        <td className="px-5 py-4 text-md font-medium text-gray-800">₹{o.totalAmount.toLocaleString()}</td>
+                        <td className="px-5 py-4 text-md text-gray-600">{getCustomerName(o)}</td>
+                        <td className="px-5 py-4 text-md font-medium text-gray-800">₹{Number(o.totalAmount).toLocaleString()}</td>
                         <td className="px-5 py-4">
-                          <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wide ${o.status === 'delivered' ? 'bg-emerald-50 text-emerald-700' :
-                              o.status === 'confirmed' ? 'bg-blue-50 text-blue-700' :
-                                o.status === 'cancelled' ? 'bg-rose-50 text-rose-700' :
-                                  'bg-amber-50 text-amber-700'
-                            }`}>
-                            <span className={`w-1.5 h-1.5 rounded-full ${o.status === 'delivered' ? 'bg-emerald-500' :
-                                o.status === 'confirmed' ? 'bg-blue-500' :
-                                  o.status === 'cancelled' ? 'bg-rose-500' :
-                                    'bg-amber-500'
-                              }`}></span>
-                            {o.status}
+                          <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wide ${getStatusDisplay(o.status).color}`}>
+                            <span className={`w-1.5 h-1.5 rounded-full ${
+                              o.status?.toLowerCase() === 'delivered' ? 'bg-emerald-500' :
+                              o.status?.toLowerCase() === 'confirmed' ? 'bg-blue-500' :
+                              o.status?.toLowerCase() === 'cancelled' ? 'bg-rose-500' :
+                              'bg-amber-500'
+                            }`}></span>
+                            {getStatusDisplay(o.status).label}
                           </span>
                         </td>
                       </tr>
@@ -529,95 +794,6 @@ export const AdminDashboard: React.FC = () => {
                   </tbody>
                 </table>
               </div>
-            </div>
-          </div>
-        ) : activeTab === 'orders' ? (
-          <div className="bg-white border border-gray-100 shadow-sm rounded-xl overflow-hidden">
-            <div className="p-4 border-b border-gray-100 flex items-center justify-between gap-4">
-              <div className="relative w-full max-w-md">
-                <input type="text" placeholder="Search orders..." value={orderState.search} onChange={(e) => setOrderState(prev => ({ ...prev, search: e.target.value, page: 1 }))} className="w-full px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm focus:border-gray-800 focus:bg-white transition-all outline-none pl-10" />
-                <Search size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400" strokeWidth={1.5} />
-              </div>
-              <select
-                value={orderState.status}
-                onChange={(e) => setOrderState(prev => ({ ...prev, status: e.target.value, page: 1 }))}
-                className="px-4 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm font-medium focus:border-gray-800 focus:bg-white transition-all outline-none min-w-[150px]"
-              >
-                <option value="all">All Statuses</option>
-                <option value="pending">Pending</option>
-                <option value="confirmed">Confirmed</option>
-                <option value="shipped">Shipped</option>
-                <option value="out for delivery">Out for Delivery</option>
-                <option value="delivered">Delivered</option>
-                <option value="cancelled">Cancelled</option>
-              </select>
-            </div>
-            <div className="overflow-x-auto">
-              <table className="w-full text-left">
-                <thead className="border-b border-gray-100">
-                  <tr>
-                    <th className="px-5 py-4 text-sm font-light text-gray-400 uppercase tracking-wide">Order ID</th>
-                    <th className="px-5 py-4 text-sm font-light text-gray-400 uppercase tracking-wide">Date</th>
-                    <th className="px-5 py-4 text-sm font-light text-gray-400 uppercase tracking-wide">Customer</th>
-                    <th className="px-5 py-4 text-sm font-light text-gray-400 uppercase tracking-wide">Items</th>
-                    <th className="px-5 py-4 text-sm font-light text-gray-400 uppercase tracking-wide">Amount</th>
-                    <th className="px-5 py-4 text-sm font-light text-gray-400 uppercase tracking-wide">Payment</th>
-                    <th className="px-5 py-4 text-sm font-light text-gray-400 uppercase tracking-wide">Status</th>
-                    <th className="px-5 py-4 text-sm font-light text-gray-400 uppercase tracking-wide">Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {orderState.data.map((o: any) => (
-                    <tr key={o._id} className="border-b border-gray-50 hover:bg-gray-50">
-                      <td className="px-5 py-4 text-md text-gray-600 font-mono">{o._id}</td>
-                      <td className="px-5 py-4 text-md text-gray-500">
-                        {new Date(o.createdAt).toLocaleDateString()} <br />
-                        <span className="text-xs text-gray-400">{new Date(o.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
-                      </td>
-                      <td className="px-5 py-4 text-md text-gray-600">{o.userId?.fullName || 'Guest'}</td>
-                      <td className="px-5 py-4 text-md text-gray-500">{o.items?.length} items</td>
-                      <td className="px-5 py-4 text-md font-medium text-gray-800">₹{o.totalAmount}</td>
-                      <td className="px-5 py-4">
-                        <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-semibold uppercase tracking-wide ${o.paymentMethod === 'Online' ? 'bg-indigo-50 text-indigo-700' : 'bg-gray-100 text-gray-600'}`}>
-                          {o.paymentMethod === 'Online' ? <DollarSign size={12} strokeWidth={2.5} /> : <Package size={12} strokeWidth={2.5} />}
-                          {o.paymentMethod || 'COD'}
-                        </span>
-                      </td>
-                      <td className="px-5 py-4">
-                        <div className="flex flex-col items-start gap-2">
-                          <select
-                            value={o.status}
-                            onChange={(e) => handleStatusChange(o._id, e.target.value)}
-                            className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wide cursor-pointer focus:outline-none focus:ring-2 focus:ring-gray-200 border-0 ${
-                              o.status === 'delivered' ? 'bg-emerald-50 text-emerald-700' : 
-                              o.status === 'confirmed' ? 'bg-blue-50 text-blue-700' :
-                              o.status === 'shipped' ? 'bg-indigo-50 text-indigo-700' :
-                              o.status === 'out for delivery' ? 'bg-cyan-50 text-cyan-700' :
-                              o.status === 'cancelled' ? 'bg-rose-50 text-rose-700' :
-                              'bg-amber-50 text-amber-700'
-                            }`}
-                          >
-                            <option value="pending">PENDING</option>
-                            <option value="confirmed">CONFIRMED</option>
-                            <option value="shipped">SHIPPED</option>
-                            <option value="out for delivery">OUT FOR DELIVERY</option>
-                            <option value="delivered">DELIVERED</option>
-                            <option value="cancelled">CANCELLED</option>
-                          </select>
-                          {o.razorpayDetails?.paymentId && (
-                            <span className="text-[10px] font-mono text-gray-500 bg-gray-50 px-2 py-0.5 rounded-md border border-gray-200" title="Transaction ID">
-                              Txn: {o.razorpayDetails.paymentId}
-                            </span>
-                          )}
-                        </div>
-                      </td>
-                      <td className="px-5 py-4">
-                        <button onClick={() => setExpandedOrder(o)} className="text-gray-500 text-md hover:text-gray-700">View</button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
             </div>
           </div>
         ) : activeTab === 'users' ? (

@@ -323,12 +323,72 @@ export const getUserCount = async (): Promise<number> => {
 // ─── Get users by role ────────────────────────────────────────
 export const getUsersByRole = async (role: 'user' | 'vendor' | 'admin'): Promise<Omit<User, 'password'>[]> => {
   const rows = await query<RowDataPacket[]>(
-    `SELECT id, full_name, first_name, last_name, gender, mobile_number, email, 
-            role, is_blocked, order_ids, cart_ids, created_at, updated_at 
-     FROM users WHERE role = ? AND deleted_at IS NULL ORDER BY created_at DESC`,
+    `SELECT 
+        u.id, u.full_name, u.first_name, u.last_name, u.gender, 
+        u.mobile_number, u.email, u.role, u.is_blocked, 
+        u.order_ids, u.cart_ids, u.created_at, u.updated_at,
+        a.id as address_id, a.name as address_name, a.email as address_email,
+        a.phone as address_phone, a.street_address, a.locality, a.city,
+        a.state, a.country, a.pin_code, a.landmark, a.alternate_phone,
+        a.type as address_type, a.is_saved
+     FROM users u
+     LEFT JOIN addresses a ON u.id = a.user_id
+     WHERE u.role = ? AND u.deleted_at IS NULL
+     ORDER BY u.created_at DESC, a.is_saved DESC`,
     [role]
   );
-  return rows.map(row => toCamelCase(row));
+  
+  // Group addresses by user
+  const userMap = new Map();
+  
+  rows.forEach(row => {
+    const userId = row.id;
+    
+    if (!userMap.has(userId)) {
+      // Create user object
+      const user = toCamelCase({
+        id: row.id,
+        fullName: row.full_name,
+        firstName: row.first_name,
+        lastName: row.last_name,
+        gender: row.gender,
+        mobileNumber: row.mobile_number,
+        email: row.email,
+        role: row.role,
+        isBlocked: row.is_blocked,
+        orderIds: row.order_ids,
+        cartIds: row.cart_ids,
+        createdAt: row.created_at,
+        updatedAt: row.updated_at,
+        savedAddresses: []
+      });
+      userMap.set(userId, user);
+    }
+    
+    // Add address if exists
+    if (row.address_id) {
+      const user = userMap.get(userId);
+      user.savedAddresses.push(toCamelCase({
+        id: row.address_id,
+        userId: row.id,
+        name: row.address_name,
+        email: row.address_email,
+        phone: row.address_phone,
+        streetAddress: row.street_address,
+        locality: row.locality,
+        city: row.city,
+        state: row.state,
+        country: row.country,
+        pinCode: row.pin_code,
+        landmark: row.landmark,
+        alternatePhone: row.alternate_phone,
+        type: row.address_type,
+        isSaved: row.is_saved
+      }));
+    }
+  });
+  
+  return Array.from(userMap.values());
 };
 
 // ─── Check if user exists ─────────────────────────────────────

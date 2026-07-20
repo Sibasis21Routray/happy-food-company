@@ -1,4 +1,4 @@
-USE HFC;
+USE happy_food;
 
 -- Orders Table
 CREATE TABLE IF NOT EXISTS orders (

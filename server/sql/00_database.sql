@@ -3,7 +3,7 @@
 -- =============================================
 
 -- Use the application database
-USE HFC;
+USE happy_food;
 
 -- Set timezone (UTC)
 SET time_zone = '+00:00';
