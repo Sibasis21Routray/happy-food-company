@@ -31,12 +31,22 @@ const connectDB = async (): Promise<void> => {
 };
 
 // Query helper
-export const query = async <T = any>(sql: string, params?: any[]): Promise<T> => {
+export const query = async <T = any>(sql: string, params: any[] = []): Promise<T> => {
   try {
+   
+    const undefinedIndexes = params
+      .map((value, index) => (value === undefined ? index : -1))
+      .filter(index => index !== -1);
+
+    if (undefinedIndexes.length > 0) {
+      console.error("❌ Undefined parameters at indexes:", undefinedIndexes);
+      throw new Error(`Undefined SQL bind parameter(s): ${undefinedIndexes.join(", ")}`);
+    }
+
     const [rows] = await pool.execute(sql, params);
     return rows as T;
   } catch (error) {
-    console.error('❌ Query error:', error);
+    console.error("❌ Query error:", error);
     throw error;
   }
 };

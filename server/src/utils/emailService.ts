@@ -73,11 +73,11 @@ export const sendOrderEmails = async (order: any, billingAddress: any, shippingA
           <tfoot style="font-size: 14px;">
             <tr>
               <td colspan="2" style="padding: 12px; border-bottom: 1px solid #e2e8f0; font-weight: bold; color: #4a5568;">Subtotal:</td>
-              <td style="padding: 12px; border-bottom: 1px solid #e2e8f0; color: #475569;">₹${order.subtotal?.toFixed(2) || '0.00'}</td>
+              <td style="padding: 12px; border-bottom: 1px solid #e2e8f0; color: #475569;">₹${Number(order.subtotal || 0).toFixed(2)}</td>
             </tr>
             <tr>
               <td colspan="2" style="padding: 12px; border-bottom: 1px solid #e2e8f0; font-weight: bold; color: #4a5568;">Discount:</td>
-              <td style="padding: 12px; border-bottom: 1px solid #e2e8f0; color: #475569;">-₹${order.discountAmount?.toFixed(2) || '0.00'}</td>
+              <td style="padding: 12px; border-bottom: 1px solid #e2e8f0; color: #475569;">-₹${Number(order.discountAmount || 0).toFixed(2)}</td>
             </tr>
             <tr>
               <td colspan="2" style="padding: 12px; border-bottom: 1px solid #e2e8f0; font-weight: bold; color: #4a5568;">Payment method:</td>
@@ -85,7 +85,7 @@ export const sendOrderEmails = async (order: any, billingAddress: any, shippingA
             </tr>
             <tr>
               <td colspan="2" style="padding: 12px; border-bottom: 1px solid #e2e8f0; font-weight: bold; color: #4a5568;">Total:</td>
-              <td style="padding: 12px; border-bottom: 1px solid #e2e8f0; color: #475569;">₹${order.totalAmount?.toFixed(2) || '0.00'}</td>
+              <td style="padding: 12px; border-bottom: 1px solid #e2e8f0; color: #475569;">₹${Number(order.totalAmount || 0).toFixed(2)}</td>
             </tr>
           </tfoot>
         </table>

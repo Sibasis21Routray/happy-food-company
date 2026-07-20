@@ -148,7 +148,7 @@ export const placeOrder = async (input: PlaceOrderInput): Promise<PlaceOrderResu
   // Create order with lowercase status values
   const order = await orderDao.createOrder({
     userId,
-    vendorId: vendorId || undefined,
+    vendorId: vendorId ?? null,
     items: orderItems,
     subtotal,
     couponCode: couponCode || null,
@@ -208,6 +208,7 @@ export const placeOrder = async (input: PlaceOrderInput): Promise<PlaceOrderResu
   } else {
     await cartService.clearCart(userId);
   }
+console.log("📧 Triggering order emails...");
 
   // Send transactional emails asynchronously
   sendOrderEmails(

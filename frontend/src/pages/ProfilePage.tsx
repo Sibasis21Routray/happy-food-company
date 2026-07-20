@@ -901,12 +901,12 @@ export const ProfilePage: React.FC = () => {
                                 <p className="text-base text-gray-600 font-medium">Total Amount</p>
                                 <p className="text-xl font-bold text-gray-900">₹{order.totalAmount}</p>
                               </div>
-                              <button 
+                              {/* <button 
                                 onClick={() => navigate(`/orders/${order._id || order.id}`)}
                                 className="px-5 py-2 bg-gray-900 text-white text-sm font-medium rounded-sm hover:bg-gray-800 transition-colors flex items-center gap-2"
                               >
                                 See Updates <ChevronRight size={16} />
-                              </button>
+                              </button> */}
                             </div>
                           </div>
                         ))}
