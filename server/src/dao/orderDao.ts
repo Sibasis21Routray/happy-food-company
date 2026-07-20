@@ -1,6 +1,7 @@
 import { query } from '../config/database';
 import { Order, OrderItem, CreateOrderInput, UpdateOrderInput } from '../models/order.model';
 import { RowDataPacket, ResultSetHeader } from 'mysql2';
+import { randomUUID } from "crypto";
 
 // ─── Helper to convert snake_case to camelCase ──────────────
 const toCamelCase = (row: any): any => {
@@ -22,34 +23,47 @@ export const getNextOrderNumber = async (): Promise<number> => {
 
 // ─── Create order ──────────────────────────────────────────────
 export const createOrder = async (data: any): Promise<Order> => {
-  const orderNumber = await getNextOrderNumber();
-  
-  const orderResult = await query<ResultSetHeader>(
+  const orderId = randomUUID();
+const orderNumber = await getNextOrderNumber();
+
+await query(
     `INSERT INTO orders (
-      order_number, user_id, billing_address_id, shipping_address_id,
-      total_amount, status, payment_status, payment_id,
-      subtotal, coupon_code, discount_percent, discount_amount,
-      vendor_id, payment_method
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+  id,
+  order_number,
+  user_id,
+  billing_address_id,
+  shipping_address_id,
+  total_amount,
+  status,
+  payment_status,
+  payment_id,
+  subtotal,
+  coupon_code,
+  discount_percent,
+  discount_amount,
+  vendor_id,
+  payment_method
+)
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
     [
-      orderNumber,
-      data.userId,
-      data.billingAddressId,
-      data.shippingAddressId || data.billingAddressId,
-      data.totalAmount,
-      data.status || 'pending',  // ← lowercase
-      data.paymentStatus || 'Pending',  // ← match old format
-      data.paymentId || null,
-      data.subtotal || data.totalAmount,
-      data.couponCode || null,
-      data.discountPercent || 0,
-      data.discountAmount || 0,
-      data.vendorId || null,
-      data.paymentMethod || 'COD'
+      orderId,
+  orderNumber,
+  data.userId,
+  data.billingAddressId,
+  data.shippingAddressId || data.billingAddressId,
+  data.totalAmount,
+  data.status || "pending",
+  data.paymentStatus || "Pending",
+  data.paymentId || null,
+  data.subtotal || data.totalAmount,
+  data.couponCode || null,
+  data.discountPercent || 0,
+  data.discountAmount || 0,
+  data.vendorId || null,
+  data.paymentMethod || "COD",
     ]
   );
-  
-  const orderId = orderResult.insertId;
+
   
   // Create order items
   if (data.items && data.items.length) {

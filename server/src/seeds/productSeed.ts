@@ -48,38 +48,43 @@ const products = [
 
 export const seedProducts = async () => {
   try {
-    
     console.log("🔄 Seeding products...");
 
-    // Clear existing products
-    await query('DELETE FROM products');
-    console.log("🗑️  Cleared existing products");
+    const existing = await query<any[]>(
+      "SELECT COUNT(*) AS count FROM products"
+    );
+
+    if (existing[0].count > 0) {
+      console.log("ℹ️ Products already exist. Skipping product seed.");
+      return;
+    }
 
     // Insert products
     for (const product of products) {
       await query(
         `INSERT INTO products (
-          heading, slug, title, subtitle, product_heading, product_description,
-          stock_details, category, price, images, is_active
+          heading, slug, title, subtitle,
+          product_heading, product_description,
+          stock_details, category, price,
+          images, is_active
         ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
         [
           product.heading,
           product.slug,
           product.title,
-          product.subtitle || '',
-          product.productHeading || '',
-          product.productDescription || '',
+          product.subtitle || "",
+          product.productHeading || "",
+          product.productDescription || "",
           product.stockDetails,
           product.category,
           product.price,
           JSON.stringify(product.images || []),
-          product.isActive ? 1 : 0
+          product.isActive ? 1 : 0,
         ]
       );
     }
 
     console.log(`✅ Seeded ${products.length} products successfully!`);
-    return;
   } catch (error) {
     console.error("❌ Error seeding products:", error);
     throw error;

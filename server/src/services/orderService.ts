@@ -11,6 +11,7 @@ import * as userDao from "../dao/userDao";
 import { sendOrderEmails } from "../utils/emailService";
 import crypto from "crypto";
 
+
 // ─── Helper Functions ─────────────────────────────────────────
 const getProductIdString = (productId: any): string => {
   if (!productId) return '';
