@@ -354,7 +354,7 @@ export const AdminDashboard: React.FC = () => {
                   <tbody>
                     {overviewOrderState.data.length > 0 ? overviewOrderState.data.map((o: any) => (
                       <tr key={o._id} className="border-b border-gray-50 last:border-0 hover:bg-gray-50/50 transition-colors">
-                        <td className="px-6 py-4 text-sm font-medium text-gray-500">#{o._id.slice(-4)}</td>
+                        <td className="px-6 py-4 text-sm font-medium text-gray-500">#{o._id}</td>
                         <td className="px-6 py-4">
                           <div className="flex items-center gap-3">
                             <span className="text-sm font-semibold text-gray-800">{o.userId?.fullName || 'Guest'}</span>
@@ -506,7 +506,7 @@ export const AdminDashboard: React.FC = () => {
                   <tbody>
                     {revenueState.data.map((o: any) => (
                       <tr key={o._id} className="border-b border-gray-50 hover:bg-gray-50 transition-all">
-                        <td className="px-5 py-4 text-md text-gray-600 font-mono">{o._id.slice(-8)}</td>
+                        <td className="px-5 py-4 text-md text-gray-600 font-mono">{o._id}</td>
                         <td className="px-5 py-4 text-md text-gray-500">{new Date(o.createdAt).toLocaleDateString()}</td>
                         <td className="px-5 py-4 text-md text-gray-600">{o.userId?.fullName || 'Guest'}</td>
                         <td className="px-5 py-4 text-md font-medium text-gray-800">₹{o.totalAmount.toLocaleString()}</td>
@@ -569,7 +569,7 @@ export const AdminDashboard: React.FC = () => {
                 <tbody>
                   {orderState.data.map((o: any) => (
                     <tr key={o._id} className="border-b border-gray-50 hover:bg-gray-50">
-                      <td className="px-5 py-4 text-md text-gray-600 font-mono">{o._id.slice(-8)}</td>
+                      <td className="px-5 py-4 text-md text-gray-600 font-mono">{o._id}</td>
                       <td className="px-5 py-4 text-md text-gray-500">
                         {new Date(o.createdAt).toLocaleDateString()} <br />
                         <span className="text-xs text-gray-400">{new Date(o.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>

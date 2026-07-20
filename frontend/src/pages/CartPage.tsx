@@ -377,7 +377,8 @@ export const CartPage: React.FC = () => {
                     const product = item.productId || item.product;
                     const pid = product?.id || product?._id || item.productId;
                     const images = product?.images || [];
-                    
+                    console.log(product?.images);
+                    console.log(product?.images?.[0]);
                     return (
                       <motion.div 
                         key={pid}
@@ -393,7 +394,7 @@ export const CartPage: React.FC = () => {
   src={
     product?.images && product.images.length > 0 
       ? product.images[0] 
-      : '/images/combo-6-1.png'
+      : item.images[0] 
   } 
   alt={product?.title || item.title} 
   className="w-full h-full object-cover"
