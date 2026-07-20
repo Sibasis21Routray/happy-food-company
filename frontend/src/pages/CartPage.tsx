@@ -390,7 +390,7 @@ export const CartPage: React.FC = () => {
                           {/* Image */}
                           <div className="w-24 h-24 bg-gray-50 flex-shrink-0">
                             <img 
-                              src={images[0] || '/images/combo-6-1.png'} 
+                              src={ product.img|| '/images/combo-6-1.png'} 
                               alt={product?.title || item.title} 
                               className="w-full h-full object-cover"
                             />
