@@ -48,8 +48,6 @@ const products = [
 
 export const seedProducts = async () => {
   try {
-    // Connect to database
-    await connectDB();
     
     console.log("🔄 Seeding products...");
 
@@ -81,12 +79,9 @@ export const seedProducts = async () => {
     }
 
     console.log(`✅ Seeded ${products.length} products successfully!`);
-    process.exit(0);
+    return;
   } catch (error) {
     console.error("❌ Error seeding products:", error);
-    process.exit(1);
+    throw error;
   }
 };
-
-// Run seed
-seedProducts();
