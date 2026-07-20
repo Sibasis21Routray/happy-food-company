@@ -106,6 +106,7 @@ export const placeOrder = async (input: PlaceOrderInput): Promise<PlaceOrderResu
       if (!product) throw new Error(`Product no longer available`);
       return {
         productId: product.id,
+        title: product.title,
         quantity: item.quantity,
         price: item.price,
       };

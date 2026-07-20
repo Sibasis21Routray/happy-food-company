@@ -55,10 +55,17 @@ export const createOrder = async (data: any): Promise<Order> => {
   if (data.items && data.items.length) {
     for (const item of data.items) {
       await query(
-        `INSERT INTO order_items (order_id, product_id, quantity, price) 
-         VALUES (?, ?, ?, ?)`,
-        [orderId, item.productId, item.quantity, item.price]
-      );
+  `INSERT INTO order_items
+  (order_id, product_id, title, quantity, price)
+  VALUES (?, ?, ?, ?, ?)`,
+  [
+    orderId,
+    item.productId,
+    item.title,
+    item.quantity,
+    item.price,
+  ]
+);
     }
   }
   
