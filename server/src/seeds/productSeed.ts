@@ -98,7 +98,7 @@ const products = [
   }
 ];
 
-const seedProducts = async () => {
+export const seedProducts = async () => {
   try {
     // Connect to database
     await connectDB();

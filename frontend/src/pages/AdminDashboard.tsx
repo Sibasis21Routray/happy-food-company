@@ -243,11 +243,11 @@ export const AdminDashboard: React.FC = () => {
                 <div>
                   <p className="text-sm text-gray-500 mb-1 font-medium">Total Revenue</p>
                   <h3 className="text-2xl font-bold text-gray-800">
-                    ₹{stats.totalRevenue ? stats.totalRevenue.toLocaleString() : '25,145.13'}
+                    ₹{stats.totalRevenue ? stats.totalRevenue.toLocaleString() : '0'}
                   </h3>
                   <p className="text-xs text-gray-400 mt-2 font-medium flex items-center">
-                    <span className="text-green-500 bg-green-50 px-1.5 py-0.5 rounded mr-2">+18%</span>
-                    {stats.totalOrders > 0 ? `${stats.totalOrders}+ Orders` : '300+ Orders'}
+                    {/* <span className="text-green-500 bg-green-50 px-1.5 py-0.5 rounded mr-2">+18%</span> */}
+                    {stats.totalOrders > 0 ? `${stats.totalOrders}+ Orders` : ''}
                   </p>
                 </div>
               </div>
@@ -262,7 +262,7 @@ export const AdminDashboard: React.FC = () => {
                     {stats.totalUsers ? stats.totalUsers.toLocaleString() : '352,152'}
                   </h3>
                   <p className="text-xs text-gray-400 mt-2 font-medium flex items-center">
-                    <span className="text-indigo-500 bg-indigo-50 px-1.5 py-0.5 rounded mr-2">+18%</span>
+                    {/* <span className="text-indigo-500 bg-indigo-50 px-1.5 py-0.5 rounded mr-2">+18%</span> */}
                     Last week
                   </p>
                 </div>
@@ -275,10 +275,10 @@ export const AdminDashboard: React.FC = () => {
                 <div>
                   <p className="text-sm text-gray-500 mb-1 font-medium">Total Orders</p>
                   <h3 className="text-2xl font-bold text-gray-800">
-                    {stats.totalOrders ? stats.totalOrders.toLocaleString() : '25,145'}
+                    {stats.totalOrders ? stats.totalOrders.toLocaleString() : '0'}
                   </h3>
                   <p className="text-xs text-gray-400 mt-2 font-medium flex items-center">
-                    <span className="text-orange-500 bg-orange-50 px-1.5 py-0.5 rounded mr-2">+18%</span>
+                    {/* <span className="text-orange-500 bg-orange-50 px-1.5 py-0.5 rounded mr-2">+18%</span> */}
                     Last week
                   </p>
                 </div>

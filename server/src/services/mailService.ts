@@ -199,7 +199,7 @@ export const sendResetPasswordEmail = async (email: string, resetToken: string):
             
             <div class="security-note">
               <p style="font-size: 13px; color: #6c757d; margin: 0;">
-                🔒 <strong>Didn't request this?</strong> You can safely ignore this email. Your password will remain unchanged.
+                <strong>Didn't request this?</strong> You can safely ignore this email. Your password will remain unchanged.
               </p>
             </div>
           </div>
@@ -332,9 +332,9 @@ export const sendWelcomeEmail = async (email: string, fullName: string): Promise
             <p>Welcome to <strong>${siteName}</strong>! We're excited to have you as part of our community.</p>
             <p>Your account has been successfully created. Here's what you can do next:</p>
             <ul style="color: #4a5568; margin: 16px 0; padding-left: 20px;">
-              <li style="margin-bottom: 8px;">✨ Explore our features and services</li>
-              <li style="margin-bottom: 8px;">🛍️ Browse our products</li>
-              <li style="margin-bottom: 8px;">💬 Connect with our community</li>
+              <li style="margin-bottom: 8px;">Explore our features and services</li>
+              <li style="margin-bottom: 8px;">Browse our products</li>
+              <li style="margin-bottom: 8px;">Connect with our community</li>
             </ul>
             <div style="text-align: center; margin: 32px 0;">
               <a href="${process.env.FRONTEND_URL}/dashboard" class="button">Get Started</a>
