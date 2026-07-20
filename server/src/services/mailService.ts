@@ -88,7 +88,7 @@ export const sendResetPasswordEmail = async (email: string, resetToken: string):
           overflow: hidden; 
           box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.1); 
         }
-        .header { 
+        .header {
           background: linear-gradient(135deg, ${themeColor} 0%, #d9441a 100%); 
           padding: 32px 24px; 
           text-align: center; 
