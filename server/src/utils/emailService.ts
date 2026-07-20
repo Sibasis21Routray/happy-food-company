@@ -43,7 +43,7 @@ export const sendOrderEmails = async (order: any, billingAddress: any, shippingA
   const getTemplate = (isAdmin: boolean) => `
     <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; color: #333;">
       <div style="text-align: center; margin-bottom: 20px;">
-        <img src="https://ui-avatars.com/api/?name=Happy+Food+Company&background=6b46c1&color=fff&size=100&font-size=0.33&length=3" alt="The Happy Food Company" style="max-width: 150px; height: auto;" />
+        <img src="https://thehappyfoodcompany.com/images/logo.png" alt="The Happy Food Company" style="max-width: 150px; height: auto;" />
       </div>
       
       <div style="background-color: #805ad5; color: white; padding: 24px; border-radius: 4px 4px 0 0;">
