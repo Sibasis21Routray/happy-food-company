@@ -21,26 +21,6 @@ const loadRazorpayScript = () => {
   });
 };
 
-// Helper function to get full image URL
-const getImageUrl = (imagePath: string) => {
-  if (!imagePath) return '/images/placeholder.jpg';
-  
-  // If it's already a full URL (starts with http:// or https://)
-  if (imagePath.startsWith('http://') || imagePath.startsWith('https://')) {
-    return imagePath;
-  }
-  
-  // If it starts with '/', it's a relative path from the backend
-  if (imagePath.startsWith('/')) {
-    // Use the backend URL from environment variable
-    const baseUrl = import.meta.env.VITE_API_URL || 'http://localhost:5000';
-    return `${baseUrl}${imagePath}`;
-  }
-  
-  // Fallback for any other format
-  return `${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/${imagePath}`;
-};
-
 export const CartPage: React.FC = () => {
   const navigate = useNavigate();
   const [cart, setCart] = useState<any>(null);
@@ -397,7 +377,6 @@ export const CartPage: React.FC = () => {
                     const product = item.productId || item.product;
                     const pid = product?.id || product?._id || item.productId;
                     const images = product?.images || [];
-                    const imageUrl = images.length > 0 ? getImageUrl(images[0]) : '/images/placeholder.jpg';
                     
                     return (
                       <motion.div 
@@ -409,15 +388,11 @@ export const CartPage: React.FC = () => {
                       >
                         <div className="flex gap-6">
                           {/* Image */}
-                          <div className="w-24 h-24 bg-gray-50 flex-shrink-0 overflow-hidden rounded-sm">
+                          <div className="w-24 h-24 bg-gray-50 flex-shrink-0">
                             <img 
-                              src={imageUrl}
+                              src={product?.images[0] || '/images/combo-6-1.png'} 
                               alt={product?.title || item.title} 
                               className="w-full h-full object-cover"
-                              onError={(e) => {
-                                // Fallback if image fails to load
-                                (e.target as HTMLImageElement).src = '/images/placeholder.jpg';
-                              }}
                             />
                           </div>
                           

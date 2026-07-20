@@ -371,7 +371,7 @@ export const AdminDashboard: React.FC = () => {
                             {o.status === 'delivered' ? 'Complete' : o.status === 'pending' ? 'Pending' : o.status}
                           </span>
                         </td>
-                        <td className="px-6 py-4 text-sm font-semibold text-gray-700">₹{o.totalAmount.toFixed(2)}</td>
+                        <td className="px-6 py-4 text-sm font-semibold text-gray-700">₹{o.totalAmount}</td>
                       </tr>
                     )) : (
                       <>
