@@ -1,4 +1,4 @@
-import axios from 'axios';
+import nodemailer from 'nodemailer';
 
 interface EmailOptions {
   to: string | string[];
@@ -15,40 +15,50 @@ interface EmailOptions {
 }
 
 /**
- * Send email using Brevo API directly via Axios
+ * Create SMTP transporter for Brevo
+ */
+const createTransporter = () => {
+  const smtpLogin = process.env.BREVO_SMTP_LOGIN || 'woohoo@thehappyfoodcompany.com';
+  const smtpKey = process.env.BREVO_SMTP_KEY || process.env.BREVO_API_KEY;
+  
+  return nodemailer.createTransport({
+    host: process.env.BREVO_SMTP_HOST || 'smtp-relay.brevo.com',
+    port: parseInt(process.env.BREVO_SMTP_PORT || '587'),
+    secure: process.env.BREVO_SMTP_SECURE === 'true',
+    auth: {
+      user: smtpLogin,
+      pass: smtpKey,
+    },
+  });
+};
+
+/**
+ * Send email using Brevo SMTP via nodemailer
  */
 export const sendEmail = async (options: EmailOptions): Promise<any> => {
   try {
-    const recipients = Array.isArray(options.to) ? options.to : [options.to];
+    const transporter = createTransporter();
     
-    const payload = {
-      sender: options.sender || {
-        email: process.env.BREVO_SENDER_EMAIL || 'noreply@yourdomain.com',
-        name: process.env.BREVO_SENDER_NAME || 'Your Website',
-      },
-      to: recipients.map(email => ({
-        email: email,
-        name: email.split('@')[0],
-      })),
-      ...(options.replyTo && { replyTo: options.replyTo }),
-      subject: options.subject,
-      htmlContent: options.htmlContent,
+    const recipients = Array.isArray(options.to) ? options.to : [options.to];
+    const sender = options.sender || {
+      email: process.env.BREVO_SENDER_EMAIL || 'woohoo@thehappyfoodcompany.com',
+      name: process.env.BREVO_SENDER_NAME || 'The Happy Food Company',
     };
 
-    const response = await axios.post(
-      'https://api.brevo.com/v3/smtp/email',
-      payload,
-      {
-        headers: {
-          'api-key': process.env.BREVO_API_KEY,
-          'Content-Type': 'application/json',
-        },
-      }
-    );
+    const mailOptions = {
+      from: `"${sender.name}" <${sender.email}>`,
+      to: recipients.join(', '),
+      subject: options.subject,
+      html: options.htmlContent,
+      ...(options.replyTo && { 
+        replyTo: `"${options.replyTo.name}" <${options.replyTo.email}>` 
+      }),
+    };
 
-    return response.data;
+    const info = await transporter.sendMail(mailOptions);
+    return info;
   } catch (error: any) {
-    console.error('Error sending email:', error.response?.data || error.message);
+    console.error('Error sending email:', error.message);
     throw new Error('Failed to send email');
   }
 };
@@ -58,7 +68,7 @@ export const sendEmail = async (options: EmailOptions): Promise<any> => {
  */
 export const sendResetPasswordEmail = async (email: string, resetToken: string): Promise<any> => {
   const resetUrl = `${process.env.FRONTEND_URL}/reset-password?token=${resetToken}`;
-  const siteName =  'HappyBar';
+  const siteName = process.env.BREVO_SENDER_NAME || 'HappyBar';
   const themeColor = '#f05a22';
 
   const htmlContent = `
@@ -218,7 +228,7 @@ export const sendResetPasswordEmail = async (email: string, resetToken: string):
     subject: `Reset Your ${siteName} Password`,
     htmlContent,
     sender: {
-      email: process.env.BREVO_SENDER_EMAIL || 'noreply@yourdomain.com',
+      email: process.env.BREVO_SENDER_EMAIL || 'woohoo@thehappyfoodcompany.com',
       name: siteName,
     },
   });
@@ -228,8 +238,8 @@ export const sendResetPasswordEmail = async (email: string, resetToken: string):
  * Send welcome email after registration
  */
 export const sendWelcomeEmail = async (email: string, fullName: string): Promise<any> => {
-  const siteName = process.env.SITE_NAME || 'HappyBar';
-  const themeColor = process.env.THEME_COLOR || '#f05a22';
+  const siteName = process.env.BREVO_SENDER_NAME || 'HappyBar';
+  const themeColor = '#f05a22';
 
   const htmlContent = `
     <!DOCTYPE html>
@@ -362,7 +372,7 @@ export const sendWelcomeEmail = async (email: string, fullName: string): Promise
     subject: `Welcome to ${siteName}! 🎉`,
     htmlContent,
     sender: {
-      email: process.env.BREVO_SENDER_EMAIL || 'noreply@yourdomain.com',
+      email: process.env.BREVO_SENDER_EMAIL || 'woohoo@thehappyfoodcompany.com',
       name: siteName,
     },
   });
@@ -378,7 +388,7 @@ export const sendContactFormEmail = async (data: {
   message: string;
 }): Promise<any> => {
   const { name, email, subject, message } = data;
-  const siteName = process.env.SITE_NAME || 'HappyBar';
+  const siteName = process.env.BREVO_SENDER_NAME || 'HappyBar';
 
   const htmlContent = `
     <!DOCTYPE html>
@@ -407,7 +417,7 @@ export const sendContactFormEmail = async (data: {
           box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.1);
         }
         .header { 
-          background: linear-gradient(135deg, ${process.env.THEME_COLOR || '#f05a22'} 0%, #d9441a 100%);
+          background: linear-gradient(135deg, #f05a22 0%, #d9441a 100%);
           padding: 30px; 
           text-align: center; 
           color: white;
@@ -497,11 +507,11 @@ export const sendContactFormEmail = async (data: {
   `;
 
   return sendEmail({
-    to: process.env.CONTACT_FORM_RECIPIENT || 'contact@yourdomain.com',
+    to: process.env.CONTACT_FORM_RECIPIENT || 'woohoo@thehappyfoodcompany.com',
     subject: `Contact Form: ${subject}`,
     htmlContent,
     sender: {
-      email: process.env.BREVO_SENDER_EMAIL || 'noreply@yourdomain.com',
+      email: process.env.BREVO_SENDER_EMAIL || 'woohoo@thehappyfoodcompany.com',
       name: siteName,
     },
     replyTo: {

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import * as nodemailer from 'nodemailer';
 
 export const sendOrderEmails = async (order: any, billingAddress: any, shippingAddress: any, customerName: string, customerEmail: string) => {
   const adminEmail = "woohoo@thehappyfoodcompany.com";
@@ -132,18 +133,31 @@ export const sendOrderEmails = async (order: any, billingAddress: any, shippingA
   `;
 
   try {
-    const brevoApiKey = process.env.BREVO_API_KEY || '';
+    // Get SMTP credentials from environment
+    const smtpLogin = process.env.BREVO_SMTP_LOGIN || 'woohoo@thehappyfoodcompany.com';
+    const smtpKey = process.env.BREVO_SMTP_KEY || process.env.BREVO_API_KEY;
     
-    // Check if BREVO_API_KEY is configured
-    if (!brevoApiKey) {
-      console.error('❌ BREVO_API_KEY is not configured in environment variables');
-      throw new Error('BREVO_API_KEY is missing');
+    console.log(">>>>>>>>>>>>>>>>>>>>>")
+    
+    // Check if SMTP credentials are configured
+    if (!smtpKey) {
+      console.error('❌ BREVO_SMTP_KEY or BREVO_API_KEY is not configured in environment variables');
+      throw new Error('SMTP credentials are missing');
     }
 
-    const sender = { 
-      name: process.env.BREVO_SENDER_NAME || "The Happy Food Company", 
-      email: process.env.BREVO_SENDER_EMAIL || "woohoo@thehappyfoodcompany.com" 
-    };
+    // Create SMTP transporter
+    const transporter = nodemailer.createTransport({
+      host: process.env.BREVO_SMTP_HOST || 'smtp-relay.brevo.com',
+      port: parseInt(process.env.BREVO_SMTP_PORT || '587'),
+      secure: process.env.BREVO_SMTP_SECURE === 'true',
+      auth: {
+        user: smtpLogin,
+        pass: smtpKey,
+      },
+    });
+
+    const senderName = process.env.BREVO_SENDER_NAME || "The Happy Food Company";
+    const senderEmail = process.env.BREVO_SENDER_EMAIL || "woohoo@thehappyfoodcompany.com";
 
     console.log(`📧 Sending order emails for order #${orderIdStr}`);
     console.log(`📧 Admin email: ${adminEmail}`);
@@ -152,51 +166,45 @@ export const sendOrderEmails = async (order: any, billingAddress: any, shippingA
     // Send admin email
     try {
       console.log(`📤 Sending admin email to ${adminEmail}...`);
-      const adminResponse = await axios.post('https://api.brevo.com/v3/smtp/email', {
-        sender,
-        to: [{ email: adminEmail }],
+      const adminInfo = await transporter.sendMail({
+        from: `"${senderName}" <${senderEmail}>`,
+        to: adminEmail,
         subject: `[The Happy Food Company]: New order #${orderIdStr}`,
-        htmlContent: getTemplate(true)
-      }, {
-        headers: { 'api-key': brevoApiKey, 'content-type': 'application/json' }
+        html: getTemplate(true)
       });
       
       console.log(`✅ Admin email sent successfully to ${adminEmail}`);
-      console.log(`📊 Brevo Response (Admin):`, {
-        status: adminResponse.status,
-        messageId: adminResponse.data?.messageId || 'N/A'
+      console.log(`📊 SMTP Response (Admin):`, {
+        messageId: adminInfo.messageId,
+        response: adminInfo.response
       });
     } catch (adminError: any) {
       console.error(`❌ Failed to send admin email to ${adminEmail}:`);
-      console.error(`   Status: ${adminError.response?.status || 'N/A'}`);
-      console.error(`   Message: ${adminError.response?.data?.message || adminError.message}`);
-      console.error(`   Details:`, adminError.response?.data || adminError);
-      throw new Error(`Admin email failed: ${adminError.response?.data?.message || adminError.message}`);
+      console.error(`   Message: ${adminError.message}`);
+      console.error(`   Details:`, adminError);
+      throw new Error(`Admin email failed: ${adminError.message}`);
     }
 
     // Send customer email
     try {
       console.log(`📤 Sending customer email to ${customerEmail}...`);
-      const customerResponse = await axios.post('https://api.brevo.com/v3/smtp/email', {
-        sender,
-        to: [{ email: customerEmail, name: customerName }],
+      const customerInfo = await transporter.sendMail({
+        from: `"${senderName}" <${senderEmail}>`,
+        to: `"${customerName}" <${customerEmail}>`,
         subject: `Your The Happy Food Company order has been received!`,
-        htmlContent: getTemplate(false)
-      }, {
-        headers: { 'api-key': brevoApiKey, 'content-type': 'application/json' }
+        html: getTemplate(false)
       });
       
       console.log(`✅ Customer email sent successfully to ${customerEmail}`);
-      console.log(`📊 Brevo Response (Customer):`, {
-        status: customerResponse.status,
-        messageId: customerResponse.data?.messageId || 'N/A'
+      console.log(`📊 SMTP Response (Customer):`, {
+        messageId: customerInfo.messageId,
+        response: customerInfo.response
       });
     } catch (customerError: any) {
       console.error(`❌ Failed to send customer email to ${customerEmail}:`);
-      console.error(`   Status: ${customerError.response?.status || 'N/A'}`);
-      console.error(`   Message: ${customerError.response?.data?.message || customerError.message}`);
-      console.error(`   Details:`, customerError.response?.data || customerError);
-      throw new Error(`Customer email failed: ${customerError.response?.data?.message || customerError.message}`);
+      console.error(`   Message: ${customerError.message}`);
+      console.error(`   Details:`, customerError);
+      throw new Error(`Customer email failed: ${customerError.message}`);
     }
     
     console.log(`✅ All emails sent successfully for order #${orderIdStr}`);
@@ -206,15 +214,6 @@ export const sendOrderEmails = async (order: any, billingAddress: any, shippingA
     console.error(`❌ Transactional email failure for order #${orderIdStr}:`);
     console.error(`   Error Type: ${error.name || 'Unknown'}`);
     console.error(`   Error Message: ${error.message}`);
-    
-    if (error.response) {
-      console.error(`   Response Status: ${error.response.status}`);
-      console.error(`   Response Data:`, error.response.data);
-    }
-    
-    if (error.request) {
-      console.error(`   Request was made but no response received`);
-    }
     
     // Don't throw the error - log it and return failure status
     // This prevents order placement from failing if emails don't send
