@@ -146,6 +146,8 @@ export const getOrdersByUserId = async (userId: string): Promise<any[]> => {
       } catch (e) {
         images = [];
       }
+      itemData.images = images;
+      itemData.image = images[0] || null;
       itemData.product = {
         id: itemData.productId,
         title: itemData.title,
@@ -226,6 +228,8 @@ export const getOrderById = async (id: string): Promise<any | null> => {
     } catch (e) {
       images = [];
     }
+    itemData.images = images;
+    itemData.image = images[0] || null;
     itemData.product = {
       id: itemData.productId,
       title: itemData.title,

@@ -142,7 +142,7 @@ export const OrdersPage = () => {
                 <div className="mt-4 pt-4 border-t border-gray-50 flex justify-between items-center">
                   <p className="text-gray-400 text-sm font-light">Total Amount</p>
                   <div className="flex items-center gap-3">
-                    <p className="text-lg font-light text-gray-800">₹{order.totalAmount?.toFixed(0)}</p>
+                    <p className="text-lg font-light text-gray-800">₹{Number(order.totalAmount || 0).toFixed(0)}</p>
                     <ChevronRight size={14} className="text-gray-300 group-hover:text-gray-500 transition-all" />
                   </div>
                 </div>

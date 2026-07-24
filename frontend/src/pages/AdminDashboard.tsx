@@ -298,6 +298,25 @@ export const AdminDashboard: React.FC = () => {
     }
   };
 
+  const handleViewOrder = async (order: any) => {
+    try {
+      const token = localStorage.getItem('token');
+      const res = await fetch(`${API}/admin/orders/${order.id || order._id}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      if (res.ok) {
+        const data = await res.json();
+        setExpandedOrder(data.order);
+      } else {
+        console.error("Failed to fetch order details, falling back to basic details");
+        setExpandedOrder(order);
+      }
+    } catch (err) {
+      console.error("Error fetching order details, falling back to basic details:", err);
+      setExpandedOrder(order);
+    }
+  };
+
   const handleLogout = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
@@ -668,7 +687,7 @@ export const AdminDashboard: React.FC = () => {
                               </div>
                             </td>
                             <td className="px-5 py-4">
-                              <button onClick={() => setExpandedOrder(o)} className="text-gray-500 text-md hover:text-gray-700">View</button>
+                              <button onClick={() => handleViewOrder(o)} className="text-gray-500 text-md hover:text-gray-700">View</button>
                             </td>
                           </tr>
                         ))

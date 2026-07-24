@@ -73,6 +73,8 @@ export const OrderDetailsPage: React.FC = () => {
 
   const isCancelled = order.status === 'cancelled';
   const currentStep = getStepIndex(order.status);
+  const discountAmount = Number(order.discountAmount || order.discount || 0);
+  const totalAmount = Number(order.totalAmount || 0);
 
   return (
     <div className="min-h-screen pt-32 pb-24 bg-gray-50">
@@ -98,7 +100,7 @@ export const OrderDetailsPage: React.FC = () => {
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div>
                 <p className="text-sm font-medium text-gray-400 uppercase tracking-wider mb-1.5">Order ID</p>
-                <p className="text-base font-mono text-gray-800 break-all">{order._id?.slice(-12)}</p>
+                <p className="text-base font-mono text-gray-800 break-all">{order._id?.slice(-12) || order.id?.slice(-12)}</p>
               </div>
               <div className="flex items-center gap-4 flex-wrap">
                 <span className={`px-4 py-1.5 rounded-full text-sm font-semibold uppercase tracking-wide ${statusStyle(order.status)}`}>
@@ -139,22 +141,22 @@ export const OrderDetailsPage: React.FC = () => {
                         </div>
                       </div>
                       <p className="text-lg font-semibold text-gray-800 flex-shrink-0">
-                        ₹{item.price * item.quantity}
+                        ₹{(Number(item.price || 0) * item.quantity).toFixed(2)}
                       </p>
                     </div>
                   ))}
                 </div>
 
                 <div className="mt-6 pt-5 border-t border-gray-100 space-y-3">
-                  {order.discount > 0 && (
+                  {discountAmount > 0 && (
                     <div className="flex justify-between text-base">
                       <span className="text-gray-500">Discount</span>
-                      <span className="text-green-600 font-medium">- ₹{order.discount?.toFixed(2)}</span>
+                      <span className="text-green-600 font-medium">- ₹{discountAmount.toFixed(2)}</span>
                     </div>
                   )}
                   <div className="flex justify-between items-center pt-2">
                     <p className="text-base font-medium text-gray-600 uppercase tracking-wider">Total Amount</p>
-                    <p className="text-2xl font-bold text-gray-900">₹{order.totalAmount?.toFixed(2)}</p>
+                    <p className="text-2xl font-bold text-gray-900">₹{totalAmount.toFixed(2)}</p>
                   </div>
                 </div>
               </div>

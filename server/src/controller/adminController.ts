@@ -449,3 +449,30 @@ export const updateOrderStatus = async (req: Request, res: Response): Promise<vo
     });
   }
 };
+
+// ─── Get Order Details by ID ──────────────────────────────────
+export const getOrderDetails = async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { id } = req.params;
+    const idStr = getParamId(id);
+
+    if (!idStr) {
+      res.status(400).json({ message: "Order ID is required" });
+      return;
+    }
+
+    const order = await orderDao.getOrderById(idStr);
+
+    if (!order) {
+      res.status(404).json({ message: "Order not found" });
+      return;
+    }
+
+    res.status(200).json({ order });
+  } catch (error: any) {
+    res.status(500).json({ 
+      message: "Error fetching order details", 
+      error: error.message 
+    });
+  }
+};

@@ -81,7 +81,7 @@ export const OrderDetailsModal: React.FC<OrderDetailsModalProps> = ({ order, onC
             {/* LEFT COLUMN: Items list */}
             <div className="flex-1 space-y-4">
               {order.items?.map((item: any, idx: number) => {
-                const product = item.productId || item;
+                const product = item.product || item;
                 const price = product.price || item.price || 0;
                 const title = product.title || item.title || 'Unknown Item';
                 const image = product.image || item.image || (product.images && product.images[0]);
